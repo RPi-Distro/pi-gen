@@ -1,0 +1,64 @@
+log (){
+	date +"[%T] $@" | tee -a ${LOG_FILE}
+}
+
+bootstrap(){
+	ARCH=$(dpkg --print-architecture)
+
+	export http_proxy=${APT_PROXY}
+
+	if [ "$ARCH" !=  "armhf" ]; then
+		BOOTSTRAP_CMD=qemu-debootstrap
+	else
+		BOOTSTRAP_CMD=debootstrap
+	fi
+
+	${BOOTSTRAP_CMD} --components=main,contrib,non-free \
+		--arch armhf\
+		--no-check-gpg \
+		$1 $2 $3
+}
+
+copy_previous(){
+	if [ ! -d ${PREV_ROOTFS_DIR} ]; then
+		echo "Previous stage rootfs not found"
+		false
+	fi
+	mkdir -p ${ROOTFS_DIR}
+	rsync -aHAX ${PREV_ROOTFS_DIR}/ ${ROOTFS_DIR}/
+}
+
+unmount(){
+	if [ -z "$1" ]; then
+		DIR=$PWD
+	else
+		DIR=$1
+	fi
+
+	while mount | grep -q $DIR; do
+		LOCS=`mount | grep $DIR | cut -f 3 -d ' ' | sort -r`
+		for loc in $LOCS; do
+			sudo umount $loc
+		done
+	done
+}
+
+on_chroot() {
+	if ! mount | grep -q `realpath ${ROOTFS_DIR}/proc`; then
+		mount -t proc proc ${ROOTFS_DIR}/proc
+	fi
+
+	if ! mount | grep -q `realpath ${ROOTFS_DIR}/dev`; then
+		mount --bind /dev ${ROOTFS_DIR}/dev
+	fi
+
+	if ! mount | grep -q `realpath ${ROOTFS_DIR}/sys`; then
+		mount --bind /sys ${ROOTFS_DIR}/sys
+	fi
+
+	chroot ${ROOTFS_DIR}/ "$@"
+}
+
+update_issue() {
+	echo -e "Raspberry Pi reference ${DATE}\nGenerated using Pi-gen, https://github.com/RPi-Distro/Pi-gen, ${1}" > ${ROOTFS_DIR}/etc/rpi-issue
+}
