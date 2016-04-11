@@ -1,0 +1,22 @@
+Index: jessie-stage2/rootfs/etc/default/useradd
+===================================================================
+--- jessie-stage2.orig/rootfs/etc/default/useradd
++++ jessie-stage2/rootfs/etc/default/useradd
+@@ -5,7 +5,7 @@
+ # Similar to DHSELL in adduser. However, we use "sh" here because
+ # useradd is a low level utility and should be as general
+ # as possible
+-SHELL=/bin/sh
++SHELL=/bin/bash
+ #
+ # The default group for users
+ # 100=users on Debian systems
+@@ -29,7 +29,7 @@ SHELL=/bin/sh
+ # The SKEL variable specifies the directory containing "skeletal" user
+ # files; in other words, files such as a sample .profile that will be
+ # copied to the new user's home directory when it is created.
+-# SKEL=/etc/skel
++SKEL=/etc/skel
+ #
+ # Defines whether the mail spool should be created while
+ # creating the account

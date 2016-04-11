@@ -1,0 +1,1 @@
+Acquire::http { Proxy "APT_PROXY"; };
