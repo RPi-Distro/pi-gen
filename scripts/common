@@ -64,5 +64,5 @@ on_chroot() {
 }
 
 update_issue() {
-	echo -e "Raspberry Pi reference ${DATE}\nGenerated using Pi-gen, https://github.com/RPi-Distro/Pi-gen, ${1}" > ${ROOTFS_DIR}/etc/rpi-issue
+	echo -e "Raspberry Pi reference ${DATE}\nGenerated using Pi-gen, https://github.com/RPi-Distro/pi-gen, ${1}" > ${ROOTFS_DIR}/etc/rpi-issue
 }
