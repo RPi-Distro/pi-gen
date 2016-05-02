@@ -8,3 +8,7 @@
 #Dependencies
 
 `quilt kpartx realpath qemu-user-static debootstrap zerofree`
+
+# Example usage to build a bootable raspbian lite image:
+sudo ./build.sh
+sudo ./create-image.sh --path=./work/2016-05-02-raspbian/stage3 --name="raspbian-lite"
