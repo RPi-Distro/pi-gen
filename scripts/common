@@ -63,6 +63,11 @@ on_chroot() {
 	chroot ${ROOTFS_DIR}/ "$@"
 }
 
+# This should be used if building on a system that uses systemd (?)
+on_chroot2() {
+	systemd-nspawn -D ${ROOTFS_DIR}/ "$@"
+}
+
 update_issue() {
 	echo -e "Raspberry Pi reference ${DATE}\nGenerated using Pi-gen, https://github.com/RPi-Distro/Pi-gen, ${1}" > ${ROOTFS_DIR}/etc/rpi-issue
 }
