@@ -51,8 +51,6 @@ echo "Creating image using rootfs in: ${work_path}"
 bootsize="64M"
 deb_release="jessie"
 
-mkdir -p rpi
-
 # define destination folder where created image file will be stored
 buildenv="${PWD}/rpi"
 
@@ -63,6 +61,7 @@ bootfs="${buildenv}/boot"
 today=`date +%Y%m%d`
 
 mkdir -p ${buildenv}
+mkdir -p ${buildenv}/images
 
 # Construct image name
 image="${buildenv}/images/${IMAGE_NAME}_${deb_release}_${today}.img"
