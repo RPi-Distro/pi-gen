@@ -3,8 +3,13 @@
 run_sub_stage()
 {
 	log "Begin ${SUB_STAGE_DIR}"
+
 	pushd ${SUB_STAGE_DIR} > /dev/null
+	
+	# Loop through each substage
 	for i in {00..99}; do
+	
+		# Check for debconf stage
 		if [ -f ${i}-debconf ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-debconf"
 			on_chroot sh -e - << EOF
@@ -14,6 +19,8 @@ SELEOF
 EOF
 		log "End ${SUB_STAGE_DIR}/${i}-debconf"
 		fi
+		
+		# Install any packages with no-install-recommends set
 		if [ -f ${i}-packages-nr ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-packages-nr"
 			PACKAGES=`cat $i-packages-nr | tr '\n' ' '`
@@ -24,6 +31,8 @@ EOF
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages-nr"
 		fi
+		
+		# Install any packages normally
 		if [ -f ${i}-packages ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-packages"
 			PACKAGES=`cat $i-packages | tr '\n' ' '`
@@ -34,6 +43,8 @@ EOF
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages"
 		fi
+		
+		# Apply any patches
 		if [ -d ${i}-patches ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-patches"
 			pushd ${STAGE_WORK_DIR} > /dev/null
@@ -60,11 +71,15 @@ EOF
 			popd > /dev/null
 			log "End ${SUB_STAGE_DIR}/${i}-patches"
 		fi
+		
+		# Run the substages run script
 		if [ -x ${i}-run.sh ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-run.sh"
 			./${i}-run.sh
 			log "End ${SUB_STAGE_DIR}/${i}-run.sh"
 		fi
+		
+		# Run the substages chroot script
 		if [ -f ${i}-run-chroot ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-run-chroot"
 			on_chroot sh -e - < ${i}-run-chroot
@@ -77,49 +92,77 @@ EOF
 
 run_stage(){
 	log "Begin ${STAGE_DIR}"
+	
 	pushd ${STAGE_DIR} > /dev/null
+	
+	# Unmount this stage's folder on the filesystem
 	unmount ${WORK_DIR}/${STAGE}
+	
+	# Set the working directory for this stage
 	STAGE_WORK_DIR=${WORK_DIR}/${STAGE}
+	
+	# Set the root directory for this stage
 	ROOTFS_DIR=${STAGE_WORK_DIR}/rootfs
+	
+	# Check to see if we should skip this stage (seemingly never)
 	if [ ! -f SKIP ]; then
+	
+		# Clean the rootfs, if requested
 		if [ "${CLEAN}" = "1" ]; then
 			if [ -d ${ROOTFS_DIR} ]; then
 				rm -rf ${ROOTFS_DIR}
 			fi
 		fi
+		
+		# Run the pre-run script
 		if [ -x prerun.sh ]; then
 			log "Begin ${STAGE_DIR}/prerun.sh"
 			./prerun.sh
 			log "End ${STAGE_DIR}/prerun.sh"
 		fi
+		
+		# For each substage, run the run_sub_stage command for it
 		for SUB_STAGE_DIR in ${STAGE_DIR}/*; do
 			if [ -d ${SUB_STAGE_DIR} ]; then
 				run_sub_stage
 			fi
 		done
 	fi
+	
+	# Unmount the stag again
 	unmount ${WORK_DIR}/${STAGE}
+	
+	# Set the previous stage info to this stage for the next stage to use
 	PREV_STAGE=${STAGE}
 	PREV_STAGE_DIR=${STAGE_DIR}
 	PREV_ROOTFS_DIR=${ROOTFS_DIR}
+	
 	popd > /dev/null
+	
 	log "End ${STAGE_DIR}"
 }
 
+# Require Root to run
 if [ "$(id -u)" != "0" ]; then
 	echo "Please run as root" 1>&2
 	exit 1
 fi
 
+# Source a config file if it exists
 if [ -f config ]; then
 	source config
 fi
+
+# Set image name
+#TODO: Add way to set this, plus defaults. Defaulting to raspbian for now
+IMG_NAME="raspbian"
 
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set" 1>&2
 	exit 1
 fi
 
+# Set other env variables
 export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -151,9 +194,11 @@ export -f on_chroot
 export -f copy_previous
 export -f update_issue
 
+# Create working directory
 mkdir -p ${WORK_DIR}
 log "Begin ${BASE_DIR}"
 
+# Successively build each stage
 for STAGE_DIR in ${BASE_DIR}/stage*; do
 	STAGE=$(basename ${STAGE_DIR})
 	run_stage
