@@ -10,6 +10,11 @@ install -m 644 files/ttyoutput.conf			${ROOTFS_DIR}/etc/systemd/system/rc-local.
 install -m 644 files/50raspi				${ROOTFS_DIR}/etc/apt/apt.conf.d/
 install -m 644 files/98-rpi.conf			${ROOTFS_DIR}/etc/sysctl.d/
 
+on_chroot sh -e - <<EOF
+# Update locales
+dpkg-reconfigure --frontend=noninteractive locales
+update-locale LANG=en_US.UTF-8
+EOF
 
 on_chroot sh -e - <<EOF
 systemctl disable hwclock.sh
