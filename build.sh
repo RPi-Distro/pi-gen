@@ -77,10 +77,14 @@ EOF
 
 run_stage(){
 	log "Begin ${STAGE_DIR}"
+	STAGE=$(basename ${STAGE_DIR})
 	pushd ${STAGE_DIR} > /dev/null
 	unmount ${WORK_DIR}/${STAGE}
 	STAGE_WORK_DIR=${WORK_DIR}/${STAGE}
 	ROOTFS_DIR=${STAGE_WORK_DIR}/rootfs
+	if [ -f ${STAGE_DIR}/EXPORT_IMAGE ]; then
+		EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
+	fi
 	if [ ! -f SKIP ]; then
 		if [ "${CLEAN}" = "1" ]; then
 			if [ -d ${ROOTFS_DIR} ]; then
@@ -93,7 +97,8 @@ run_stage(){
 			log "End ${STAGE_DIR}/prerun.sh"
 		fi
 		for SUB_STAGE_DIR in ${STAGE_DIR}/*; do
-			if [ -d ${SUB_STAGE_DIR} ]; then
+			if [ -d ${SUB_STAGE_DIR} ] &&
+			   [ ! -f ${SUB_STAGE_DIR}/SKIP ]; then
 				run_sub_stage
 			fi
 		done
@@ -125,6 +130,7 @@ export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
 export WORK_DIR="${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"
+export DEPLOY_DIR="${BASE_DIR}/deploy"
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export CLEAN
@@ -132,11 +138,15 @@ export IMG_NAME
 export APT_PROXY
 
 export STAGE
-export PREV_STAGE
 export STAGE_DIR
+export STAGE_WORK_DIR
+export PREV_STAGE
 export PREV_STAGE_DIR
 export ROOTFS_DIR
 export PREV_ROOTFS_DIR
+export IMG_SUFFIX
+export EXPORT_DIR
+export EXPORT_ROOTFS_DIR
 
 export QUILT_PATCHES
 export QUILT_NO_DIFF_INDEX=1
@@ -144,18 +154,20 @@ export QUILT_NO_DIFF_TIMESTAMPS=1
 export QUILT_REFRESH_ARGS="-p ab"
 
 source ${SCRIPT_DIR}/common
-export -f log
-export -f bootstrap
-export -f unmount
-export -f on_chroot
-export -f copy_previous
-export -f update_issue
 
 mkdir -p ${WORK_DIR}
 log "Begin ${BASE_DIR}"
 
 for STAGE_DIR in ${BASE_DIR}/stage*; do
-	STAGE=$(basename ${STAGE_DIR})
+	run_stage
+done
+
+STAGE_DIR=${BASE_DIR}/export-image
+
+CLEAN=1
+for EXPORT_DIR in ${EXPORT_DIRS}; do
+	IMG_SUFFIX=$(cat ${EXPORT_DIR}/EXPORT_IMAGE)
+	EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename ${EXPORT_DIR})/rootfs
 	run_stage
 done
 
