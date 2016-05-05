@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+##---------------------------
+## Functions
+##---------------------------
+
 run_sub_stage()
 {
 	log "Begin ${SUB_STAGE_DIR}"
@@ -142,10 +146,74 @@ run_stage(){
 	log "End ${STAGE_DIR}"
 }
 
+
+
+##---------------------------
+## Start Build
+##---------------------------
+
 # Require Root to run
 if [ "$(id -u)" != "0" ]; then
 	echo "Please run as root" 1>&2
 	exit 1
+fi
+
+# Handle input options
+for i in "$@"
+do
+case $i in
+
+    --imagename=*)      
+    IMG_NAME="${i#*=}"
+    shift
+    ;;
+
+    # Username to use in rootfs
+    --username=*)      
+    USER_NAME="${i#*=}"
+    shift
+    ;;
+	
+	# Hostname to use in rootfs
+    --password=*)      
+    PASS_WORD="${i#*=}"
+    shift
+    ;;
+    
+    # Hostname to use in rootfs
+    --hostname=*)      
+    HOST_NAME="${i#*=}"
+    shift
+    ;;
+    
+    # unknown option
+    *)        
+    ;;
+esac
+done
+
+if [ -z "${IMG_NAME}" ]; 
+then
+	echo "No image name specified, defaulting to \"raspbian\""
+	IMG_NAME="raspbian"
+fi
+
+if [ -z "$USER_NAME" ]
+then
+  echo "No username specified, defaulting to \"pi\""
+  USER_NAME="pi"
+fi
+
+if [ -z "$PASS_WORD" ]
+then
+  echo "No username specified, defaulting to \"raspberry\""
+  PASS_WORD="raspberry"
+fi
+
+if [ -z "$HOST_NAME" ]
+then
+  echo "No hostname specified, defaulting to \"raspberrypi\""
+  HOST_NAME="raspberrypi"
 fi
 
 # Source a config file if it exists
@@ -153,25 +221,18 @@ if [ -f config ]; then
 	source config
 fi
 
-# Set image name
-#TODO: Add way to set this, plus defaults. Defaulting to raspbian for now
-IMG_NAME="raspbian"
-
-if [ -z "${IMG_NAME}" ]; then
-	echo "IMG_NAME not set" 1>&2
-	exit 1
-fi
-
-# Set other env variables
-export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
+# Set and export other env variables
+export USER_NAME
+export HOST_NAME
+export PASS_WORD
+export IMG_NAME
 
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
-export WORK_DIR="${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"
+export WORK_DIR="${BASE_DIR}/work/${IMG_NAME}"
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export CLEAN
-export IMG_NAME
 export APT_PROXY
 
 export STAGE
