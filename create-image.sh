@@ -3,15 +3,15 @@
 for i in "$@"
 do
 case $i in
-    # Path to the working directory from which to build the image
-    -p=*|--path=*)      
-    WORKSPACE_PATH="${i#*=}"
+    # Name for image
+    -i=*|--imagename=*)      
+    IMAGE_NAME="${i#*=}"
     shift
     ;;
     
-    # Name for image
-    -n=*|--name=*)      
-    IMAGE_NAME="${i#*=}"
+    # Which stage to create image from
+    -s=*|--stage=*)      
+    STAGE_NUM="${i#*=}"
     shift
     ;;
     
@@ -32,11 +32,13 @@ then
   IMAGE_NAME="raspbian"
 fi
 
-if [ -z "$WORKSPACE_PATH" ]
+if [ -z "$STAGE_NUM" ]
 then
-  echo "You must specify a workspace path. Ex) --path=./work/2016-05-02-openrov/stage3"
+  echo "No stage specified, aborting."
   exit 2
 fi
+
+WORKSPACE_PATH="./work/${IMAGE_NAME}/stage${STAGE_NUM}"
 
 work_path=$(readlink -f $WORKSPACE_PATH)
 
@@ -52,7 +54,7 @@ bootsize="64M"
 deb_release="jessie"
 
 # define destination folder where created image file will be stored
-buildenv="${PWD}/rpi"
+buildenv="${PWD}/images"
 
 # Set directory of rootfs and bootfs
 rootfs="${buildenv}/rootfs"
@@ -64,7 +66,7 @@ mkdir -p ${buildenv}
 mkdir -p ${buildenv}/images
 
 # Construct image name
-image="${buildenv}/images/${IMAGE_NAME}_${deb_release}_${today}.img"
+image="${buildenv}/images/${IMAGE_NAME}.img"
 
 # Create a blank image file
 dd if=/dev/zero of=${image} bs=1MB count=3800
