@@ -3,7 +3,6 @@ libreoffice-sdbc-hsqldb
 sonic-pi
 python idle python3-pygame python-pygame python-tk
 python3 idle3 python3-tk
-python3-rpi.gpio
 python3-pgzero
 python-serial python3-serial
 python-picamera python3-picamera
@@ -22,6 +21,8 @@ tree
 scratch nuscratch
 greenfoot bluej
 nodered
-python-gpiozero python3-gpiozero
-raspi-gpio
 libgl1-mesa-dri libgles1-mesa libgles2-mesa xcompmgr
+geany
+piclone
+pulseaudio-module-bluetooth
+wiringpi pigpio python-pigpio python3-pigpio raspi-gpio python-gpiozero python3-gpiozero python3-rpi.gpio

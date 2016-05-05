@@ -13,3 +13,4 @@ dphys-swapfile
 raspberrypi-sys-mods
 pi-bluetooth
 apt-listchanges
+usb-modeswitch
