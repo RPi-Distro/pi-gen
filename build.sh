@@ -43,11 +43,12 @@ EOF
 			fi
 			QUILT_PATCHES=${SUB_STAGE_DIR}/${i}-patches
 			mkdir -p ${i}-pc
-			ln -sf .pc ${i}-pc
+			ln -sf ${i}-pc .pc
 			if [ -e ${SUB_STAGE_DIR}/${i}-patches/EDIT ]; then
 				echo "Dropping into bash to edit patches..."
 				bash
 			fi
+			quilt upgrade
 			RC=0
 			quilt push -a || RC=$?
 			case "$RC" in
