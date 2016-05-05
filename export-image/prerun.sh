@@ -1,11 +1,15 @@
 #!/bin/bash -e
-IMG_FILE="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.img"
+IMG_FILE="${STAGE_WORK_DIR}/${IMG_NAME}${IMG_SUFFIX}.img"
 
+echo "Doing cleanup first"
 unmount_image ${IMG_FILE}
 
 rm -f ${IMG_FILE}
 
 rm -rf ${ROOTFS_DIR}
+
+echo "Cleanup done"
+
 mkdir -p ${ROOTFS_DIR}
 
 BOOT_SIZE=$(du -sh ${EXPORT_ROOTFS_DIR}/boot -B M | cut -f 1 | tr -d M)
