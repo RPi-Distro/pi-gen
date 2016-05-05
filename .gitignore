@@ -1,3 +1,8 @@
 deploy/*
 work/*
 .vscode/*
+
+config
+SKIP
+.pc
+*-pc

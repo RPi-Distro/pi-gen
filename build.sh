@@ -58,11 +58,12 @@ EOF
 			fi
 			QUILT_PATCHES=${SUB_STAGE_DIR}/${i}-patches
 			mkdir -p ${i}-pc
-			ln -sf .pc ${i}-pc
+			ln -sf ${i}-pc .pc
 			if [ -e ${SUB_STAGE_DIR}/${i}-patches/EDIT ]; then
 				echo "Dropping into bash to edit patches..."
 				bash
 			fi
+			quilt upgrade
 			RC=0
 			quilt push -a || RC=$?
 			case "$RC" in
@@ -96,6 +97,8 @@ EOF
 
 run_stage(){
 	log "Begin ${STAGE_DIR}"
+
+	STAGE=$(basename ${STAGE_DIR})
 	
 	pushd ${STAGE_DIR} > /dev/null
 	
@@ -107,6 +110,10 @@ run_stage(){
 	
 	# Set the root directory for this stage
 	ROOTFS_DIR=${STAGE_WORK_DIR}/rootfs
+
+	if [ -f ${STAGE_DIR}/EXPORT_IMAGE ]; then
+		EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
+	fi
 	
 	# Check to see if we should skip this stage (seemingly never)
 	if [ ! -f SKIP ]; then
@@ -127,7 +134,8 @@ run_stage(){
 		
 		# For each substage, run the run_sub_stage command for it
 		for SUB_STAGE_DIR in ${STAGE_DIR}/*; do
-			if [ -d ${SUB_STAGE_DIR} ]; then
+			if [ -d ${SUB_STAGE_DIR} ] &&
+			   [ ! -f ${SUB_STAGE_DIR}/SKIP ]; then
 				run_sub_stage
 			fi
 		done
@@ -229,18 +237,27 @@ export IMG_NAME
 
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
+<<<<<<< HEAD
 export WORK_DIR="${BASE_DIR}/work/${IMG_NAME}"
+=======
+export WORK_DIR="${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"
+export DEPLOY_DIR="${BASE_DIR}/deploy"
+>>>>>>> bdca3e3b48e72df796ec7b1a24a26c08b2dcfa67
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export CLEAN
 export APT_PROXY
 
 export STAGE
-export PREV_STAGE
 export STAGE_DIR
+export STAGE_WORK_DIR
+export PREV_STAGE
 export PREV_STAGE_DIR
 export ROOTFS_DIR
 export PREV_ROOTFS_DIR
+export IMG_SUFFIX
+export EXPORT_DIR
+export EXPORT_ROOTFS_DIR
 
 export QUILT_PATCHES
 export QUILT_NO_DIFF_INDEX=1
@@ -248,12 +265,6 @@ export QUILT_NO_DIFF_TIMESTAMPS=1
 export QUILT_REFRESH_ARGS="-p ab"
 
 source ${SCRIPT_DIR}/common
-export -f log
-export -f bootstrap
-export -f unmount
-export -f on_chroot
-export -f copy_previous
-export -f update_issue
 
 # Create working directory
 mkdir -p ${WORK_DIR}
@@ -261,7 +272,15 @@ log "Begin ${BASE_DIR}"
 
 # Successively build each stage
 for STAGE_DIR in ${BASE_DIR}/stage*; do
-	STAGE=$(basename ${STAGE_DIR})
+	run_stage
+done
+
+STAGE_DIR=${BASE_DIR}/export-image
+
+CLEAN=1
+for EXPORT_DIR in ${EXPORT_DIRS}; do
+	IMG_SUFFIX=$(cat ${EXPORT_DIR}/EXPORT_IMAGE)
+	EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename ${EXPORT_DIR})/rootfs
 	run_stage
 done
 
