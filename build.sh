@@ -237,12 +237,8 @@ export IMG_NAME
 
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
-<<<<<<< HEAD
 export WORK_DIR="${BASE_DIR}/work/${IMG_NAME}"
-=======
-export WORK_DIR="${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"
 export DEPLOY_DIR="${BASE_DIR}/deploy"
->>>>>>> bdca3e3b48e72df796ec7b1a24a26c08b2dcfa67
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export CLEAN
