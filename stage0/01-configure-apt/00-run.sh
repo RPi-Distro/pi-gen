@@ -16,7 +16,7 @@ fi
 on_chroot apt-key add - < files/raspberrypi.gpg.key
 
 # Update and dist upgrade
-on_chroot sh -e - << EOF
+on_chroot sh -e - <<EOF
 
 apt-get update
 apt-get dist-upgrade -y
