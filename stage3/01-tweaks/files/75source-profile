@@ -1,2 +1,0 @@
-[ -f /etc/profile ] && . /etc/profile
-[ -f "$HOME/.profile" ] && . "$HOME/.profile"
