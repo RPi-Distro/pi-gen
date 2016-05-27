@@ -10,6 +10,11 @@ install -m 644 files/ttyoutput.conf			${ROOTFS_DIR}/etc/systemd/system/rc-local.
 install -m 644 files/50raspi				${ROOTFS_DIR}/etc/apt/apt.conf.d/
 install -m 644 files/98-rpi.conf			${ROOTFS_DIR}/etc/sysctl.d/
 
+on_chroot sh -e - <<EOF
+# Update locales
+dpkg-reconfigure --frontend=noninteractive locales
+update-locale LANG=en_US.UTF-8
+EOF
 
 on_chroot sh -e - <<EOF
 systemctl disable hwclock.sh
@@ -21,13 +26,13 @@ systemctl enable apply_noobs_os_config
 systemctl enable resize2fs_once
 EOF
 
-on_chroot sh -e - << \EOF
-for GRP in input spi i2c gpio; do
-	groupadd -f -r $GRP
-done
-for GRP in adm dialout cdrom audio users sudo video games plugdev input gpio spi i2c netdev; do
-  adduser pi $GRP
-done
+on_chroot sh -e - <<\EOF
+	for GRP in input spi i2c gpio; do
+		groupadd -f -r $GRP
+	done
+	for GRP in adm dialout cdrom audio users sudo video games plugdev input gpio spi i2c netdev; do
+	adduser ${USER_NAME} $GRP
+	done
 EOF
 
 on_chroot sh -e - <<EOF

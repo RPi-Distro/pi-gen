@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-IMG_FILE="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.img"
+IMG_FILE="${STAGE_WORK_DIR}/${IMG_NAME}${IMG_SUFFIX}.img"
 
 on_chroot sh -e - <<EOF
 /etc/init.d/fake-hwclock stop
@@ -27,9 +27,9 @@ unmount_image ${IMG_FILE}
 
 mkdir -p ${DEPLOY_DIR}
 
-rm -f ${DEPLOY_DIR}/image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.zip
+rm -f ${DEPLOY_DIR}/${IMG_NAME}${IMG_SUFFIX}.zip
 
-echo zip ${DEPLOY_DIR}/image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.zip ${IMG_FILE}
+echo zip ${DEPLOY_DIR}/${IMG_NAME}${IMG_SUFFIX}.zip ${IMG_FILE}
 pushd ${STAGE_WORK_DIR} > /dev/null
-zip ${DEPLOY_DIR}/image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.zip $(basename ${IMG_FILE})
+zip ${DEPLOY_DIR}/${IMG_NAME}${IMG_SUFFIX}.zip $(basename ${IMG_FILE})
 popd > /dev/null

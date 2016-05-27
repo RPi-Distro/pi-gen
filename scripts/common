@@ -84,6 +84,11 @@ on_chroot() {
 }
 export -f on_chroot
 
+# This should be used if building on a system that uses systemd (?)
+on_chroot2() {
+	systemd-nspawn -D ${ROOTFS_DIR}/ "$@"
+}
+
 update_issue() {
 	local GIT_HASH=$(git rev-parse HEAD)
 	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using pi-gen, https://github.com/RPi-Distro/pi-gen, ${GIT_HASH}, ${1}" > ${ROOTFS_DIR}/etc/rpi-issue
