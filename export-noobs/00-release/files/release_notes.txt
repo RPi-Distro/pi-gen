@@ -1,0 +1,145 @@
+UNRELEASED:
+  * Fixed crash of lxpanel when D-bus not accessible
+  * Fixed permissions for D-bus Bluetooth access
+  * Removed sudo from shutdown options
+  * Appearance of tooltips updated in theme
+  * Fixed ejecter plugin grabbing focus
+  * raspi-config command line and GUI apps tidied; unnecessary reboots removed
+  * More error detection in piclone; copying of volume names and IDs added
+  * Updated translation files
+2016-05-10:
+  * New version of Scratch, which no longer requires sudo
+  * New version of BlueJ
+  * New version of NodeRED
+  * New version of pypy
+  * pigpio included
+  * geany editor included
+  * SD Card Copier added (can be used to duplicate or back up the Pi)
+  * Bluetooth plugin added to taskbar
+  * Volume control on taskbar now compatible with Bluetooth devices
+  * New shutdown helper application
+  * Mouse double-click speed setting added to mouse and keyboard preference application
+  * Option to enable / disable 1-wire interface and remote access to pigpio added to Raspberry Pi config application
+  * File system automatically expanded on first boot
+  * Empty Wastebasket option added to right-click menu 
+  * Ctrl-Alt-T can be used to open a terminal window
+  * Various small bug fixes and appearance tweaks 
+  * Updated firmware and kernel (https://github.com/raspberrypi/firmware/commit/cc6d7bf8b4c03a2a660ff9fdf4083fc165620866)
+2016-03-18:
+  * updated firmware and kernel (https://github.com/raspberrypi/firmware/commit/951799bbcd795ddf27769d14acf4813fdcbe53dc)
+  * use serial0 in cmdline.txt
+  * wpa_supplicant.conf country default to GB (allows use of channels 12 and 13)
+2016-02-26:
+  * Support added for Pi 3, including Wifi and Bluetooth
+  * Option to set wifi country code added to raspi-config
+2016-02-09:
+  * dtb that uses mmc sdcard driver (fixes problems experienced with certain SD cards)
+2016-02-03:
+  * new version of Sonic Pi (2.9)
+  * new version of Scratch (15/1/16)
+  * new version of Node-Red (2.5)
+  * new version of Wolfram (10.3)
+  * optional experimental GL desktop driver (can be enabled using advanced options in command-line raspi-config)
+  * new version of Java (1.8.0_65)
+  * new version of WiringPi
+  * raspi-gpio included
+  * ping no longer requires sudo (except NOOBS installs)
+  * support for more USB audio devices in lxpanel
+  * bug fix for creation of new menus in Alacarte
+  * various changes to raspi-config and GUI to tidy up board support and fix bugs, and updated translations
+  * small tweaks to theme to support GL driver
+2015-11-21:
+  * Included IBM Node-RED IoT application
+  * Included graphical package manager
+  * Included accelerated pixman library
+  * Updated Epiphany browser to improve video compatibility
+  * Updated Scratch with performance improvements and bug fixes
+  * Updated Raspberry Pi configuration to allow boot to pause while
+    network is established
+  * Various minor bug fixes
+2015-09-25:
+  * Based on Debian Jessie
+  * Upgraded applications - Epiphany browser, Scratch and Sonic Pi
+  * Included applications - LibreOffice, Claws Mail, Greenfoot, BlueJ
+  * Included utilities - Alacarte menu editor, Lxkeymap, scrot, tree, pip
+  * New GUI-based Raspberry Pi Configuration application
+  * GPIO control now possible without need for sudo
+  * Web link to Magpi magazine included
+  * New taskbar plugin to eject mounted USB drives
+  * Default boot is now to GUI not desktop
+  * Look and feel now based on GTK+3 default theme
+  * Print screen key launches scrot to produce screenshot
+  * Common keyboards autodetected by GUI and drivers loaded accordingly
+  * Numerous small tweaks and bugfixes
+2015-05-05:
+  * Updated UI changes
+  * Updated firmware
+  * Install raspberrypi-net-mods
+  * Install avahi-daemon
+  * Add user pi to new i2c and spi groups
+  * Modified udev rules for i2c and spi devices
+2015-02-16:
+  * Newer firmware with various fixes
+  * New Sonic Pi release
+  * Pi2 compatible RPi.GPIO
+  * Updated Wolfram Mathematica
+2015-01-31:
+  * Support for Pi2
+  * Newer firmware
+  * New Sonic Pi release
+  * Updated Scratch
+  * New Wolfram Mathematica release
+  * Updated Epiphany
+2014-12-24:
+  * Fix regression with omission of python-pygame
+2014-12-22:
+  * New firmware with variosu fixes and improvements
+  * New UI configuration for lxde
+  * Various package updates
+  * python3-pygame preinstalled
+  * 'nuscratch', scratch running on the Cog StackVM
+  * Misc other changes
+2014-09-09:
+  * New firmware with various fixes and improvements
+  * Minecraft Pi pre-installed
+  * Sonic Pi upgraded to 2.0
+  * Include Epiphany browser work from Collabora
+  * Switch to Java 8 from Java 7
+  * Updated Mathematica
+  * Misc minor configuration changes
+2014-06-20:
+  * New firmware with various fixes, and kernel bugfix
+2014-06-02:
+  * Many, many firmware updates with major USB improvements
+  * pyserial installed by default
+  * picamera installed by default
+2014-01-07:
+  * Firmware updated
+  * Some space saved on the root filesystem
+2013-12-20:
+  * Firmware updated, includes V4L2 fixes
+  * Update omxplayer
+2013-12-18:
+  * Firmware updated and now using kernel 3.10. Many, many improvements
+  * fbturbo XOrg driver is now included and enabled by default. Thanks to 
+    ssvb https://github.com/ssvb/xf86-video-fbturbo
+  * Update Scratch image with further bug fixes
+  * Include Wolfram Mathematica
+  * Update to PyPy 2.2
+  * Update omxplayer
+  * Include v4l-utils for use with experimental V4L2 Raspberry Pi camera driver
+  * Update squeak-vm to fix issues with loading JPEGs
+2013-09-25:
+  * Update Scratch image for further performance improvements
+  * Include Oracle JDK
+  * At least a 4GiB SD card is now required (see above)
+  * Include PyPy 2.1
+  * Include base piface packages
+  * Update raspi-config to include bugfix for inheriting language settings
+    from NOOBS
+2013-09-10:
+  * Updated to current top of tree firmware
+  * Update squeak-vm, including fastblit optimised for the Raspbery Pi 
+  * Include Sonic Pi and a fixed jackd2 package
+  * Support boot to Scratch
+  * Inherit keyboard and language settings from NOOBS
