@@ -42,8 +42,9 @@ EOF
 				rm -rf *-pc
 			fi
 			QUILT_PATCHES=${SUB_STAGE_DIR}/${i}-patches
-			mkdir -p ${i}-pc
-			ln -sf ${i}-pc .pc
+			SUB_STAGE_QUILT_PATCH_DIR="$(basename $SUB_STAGE_DIR)-pc"
+			mkdir -p $SUB_STAGE_QUILT_PATCH_DIR
+			ln -snf $SUB_STAGE_QUILT_PATCH_DIR .pc
 			if [ -e ${SUB_STAGE_DIR}/${i}-patches/EDIT ]; then
 				echo "Dropping into bash to edit patches..."
 				bash
