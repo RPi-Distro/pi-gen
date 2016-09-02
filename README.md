@@ -23,7 +23,11 @@ use a different `IMG_NAME` to avoid confusion.
 
 You can also define `APT_PROXY` here if you need to.
 
-#Stages
+#Stage Anatomy
+
+
+
+#Raspbian Stages
 
 The build of Raspbian is divided up into several stages for logical clarity
 and modularity.  This causes some initial complexity, but it simplifies
