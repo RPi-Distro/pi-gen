@@ -9,25 +9,26 @@
 
 #Config
 
-Environment and other variables may be provided in a file named `config` in
-your current working directory when you run `build.sh`.  At the moment, the
-only thing you must configure is the name of the image to create.  Something
-like this is used for Raspbian:
+Upon execution, `build.sh` will source the file `config` in the current
+working directory.  This bash shell fragment is intended to set needed
+environment variables.
+
+The following environment variables are supported:
+
+ * `IMG_NAME`, the name of the distribution to build (required)
+ * `APT_PROXY`, proxy/cache URL to be included in the build
+
+A simple example for building Raspbian:
 
 ```bash
 IMG_NAME='Raspbian'
 ```
 
-Obviously if you are making changes to the pi-gen stages you should probably
-use a different `IMG_NAME` to avoid confusion.
-
-You can also define `APT_PROXY` here if you need to.
-
 #Stage Anatomy
 
 
 
-#Raspbian Stages
+#Raspbian Stage Overview
 
 The build of Raspbian is divided up into several stages for logical clarity
 and modularity.  This causes some initial complexity, but it simplifies
