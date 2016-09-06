@@ -17,7 +17,6 @@ EOF
 		if [ -f ${i}-packages-nr ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-packages-nr"
 			PACKAGES="$(sed -e ':a;N;$ !b a' -e 's/[[:space:]]*\(#[^\n]*\)*[[:space:]]/ /g' < ${i}-packages-nr)"
-
 			if [ -n "$PACKAGES" ]; then
 				on_chroot sh -e - << EOF
 apt-get install --no-install-recommends -y $PACKAGES
