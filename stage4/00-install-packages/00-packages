@@ -33,3 +33,4 @@ python-smbus python3-smbus
 python-flask python3-flask
 python-picraft python3-picraft
 python3-codebug-tether python3-codebug-i2c-tether
+python-sense-emu python3-sense-emu sense-emu-tools python-sense-emu-doc
