@@ -71,5 +71,8 @@ maintenance and allows for more easy customization.
    enhancements, etc.  This is a base desktop system, with some development
    tools installed.
 
- - Stage 4, complete Raspbian system.  More development tools, large packages
-   like LibreOffice, email, sonic-pi, wolfram-engine, etc.  All the things.
+ - Stage 4, complete Raspbian system.  More development tools, an email
+   client, learning tools like Scratch, specialized packages like sonic-pi and
+   wolfram-engine, system documentation, office productivity, etc.  This is
+   the stage that installs all of the things that make Raspbian friendly to
+   new users.
