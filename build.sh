@@ -16,7 +16,8 @@ EOF
 		fi
 		if [ -f ${i}-packages-nr ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-packages-nr"
-			PACKAGES=`cat $i-packages-nr | tr '\n' ' '`
+			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < ${i}-packages-nr)"
+			PACKAGES="$(sed -e "$sed_expr_packages" < ${i}-packages-nr)"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot sh -e - << EOF
 apt-get install --no-install-recommends -y $PACKAGES
@@ -26,7 +27,7 @@ EOF
 		fi
 		if [ -f ${i}-packages ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-packages"
-			PACKAGES=`cat $i-packages | tr '\n' ' '`
+			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < ${i}-packages)"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot sh -e - << EOF
 apt-get install -y $PACKAGES
@@ -76,6 +77,7 @@ EOF
 	popd > /dev/null
 	log "End ${SUB_STAGE_DIR}"
 }
+
 
 run_stage(){
 	log "Begin ${STAGE_DIR}"
