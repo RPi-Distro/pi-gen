@@ -17,7 +17,6 @@ EOF
 		if [ -f ${i}-packages-nr ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-packages-nr"
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < ${i}-packages-nr)"
-			PACKAGES="$(sed -e "$sed_expr_packages" < ${i}-packages-nr)"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot sh -e - << EOF
 apt-get install --no-install-recommends -y $PACKAGES
