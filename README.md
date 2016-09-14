@@ -5,7 +5,7 @@
 
 #Dependencies
 
-`quilt kpartx realpath qemu-user-static debootstrap zerofree pxz`
+`quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip`
 
 #Config
 

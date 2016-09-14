@@ -1,0 +1,5 @@
+quilt
+qemu-arm-static:qemu-user-static
+debootstrap
+kpartx zerofree
+pxz zip
