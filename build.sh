@@ -156,11 +156,11 @@ export QUILT_NO_DIFF_INDEX=1
 export QUILT_NO_DIFF_TIMESTAMPS=1
 export QUILT_REFRESH_ARGS="-p ab"
 
-source ${SCRIPT_DIR}/common
-source ${SCRIPT_DIR}/dependencies_check
+source ${SCRIPT_DIR}/common.sh
+source ${SCRIPT_DIR}/check_deps.sh
 
 
-dependencies_check ${BASE_DIR}/depends
+check_deps ${BASE_DIR}/depends
 
 mkdir -p ${WORK_DIR}
 log "Begin ${BASE_DIR}"
