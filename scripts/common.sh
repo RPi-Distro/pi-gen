@@ -1,3 +1,5 @@
+# bash #
+
 log (){
 	date +"[%T] $@" | tee -a ${LOG_FILE}
 }
@@ -52,7 +54,7 @@ unmount_image(){
 	sleep 1
 	local LOOP_DEV=$(losetup -j ${1} | cut -f1 -d':')
 	if [ -n "${LOOP_DEV}" ]; then
-		local MOUNTED_DIR=$(mount | grep $(basename ${LOOP_DEV} | head -n 1 | cut -f 3 -d ' '))
+		local MOUNTED_DIR=$(mount | grep $(basename ${LOOP_DEV}) | head -n 1 | cut -f 3 -d ' ')
 		if [ -n "${MOUNTED_DIR}" ]; then
 			unmount $(dirname ${MOUNTED_DIR})
 		fi

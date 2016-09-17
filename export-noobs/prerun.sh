@@ -14,13 +14,12 @@ BOOT_DEV=/dev/mapper/${LOOP_DEV}p1
 ROOT_DEV=/dev/mapper/${LOOP_DEV}p2
 
 mkdir -p ${STAGE_WORK_DIR}/rootfs
-mkdir -p ${STAGE_WORK_DIR}/bootfs
 mkdir -p ${NOOBS_DIR}
 
 mount $ROOT_DEV ${STAGE_WORK_DIR}/rootfs
-mount $BOOT_DEV ${STAGE_WORK_DIR}/bootfs
+mount $BOOT_DEV ${STAGE_WORK_DIR}/rootfs/boot
 
-tar -I pxz -C ${STAGE_WORK_DIR}/bootfs -cpf ${NOOBS_DIR}/boot.tar.xz .
-tar -I pxz -C ${STAGE_WORK_DIR}/rootfs -cpf ${NOOBS_DIR}/root.tar.xz .
+tar -I pxz -C ${STAGE_WORK_DIR}/rootfs/boot -cpf ${NOOBS_DIR}/boot.tar.xz .
+tar -I pxz -C ${STAGE_WORK_DIR}/rootfs --one-file-system -cpf ${NOOBS_DIR}/root.tar.xz .
 
 unmount_image ${IMG_FILE}
