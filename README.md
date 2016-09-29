@@ -1,6 +1,5 @@
 #TODO
 
-1. Simplify running a single stage
 1. Documentation
 
 #Dependencies
@@ -17,6 +16,8 @@ The following environment variables are supported:
 
  * `IMG_NAME`, the name of the distribution to build (required)
  * `APT_PROXY`, proxy/cache URL to be included in the build
+ * `MAX_STAGE`, to only run up to this stage. (default `4`, eg: `MAX_STAGE=2`)
+ * `RUN_STAGE`, to only run a single stage (eg: `RUN_STAGE=1`)
 
 A simple example for building Raspbian:
 
