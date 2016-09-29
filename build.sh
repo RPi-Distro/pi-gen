@@ -171,12 +171,12 @@ mkdir -p ${WORK_DIR}
 log "Begin ${BASE_DIR}"
 
 for STAGE_DIR in ${BASE_DIR}/stage*; do
-	if [[ $STAGE_DIR =~ stage$((MAX_STAGE + 1))$ ]]; then
-		echo "Skipping ${STAGE_DIR} (and remaining stages)"
-		break
+	STAGE_DIR_NUM=$(echo $STAGE_DIR | grep -o -E "[0-9]+$")
+	if [[ $STAGE_DIR_NUM -le $MAX_STAGE ]]; then
+		run_stage
+	else
+		echo "Skipping ${STAGE_DIR}"
 	fi
-
-	run_stage
 done
 
 CLEAN=1
