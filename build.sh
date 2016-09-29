@@ -128,6 +128,11 @@ if [ -z "${IMG_NAME}" ]; then
 	exit 1
 fi
 
+if [ -z "${MAX_STAGE}" ]; then
+	MAX_STAGE=4
+fi
+echo "Running stage${MAX_STAGE} build"
+
 export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -166,6 +171,11 @@ mkdir -p ${WORK_DIR}
 log "Begin ${BASE_DIR}"
 
 for STAGE_DIR in ${BASE_DIR}/stage*; do
+	if [[ $STAGE_DIR =~ stage$((MAX_STAGE + 1))$ ]]; then
+		echo "Skipping ${STAGE_DIR} (and remaining stages)"
+		break
+	fi
+
 	run_stage
 done
 
