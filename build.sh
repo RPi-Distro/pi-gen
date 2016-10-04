@@ -128,12 +128,9 @@ if [ -z "${IMG_NAME}" ]; then
 	exit 1
 fi
 
-if [ -z "${MAX_STAGE}" ]; then
-	MAX_STAGE=4
-fi
-if [ -n $RUN_STAGE ]; then
+if [ -n "${RUN_STAGE}" ]; then
 	echo "Running ONLY stage${RUN_STAGE}"
-else
+elif [ -n "${MAX_STAGE}" ]; then
 	echo "Running stage${MAX_STAGE} build"
 fi
 
@@ -176,7 +173,7 @@ log "Begin ${BASE_DIR}"
 
 for STAGE_DIR in ${BASE_DIR}/stage*; do
 	STAGE_DIR_NUM=$(echo $STAGE_DIR | grep -o -E "[0-9]+$")
-	if [[ (-z $RUN_STAGE || $STAGE_DIR_NUM -eq $RUN_STAGE) && $STAGE_DIR_NUM -le $MAX_STAGE ]]; then
+	if [[ (-z $RUN_STAGE || $STAGE_DIR_NUM -eq $RUN_STAGE) && (-z $MAX_STAGE || $STAGE_DIR_NUM -le $MAX_STAGE) ]]; then
 		run_stage
 	else
 		echo "Skipping ${STAGE_DIR}"
