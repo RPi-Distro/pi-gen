@@ -88,24 +88,22 @@ run_stage(){
 	if [ -f ${STAGE_DIR}/EXPORT_IMAGE ]; then
 		EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
 	fi
-	if [ ! -f SKIP ]; then
-		if [ "${CLEAN}" = "1" ]; then
-			if [ -d ${ROOTFS_DIR} ]; then
-				rm -rf ${ROOTFS_DIR}
-			fi
+	if [ "${CLEAN}" = "1" ]; then
+		if [ -d ${ROOTFS_DIR} ]; then
+			rm -rf ${ROOTFS_DIR}
 		fi
-		if [ -x prerun.sh ]; then
-			log "Begin ${STAGE_DIR}/prerun.sh"
-			./prerun.sh
-			log "End ${STAGE_DIR}/prerun.sh"
-		fi
-		for SUB_STAGE_DIR in ${STAGE_DIR}/*; do
-			if [ -d ${SUB_STAGE_DIR} ] &&
-			   [ ! -f ${SUB_STAGE_DIR}/SKIP ]; then
-				run_sub_stage
-			fi
-		done
 	fi
+	if [ -x prerun.sh ]; then
+		log "Begin ${STAGE_DIR}/prerun.sh"
+		./prerun.sh
+		log "End ${STAGE_DIR}/prerun.sh"
+	fi
+	for SUB_STAGE_DIR in ${STAGE_DIR}/*; do
+		if [ -d ${SUB_STAGE_DIR} ] &&
+			[ ! -f ${SUB_STAGE_DIR}/SKIP ]; then
+			run_sub_stage
+		fi
+	done
 	unmount ${WORK_DIR}/${STAGE}
 	PREV_STAGE=${STAGE}
 	PREV_STAGE_DIR=${STAGE_DIR}
