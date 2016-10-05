@@ -23,8 +23,9 @@ The following environment variables are supported:
 
  * `APT_PROXY` (Default: unset)
 
-   If you require the use of an apt proxy, set it here.  This proxy will be
-   included in the created image file.
+   If you require the use of an apt proxy, set it here.  This proxy setting
+   will not be included in the image, making it safe to use an `apt-cacher` or
+   similar package for development.
 
  * `MAX_STAGE` (Default: unset)
 
