@@ -14,10 +14,30 @@ environment variables.
 
 The following environment variables are supported:
 
- * `IMG_NAME`, the name of the distribution to build (required)
- * `APT_PROXY`, proxy/cache URL to be included in the build
- * `MAX_STAGE`, to only run up to this stage. (default `4`, eg: `MAX_STAGE=2`)
- * `RUN_STAGE`, to only run a single stage (eg: `RUN_STAGE=1`)
+ * `IMG_NAME` **required** (Default: unset)
+
+   The name of the image to build with the current stage directories.  Setting
+   `IMG_NAME=Raspbian` is logical for an unmodified RPi-Distro/pi-gen build,
+   but you should use something else for a customized version.  Export files
+   in stages may add suffixes to `IMG_NAME`.
+
+ * `APT_PROXY` (Default: unset)
+
+   If you require the use of an apt proxy, set it here.  This proxy setting
+   will not be included in the image, making it safe to use an `apt-cacher` or
+   similar package for development.
+
+ * `MAX_STAGE` (Default: unset)
+
+   Set this to the number of the highest stage you wish to build.  For
+   Raspbian, `MAX_STAGE=2` will build Raspbian-lite and then stop.
+
+ * `RUN_STAGE` (Default: unset)
+
+   Build only a single stage.  Does not build prior or subsequent stages.
+   Building with e.g. `RUN_STAGE=3` requires that a build of stage2 already
+   exists.  *Note: Be aware that the image date affects whether or not the
+   prior stages will be found!*
 
 A simple example for building Raspbian:
 
