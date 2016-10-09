@@ -45,4 +45,4 @@ mount -v $ROOT_DEV ${ROOTFS_DIR} -t ext4
 mkdir -p ${ROOTFS_DIR}/boot
 mount -v $BOOT_DEV ${ROOTFS_DIR}/boot -t vfat
 
-rsync ${EXPORT_ROOTFS_DIR}/ ${ROOTFS_DIR}/ -aHAX
+rsync -aHAXx ${EXPORT_ROOTFS_DIR}/ ${ROOTFS_DIR}/
