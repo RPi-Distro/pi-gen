@@ -27,18 +27,6 @@ The following environment variables are supported:
    will not be included in the image, making it safe to use an `apt-cacher` or
    similar package for development.
 
- * `MAX_STAGE` (Default: unset)
-
-   Set this to the number of the highest stage you wish to build.  For
-   Raspbian, `MAX_STAGE=2` will build Raspbian-lite and then stop.
-
- * `RUN_STAGE` (Default: unset)
-
-   Build only a single stage.  Does not build prior or subsequent stages.
-   Building with e.g. `RUN_STAGE=3` requires that a build of stage2 already
-   exists.  *Note: Be aware that the image date affects whether or not the
-   prior stages will be found!*
-
 A simple example for building Raspbian:
 
 ```bash
