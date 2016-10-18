@@ -5,6 +5,6 @@ git-core rpi-update
 omxplayer
 raspberrypi-artwork
 policykit-1
-udisks
+gvfs
 rfkill
 chromium-browser rpi-chromium-mods
