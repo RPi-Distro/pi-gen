@@ -7,6 +7,10 @@ on_chroot sh -e - <<EOF
 hardlink -t /usr/share/doc
 EOF
 
+if [ -d ${ROOTFS_DIR}/home/pi/.config ]; then
+	chmod 700 ${ROOTFS_DIR}/home/pi/.config
+fi
+
 rm -f ${ROOTFS_DIR}/etc/apt/apt.conf.d/51cache
 rm -f ${ROOTFS_DIR}/usr/sbin/policy-rc.d
 rm -f ${ROOTFS_DIR}/usr/bin/qemu-arm-static
