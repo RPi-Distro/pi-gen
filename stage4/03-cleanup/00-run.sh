@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
-on_chroot sh -e - <<EOF
+on_chroot << EOF
 apt-get clean
 EOF

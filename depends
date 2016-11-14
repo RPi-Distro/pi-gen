@@ -4,3 +4,4 @@ debootstrap
 kpartx zerofree
 pxz zip
 mkdosfs:dosfstools
+capsh:libcap2-bin

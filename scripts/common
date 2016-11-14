@@ -14,10 +14,10 @@ bootstrap(){
 		local BOOTSTRAP_CMD=debootstrap
 	fi
 
-	${BOOTSTRAP_CMD} --components=main,contrib,non-free \
+	capsh --drop=cap_setfcap -- -c "${BOOTSTRAP_CMD} --components=main,contrib,non-free \
 		--arch armhf\
 		--no-check-gpg \
-		$1 $2 $3
+		$1 $2 $3"
 }
 export -f bootstrap
 
@@ -80,7 +80,7 @@ on_chroot() {
 		mount --bind /sys ${ROOTFS_DIR}/sys
 	fi
 
-	chroot ${ROOTFS_DIR}/ "$@"
+	capsh --drop=cap_setfcap --chroot=${ROOTFS_DIR}/ -- "$@"
 }
 export -f on_chroot
 

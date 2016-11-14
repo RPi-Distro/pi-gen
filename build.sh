@@ -7,7 +7,7 @@ run_sub_stage()
 	for i in {00..99}; do
 		if [ -f ${i}-debconf ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-debconf"
-			on_chroot sh -e - << EOF
+			on_chroot << EOF
 debconf-set-selections <<SELEOF
 `cat ${i}-debconf`
 SELEOF
@@ -18,7 +18,7 @@ EOF
 			log "Begin ${SUB_STAGE_DIR}/${i}-packages-nr"
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < ${i}-packages-nr)"
 			if [ -n "$PACKAGES" ]; then
-				on_chroot sh -e - << EOF
+				on_chroot << EOF
 apt-get install --no-install-recommends -y $PACKAGES
 EOF
 			fi
@@ -28,7 +28,7 @@ EOF
 			log "Begin ${SUB_STAGE_DIR}/${i}-packages"
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < ${i}-packages)"
 			if [ -n "$PACKAGES" ]; then
-				on_chroot sh -e - << EOF
+				on_chroot << EOF
 apt-get install -y $PACKAGES
 EOF
 			fi
@@ -69,7 +69,7 @@ EOF
 		fi
 		if [ -f ${i}-run-chroot ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-run-chroot"
-			on_chroot sh -e - < ${i}-run-chroot
+			on_chroot < ${i}-run-chroot
 			log "End ${SUB_STAGE_DIR}/${i}-run-chroot"
 		fi
 	done

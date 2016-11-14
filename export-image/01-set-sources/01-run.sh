@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-on_chroot sh -e - <<EOF
+on_chroot << EOF
 apt-get update
 apt-get -y dist-upgrade
 apt-get clean
