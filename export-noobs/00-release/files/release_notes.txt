@@ -1,4 +1,26 @@
 UNRELEASED:
+  * Prompt for password change on first boot added
+  * Adobe Flash Player included
+  * Updates to hardware video acceleration in Chromium browser
+  * Greeter now uses background image from last set in Appearance Settings rather than pi user
+  * Updated version of Scratch
+  * Rastrack option removed from raspi-config and Raspberry Pi Configuration
+  * Ability to disable graphical boot splash screen added to raspi-config and Raspberry Pi Configuration
+  * Appearance Settings dialog made tabbed to work better on small screens
+  * Raspberry Pi Configuration now requires current password to change password
+  * Various small bug fixes
+  * Updated firmware and kernel
+2016-09-23:
+  * New PIXEL desktop environment - new icon set, window design, desktop images, splash screen and greeter
+  * Chromium web browser included
+  * Infinality font rendering patches included
+  * RealVNC server and viewer included
+  * SenseHAT emulator included
+  * Rfkill entries added to Wifi and Bluetooth panel plugins
+  * Updates to various standard applications, including Scratch and NodeRED
+  * Various bug fixes, tweaks and translation updates
+  * Updated firmware and kernel (https://github.com/raspberrypi/firmware/commit/ad8608c08b122b2c228dba0ff5070d6e9519faf5)
+2016-05-27:
   * Fixed crash of lxpanel when D-bus not accessible
   * Fixed permissions for D-bus Bluetooth access
   * Removed sudo from shutdown options
