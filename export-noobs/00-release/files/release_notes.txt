@@ -1,5 +1,6 @@
 UNRELEASED:
-  * Prompt for password change on first boot added
+  * SSH disabled by default; can be enabled by creating a file with name "ssh" in boot partition
+  * Prompt for password change at boot when SSH enabled with default password unchanged
   * Adobe Flash Player included
   * Updates to hardware video acceleration in Chromium browser
   * Greeter now uses background image from last set in Appearance Settings rather than pi user

@@ -23,10 +23,10 @@ case "$1" in
       yes | ssh-keygen -q -N '' -t rsa -f /etc/ssh/ssh_host_rsa_key && \
       yes | ssh-keygen -q -N '' -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key && \
       yes | ssh-keygen -q -N '' -t ed25519 -f /etc/ssh/ssh_host_ed25519_key && \
-      systemctl enable ssh && sync && \
+      sync && \
       rm /etc/init.d/regenerate_ssh_host_keys && \
       update-rc.d regenerate_ssh_host_keys remove && \
-      printf '\nfinished\n' && systemctl start ssh" > /var/log/regen_ssh_keys.log 2>&1 &
+      printf '\nfinished\n'" > /var/log/regen_ssh_keys.log 2>&1 &
     log_end_msg $?
     ;;
   *)
