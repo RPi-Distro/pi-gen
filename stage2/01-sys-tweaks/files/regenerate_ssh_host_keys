@@ -15,7 +15,7 @@ set -e
 
 case "$1" in
   start)
-    log_daemon_msg "Regenerating ssh host keys (in background)"
+    log_daemon_msg "Regenerating ssh host keys"
     nohup sh -c "if [ -e /dev/hwrng ]; then
           dd if=/dev/hwrng of=/dev/urandom count=1 bs=4096
       fi; \
@@ -26,7 +26,7 @@ case "$1" in
       sync && \
       rm /etc/init.d/regenerate_ssh_host_keys && \
       update-rc.d regenerate_ssh_host_keys remove && \
-      printf '\nfinished\n'" > /var/log/regen_ssh_keys.log 2>&1 &
+      printf '\nfinished\n'" > /var/log/regen_ssh_keys.log 2>&1
     log_end_msg $?
     ;;
   *)
