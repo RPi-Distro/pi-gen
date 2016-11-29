@@ -17,7 +17,7 @@ sed /tmp/2/etc/fstab -i -e "s|^.* / |${part2}  / |"
 sed /tmp/2/etc/fstab -i -e "s|^.* /boot |${part1}  /boot |"
 
 if ! grep -q resize /proc/cmdline; then
-  sed -i 's/ quiet init=.*$//' /tmp/1/cmdline.txt
+  sed -i 's| quiet init=/usr/lib/raspi-config/init_resize.sh||' /tmp/1/cmdline.txt
 fi
 
 umount /tmp/1
