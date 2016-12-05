@@ -4,7 +4,7 @@
 
 #Dependencies
 
-`quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools`
+`quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar`
 
 #Config
 
