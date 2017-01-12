@@ -14,3 +14,4 @@ raspberrypi-sys-mods
 pi-bluetooth
 apt-listchanges
 usb-modeswitch
+apt-transport-https
