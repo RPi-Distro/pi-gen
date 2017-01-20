@@ -1,12 +1,14 @@
-# TODO
+# pi-gen
+_Tool used to create the raspberrypi.org Raspbian images_
 
+### TODO
 1. Documentation
 
-# Dependencies
+## Dependencies
 
 `quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin`
 
-# Config
+## Config
 
 Upon execution, `build.sh` will source the file `config` in the current
 working directory.  This bash shell fragment is intended to set needed
@@ -33,11 +35,11 @@ A simple example for building Raspbian:
 IMG_NAME='Raspbian'
 ```
 
-# Stage Anatomy
+## Stage Anatomy
 
 
 
-# Raspbian Stage Overview
+### Raspbian Stage Overview
 
 The build of Raspbian is divided up into several stages for logical clarity
 and modularity.  This causes some initial complexity, but it simplifies
