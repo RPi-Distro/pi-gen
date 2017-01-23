@@ -1,6 +1,5 @@
 01-useradd.diff
 02-swap.diff
-03-console-setup.diff
 04-inputrc.diff
 05-path.diff
 06-rc_local.diff

@@ -6,7 +6,7 @@ _Tool used to create the raspberrypi.org Raspbian images_
 
 ## Dependencies
 
-`quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin`
+`quilt parted realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin grep rsync`
 
 ## Config
 
@@ -35,9 +35,22 @@ A simple example for building Raspbian:
 IMG_NAME='Raspbian'
 ```
 
+## Docker Build
+
+```bash
+vi config         # Edit your config file. See above.
+./build-docker.sh
+```
+If everything goes well, your finished image will be in the `deploy/` folder.
+You can then remove the build container with `docker rm pigen_work`
+
+If something breaks along the line, you can edit the corresponding scripts, and
+continue:
+```
+CONTINUE=1 ./build-docker.sh
+```
+
 ## Stage Anatomy
-
-
 
 ### Raspbian Stage Overview
 
