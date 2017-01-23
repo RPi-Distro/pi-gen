@@ -57,17 +57,17 @@ if [ "$CONTAINER_EXISTS" != "" ]; then
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh;
-	rsync -avPc work/*/build.log deploy/*.zip /output/" &
+	rsync -av work/*/build.log deploy/" &
 	wait
 else
 	trap "echo 'got CTRL+C... please wait 5s'; docker stop -t 5 ${CONTAINER_NAME}" SIGINT SIGTERM
 	$DOCKER run --name "${CONTAINER_NAME}" --privileged \
-		-v $(pwd)/output:/output \
+		-v $(pwd)/deploy:/pi-gen/deploy \
 		${config_mount} \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh &&
-	rsync -avPc work/*/build.log deploy/*.zip /output/" &
+	rsync -av work/*/build.log deploy/" &
 	wait
 fi
-echo "Done! your output should be in output/"
+echo "Done! Your image(s) should be in deploy/"
