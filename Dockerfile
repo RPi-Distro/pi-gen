@@ -9,4 +9,4 @@ RUN apt-get -y update && \
 
 COPY . /pi-gen/
 
-VOLUME [ "/pi-gen/work", "/pi-gen/deploy", "/pi-gen/output" ]
+VOLUME [ "/pi-gen/work", "/pi-gen/deploy"]
