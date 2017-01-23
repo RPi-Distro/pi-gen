@@ -41,7 +41,8 @@ IMG_NAME='Raspbian'
 vi config         # Edit your config file. See above.
 ./build-docker.sh
 ```
-If everything goes well, your finished image will be in the `output` folder.
+If everything goes well, your finished image will be in the `deploy/` folder.
+You can then remove the build container with `docker rm pigen_work`
 
 If something breaks along the line, you can edit the corresponding scripts, and
 continue:
