@@ -142,9 +142,24 @@ cd Cardigan
 sudo chmod 777 -R modules/video/
 
 # clone dride-ws 
-cd dride-ws
-sudo git clone --depth 1 https://github.com/dride/dride-ws.git
+cd /home/Cardigan
+sudo rm -R dride-ws
 
+sudo mkdir dride-ws
+cd dride-ws
+wget -c -O "dride-ws-0.1.4.zip" "https://github.com/dride/dride-ws/archive/0.1.4.zip"
+sudo apt-get install unzip
+unzip -q -n "dride-ws-0.1.4.zip"
+
+sudo rm dride-ws-0.1.4.zip
+
+cd dride-ws-0.1.4
+find . -maxdepth 1 -exec mv {} .. \;
+
+cd /home/Cardigan/dride-ws
+sudo rm dride-ws-0.1.4
+sudo rm npmbox.npmbox
+sudo npm i
 cd /
 
 
@@ -219,10 +234,6 @@ sudo service isc-dhcp-server start
 sudo update-rc.d hostapd enable 
 sudo update-rc.d isc-dhcp-server enable
 
-
-# dride-ws
-cd /home/Cardigan/dride-ws
-sudo npm i
 
 
 sudo wget https://dride.io/code/startup/dride-ws
