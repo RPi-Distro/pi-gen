@@ -14,7 +14,7 @@ on_chroot << EOF
 systemctl disable hwclock.sh
 systemctl disable nfs-common
 systemctl disable rpcbind
-systemctl disable ssh
+systemctl enable ssh
 systemctl enable regenerate_ssh_host_keys
 systemctl enable apply_noobs_os_config
 systemctl enable resize2fs_once
@@ -120,7 +120,8 @@ sudo make install
 sudo ldconfig
 
 # remove the installation file
-
+cd /
+sudo rm opencv-3.1.0.zip
 
 
 # Install Node
@@ -140,18 +141,22 @@ cd Cardigan
 # make the video dir writable
 sudo chmod 777 -R modules/video/
 
+# clone dride-ws 
+cd dride-ws
+sudo git clone --depth 1 https://github.com/dride/dride-ws.git
+
+cd /
+
+
+
 
 echo "========== Install picamera  ============"
 sudo pip install "picamera[array]"
 # enable camera on raspi-config
-grep "start_x=1" /boot/config.txt
-if grep "start_x=1" /boot/config.txt
-then
-        echo "Already enabled."
-else
-        sed -i "s/start_x=0/start_x=1/g" /boot/config.txt
-        reboot
-fi
+echo "" >> /boot/config.txt
+echo "#enable piCaera" >> /boot/config.txt
+echo "start_x=1" >> /boot/config.txt
+
 
 echo "========== Install omxplayer  ============"
 sudo apt-get install omxplayer -y
