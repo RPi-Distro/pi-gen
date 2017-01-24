@@ -88,6 +88,10 @@ sudo apt-get update -y
 echo "========== Installing build-essential ============"
 sudo apt-get install build-essential -y
 
+echo "========== Installing git ============"
+sudo apt-get install git -y
+
+
 echo "========== Installing libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev ============"
 sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev -y
 
