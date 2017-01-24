@@ -139,30 +139,20 @@ sudo dpkg -i node_latest_armhf.deb
 
 echo "========== Install Dride-core [Cardigan]  ============"
 cd /home
-sudo git clone --depth 1 --recursive https://github.com/CardiganCam/Cardigan.git
-cd Cardigan
+# https://github.com/dride/Cardigan/archive/0.2.zip
+wget -c -O "cardigan-0.2.zip" "https://github.com/dride/Cardigan/releases/download/0.2/Cardigan.zip"
+sudo apt-get install unzip
+unzip -q -n "cardigan-0.2.zip"
+
+sudo rm cardigan-0.2.zip
+
 
 # make the video dir writable
-sudo chmod 777 -R modules/video/
+sudo chmod 777 -R /home/Cardigan/modules/video/
 
 # clone dride-ws 
-cd /home/Cardigan
-sudo rm -R dride-ws
-
-sudo mkdir dride-ws
-cd dride-ws
-wget -c -O "dride-ws-0.1.4.zip" "https://github.com/dride/dride-ws/archive/0.1.4.zip"
-sudo apt-get install unzip
-unzip -q -n "dride-ws-0.1.4.zip"
-
-sudo rm dride-ws-0.1.4.zip
-
-cd dride-ws-0.1.4
-find . -maxdepth 1 -exec mv {} .. \;
-
 cd /home/Cardigan/dride-ws
-sudo rm dride-ws-0.1.4
-sudo rm npmbox.npmbox
+
 sudo npm i
 cd /
 
