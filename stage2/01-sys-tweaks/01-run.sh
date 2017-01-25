@@ -104,9 +104,7 @@ sudo dpkg -i node_latest_armhf.deb
 sudo rm /home/node_latest_armhf.deb
 
 
-EOF
 
-on_chroot << EOF
 
 # TODO: Add a test if openCV was installed correctly
 
@@ -125,9 +123,7 @@ sudo rm -R __MACOSX
 sudo chmod 777 -R /home/Cardigan/modules/video/
 
 
-EOF
 
-on_chroot << EOF
 
 echo "========== Installing pip ============"
 sudo wget https://bootstrap.pypa.io/get-pip.py
