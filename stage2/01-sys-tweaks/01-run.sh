@@ -82,7 +82,7 @@ cd /home
 
 # Install dependencies
 echo "========== Update Aptitude ==========="
-sudo apt-get update -y
+# sudo apt-get update -y
 # sudo apt-get upgrade
 
 echo "========== Installing build-essential ============"
@@ -101,7 +101,7 @@ echo "========== Installing Node ============"
 sudo wget http://node-arm.herokuapp.com/node_latest_armhf.deb 
 sudo dpkg -i node_latest_armhf.deb
 
-sudo rm /node_latest_armhf.deb
+sudo rm /home/node_latest_armhf.deb
 
 
 # TODO: Add a test if openCV was installed correctly
