@@ -95,6 +95,39 @@ sudo apt-get install git -y
 echo "========== Installing libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev ============"
 sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev -y
 
+
+# Install Node
+echo "========== Installing Node ============"
+sudo wget http://node-arm.herokuapp.com/node_latest_armhf.deb 
+sudo dpkg -i node_latest_armhf.deb
+
+sudo rm /node_latest_armhf.deb
+
+
+# TODO: Add a test if openCV was installed correctly
+
+echo "========== Install Dride-core [Cardigan]  ============"
+cd /home
+# https://github.com/dride/Cardigan/archive/0.2.zip
+wget -c -O "cardigan-0.2.zip" "https://github.com/dride/Cardigan/releases/download/0.2/Cardigan.zip"
+unzip -q -n "cardigan-0.2.zip"
+
+sudo rm cardigan-0.2.zip
+
+sudo rm -R __MACOSX
+
+
+# make the video dir writable
+sudo chmod 777 -R /home/Cardigan/modules/video/
+
+# clone dride-ws 
+cd /home/Cardigan/dride-ws
+
+sudo npm i
+
+cd /home
+
+
 echo "========== Installing pip ============"
 sudo wget https://bootstrap.pypa.io/get-pip.py
 sudo chmod +x get-pip.py
@@ -103,6 +136,7 @@ sudo python get-pip.py
 echo "========== Installing Numpy ============"
 sudo pip install numpy
 
+sudo rm get-pip.py
 
 echo "========== Downloading and installing OpenCV ============"
 cd /
@@ -127,34 +161,6 @@ sudo ldconfig
 cd /
 sudo rm opencv-3.1.0.zip
 
-
-# Install Node
-echo "========== Installing Node ============"
-sudo wget http://node-arm.herokuapp.com/node_latest_armhf.deb 
-sudo dpkg -i node_latest_armhf.deb
-
-
-
-# TODO: Add a test if openCV was installed correctly
-
-echo "========== Install Dride-core [Cardigan]  ============"
-cd /home
-# https://github.com/dride/Cardigan/archive/0.2.zip
-wget -c -O "cardigan-0.2.zip" "https://github.com/dride/Cardigan/releases/download/0.2/Cardigan.zip"
-sudo apt-get install unzip
-unzip -q -n "cardigan-0.2.zip"
-
-sudo rm cardigan-0.2.zip
-
-
-# make the video dir writable
-sudo chmod 777 -R /home/Cardigan/modules/video/
-
-# clone dride-ws 
-cd /home/Cardigan/dride-ws
-
-sudo npm i
-cd /
 
 
 
