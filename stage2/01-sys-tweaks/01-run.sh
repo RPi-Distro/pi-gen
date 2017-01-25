@@ -104,6 +104,10 @@ sudo dpkg -i node_latest_armhf.deb
 sudo rm /home/node_latest_armhf.deb
 
 
+EOF
+
+on_chroot << EOF
+
 # TODO: Add a test if openCV was installed correctly
 
 echo "========== Install Dride-core [Cardigan]  ============"
@@ -120,13 +124,10 @@ sudo rm -R __MACOSX
 # make the video dir writable
 sudo chmod 777 -R /home/Cardigan/modules/video/
 
-# clone dride-ws 
-cd /home/Cardigan/dride-ws
 
-sudo npm i
+EOF
 
-cd /home
-
+on_chroot << EOF
 
 echo "========== Installing pip ============"
 sudo wget https://bootstrap.pypa.io/get-pip.py
@@ -178,6 +179,9 @@ sudo apt-get install omxplayer -y
 
 
 # Install WIFi
+echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
+
 sudo apt-get install hostapd isc-dhcp-server -y
 sudo apt-get install iptables-persistent -y
 
@@ -261,6 +265,10 @@ sudo rm dride-core
 
 
 
+# run npm install on dride-ws
+cd /home/Cardigan/dride-ws
+
+sudo npm i
 
 
 
