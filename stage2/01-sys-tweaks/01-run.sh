@@ -88,9 +88,6 @@ echo "========== Update Aptitude ==========="
 echo "========== Installing build-essential ============"
 sudo apt-get install build-essential -y
 
-echo "========== Installing git ============"
-sudo apt-get install git -y
-
 
 echo "========== Installing libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev ============"
 sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev -y
@@ -105,8 +102,6 @@ sudo rm /home/node_latest_armhf.deb
 
 
 
-
-# TODO: Add a test if openCV was installed correctly
 
 echo "========== Install Dride-core [Cardigan]  ============"
 cd /home
@@ -158,6 +153,7 @@ sudo ldconfig
 cd /
 sudo rm opencv-3.1.0.zip
 
+# TODO: Add a test if openCV was installed correctly
 
 
 
