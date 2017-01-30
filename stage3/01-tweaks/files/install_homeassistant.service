@@ -1,0 +1,13 @@
+# This is a simple service file for systems with systemd to tun HA as user.
+#
+# For details please check https://home-assistant.io/getting-started/autostart/
+#
+[Unit]
+Description=Install Home Assistant
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/install_homeassistant.sh
+
+[Install]
+WantedBy=multi-user.target

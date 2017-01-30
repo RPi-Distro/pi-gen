@@ -1,12 +1,22 @@
-# pi-gen
-_Tool used to create the raspberrypi.org Raspbian images_
+Fork of `pi_gen` by [@RPI-Distro](https://github.com/RPi-Distro/pi-gen).
 
-### TODO
-1. Documentation
+## Building your own
+The Haspbian image is built with the same script that generates the official [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) image's from the [Raspberry Pi Foundation](https://www.raspberrypi.org/about/).
 
-## Dependencies
+By default the Haspbian image is built on a Debian 8 droplet on Digital Ocean and takes about 30 minutes to build on the cheapest droplet. Dependencies and everything is handled by the build script with the exception of `git`.
 
-`quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin`
+Build instructions:
+- Install git. `sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git`
+- Clone the `rpi_gen` code. `git clone https://github.com/home-assistant/pi-gen.git`
+- Create a file in the current folder named `config`. More about it's contense below.
+- Run the build script, with sudo or as root.  `sudo ./build.sh`
+- Wait ~30 minutes for build to complete.
+- Retrieve your freshly built Raspberry Pi image from the `rpi_gen\deploy` folder.
+
+
+### Dependencies
+
+`quilt qemu-arm-static:qemu-user-static debootstrap kpartx zerofree pxz zip mkdosfs:dosfstools capsh:libcap2-bin bsdtar`
 
 ## Config
 
@@ -16,32 +26,18 @@ environment variables.
 
 The following environment variables are supported:
 
- * `IMG_NAME` **required** (Default: unset)
+ * `IMG_NAME`, the name of the distribution to build (required)
+ * `APT_PROXY`, proxy/cache URL to be included in the build
 
-   The name of the image to build with the current stage directories.  Setting
-   `IMG_NAME=Raspbian` is logical for an unmodified RPi-Distro/pi-gen build,
-   but you should use something else for a customized version.  Export files
-   in stages may add suffixes to `IMG_NAME`.
-
- * `APT_PROXY` (Default: unset)
-
-   If you require the use of an apt proxy, set it here.  This proxy setting
-   will not be included in the image, making it safe to use an `apt-cacher` or
-   similar package for development.
-
-A simple example for building Raspbian:
+A simple example for building Hassbian:
 
 ```bash
-IMG_NAME='Raspbian'
+IMG_NAME='Hassbian'
 ```
-
-## Stage Anatomy
-
-
 
 ### Raspbian Stage Overview
 
-The build of Raspbian is divided up into several stages for logical clarity
+The build of Hassbian is divided up into several stages for logical clarity
 and modularity.  This causes some initial complexity, but it simplifies
 maintenance and allows for more easy customization.
 
@@ -67,7 +63,8 @@ maintenance and allows for more easy customization.
    defaults, installs fake-hwclock and ntp, wifi and bluetooth support,
    dphys-swapfile, and other basics for managing the hardware.  It also
    creates necessary groups and gives the pi user access to sudo and the
-   standard console hardware permission groups.
+   standard console hardware permission groups. This stage has a minor 
+   modification to prevent ssh from being disabled.
 
    There are a few tools that may not make a whole lot of sense here for
    development purposes on a minimal system such as basic python and lua
@@ -77,16 +74,15 @@ maintenance and allows for more easy customization.
    you were looking for something between truly minimal and Raspbian-lite,
    here's where you start trimming.
 
- - **Stage 3** - desktop system.  Here's where you get the full desktop system
-   with X11 and LXDE, web browsers, git for development, Raspbian custom UI
-   enhancements, etc.  This is a base desktop system, with some development
-   tools installed.
+ - **Stage 3** - the HASSbian stage. This is where all the Home Assistant
+   specific packages are installed, permissions are set and users created.
+   This is the only stage we add to the original build script.
 
- - **Stage 4** - complete Raspbian system.  More development tools, an email
-   client, learning tools like Scratch, specialized packages like sonic-pi and
-   wolfram-engine, system documentation, office productivity, etc.  This is
-   the stage that installs all of the things that make Raspbian friendly to
-   new users.
+   The original **Stage 3** and **Stage 4** are removed since they are not
+   used on the HASSbian image.
+   
+
+
    
 ### Stage specification
 If you wish to build up to a specified stage (such as building up to stage 2 for a lite system), place an empty file named `SKIP` in each of the `./stage` directories you wish not to include.
@@ -94,7 +90,8 @@ If you wish to build up to a specified stage (such as building up to stage 2 for
 Then remove the `EXPORT*` files from `./stage4` (if building up to stage 2) or from `./stage2` (if building a minimal system).
 
 ```
-# Example for building a lite system
-$ touch ./stage3/SKIP ./stage4/SKIP
-$ rm stage4/EXPORT*
+# Example for building a lite system without Home Assistant
+$ touch ./stage3/SKIP 
+$ rm stage3/EXPORT*
 ```
+

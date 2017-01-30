@@ -14,7 +14,6 @@ on_chroot << EOF
 systemctl disable hwclock.sh
 systemctl disable nfs-common
 systemctl disable rpcbind
-systemctl disable ssh
 systemctl enable regenerate_ssh_host_keys
 systemctl enable apply_noobs_os_config
 systemctl enable resize2fs_once
