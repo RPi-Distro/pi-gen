@@ -1,4 +1,19 @@
 UNRELEASED:
+  * Chromium browser updated to version 56
+  * Adobe Flash Player updated to version 24.0.0.221
+  * RealVNC Server and Viewer updated to version 6.0.2 (RealVNC Connect)
+  * Sonic Pi updated to version 2.11
+  * Node-RED updated to version 0.15.3
+  * Scratch updated to version 120117
+  * Detection of SSH enabled with default password moved into PAM
+  * Updated desktop GL driver to support use of fake KMS option
+  * Raspberry Pi Configuration and raspi-config allow setting of fixed HDMI resolution
+  * raspi-config allows enabling of serial hardware independent of serial terminal
+  * Updates to kernel and firmware
+  * Various minor bug fixes and usability and appearance tweaks
+2017-01-11:
+  * Re-release of the 2016-11-25 image with a FAT32-formatted boot partition
+2016-11-25:
   * SSH disabled by default; can be enabled by creating a file with name "ssh" in boot partition
   * Prompt for password change at boot when SSH enabled with default password unchanged
   * Adobe Flash Player included
