@@ -50,7 +50,7 @@ ROOT_DEV=$(losetup --show -f -o ${ROOT_OFFSET} --sizelimit ${ROOT_LENGTH} ${IMG_
 echo "/boot: offset $BOOT_OFFSET, length $BOOT_LENGTH"
 echo "/:     offset $ROOT_OFFSET, length $ROOT_LENGTH"
 
-mkdosfs -n boot -S 512 -s 16 -v $BOOT_DEV > /dev/null
+mkdosfs -n boot -F 32 -v $BOOT_DEV > /dev/null
 mkfs.ext4 -O ^huge_file $ROOT_DEV > /dev/null
 
 mount -v $ROOT_DEV ${ROOTFS_DIR} -t ext4
