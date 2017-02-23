@@ -1,8 +1,12 @@
 quilt
+parted
+realpath
 qemu-arm-static:qemu-user-static
 debootstrap
-kpartx zerofree
+zerofree
 pxz zip
 mkdosfs:dosfstools
 capsh:libcap2-bin
 bsdtar
+grep
+rsync
