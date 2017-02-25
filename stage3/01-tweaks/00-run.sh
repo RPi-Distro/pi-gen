@@ -13,6 +13,10 @@ on_chroot << EOF
 dpkg -i /srv/homeassistant//hassbian-scripts-0.2.deb
 EOF
 
+on_chroot << EOF
+systemctl enable install_homeassistant
+EOF
+
 on_chroot << \EOF
 for GRP in dialout gpio spi i2c video; do
         adduser homeassistant $GRP
