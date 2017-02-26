@@ -114,3 +114,4 @@ Then remove the `EXPORT*` files from `./stage4` (if building up to stage 2) or f
 $ touch ./stage3/SKIP ./stage4/SKIP
 $ rm stage4/EXPORT*
 ```
+If you wish to build further configurations upon (for example) the lite system, you can also delete the contents of `./stage3` and `./stage4` and replace with your own contents in the same format.
