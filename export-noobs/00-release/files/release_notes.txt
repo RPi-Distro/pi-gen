@@ -1,4 +1,6 @@
 UNRELEASED:
+  * Updated kernel and firmware (final Pi Zero W support)
+2017-02-16:
   * Chromium browser updated to version 56
   * Adobe Flash Player updated to version 24.0.0.221
   * RealVNC Server and Viewer updated to version 6.0.2 (RealVNC Connect)
