@@ -24,6 +24,10 @@ if [ -e /mnt/ssh.txt ]; then
   cp /mnt/ssh.txt /tmp/1/
 fi
 
+if [ -e /settings/wpa_supplicant.conf ]; then
+  cp /settings/wpa_supplicant.conf /tmp/1/
+fi
+
 if ! grep -q resize /proc/cmdline; then
   sed -i 's| quiet init=/usr/lib/raspi-config/init_resize.sh||' /tmp/1/cmdline.txt
 fi
