@@ -16,15 +16,15 @@ sed /tmp/1/cmdline.txt -i -e "s|root=/dev/[^ ]*|root=${part2}|"
 sed /tmp/2/etc/fstab -i -e "s|^.* / |${part2}  / |"
 sed /tmp/2/etc/fstab -i -e "s|^.* /boot |${part1}  /boot |"
 
-if [ -e /mnt/ssh ]; then
+if [ -f /mnt/ssh ]; then
   cp /mnt/ssh /tmp/1/
 fi
 
-if [ -e /mnt/ssh.txt ]; then
+if [ -f /mnt/ssh.txt ]; then
   cp /mnt/ssh.txt /tmp/1/
 fi
 
-if [ -e /settings/wpa_supplicant.conf ]; then
+if [ -f /settings/wpa_supplicant.conf ]; then
   cp /settings/wpa_supplicant.conf /tmp/1/
 fi
 
