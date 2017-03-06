@@ -1,5 +1,9 @@
 UNRELEASED:
+  *
+2017-03-02:
   * Updated kernel and firmware (final Pi Zero W support)
+  * Wolfram Mathematica updated to version 11
+  * NOOBS installs now checks for presence of 'ssh' file on the NOOBS partition.
 2017-02-16:
   * Chromium browser updated to version 56
   * Adobe Flash Player updated to version 24.0.0.221
