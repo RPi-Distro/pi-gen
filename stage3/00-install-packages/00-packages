@@ -1,1 +1,1 @@
-git python3 python3-venv python3-pip bluetooth libbluetooth-dev rng-tools htop tmux avahi-daemon
+git python3 python3-venv python3-pip bluetooth libbluetooth-dev rng-tools rpi-update htop tmux avahi-daemon
