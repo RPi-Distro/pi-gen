@@ -1,6 +1,7 @@
 deploy/*
 work/*
 config
+postrun.sh
 SKIP
 .pc
 *-pc
