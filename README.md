@@ -9,7 +9,7 @@ By default the Haspbian image is built on a Debian 8 droplet on Digital Ocean an
 Build instructions:
 - Install git. `sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git`
 - Clone the `rpi_gen` code. `git clone https://github.com/home-assistant/pi-gen.git`
-- Create a file in the current folder named `config`. More about it's contense below.
+- Create a file in the current folder named `config`. More about it's contents below.
 - Run the build script, with sudo or as root.  `sudo ./build.sh`
 - Wait ~30 minutes for build to complete.
 - Retrieve your freshly built Raspberry Pi image from the `rpi_gen\deploy` folder.
