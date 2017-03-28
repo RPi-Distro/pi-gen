@@ -1,4 +1,6 @@
 UNRELEASED:
+  * Wolfram Mathematica updated to version 11.0.1
+  * Adobe Flash Player updated to version 25.0.0.127
   * Use PARTUUID to support USB boot
 2017-03-02:
   * Updated kernel and firmware (final Pi Zero W support)
