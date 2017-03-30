@@ -7,7 +7,6 @@ python3-pgzero
 python-serial python3-serial
 python-picamera python3-picamera
 debian-reference-en dillo x2x
-wolfram-engine
 raspberrypi-net-mods raspberrypi-ui-mods
 smartsim penguinspuzzle
 python-pip python3-pip
