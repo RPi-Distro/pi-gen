@@ -19,7 +19,7 @@ ROOT_SIZE=$(expr ${ROOT_SIZE} / 1000000 \+ 1)
 BOOT_NOM=$(expr ${BOOT_SIZE} \* 3)
 ROOT_NOM=$(expr ${ROOT_SIZE} \+ 400)
 
-mv "${NOOBS_DIR}/OS.png" "${NOOBS_DIR}/$(echo ${NOOBS_NAME} | sed 's/ /_/').png"
+mv "${NOOBS_DIR}/OS.png" "${NOOBS_DIR}/$(echo ${NOOBS_NAME} | sed 's/ /_/g').png"
 
 sed ${NOOBS_DIR}/partitions.json -i -e "s|BOOT_SIZE|${BOOT_SIZE}|"
 sed ${NOOBS_DIR}/partitions.json -i -e "s|ROOT_SIZE|${ROOT_SIZE}|"
