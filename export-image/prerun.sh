@@ -8,19 +8,19 @@ rm -f ${IMG_FILE}
 rm -rf ${ROOTFS_DIR}
 mkdir -p ${ROOTFS_DIR}
 
-BOOT_SIZE=$(du -sh ${EXPORT_ROOTFS_DIR}/boot -B M | cut -f 1 | tr -d M)
-TOTAL_SIZE=$(du -sh ${EXPORT_ROOTFS_DIR} -B M | cut -f 1 | tr -d M)
+BOOT_SIZE=$(du -s ${EXPORT_ROOTFS_DIR}/boot --block-size=1 | cut -f 1)
+TOTAL_SIZE=$(du -s ${EXPORT_ROOTFS_DIR} --exclude var/cache/apt/archives --block-size=1 | cut -f 1)
 
-IMG_SIZE=$(expr $BOOT_SIZE \* 2 \+ $TOTAL_SIZE \+ 512)M
+IMG_SIZE=$((BOOT_SIZE + TOTAL_SIZE + (400 * 1024 * 1024)))
 
 fallocate -l ${IMG_SIZE} ${IMG_FILE}
-fdisk ${IMG_FILE} > /dev/null 2>&1 <<EOF
+fdisk -H 255 -S 63 ${IMG_FILE} <<EOF
 o
 n
 
 
 8192
-+`expr $BOOT_SIZE \* 3`M
++$((BOOT_SIZE * 2 /512))
 p
 t
 c
@@ -34,15 +34,27 @@ p
 w
 EOF
 
-LOOP_DEV=`kpartx -asv ${IMG_FILE} | grep -E -o -m1 'loop[[:digit:]]+' | head -n 1`
-BOOT_DEV=/dev/mapper/${LOOP_DEV}p1
-ROOT_DEV=/dev/mapper/${LOOP_DEV}p2
+PARTED_OUT=$(parted -s ${IMG_FILE} unit b print)
+BOOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^ 1'| xargs echo -n \
+| cut -d" " -f 2 | tr -d B)
+BOOT_LENGTH=$(echo "$PARTED_OUT" | grep -e '^ 1'| xargs echo -n \
+| cut -d" " -f 4 | tr -d B)
 
-mkdosfs -n boot -S 512 -s 16 -v $BOOT_DEV > /dev/null
+ROOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^ 2'| xargs echo -n \
+| cut -d" " -f 2 | tr -d B)
+ROOT_LENGTH=$(echo "$PARTED_OUT" | grep -e '^ 2'| xargs echo -n \
+| cut -d" " -f 4 | tr -d B)
+
+BOOT_DEV=$(losetup --show -f -o ${BOOT_OFFSET} --sizelimit ${BOOT_LENGTH} ${IMG_FILE})
+ROOT_DEV=$(losetup --show -f -o ${ROOT_OFFSET} --sizelimit ${ROOT_LENGTH} ${IMG_FILE})
+echo "/boot: offset $BOOT_OFFSET, length $BOOT_LENGTH"
+echo "/:     offset $ROOT_OFFSET, length $ROOT_LENGTH"
+
+mkdosfs -n boot -F 32 -v $BOOT_DEV > /dev/null
 mkfs.ext4 -O ^huge_file $ROOT_DEV > /dev/null
 
 mount -v $ROOT_DEV ${ROOTFS_DIR} -t ext4
 mkdir -p ${ROOTFS_DIR}/boot
 mount -v $BOOT_DEV ${ROOTFS_DIR}/boot -t vfat
 
-rsync -aHAXx ${EXPORT_ROOTFS_DIR}/ ${ROOTFS_DIR}/
+rsync -aHAXx --exclude var/cache/apt/archives ${EXPORT_ROOTFS_DIR}/ ${ROOTFS_DIR}/
