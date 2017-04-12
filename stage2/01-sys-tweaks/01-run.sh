@@ -122,14 +122,10 @@ sudo chmod 777 -R /home/Cardigan/modules/video/
 
 
 echo "========== Installing pip ============"
-sudo wget https://bootstrap.pypa.io/get-pip.py
-sudo chmod +x get-pip.py
-sudo python get-pip.py
+sudo apt-get install python-pip
 
 echo "========== Installing Numpy ============"
 sudo pip install numpy
-
-sudo rm get-pip.py
 
 echo "========== Downloading and installing OpenCV ============"
 cd /
@@ -160,6 +156,7 @@ sudo rm opencv-3.1.0.zip
 
 
 echo "========== Install picamera  ============"
+sudo pip install picamera
 sudo pip install "picamera[array]"
 # enable camera on raspi-config
 echo "" >> /boot/config.txt
