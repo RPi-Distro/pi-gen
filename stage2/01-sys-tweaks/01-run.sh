@@ -164,8 +164,8 @@ echo "#enable piCaera" >> /boot/config.txt
 echo "start_x=1" >> /boot/config.txt
 
 
-echo "========== Install omxplayer  ============"
-sudo apt-get install omxplayer -y
+echo "========== Install mpg123  ============"
+sudo apt-get install mpg123 -y
 
 
 # Install WIFi
