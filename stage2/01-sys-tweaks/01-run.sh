@@ -122,7 +122,7 @@ sudo chmod 777 -R /home/Cardigan/modules/video/
 
 
 echo "========== Installing pip ============"
-sudo apt-get install python-pip
+sudo apt-get install python-pip -y
 
 echo "========== Installing Numpy ============"
 sudo pip install numpy
