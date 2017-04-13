@@ -156,8 +156,9 @@ sudo rm opencv-3.1.0.zip
 
 
 echo "========== Install picamera  ============"
-sudo pip install picamera
-sudo pip install picamera[array]
+export READTHEDOCS="True" 
+sudo apt-get install python-picamera
+
 # enable camera on raspi-config
 echo "" >> /boot/config.txt
 echo "#enable piCaera" >> /boot/config.txt
