@@ -128,8 +128,7 @@ echo "========== Installing Numpy ============"
 sudo pip install numpy
 
 echo "========== Install picamera  ============"
-export READTHEDOCS="True" 
-sudo pip install "picamera[array]"
+sudo pip install "picamera[array]==1.12"
 
 
 # enable camera on raspi-config
