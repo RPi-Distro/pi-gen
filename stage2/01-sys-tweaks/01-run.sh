@@ -127,6 +127,18 @@ sudo apt-get install python-pip -y
 echo "========== Installing Numpy ============"
 sudo pip install numpy
 
+echo "========== Install picamera  ============"
+export READTHEDOCS="True" 
+sudo pip install "picamera[array]"
+
+
+# enable camera on raspi-config
+echo "" >> /boot/config.txt
+echo "#enable piCaera" >> /boot/config.txt
+echo "start_x=1" >> /boot/config.txt
+
+
+
 echo "========== Downloading and installing OpenCV ============"
 cd /
 # git clone https://github.com/Itseez/opencv.git --depth 1
@@ -153,17 +165,7 @@ sudo rm opencv-3.1.0.zip
 # TODO: Add a test if openCV was installed correctly
 
 
-
-
-echo "========== Install picamera  ============"
-export READTHEDOCS="True" 
-sudo apt-get install python-picamera
-
-# enable camera on raspi-config
-echo "" >> /boot/config.txt
-echo "#enable piCaera" >> /boot/config.txt
-echo "start_x=1" >> /boot/config.txt
-
+ 
 
 echo "========== Setup sound to I2S  ============"
 sudo curl -sS https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/i2samp.sh | bash
