@@ -138,33 +138,7 @@ echo "start_x=1" >> /boot/config.txt
 
 
 
-echo "========== Downloading and installing OpenCV ============"
-cd /
-# git clone https://github.com/Itseez/opencv.git --depth 1
-wget -c -O "opencv-3.1.0.zip" "https://github.com/Itseez/opencv/archive/3.1.0.zip"
-sudo apt-get install unzip
-unzip -q -n "opencv-3.1.0.zip"
 
-cd opencv-3.1.0
-echo "==>>>====== Building OpenCV ============"
-cd /home/opencv-3.1.0
-mkdir build
-cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D BUILD_EXAMPLES=OFF -D BUILD_opencv_apps=OFF -D BUILD_DOCS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D CMAKE_INSTALL_PREFIX=/usr/local ..
-echo "==>>>====== This might take a long time.. ============"
-make -j1
-
-sudo make install
-sudo ldconfig
-
-# remove the installation file
-cd /
-sudo rm opencv-3.1.0.zip
-
-# TODO: Add a test if openCV was installed correctly
-
-
- 
 
 echo "========== Setup sound to I2S  ============"
 sudo curl -sS https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/i2samp.sh | bash
@@ -267,7 +241,30 @@ sudo npm i
 
 
 
+echo "========== Downloading and installing OpenCV ============"
+cd /
+# git clone https://github.com/Itseez/opencv.git --depth 1
+wget -c -O "opencv-3.1.0.zip" "https://github.com/Itseez/opencv/archive/3.1.0.zip"
+sudo apt-get install unzip
+unzip -q -n "opencv-3.1.0.zip"
 
+cd opencv-3.1.0
+echo "==>>>====== Building OpenCV ============"
+cd /home/opencv-3.1.0
+mkdir build
+cd build
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D BUILD_EXAMPLES=OFF -D BUILD_opencv_apps=OFF -D BUILD_DOCS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D CMAKE_INSTALL_PREFIX=/usr/local ..
+echo "==>>>====== This might take a long time.. ============"
+make -j1
+
+sudo make install
+sudo ldconfig
+
+# remove the installation file
+cd /
+sudo rm opencv-3.1.0.zip
+
+# TODO: Add a test if openCV was installed correctly
 
 
 
