@@ -106,11 +106,11 @@ sudo rm /home/node_latest_armhf.deb
 
 echo "========== Install Dride-core [Cardigan]  ============"
 cd /home
-# https://github.com/dride/Cardigan/archive/0.2.zip
-wget -c -O "cardigan-0.2.zip" "https://github.com/dride/Cardigan/releases/download/0.2/Cardigan.zip"
-unzip -q -n "cardigan-0.2.zip"
+# https://github.com/dride/Cardigan/archive/0.3.zip
+wget -c -O "cardigan-0.3.zip" "https://github.com/dride/Cardigan/releases/download/0.3/Cardigan.zip"
+unzip -q -n "cardigan-0.3.zip"
 
-sudo rm cardigan-0.2.zip
+sudo rm cardigan-0.3.zip
 
 sudo rm -R __MACOSX
 
@@ -141,7 +141,7 @@ echo "start_x=1" >> /boot/config.txt
 
 
 echo "========== Setup sound to I2S  ============"
-sudo curl -sS https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/i2samp.sh | bash
+sudo curl -sS https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/i2samp.sh  | bash
 
 echo "========== Install mpg123  ============"
 sudo apt-get install mpg123 -y
