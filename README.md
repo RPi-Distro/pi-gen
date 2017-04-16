@@ -1,6 +1,6 @@
 #Dependencies
 
-`sudo apt-get update && sudo apt-get insatll git quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin`
+`sudo apt-get update && sudo apt-get install git quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin -y`
 
 #Stage Anatomy
 
