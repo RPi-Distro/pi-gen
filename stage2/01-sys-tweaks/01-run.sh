@@ -116,7 +116,8 @@ sudo rm -R __MACOSX
 
 # make the video dir writable
 sudo chmod 777 -R /home/Cardigan/modules/video/
-
+#make gps position writable
+sudo chmod +x /home/Cardigan/daemons/gps/position
 
 
 
@@ -265,8 +266,8 @@ sudo systemctl disable gpsd.socket
 # reboot
 
 # 5) Execute the daemon reset
-sudo killall gpsd
-sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock
+#sudo killall gpsd
+#sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock
 
 
 
