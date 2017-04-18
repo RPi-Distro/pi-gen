@@ -107,11 +107,12 @@ sudo rm /home/node_latest_armhf.deb
 echo "========== Install Dride-core [Cardigan]  ============"
 cd /home
 # https://github.com/dride/Cardigan/archive/0.3.zip
+sudo mkdir Cardigan && cd Cardigan
 sudo wget -c -O "cardigan-0.3.zip" "https://github.com/dride/Cardigan/releases/download/0.3/Cardigan.zip"
-sudo mkdir Cardigan
-sudo unzip "cardigan-0.3.zip" -d Cardigan
+sudo unzip "cardigan-0.3.zip"
 
 sudo rm -R __MACOSX
+sudo rm -R cardigan-0.3.zip
 
 
 # make the video dir writable
