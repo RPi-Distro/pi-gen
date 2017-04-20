@@ -142,7 +142,7 @@ echo "start_x=1" >> /boot/config.txt
 
 
 echo "========== Setup sound to I2S  ============"
-sudo curl -sS https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/i2samp.sh  | bash
+sudo curl -sS https://dride.io/code/i2samp.sh  | bash
 
 echo "========== Install mpg123  ============"
 sudo apt-get install mpg123 -y
