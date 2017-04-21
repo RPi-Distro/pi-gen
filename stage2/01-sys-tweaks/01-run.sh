@@ -238,7 +238,7 @@ sudo rm dride-core
 # run npm install on dride-ws
 cd /home/Cardigan/dride-ws
 
-sudo npm i
+sudo npm i --production
 
 
 
