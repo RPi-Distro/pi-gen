@@ -139,11 +139,6 @@ echo "start_x=1" >> /boot/config.txt
 
 
 
-
-
-echo "========== Setup sound to I2S  ============"
-sudo curl -sS https://dride.io/code/i2samp.sh  | bash
-
 echo "========== Install mpg123  ============"
 sudo apt-get install mpg123 -y
 
@@ -302,7 +297,8 @@ sudo rm opencv-3.1.0.zip
 # TODO: Add a test if openCV was installed correctly
 
 
-
+echo "========== Setup sound to I2S  ============"
+sudo curl -sS https://dride.io/code/i2samp.sh  | bash
 
 
 
