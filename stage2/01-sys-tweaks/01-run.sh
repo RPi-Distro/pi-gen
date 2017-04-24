@@ -103,25 +103,6 @@ sudo rm /home/node_latest_armhf.deb
 
 
 
-
-echo "========== Install Dride-core [Cardigan]  ============"
-cd /home
-# https://github.com/dride/Cardigan/archive/0.3.zip
-sudo mkdir Cardigan && cd Cardigan
-sudo wget -c -O "cardigan-0.3.zip" "https://github.com/dride/Cardigan/releases/download/0.3/Cardigan.zip"
-sudo unzip "cardigan-0.3.zip"
-
-sudo rm -R __MACOSX
-sudo rm -R cardigan-0.3.zip
-
-
-# make the video dir writable
-sudo chmod 777 -R /home/Cardigan/modules/video/
-#make gps position writable
-sudo chmod +x /home/Cardigan/daemons/gps/position
-
-
-
 echo "========== Installing pip ============"
 sudo apt-get install python-pip -y
 
@@ -228,16 +209,6 @@ sudo rm dride-core
 
 
 
-
-
-# run npm install on dride-ws
-cd /home/Cardigan/dride-ws
-
-sudo npm i --production
-
-
-
-
 ## GPS  https://www.raspberrypi.org/forums/viewtopic.php?p=947968#p947968
 echo "========== Install GPS  ============"
 sudo apt-get install gpsd gpsd-clients cmake subversion build-essential espeak freeglut3-dev imagemagick libdbus-1-dev libdbus-glib-1-dev libdevil-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libgarmin-dev libglc-dev libgps-dev libgtk2.0-dev libimlib2-dev libpq-dev libqt4-dev libqtwebkit-dev librsvg2-bin libsdl-image1.2-dev libspeechd-dev libxml2-dev ttf-liberation -y
@@ -299,6 +270,32 @@ sudo rm opencv-3.1.0.zip
 
 echo "========== Setup sound to I2S  ============"
 sudo curl -sS https://dride.io/code/i2samp.sh  | bash
+
+
+echo "========== Install Dride-core [Cardigan]  ============"
+cd /home
+# https://github.com/dride/Cardigan/archive/0.3.zip
+sudo mkdir Cardigan && cd Cardigan
+sudo wget -c -O "cardigan-0.3.zip" "https://github.com/dride/Cardigan/releases/download/0.3/Cardigan.zip"
+sudo unzip "cardigan-0.3.zip"
+
+sudo rm -R __MACOSX
+sudo rm -R cardigan-0.3.zip
+
+
+# make the video dir writable
+sudo chmod 777 -R /home/Cardigan/modules/video/
+#make gps position writable
+sudo chmod +x /home/Cardigan/daemons/gps/position
+
+
+
+
+# run npm install on dride-ws
+cd /home/Cardigan/dride-ws
+
+sudo npm i --production
+
 
 
 
