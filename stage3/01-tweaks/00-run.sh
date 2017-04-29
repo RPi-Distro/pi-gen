@@ -6,13 +6,15 @@ useradd -u 1001 -g 1001 -rm homeassistant
 EOF
 
 install -v -o 1001 -g 1001 -d ${ROOTFS_DIR}/srv/homeassistant
-install -m 644 files/home-assistant@homeassistant.service ${ROOTFS_DIR}/etc/systemd/system/
-install -m 644 files/install_homeassistant.service ${ROOTFS_DIR}/etc/systemd/system/
-wget -O files//install_homeassistant.sh https://raw.githubusercontent.com/home-assistant/hassbian-scripts/master/install_homeassistant.sh
-install -m 755 files/install_homeassistant.sh ${ROOTFS_DIR}/usr/local/bin/
+wget -O files/hassbian-scripts-0.2.deb https://github.com/home-assistant/hassbian-scripts/releases/download/v0.2/hassbian-scripts-0.2.deb
+install -v -m 600 files/hassbian-scripts-0.2.deb ${ROOTFS_DIR}/srv/homeassistant/
 
 on_chroot << EOF
-systemctl enable install_homeassistant.service
+dpkg -i /srv/homeassistant//hassbian-scripts-0.2.deb
+EOF
+
+on_chroot << EOF
+systemctl enable install_homeassistant
 EOF
 
 on_chroot << \EOF

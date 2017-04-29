@@ -12,7 +12,7 @@
 case "$1" in
   start)
     log_daemon_msg "Starting resize2fs_once"
-    ROOT_DEV=`grep -Eo 'root=[[:graph:]]+' /proc/cmdline | cut -d '=' -f 2-` &&
+    ROOT_DEV=$(findmnt / -o source -n) &&
     resize2fs $ROOT_DEV &&
     update-rc.d resize2fs_once remove &&
     rm /etc/init.d/resize2fs_once &&

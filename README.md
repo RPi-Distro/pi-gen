@@ -5,10 +5,11 @@ The Haspbian image is built with the same script that generates the official [Ra
 
 By default the Haspbian image is built on a Debian 8 droplet on Digital Ocean and takes about 30 minutes to build on the cheapest droplet. Dependencies and everything is handled by the build script with the exception of `git`.
 
+
 Build instructions:
 - Install git. `sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git`
 - Clone the `rpi_gen` code. `git clone https://github.com/home-assistant/pi-gen.git`
-- Create a file in the current folder named `config`. More about it's contense below.
+- Create a file in the current folder named `config`. More about it's contents below.
 - Run the build script, with sudo or as root.  `sudo ./build.sh`
 - Wait ~30 minutes for build to complete.
 - Retrieve your freshly built Raspberry Pi image from the `rpi_gen\deploy` folder.
@@ -16,7 +17,7 @@ Build instructions:
 
 ### Dependencies
 
-`quilt qemu-arm-static:qemu-user-static debootstrap kpartx zerofree pxz zip mkdosfs:dosfstools capsh:libcap2-bin bsdtar`
+`quilt parted realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin grep rsync`
 
 ## Config
 
@@ -35,7 +36,25 @@ A simple example for building Hassbian:
 IMG_NAME='Hassbian'
 ```
 
-### Raspbian Stage Overview
+## Docker Build
+
+```bash
+nano config         # Edit your config file. See above.
+./build-docker.sh
+```
+If everything goes well, your finished image will be in the `deploy/` folder.
+You can then remove the build container with `docker rm pigen_work`
+
+If something breaks along the line, you can edit the corresponding scripts, and
+continue:
+
+```
+CONTINUE=1 ./build-docker.sh
+```
+
+There is a possibility that even when running from a docker container, the installation of `qemu-user-static` will silently fail when building the image because `binfmt-support` _must be enabled on the underlying kernel_. An easy fix is to ensure `binfmt-support` is installed on the host machine before starting the `./build-docker.sh` script (or using your own docker build solution).
+
+### Raspbian Stage Anatomy
 
 The build of Hassbian is divided up into several stages for logical clarity
 and modularity.  This causes some initial complexity, but it simplifies
@@ -78,20 +97,18 @@ maintenance and allows for more easy customization.
    specific packages are installed, permissions are set and users created.
    This is the only stage we add to the original build script.
 
-   The original **Stage 3** and **Stage 4** are removed since they are not
+   The original **Stage 4** and **Stage 5** are removed since they are not
    used on the HASSbian image.
-   
 
-
-   
 ### Stage specification
 If you wish to build up to a specified stage (such as building up to stage 2 for a lite system), place an empty file named `SKIP` in each of the `./stage` directories you wish not to include.
 
-Then remove the `EXPORT*` files from `./stage4` (if building up to stage 2) or from `./stage2` (if building a minimal system).
+Then remove the `EXPORT*` files from `./stage3` (if building up to stage 2) and add them to `./stage2`.
 
 ```
-# Example for building a lite system without Home Assistant
+## Example for building a lite system without Home Assistant
 $ touch ./stage3/SKIP 
 $ rm stage3/EXPORT*
+$ touch stage3/EXPORT_IMAGE
 ```
-
+If you wish to build further configurations upon (for example) the lite system, you can also delete the contents of `./stage3` and replace with your own contents in the same format.
