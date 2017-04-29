@@ -54,9 +54,7 @@ CONTINUE=1 ./build-docker.sh
 
 There is a possibility that even when running from a docker container, the installation of `qemu-user-static` will silently fail when building the image because `binfmt-support` _must be enabled on the underlying kernel_. An easy fix is to ensure `binfmt-support` is installed on the host machine before starting the `./build-docker.sh` script (or using your own docker build solution).
 
-## Stage Anatomy
-
-### Raspbian Stage Overview
+### Raspbian Stage Anatomy
 
 The build of Hassbian is divided up into several stages for logical clarity
 and modularity.  This causes some initial complexity, but it simplifies
@@ -105,11 +103,12 @@ maintenance and allows for more easy customization.
 ### Stage specification
 If you wish to build up to a specified stage (such as building up to stage 2 for a lite system), place an empty file named `SKIP` in each of the `./stage` directories you wish not to include.
 
-Then remove the `EXPORT*` files from `./stage4` (if building up to stage 2) or from `./stage2` (if building a minimal system).
+Then remove the `EXPORT*` files from `./stage3` (if building up to stage 2) and add them to `./stage2`.
 
 ```
 ## Example for building a lite system without Home Assistant
 $ touch ./stage3/SKIP 
 $ rm stage3/EXPORT*
+$ touch stage3/EXPORT_IMAGE
 ```
-If you wish to build further configurations upon (for example) the lite system, you can also delete the contents of `./stage3` and `./stage4` and replace with your own contents in the same format.
+If you wish to build further configurations upon (for example) the lite system, you can also delete the contents of `./stage3` and replace with your own contents in the same format.
