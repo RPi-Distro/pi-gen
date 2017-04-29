@@ -10,7 +10,7 @@ wget -O files/hassbian-scripts-0.2.deb https://github.com/home-assistant/hassbia
 install -v -m 600 files/hassbian-scripts-0.2.deb ${ROOTFS_DIR}/srv/homeassistant/
 
 on_chroot << EOF
-dpkg -i /srv/homeassistant//hassbian-scripts-0.2.deb
+dpkg -i /srv/homeassistant/hassbian-scripts-0.2.deb
 EOF
 
 on_chroot << EOF
