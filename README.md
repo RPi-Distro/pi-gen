@@ -39,7 +39,7 @@ IMG_NAME='Hassbian'
 ## Docker Build
 
 ```bash
-vi config         # Edit your config file. See above.
+nano config         # Edit your config file. See above.
 ./build-docker.sh
 ```
 If everything goes well, your finished image will be in the `deploy/` folder.
@@ -99,7 +99,7 @@ maintenance and allows for more easy customization.
    specific packages are installed, permissions are set and users created.
    This is the only stage we add to the original build script.
 
-   The original **Stage 3** and **Stage 4** are removed since they are not
+   The original **Stage 4** and **Stage 5** are removed since they are not
    used on the HASSbian image.
 
 ### Stage specification
@@ -112,3 +112,4 @@ Then remove the `EXPORT*` files from `./stage4` (if building up to stage 2) or f
 $ touch ./stage3/SKIP 
 $ rm stage3/EXPORT*
 ```
+If you wish to build further configurations upon (for example) the lite system, you can also delete the contents of `./stage3` and `./stage4` and replace with your own contents in the same format.
