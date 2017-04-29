@@ -67,10 +67,10 @@ EOF
 			./${i}-run.sh
 			log "End ${SUB_STAGE_DIR}/${i}-run.sh"
 		fi
-		if [ -f ${i}-run-chroot ]; then
-			log "Begin ${SUB_STAGE_DIR}/${i}-run-chroot"
-			on_chroot < ${i}-run-chroot
-			log "End ${SUB_STAGE_DIR}/${i}-run-chroot"
+		if [ -f ${i}-run-chroot.sh ]; then
+			log "Begin ${SUB_STAGE_DIR}/${i}-run-chroot.sh"
+			on_chroot < ${i}-run-chroot.sh
+			log "End ${SUB_STAGE_DIR}/${i}-run-chroot.sh"
 		fi
 	done
 	popd > /dev/null
@@ -132,8 +132,8 @@ export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
-export WORK_DIR="${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"
-export DEPLOY_DIR="${BASE_DIR}/deploy"
+export WORK_DIR=${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"}
+export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export CLEAN
@@ -148,6 +148,8 @@ export PREV_STAGE_DIR
 export ROOTFS_DIR
 export PREV_ROOTFS_DIR
 export IMG_SUFFIX
+export NOOBS_NAME
+export NOOBS_DESCRIPTION
 export EXPORT_DIR
 export EXPORT_ROOTFS_DIR
 
@@ -172,13 +174,21 @@ done
 CLEAN=1
 for EXPORT_DIR in ${EXPORT_DIRS}; do
 	STAGE_DIR=${BASE_DIR}/export-image
-	IMG_SUFFIX=$(cat ${EXPORT_DIR}/EXPORT_IMAGE)
+	source "${EXPORT_DIR}/EXPORT_IMAGE"
 	EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename ${EXPORT_DIR})/rootfs
 	run_stage
 	if [ -e ${EXPORT_DIR}/EXPORT_NOOBS ]; then
+		source ${EXPORT_DIR}/EXPORT_NOOBS
 		STAGE_DIR=${BASE_DIR}/export-noobs
 		run_stage
 	fi
 done
+
+if [ -x postrun.sh ]; then
+	log "Begin postrun.sh"
+	cd "${BASE_DIR}"
+	./postrun.sh
+	log "End postrun.sh"
+fi
 
 log "End ${BASE_DIR}"
