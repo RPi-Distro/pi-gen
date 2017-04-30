@@ -289,16 +289,16 @@ sudo chmod 777 -R /home/Cardigan/settings/video/
 #make gps position writable
 sudo chmod +x /home/Cardigan/daemons/gps/position
 
-
+# make the firmware dir writable
+cd /home/Cardigan
+sudo mkdir firmware
+sudo chmod 777 -R /home/Cardigan/firmware/
 
 
 # run npm install on dride-ws
 cd /home/Cardigan/dride-ws
 
 sudo npm i --production
-
-
-
 
 
 
