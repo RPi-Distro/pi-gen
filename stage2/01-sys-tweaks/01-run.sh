@@ -274,13 +274,13 @@ sudo curl -sS https://dride.io/code/i2samp.sh  | bash
 
 echo "========== Install Dride-core [Cardigan]  ============"
 cd /home
-# https://github.com/dride/Cardigan/archive/0.3.zip
+# https://s3.amazonaws.com/dride/releases/cardigan/latest.zip
 sudo mkdir Cardigan && cd Cardigan
-sudo wget -c -O "cardigan-0.3.1.zip" "https://github.com/dride/Cardigan/releases/download/0.3.1/Cardigan.zip"
-sudo unzip "cardigan-0.3.1.zip"
+sudo wget -c -O "cardigan.zip" "https://s3.amazonaws.com/dride/releases/cardigan/latest.zip"
+sudo unzip "cardigan.zip"
 
 sudo rm -R __MACOSX
-sudo rm -R cardigan-0.3.1.zip
+sudo rm -R cardigan.zip
 
 
 # make the video dir writable
