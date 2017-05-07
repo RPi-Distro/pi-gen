@@ -188,6 +188,7 @@ sudo update-rc.d isc-dhcp-server enable
 
 sudo wget https://dride.io/code/startup/dride-ws
 sudo wget https://dride.io/code/startup/dride-core
+sudo wget https://dride.io/code/startup/drideOS-resize
 
 #startup script's
 
@@ -195,8 +196,6 @@ sudo wget https://dride.io/code/startup/dride-core
 sudo cp dride-ws /etc/init.d/dride-ws
 sudo chmod +x /etc/init.d/dride-ws
 sudo update-rc.d dride-ws defaults
-
-
 sudo rm dride-ws
 
 # dride-core on startup
@@ -204,6 +203,12 @@ sudo cp dride-core /etc/init.d/dride-core
 sudo chmod +x /etc/init.d/dride-core
 sudo update-rc.d dride-core defaults
 sudo rm dride-core
+
+# drideOS-resize on startup
+sudo cp dride-core /etc/init.d/drideOS-resize
+sudo chmod +x /etc/init.d/drideOS-resize
+sudo update-rc.d drideOS-resize defaults
+sudo rm drideOS-resize
 
 
 
@@ -220,7 +225,8 @@ echo "" >> /boot/config.txt
 echo "core_freq=250" >> /boot/config.txt
 echo "enable_uart=1" >> /boot/config.txt
 
-echo "dwc_otg.lpm_enable=0  console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4  elevator=deadline fsck.repair=yes   rootwait" > /boot/cmdline.txt
+# this will be done after initial boot
+# echo "dwc_otg.lpm_enable=0  console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4  elevator=deadline fsck.repair=yes   rootwait" > /boot/cmdline.txt
 
 
 
