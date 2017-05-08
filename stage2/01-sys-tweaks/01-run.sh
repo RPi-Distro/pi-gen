@@ -205,7 +205,7 @@ sudo update-rc.d dride-core defaults
 sudo rm dride-core
 
 # drideOS-resize on startup
-sudo cp dride-core /etc/init.d/drideOS-resize
+sudo cp drideOS-resize /etc/init.d/drideOS-resize
 sudo chmod +x /etc/init.d/drideOS-resize
 sudo update-rc.d drideOS-resize defaults
 sudo rm drideOS-resize
