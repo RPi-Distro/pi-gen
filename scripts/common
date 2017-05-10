@@ -16,8 +16,8 @@ bootstrap(){
 	fi
 
 	capsh --drop=cap_setfcap -- -c "${BOOTSTRAP_CMD} --components=main,contrib,non-free \
-		--arch armhf\
-		--no-check-gpg \
+		--arch armhf \
+		--keyring "${STAGE_DIR}/files/raspberrypi.gpg" \
 		$1 $2 $3"
 }
 export -f bootstrap
