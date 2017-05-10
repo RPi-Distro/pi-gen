@@ -113,10 +113,11 @@ echo "========== Install picamera  ============"
 sudo pip install "picamera[array]==1.12"
 
 
-# enable camera on raspi-config
+# enable camera on raspi-config and allocate more ram to the GPU
 echo "" >> /boot/config.txt
 echo "#enable piCaera" >> /boot/config.txt
 echo "start_x=1" >> /boot/config.txt
+echo "gpu_mem=256" >> /boot/config.txt
 
 
 
