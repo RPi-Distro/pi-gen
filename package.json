@@ -1,0 +1,18 @@
+{
+  "name": "biab-raspbian",
+  "version": "1.0.0",
+  "description": "Blog In A Box fork of Raspbian generator",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinkertinker/pi-gen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tinkertinker/pi-gen/issues"
+  },
+  "homepage": "https://github.com/tinkertinker/pi-gen#readme"
+}
