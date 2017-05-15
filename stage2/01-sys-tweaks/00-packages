@@ -16,3 +16,4 @@ apt-listchanges
 usb-modeswitch
 apt-transport-https
 libpam-chksshpwd
+rpi-update
