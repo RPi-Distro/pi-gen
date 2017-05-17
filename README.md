@@ -156,8 +156,10 @@ from `./stage2` (if building a minimal system).
 
 ```bash
 # Example for building a lite system
-touch ./stage3/SKIP ./stage4/SKIP
+echo "IMG_NAME='Raspbian'" > config
+touch ./stage3/SKIP ./stage4/SKIP ./stage5/SKIP
 rm stage4/EXPORT*
+sudo ./build.sh  # or ./build-docker.sh
 ```
 
 If you wish to build further configurations upon (for example) the lite
