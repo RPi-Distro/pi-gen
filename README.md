@@ -5,6 +5,7 @@ The Haspbian image is built with the same script that generates the official [Ra
 
 By default the Haspbian image is built on a Debian 8 droplet on Digital Ocean and takes about 30 minutes to build on the cheapest droplet. Dependencies and everything is handled by the build script with the exception of `git`.
 
+Default ssh user is pi , and the password is raspberry. Example: ssh pi@192.168.2.2
 
 Build instructions:
 - Install git. `sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git`
