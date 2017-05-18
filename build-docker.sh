@@ -45,7 +45,7 @@ fi
 if [ "$CONTAINER_EXISTS" != "" ] && [ "$CONTINUE" != "1" ]; then
 	echo "Container $CONTAINER_NAME already exists and you did not specify CONTINUE=1. Aborting."
 	echo "You can delete the existing container like this:"
-	echo "  docker rm $CONTAINER_NAME"
+	echo "  docker rm -v $CONTAINER_NAME"
 	exit 1
 fi
 
