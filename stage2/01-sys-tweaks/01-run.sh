@@ -309,6 +309,18 @@ sudo npm i --production
 
 
 
+echo "========== Setup bluetooth  ============"
+
+sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev
+
+
+# run npm install on Bluetooth daemon
+cd /home/Cardigan/daemons/bluetooth
+sudo npm i --production
+
+
+
+
 echo ""
 echo '============================='
 echo '*****************************'
