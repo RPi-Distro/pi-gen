@@ -311,7 +311,7 @@ sudo npm i --production
 
 echo "========== Setup bluetooth  ============"
 
-sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev
+sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev -y
 
 
 # run npm install on Bluetooth daemon
