@@ -1,41 +1,3 @@
-<<<<<<< HEAD
-#Dependencies
-
-`sudo apt-get update && sudo apt-get install git quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin -y &&
-cd ../ &&
-sudo git clone https://github.com/dride/drideOS-image-generator &&
-cd drideOS-image-generator &&
-sudo ./build.sh
-`
-
-#Stage Anatomy
-
-=======
-# pi-gen
-
-_Tool used to create the raspberrypi.org Raspbian images_
-
-
-### TODO
-1. Documentation
-
-
-## Dependencies
-
-On Debian-based systems:
-
-```bash
-apt-get install quilt parted realpath qemu-user-static debootstrap zerofree pxz zip \
-dosfstools bsdtar libcap2-bin grep rsync
-```
-
-The file `depends` contains a list of tools needed.  The format of this
-package is `<tool>[:<debian-package>]`.
-
->>>>>>> RPi-Distro/dev
-
-
-<<<<<<< HEAD
 # drideOS (Raspbian) Stage Overview
 =======
 Upon execution, `build.sh` will source the file `config` in the current
@@ -112,7 +74,7 @@ solution).
 ## Stage Anatomy
 
 ### Raspbian Stage Overview
->>>>>>> RPi-Distro/dev
+
 
 The build of Raspbian is divided up into several stages for logical clarity
 and modularity.  This causes some initial complexity, but it simplifies
@@ -142,45 +104,3 @@ maintenance and allows for more easy customization.
    creates necessary groups and gives the pi user access to sudo and the
    standard console hardware permission groups.
 
-<<<<<<< HEAD
-- Stage 3, Install Dride related softwere.
-=======
-   There are a few tools that may not make a whole lot of sense here for
-   development purposes on a minimal system such as basic python and lua
-   packages as well as the `build-essential` package.  They are lumped right
-   in with more essential packages presently, though they need not be with
-   pi-gen.  These are understandable for Raspbian's target audience, but if
-   you were looking for something between truly minimal and Raspbian-lite,
-   here's where you start trimming.
-
- - **Stage 3** - desktop system.  Here's where you get the full desktop system
-   with X11 and LXDE, web browsers, git for development, Raspbian custom UI
-   enhancements, etc.  This is a base desktop system, with some development
-   tools installed.
-
- - **Stage 4** - complete Raspbian system.  More development tools, an email
-   client, learning tools like Scratch, specialized packages like sonic-pi and
-   wolfram-engine, system documentation, office productivity, etc.  This is
-   the stage that installs all of the things that make Raspbian friendly to
-   new users.
-
-
-### Stage specification
-
-If you wish to build up to a specified stage (such as building up to stage 2
-for a lite system), place an empty file named `SKIP` in each of the `./stage`
-directories you wish not to include.
-
-Then remove the `EXPORT*` files from `./stage4` (if building up to stage 2) or
-from `./stage2` (if building a minimal system).
-
-```bash
-# Example for building a lite system
-touch ./stage3/SKIP ./stage4/SKIP
-rm stage4/EXPORT*
-```
-
-If you wish to build further configurations upon (for example) the lite
-system, you can also delete the contents of `./stage3` and `./stage4` and
-replace with your own contents in the same format.
->>>>>>> RPi-Distro/dev
