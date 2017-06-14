@@ -1,6 +1,7 @@
 # Dependencies
 
-    sudo apt-get update && sudo apt-get install git quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin -y && cd ../ && sudo git clone https://github.com/dride/drideOS-image-generator && cd drideOS-image-generator && sudo ./build.sh
+    sudo apt-get update && sudo apt-get install git quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin -y && cd ../ &&
+    sudo git clone https://github.com/dride/drideOS-image-generator && cd drideOS-image-generator && sudo ./build.sh
 
 # drideOS (Raspbian) Stage Overview
 
