@@ -46,7 +46,7 @@ on_chroot << EOF
 #-------------------------------------------------------
 # Script to check if all is good before install script runs
 #-------------------------------------------------------
-
+echo OS_TYPE
 echo "====== Dride install script ======"
 echo ""
 echo ""
@@ -90,8 +90,8 @@ echo "========== Installing build-essential ============"
 sudo apt-get install build-essential -y
 
 
-echo "========== Installing libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev ============"
-sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev -y
+echo "========== Installing libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev gpac ============"
+sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev gpac -y
 
 
 # Install Node
@@ -117,7 +117,7 @@ sudo pip install "picamera[array]==1.12"
 echo "" >> /boot/config.txt
 echo "#enable piCaera" >> /boot/config.txt
 echo "start_x=1" >> /boot/config.txt
-echo "gpu_mem=256" >> /boot/config.txt
+echo "gpu_mem=128" >> /boot/config.txt
 
 
 
@@ -248,32 +248,32 @@ sudo systemctl disable gpsd.socket
 
 
 
+if [ OS_TYPE == "drideOS" ]; then
+	echo "========== Downloading and installing OpenCV ============"
+	cd /
+	# git clone https://github.com/Itseez/opencv.git --depth 1
+	wget -c -O "opencv-3.1.0.zip" "https://github.com/Itseez/opencv/archive/3.1.0.zip"
+	sudo apt-get install unzip
+	unzip -q -n "opencv-3.1.0.zip"
 
-echo "========== Downloading and installing OpenCV ============"
-cd /
-# git clone https://github.com/Itseez/opencv.git --depth 1
-wget -c -O "opencv-3.1.0.zip" "https://github.com/Itseez/opencv/archive/3.1.0.zip"
-sudo apt-get install unzip
-unzip -q -n "opencv-3.1.0.zip"
+	cd opencv-3.1.0
+	echo "==>>>====== Building OpenCV ============"
+	cd /home/opencv-3.1.0
+	mkdir build
+	cd build
+	cmake -D CMAKE_BUILD_TYPE=RELEASE -D BUILD_EXAMPLES=OFF -D BUILD_opencv_apps=OFF -D BUILD_DOCS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D CMAKE_INSTALL_PREFIX=/usr/local ..
+	echo "==>>>====== This might take a long time.. ============"
+	make -j1
 
-cd opencv-3.1.0
-echo "==>>>====== Building OpenCV ============"
-cd /home/opencv-3.1.0
-mkdir build
-cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D BUILD_EXAMPLES=OFF -D BUILD_opencv_apps=OFF -D BUILD_DOCS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D CMAKE_INSTALL_PREFIX=/usr/local ..
-echo "==>>>====== This might take a long time.. ============"
-make -j1
+	sudo make install
+	sudo ldconfig
 
-sudo make install
-sudo ldconfig
+	# remove the installation file
+	cd /
+	sudo rm opencv-3.1.0.zip
 
-# remove the installation file
-cd /
-sudo rm opencv-3.1.0.zip
-
-# TODO: Add a test if openCV was installed correctly
-
+	# TODO: Add a test if openCV was installed correctly
+fi
 
 echo "========== Setup sound to I2S  ============"
 sudo curl -sS https://dride.io/code/i2samp.sh  | bash
