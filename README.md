@@ -1,9 +1,10 @@
-#Dependencies
+# Dependencies
 
 sudo apt-get update && sudo apt-get install git quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin -y && cd ../ && sudo git clone https://github.com/dride/drideOS-image-generator && cd drideOS-image-generator && sudo ./build.sh
 
 # drideOS (Raspbian) Stage Overview
-=======
+
+
 Upon execution, `build.sh` will source the file `config` in the current
 working directory.  This bash shell fragment is intended to set needed
 environment variables.
