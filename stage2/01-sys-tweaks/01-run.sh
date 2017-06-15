@@ -211,44 +211,45 @@ sudo chmod +x /etc/init.d/dride-core
 sudo update-rc.d dride-core defaults
 sudo rm dride-core
 
-# drideOS-resize on startup
-sudo cp drideOS-resize /etc/init.d/drideOS-resize
-sudo chmod +x /etc/init.d/drideOS-resize
-sudo update-rc.d drideOS-resize defaults
-sudo rm drideOS-resize
+if [ ${OS_TYPE} == "drideOS" ]; then
+	# drideOS-resize on startup
+	sudo cp drideOS-resize /etc/init.d/drideOS-resize
+	sudo chmod +x /etc/init.d/drideOS-resize
+	sudo update-rc.d drideOS-resize defaults
+	sudo rm drideOS-resize
+fi
 
 
-
-
-
-## GPS  https://www.raspberrypi.org/forums/viewtopic.php?p=947968#p947968
-echo "========== Install GPS  ============"
-sudo apt-get install gpsd gpsd-clients cmake subversion build-essential espeak freeglut3-dev imagemagick libdbus-1-dev libdbus-glib-1-dev libdevil-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libgarmin-dev libglc-dev libgps-dev libgtk2.0-dev libimlib2-dev libpq-dev libqt4-dev libqtwebkit-dev librsvg2-bin libsdl-image1.2-dev libspeechd-dev libxml2-dev ttf-liberation -y
 
 sudo pip install pyserial
 
-
-echo "" >> /boot/config.txt
-echo "core_freq=250" >> /boot/config.txt
-echo "enable_uart=1" >> /boot/config.txt
-
-# this will be done after initial boot
-# echo "dwc_otg.lpm_enable=0  console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4  elevator=deadline fsck.repair=yes   rootwait" > /boot/cmdline.txt
+if [ ${OS_TYPE} == "drideOS" ]; then
+	## GPS  https://www.raspberrypi.org/forums/viewtopic.php?p=947968#p947968
+	echo "========== Install GPS  ============"
+	sudo apt-get install gpsd gpsd-clients cmake subversion build-essential espeak freeglut3-dev imagemagick libdbus-1-dev libdbus-glib-1-dev libdevil-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libgarmin-dev libglc-dev libgps-dev libgtk2.0-dev libimlib2-dev libpq-dev libqt4-dev libqtwebkit-dev librsvg2-bin libsdl-image1.2-dev libspeechd-dev libxml2-dev ttf-liberation -y
 
 
+	echo "" >> /boot/config.txt
+	echo "core_freq=250" >> /boot/config.txt
+	echo "enable_uart=1" >> /boot/config.txt
 
-# 3)Run
-sudo systemctl stop serial-getty@ttyS0.service
-sudo systemctl disable serial-getty@ttyS0.service
-sudo systemctl stop gpsd.socket
-sudo systemctl disable gpsd.socket
+	# this will be done after initial boot
+	# echo "dwc_otg.lpm_enable=0  console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4  elevator=deadline fsck.repair=yes   rootwait" > /boot/cmdline.txt
 
-# reboot
 
-# 5) Execute the daemon reset
-#sudo killall gpsd
-#sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock
 
+	# 3)Run
+	sudo systemctl stop serial-getty@ttyS0.service
+	sudo systemctl disable serial-getty@ttyS0.service
+	sudo systemctl stop gpsd.socket
+	sudo systemctl disable gpsd.socket
+
+	# reboot
+
+	# 5) Execute the daemon reset
+	#sudo killall gpsd
+	#sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock
+fi
 
 
 
