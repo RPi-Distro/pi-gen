@@ -106,10 +106,11 @@ sudo dpkg -i node_latest_armhf.deb
 sudo rm /home/node_latest_armhf.deb
 
 
-if [ ${OS_TYPE} == "drideOS" ]; then
-	echo "========== Installing pip ============"
-	sudo apt-get install python-pip -y
 
+echo "========== Installing pip ============"
+sudo apt-get install python-pip -y
+
+if [ ${OS_TYPE} == "drideOS" ]; then
 	echo "========== Installing Numpy ============"
 	sudo pip install numpy
 fi
