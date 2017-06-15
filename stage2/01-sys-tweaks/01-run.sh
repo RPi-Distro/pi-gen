@@ -46,7 +46,6 @@ on_chroot << EOF
 #-------------------------------------------------------
 # Script to check if all is good before install script runs
 #-------------------------------------------------------
-echo OS_TYPE
 echo "====== Dride install script ======"
 echo ""
 echo ""
@@ -86,12 +85,17 @@ echo "========== Update Aptitude ==========="
 # sudo apt-get update -y
 # sudo apt-get upgrade
 
-echo "========== Installing build-essential ============"
-sudo apt-get install build-essential -y
+if [ ${OS_TYPE} == "drideOS" ]; then
+	echo "========== Installing build-essential ============"
+	sudo apt-get install build-essential -y
 
 
-echo "========== Installing libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev gpac ============"
-sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev gpac -y
+	echo "========== Installing libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev ============"
+	sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libjasper-dev python2.7-dev -y
+fi
+
+echo "========== Installing gpac ============"
+sudo apt-get install gpac -y
 
 
 # Install Node
@@ -102,12 +106,13 @@ sudo dpkg -i node_latest_armhf.deb
 sudo rm /home/node_latest_armhf.deb
 
 
+if [ ${OS_TYPE} == "drideOS" ]; then
+	echo "========== Installing pip ============"
+	sudo apt-get install python-pip -y
 
-echo "========== Installing pip ============"
-sudo apt-get install python-pip -y
-
-echo "========== Installing Numpy ============"
-sudo pip install numpy
+	echo "========== Installing Numpy ============"
+	sudo pip install numpy
+fi
 
 echo "========== Install picamera  ============"
 sudo pip install "picamera[array]==1.12"
@@ -120,10 +125,10 @@ echo "start_x=1" >> /boot/config.txt
 echo "gpu_mem=128" >> /boot/config.txt
 
 
-
-echo "========== Install mpg123  ============"
-sudo apt-get install mpg123 -y
-
+if [ ${OS_TYPE} == "drideOS" ]; then
+	echo "========== Install mpg123  ============"
+	sudo apt-get install mpg123 -y
+fi
 
 # Install WIFi
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
@@ -214,41 +219,41 @@ sudo rm drideOS-resize
 
 
 
+if [ ${OS_TYPE} == "drideOS" ]; then
+	## GPS  https://www.raspberrypi.org/forums/viewtopic.php?p=947968#p947968
+	echo "========== Install GPS  ============"
+	sudo apt-get install gpsd gpsd-clients cmake subversion build-essential espeak freeglut3-dev imagemagick libdbus-1-dev libdbus-glib-1-dev libdevil-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libgarmin-dev libglc-dev libgps-dev libgtk2.0-dev libimlib2-dev libpq-dev libqt4-dev libqtwebkit-dev librsvg2-bin libsdl-image1.2-dev libspeechd-dev libxml2-dev ttf-liberation -y
 
-## GPS  https://www.raspberrypi.org/forums/viewtopic.php?p=947968#p947968
-echo "========== Install GPS  ============"
-sudo apt-get install gpsd gpsd-clients cmake subversion build-essential espeak freeglut3-dev imagemagick libdbus-1-dev libdbus-glib-1-dev libdevil-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libgarmin-dev libglc-dev libgps-dev libgtk2.0-dev libimlib2-dev libpq-dev libqt4-dev libqtwebkit-dev librsvg2-bin libsdl-image1.2-dev libspeechd-dev libxml2-dev ttf-liberation -y
-
-sudo pip install pyserial
-
-
-echo "" >> /boot/config.txt
-echo "core_freq=250" >> /boot/config.txt
-echo "enable_uart=1" >> /boot/config.txt
-
-# this will be done after initial boot
-# echo "dwc_otg.lpm_enable=0  console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4  elevator=deadline fsck.repair=yes   rootwait" > /boot/cmdline.txt
+	sudo pip install pyserial
 
 
+	echo "" >> /boot/config.txt
+	echo "core_freq=250" >> /boot/config.txt
+	echo "enable_uart=1" >> /boot/config.txt
 
-# 3)Run
-sudo systemctl stop serial-getty@ttyS0.service
-sudo systemctl disable serial-getty@ttyS0.service
-sudo systemctl stop gpsd.socket
-sudo systemctl disable gpsd.socket
-
-# reboot
-
-# 5) Execute the daemon reset
-#sudo killall gpsd
-#sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock
+	# this will be done after initial boot
+	# echo "dwc_otg.lpm_enable=0  console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4  elevator=deadline fsck.repair=yes   rootwait" > /boot/cmdline.txt
 
 
 
+	# 3)Run
+	sudo systemctl stop serial-getty@ttyS0.service
+	sudo systemctl disable serial-getty@ttyS0.service
+	sudo systemctl stop gpsd.socket
+	sudo systemctl disable gpsd.socket
+
+	# reboot
+
+	# 5) Execute the daemon reset
+	#sudo killall gpsd
+	#sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock
+fi
 
 
 
-if [ OS_TYPE == "drideOS" ]; then
+
+
+if [ ${OS_TYPE} == "drideOS" ]; then
 	echo "========== Downloading and installing OpenCV ============"
 	cd /
 	# git clone https://github.com/Itseez/opencv.git --depth 1
