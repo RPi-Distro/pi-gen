@@ -1,0 +1,42 @@
+#! /bin/sh
+# /etc/init.d/dride-core
+
+### BEGIN INIT INFO
+# Provides:          dride-core
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: will run the main dride-core process
+# Description:       
+### END INIT INFO
+
+
+case "$1" in
+  start)
+    echo "Starting dride-core"
+    # run application you want to start
+    sudo python /home/Cardigan/mainPiZero.py &
+
+    # run gps daemon
+    sudo python /home/Cardigan/daemons/gps/helper.py &
+
+    # run button / bluetooth daemon
+    sudo python /home/Cardigan/daemons/bluetooth/initPin.py &
+    sleep 5 && sudo BLENO_DEVICE_NAME="dride" node /home/Cardigan/daemons/bluetooth/main.js &
+    ;;
+  stop)
+    echo "Stopping dride-core"
+    # kill application you want to stop
+    killall python
+    ;;
+  *)
+    echo "Usage: /etc/init.d/dride-core{start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
+
+

@@ -1,0 +1,31 @@
+#! /bin/sh
+# /etc/init.d/dride-ws
+
+### BEGIN INIT INFO
+# Provides:          dride-ws
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: will run the dride web server on startup
+# Description:       AKA dride-ws
+### END INIT INFO
+
+case "$1" in
+  start)
+    echo "Starting dride-ws"
+    # run node-express server
+    sudo node /home/Cardigan/dride-ws/server/app.js &
+    ;;
+  stop)
+    echo "Stopping dride-ws"
+    # kill application you want to stop
+    killall node
+    ;;
+  *)
+    echo "Usage: /etc/init.d/dride-ws{start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0

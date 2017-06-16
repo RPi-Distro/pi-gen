@@ -193,30 +193,31 @@ sudo update-rc.d isc-dhcp-server enable
 
 
 
-sudo wget https://dride.io/code/startup/dride-ws
-sudo wget https://dride.io/code/startup/dride-core
-sudo wget https://dride.io/code/startup/drideOS-resize
-
 #startup script's
 
 # express on startup
-sudo cp dride-ws /etc/init.d/dride-ws
+sudo cp files/dride-ws /etc/init.d/dride-ws
 sudo chmod +x /etc/init.d/dride-ws
 sudo update-rc.d dride-ws defaults
-sudo rm dride-ws
+
 
 # dride-core on startup
-sudo cp dride-core /etc/init.d/dride-core
+if [ ${OS_TYPE} == "drideOS" ]; then
+	sudo cp files/dride-core /etc/init.d/dride-core
+else
+	sudo cp files/dride-core-z /etc/init.d/dride-core
+fi;
+
 sudo chmod +x /etc/init.d/dride-core
 sudo update-rc.d dride-core defaults
-sudo rm dride-core
+
 
 if [ ${OS_TYPE} == "drideOS" ]; then
 	# drideOS-resize on startup
-	sudo cp drideOS-resize /etc/init.d/drideOS-resize
+	sudo cp files/drideOS-resize /etc/init.d/drideOS-resize
 	sudo chmod +x /etc/init.d/drideOS-resize
 	sudo update-rc.d drideOS-resize defaults
-	sudo rm drideOS-resize
+
 fi
 
 
