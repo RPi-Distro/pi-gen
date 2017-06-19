@@ -17,8 +17,31 @@ install -m 644 files/50raspi				${ROOTFS_DIR}/etc/apt/apt.conf.d/
 install -m 644 files/console-setup   			${ROOTFS_DIR}/etc/default/
 
 
-cp files/startup/drideOS-resize ${ROOTFS_DIR}/etc/init.d/drideOS-resize
-chmod +x ${ROOTFS_DIR}/etc/init.d/drideOS-resize
+#startup script's
+# express on startup
+cp files/startup/dride-ws ${ROOTFS_DIR}/etc/init.d/dride-ws
+chmod +x ${ROOTFS_DIR}/etc/init.d/dride-ws
+update-rc.d dride-ws defaults
+
+
+# dride-core on startup
+if [ ${OS_TYPE} == "drideOS" ]; then
+	cp files/startup/dride-core ${ROOTFS_DIR}/etc/init.d/dride-core
+else
+	cp files/startup/dride-core-z ${ROOTFS_DIR}/etc/init.d/dride-core
+fi;
+
+chmod +x ${ROOTFS_DIR}/etc/init.d/dride-core
+update-rc.d dride-core defaults
+
+
+if [ ${OS_TYPE} == "drideOS" ]; then
+	# drideOS-resize on startup
+	cp files/startup/drideOS-resize ${ROOTFS_DIR}/etc/init.d/drideOS-resize
+	chmod +x ${ROOTFS_DIR}/etc/init.d/drideOS-resize
+	update-rc.d drideOS-resize defaults
+fi
+
 
 
 on_chroot << EOF
@@ -201,34 +224,6 @@ sudo service isc-dhcp-server start
 sudo update-rc.d hostapd enable 
 sudo update-rc.d isc-dhcp-server enable
 
-
-
-#startup script's
-
-# express on startup
-sudo cp files/startup/dride-ws ${ROOTFS_DIR}/etc/init.d/dride-ws
-sudo chmod +x ${ROOTFS_DIR}/etc/init.d/dride-ws
-sudo update-rc.d dride-ws defaults
-
-
-# dride-core on startup
-if [ ${OS_TYPE} == "drideOS" ]; then
-	sudo cp files/startup/dride-core ${ROOTFS_DIR}/etc/init.d/dride-core
-else
-	sudo cp files/startup/dride-core-z ${ROOTFS_DIR}/etc/init.d/dride-core
-fi;
-
-sudo chmod +x ${ROOTFS_DIR}/etc/init.d/dride-core
-sudo update-rc.d dride-core defaults
-
-
-if [ ${OS_TYPE} == "drideOS" ]; then
-	# drideOS-resize on startup
-	sudo cp files/startup/drideOS-resize ${ROOTFS_DIR}/etc/init.d/drideOS-resize
-	sudo chmod +x ${ROOTFS_DIR}/etc/init.d/drideOS-resize
-	sudo update-rc.d drideOS-resize defaults
-
-fi
 
 
 
