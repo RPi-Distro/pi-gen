@@ -21,7 +21,7 @@ install -m 644 files/console-setup   			${ROOTFS_DIR}/etc/default/
 # express on startup
 cp files/startup/dride-ws ${ROOTFS_DIR}/etc/init.d/dride-ws
 chmod +x ${ROOTFS_DIR}/etc/init.d/dride-ws
-update-rc.d dride-ws defaults
+update-rc.d ${ROOTFS_DIR}/etc/init.d/dride-ws defaults
 
 
 # dride-core on startup
@@ -32,14 +32,14 @@ else
 fi;
 
 chmod +x ${ROOTFS_DIR}/etc/init.d/dride-core
-update-rc.d dride-core defaults
+update-rc.d ${ROOTFS_DIR}/etc/dride-core defaults
 
 
 if [ ${OS_TYPE} == "drideOS" ]; then
 	# drideOS-resize on startup
 	cp files/startup/drideOS-resize ${ROOTFS_DIR}/etc/init.d/drideOS-resize
 	chmod +x ${ROOTFS_DIR}/etc/init.d/drideOS-resize
-	update-rc.d drideOS-resize defaults
+	update-rc.d ${ROOTFS_DIR}/etc/drideOS-resize defaults
 fi
 
 
