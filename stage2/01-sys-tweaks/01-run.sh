@@ -4,6 +4,11 @@ install -m 644 files/regenerate_ssh_host_keys.service	${ROOTFS_DIR}/lib/systemd/
 install -m 755 files/apply_noobs_os_config		${ROOTFS_DIR}/etc/init.d/
 install -m 755 files/resize2fs_once			${ROOTFS_DIR}/etc/init.d/
 
+
+
+
+install -m 755 files/resize2fs_once			${ROOTFS_DIR}/etc/init.d/
+
 install -d						${ROOTFS_DIR}/etc/systemd/system/rc-local.service.d
 install -m 644 files/ttyoutput.conf			${ROOTFS_DIR}/etc/systemd/system/rc-local.service.d/
 
@@ -196,26 +201,26 @@ sudo update-rc.d isc-dhcp-server enable
 #startup script's
 
 # express on startup
-sudo cp files/dride-ws /etc/init.d/dride-ws
-sudo chmod +x /etc/init.d/dride-ws
+sudo cp files/startup/dride-ws ${ROOTFS_DIR}/etc/init.d/dride-ws
+sudo chmod +x ${ROOTFS_DIR}/etc/init.d/dride-ws
 sudo update-rc.d dride-ws defaults
 
 
 # dride-core on startup
 if [ ${OS_TYPE} == "drideOS" ]; then
-	sudo cp files/dride-core /etc/init.d/dride-core
+	sudo cp files/startup/dride-core ${ROOTFS_DIR}/etc/init.d/dride-core
 else
-	sudo cp files/dride-core-z /etc/init.d/dride-core
+	sudo cp files/startup/dride-core-z ${ROOTFS_DIR}/etc/init.d/dride-core
 fi;
 
-sudo chmod +x /etc/init.d/dride-core
+sudo chmod +x ${ROOTFS_DIR}/etc/init.d/dride-core
 sudo update-rc.d dride-core defaults
 
 
 if [ ${OS_TYPE} == "drideOS" ]; then
 	# drideOS-resize on startup
-	sudo cp files/drideOS-resize /etc/init.d/drideOS-resize
-	sudo chmod +x /etc/init.d/drideOS-resize
+	sudo cp files/startup/drideOS-resize ${ROOTFS_DIR}/etc/init.d/drideOS-resize
+	sudo chmod +x ${ROOTFS_DIR}/etc/init.d/drideOS-resize
 	sudo update-rc.d drideOS-resize defaults
 
 fi
