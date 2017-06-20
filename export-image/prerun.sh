@@ -8,8 +8,8 @@ rm -f ${IMG_FILE}
 rm -rf ${ROOTFS_DIR}
 mkdir -p ${ROOTFS_DIR}
 
-BOOT_SIZE=$(du -s ${EXPORT_ROOTFS_DIR}/boot --block-size=1 | cut -f 1)
-TOTAL_SIZE=$(du -s ${EXPORT_ROOTFS_DIR} --exclude var/cache/apt/archives --block-size=1 | cut -f 1)
+BOOT_SIZE=$(du --apparent-size -s ${EXPORT_ROOTFS_DIR}/boot --block-size=1 | cut -f 1)
+TOTAL_SIZE=$(du --apparent-size -s ${EXPORT_ROOTFS_DIR} --exclude var/cache/apt/archives --block-size=1 | cut -f 1)
 
 IMG_SIZE=$((BOOT_SIZE + TOTAL_SIZE + (400 * 1024 * 1024)))
 
