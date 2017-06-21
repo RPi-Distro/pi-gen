@@ -13,7 +13,7 @@ TOTAL_SIZE=$(du --apparent-size -s ${EXPORT_ROOTFS_DIR} --exclude var/cache/apt/
 
 IMG_SIZE=$((BOOT_SIZE + TOTAL_SIZE + (400 * 1024 * 1024)))
 
-fallocate -l ${IMG_SIZE} ${IMG_FILE}
+truncate -s ${IMG_SIZE} ${IMG_FILE}
 fdisk -H 255 -S 63 ${IMG_FILE} <<EOF
 o
 n
