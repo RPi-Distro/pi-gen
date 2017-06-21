@@ -313,19 +313,17 @@ sudo mkdir Cardigan && cd Cardigan
 sudo wget -c -O "cardigan.zip" "https://s3.amazonaws.com/dride/releases/cardigan/latest.zip"
 sudo unzip "cardigan.zip"
 
-sudo rm -R __MACOSX
+
 sudo rm -R cardigan.zip
 
 
 # make the video dir writable
 sudo chmod 777 -R /home/Cardigan/modules/video/
-sudo chmod 777 -R /home/Cardigan/settings/video/
+sudo chmod 777 -R /home/Cardigan/settings/
 #make gps position writable
 sudo chmod +x /home/Cardigan/daemons/gps/position
 
 # make the firmware dir writable
-cd /home/Cardigan
-sudo mkdir firmware
 sudo chmod 777 -R /home/Cardigan/firmware/
 
 
