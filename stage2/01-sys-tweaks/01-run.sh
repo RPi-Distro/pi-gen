@@ -17,32 +17,6 @@ install -m 644 files/50raspi				${ROOTFS_DIR}/etc/apt/apt.conf.d/
 install -m 644 files/console-setup   			${ROOTFS_DIR}/etc/default/
 
 
-#startup script's
-# express on startup
-cp files/startup/dride-ws ${ROOTFS_DIR}/etc/init.d/dride-ws
-chmod +x ${ROOTFS_DIR}/etc/init.d/dride-ws
-update-rc.d ${ROOTFS_DIR}/etc/init.d/dride-ws defaults
-
-
-# dride-core on startup
-if [ ${OS_TYPE} == "drideOS" ]; then
-	cp files/startup/dride-core ${ROOTFS_DIR}/etc/init.d/dride-core
-else
-	cp files/startup/dride-core-z ${ROOTFS_DIR}/etc/init.d/dride-core
-fi;
-
-chmod +x ${ROOTFS_DIR}/etc/init.d/dride-core
-update-rc.d ${ROOTFS_DIR}/etc/dride-core defaults
-
-
-if [ ${OS_TYPE} == "drideOS" ]; then
-	# drideOS-resize on startup
-	cp files/startup/drideOS-resize ${ROOTFS_DIR}/etc/init.d/drideOS-resize
-	chmod +x ${ROOTFS_DIR}/etc/init.d/drideOS-resize
-	update-rc.d ${ROOTFS_DIR}/etc/drideOS-resize defaults
-fi
-
-
 
 on_chroot << EOF
 systemctl disable hwclock.sh
@@ -228,6 +202,46 @@ sudo update-rc.d isc-dhcp-server enable
 
 
 sudo pip install pyserial
+
+
+#startup script's
+sudo wget https://dride.io/code/startup/dride-ws
+
+if [ ${OS_TYPE} == "drideOS" ]; then
+	sudo wget https://dride.io/code/startup/dride-core
+	sudo wget https://dride.io/code/startup/drideOS-resize
+else
+	sudo wget https://dride.io/code/startup/dride-core-z
+fi;
+
+
+# express on startup
+sudo cp dride-ws /etc/init.d/dride-ws
+sudo chmod +x /etc/init.d/dride-ws
+sudo update-rc.d dride-ws defaults
+sudo rm dride-ws
+
+# dride-core on startup
+if [ ${OS_TYPE} == "drideOS" ]; then
+	sudo cp dride-core /etc/init.d/dride-core
+else
+	sudo cp dride-core-z /etc/init.d/dride-core
+fi;
+
+sudo chmod +x /etc/init.d/dride-core
+sudo update-rc.d dride-core defaults
+sudo rm dride-core
+
+# drideOS-resize on startup
+if [ ${OS_TYPE} == "drideOS" ]; then
+	sudo cp drideOS-resize /etc/init.d/drideOS-resize
+	sudo chmod +x /etc/init.d/drideOS-resize
+	sudo update-rc.d drideOS-resize defaults
+	sudo rm drideOS-resize
+fi;
+
+
+
 
 if [ ${OS_TYPE} == "drideOS" ]; then
 	## GPS  https://www.raspberrypi.org/forums/viewtopic.php?p=947968#p947968
