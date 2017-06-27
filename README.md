@@ -138,12 +138,14 @@ maintenance and allows for more easy customization.
    enhancements, etc.  This is a base desktop system, with some development
    tools installed.
 
- - **Stage 4** - complete Raspbian system.  More development tools, an email
-   client, learning tools like Scratch, specialized packages like sonic-pi and
-   wolfram-engine, system documentation, office productivity, etc.  This is
-   the stage that installs all of the things that make Raspbian friendly to
-   new users.
+ - **Stage 4** - Raspbian system meant to fit on a 4GB card.  More development
+   tools, an email client, learning tools like Scratch, specialized packages
+   like sonic-pi, system documentation, office productivity, etc.  This is the
+   stage that installs all of the things that make Raspbian friendly to new
+   users.
 
+ - **Stage 5** - The official Raspbian Desktop image. Right now only adds
+   Mathematica.
 
 ### Stage specification
 
