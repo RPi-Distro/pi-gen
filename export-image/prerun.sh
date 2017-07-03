@@ -51,7 +51,7 @@ echo "/boot: offset $BOOT_OFFSET, length $BOOT_LENGTH"
 echo "/:     offset $ROOT_OFFSET, length $ROOT_LENGTH"
 
 mkdosfs -n boot -F 32 -v $BOOT_DEV > /dev/null
-mkfs.ext4 -O ^huge_file $ROOT_DEV > /dev/null
+mkfs.ext4 -O ^metadata_csum,^huge_file $ROOT_DEV > /dev/null
 
 mount -v $ROOT_DEV ${ROOTFS_DIR} -t ext4
 mkdir -p ${ROOTFS_DIR}/boot
