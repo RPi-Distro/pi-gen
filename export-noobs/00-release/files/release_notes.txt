@@ -1,4 +1,7 @@
 UNRELEASED:
+  * New kernel and firmware
+  * Filesystem created without the metadata_csum feature
+2017-06-21:
   * Scratch 2 application included
   * Thonny Python IDE included
   * New icons with thinner outlines
