@@ -17,3 +17,5 @@ usb-modeswitch
 apt-transport-https
 libpam-chksshpwd
 rpi-update
+libmtp-runtime
+rsync
