@@ -12,9 +12,10 @@ if ! $DOCKER ps >/dev/null; then
 fi
 set -e
 
-config_mount="/dev/null:/dev/null"
+
+config_mount=()
 if [ -f config ]; then
-	config_mount="$(pwd)/config:/pi-gen/config:ro"
+	config_mount=("-v" "$(pwd)/config:/pi-gen/config:ro")
 	source config
 fi
 
@@ -65,7 +66,7 @@ else
 	$DOCKER run --name "${CONTAINER_NAME}" --privileged \
 		-e IMG_NAME=${IMG_NAME}\
 		-v "$(pwd)/deploy:/pi-gen/deploy" \
-		-v "${config_mount}" \
+		"${config_mount[@]}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh &&
