@@ -11,6 +11,8 @@ install -m 644 files/50raspi				${ROOTFS_DIR}/etc/apt/apt.conf.d/
 
 install -m 644 files/console-setup   			${ROOTFS_DIR}/etc/default/
 
+install -m 755 files/rc.local				${ROOTFS_DIR}/etc/
+
 on_chroot << EOF
 systemctl disable hwclock.sh
 systemctl disable nfs-common

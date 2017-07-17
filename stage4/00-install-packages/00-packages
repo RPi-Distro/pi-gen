@@ -8,11 +8,10 @@ python-serial python3-serial
 python-picamera python3-picamera
 debian-reference-en dillo x2x
 raspberrypi-net-mods raspberrypi-ui-mods
-smartsim penguinspuzzle
+smartsim
 python-pip python3-pip
 python3-numpy
 pypy
-python3-pifacecommon python3-pifacedigitalio python3-pifacedigital-scratch-handler python-pifacecommon python-pifacedigitalio
 minecraft-pi python-minecraftpi
 alacarte rc-gui sense-hat
 claws-mail
@@ -30,7 +29,6 @@ python-twython python3-twython
 python-smbus python3-smbus
 python-flask python3-flask
 python-picraft python3-picraft
-python3-codebug-tether python3-codebug-i2c-tether
 python-sense-emu python3-sense-emu sense-emu-tools python-sense-emu-doc
 pprompt
 scratch2
