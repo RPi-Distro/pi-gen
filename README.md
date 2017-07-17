@@ -41,6 +41,12 @@ The following environment variables are supported:
    will not be included in the image, making it safe to use an `apt-cacher` or
    similar package for development.
 
+   If you have Docker installed, you can set up a local apt caching proxy to
+   like speed up subsequent builds like this:
+
+       docker-compose up -d
+       echo 'APT_PROXY=http://172.17.0.1:3142' >> config
+
  * `BASE_DIR`  (Default: location of `build.sh`)
 
    **CAUTION**: Currently, changing this value will probably break build.sh
