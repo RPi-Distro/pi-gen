@@ -8,3 +8,4 @@ policykit-1
 gvfs
 rfkill
 chromium-browser rpi-chromium-mods
+gldriver-test
