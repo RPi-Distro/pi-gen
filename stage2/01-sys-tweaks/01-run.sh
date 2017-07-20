@@ -276,7 +276,7 @@ if [ ${OS_TYPE} == "drideOS" ]; then
 	echo "========== Install Indicators  ============"
 	sudo apt-get install scons
 	cd /home/Cardigan/modules/indicators
-	sudo python setup.py
+	sudo python setup.py build
 fi
 
 
