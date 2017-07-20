@@ -272,15 +272,6 @@ if [ ${OS_TYPE} == "drideOS" ]; then
 fi
 
 
-if [ ${OS_TYPE} == "drideOS" ]; then
-	echo "========== Install Indicators  ============"
-	sudo apt-get install scons
-	cd /home/Cardigan/modules/indicators
-	sudo python setup.py build
-fi
-
-
-
 
 if [ ${OS_TYPE} == "drideOS" ]; then
 	echo "========== Downloading and installing OpenCV ============"
@@ -335,11 +326,6 @@ sudo update-rc.d -f fake-hwclock remove
 # set HW clock
 sudo hwclock -D -r
 
-echo "========== Setup NeoPixel  ============"
-
-# TODO: ....
-
-
 
 
 echo "========== Install Dride-core [Cardigan]  ============"
@@ -367,6 +353,14 @@ sudo chmod 777 -R /home/Cardigan/firmware/
 cd /home/Cardigan/dride-ws
 
 sudo npm i --production
+
+
+if [ ${OS_TYPE} == "drideOS" ]; then
+	echo "========== Install Indicators  ============"
+	sudo apt-get install scons
+	cd /home/Cardigan/modules/indicators
+	sudo python setup.py build
+fi
 
 
 
