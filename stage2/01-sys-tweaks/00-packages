@@ -1,4 +1,4 @@
-ssh locales less fbset sudo psmisc strace module-init-tools ed ncdu crda
+ssh less fbset sudo psmisc strace module-init-tools ed ncdu crda
 console-setup keyboard-configuration debconf-utils parted unzip
 build-essential manpages-dev python bash-completion gdb pkg-config
 python-rpi.gpio v4l-utils
@@ -16,3 +16,4 @@ apt-listchanges
 usb-modeswitch
 apt-transport-https
 libpam-chksshpwd
+rpi-update

@@ -1,4 +1,18 @@
 UNRELEASED:
+  * 
+2017-07-05:
+  * New kernel and firmware
+  * Filesystem created without the metadata_csum feature
+2017-06-21:
+  * Scratch 2 application included
+  * Thonny Python IDE included
+  * New icons with thinner outlines
+  * Volume control more linear in behaviour
+  * Updated Flash player
+  * Updated RealVNC server and viewer
+  * Various tweaks and bugfixes
+  * New kernel and firmware
+2017-04-10:
   * Wolfram Mathematica updated to version 11.0.1
   * Adobe Flash Player updated to version 25.0.0.127
   * Use PARTUUID to support USB boot

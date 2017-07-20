@@ -8,12 +8,12 @@ rm -f ${IMG_FILE}
 rm -rf ${ROOTFS_DIR}
 mkdir -p ${ROOTFS_DIR}
 
-BOOT_SIZE=$(du -s ${EXPORT_ROOTFS_DIR}/boot --block-size=1 | cut -f 1)
-TOTAL_SIZE=$(du -s ${EXPORT_ROOTFS_DIR} --exclude var/cache/apt/archives --block-size=1 | cut -f 1)
+BOOT_SIZE=$(du --apparent-size -s ${EXPORT_ROOTFS_DIR}/boot --block-size=1 | cut -f 1)
+TOTAL_SIZE=$(du --apparent-size -s ${EXPORT_ROOTFS_DIR} --exclude var/cache/apt/archives --block-size=1 | cut -f 1)
 
-IMG_SIZE=$((BOOT_SIZE + TOTAL_SIZE + (400 * 1024 * 1024)))
+IMG_SIZE=$((BOOT_SIZE + TOTAL_SIZE + (800 * 1024 * 1024)))
 
-fallocate -l ${IMG_SIZE} ${IMG_FILE}
+truncate -s ${IMG_SIZE} ${IMG_FILE}
 fdisk -H 255 -S 63 ${IMG_FILE} <<EOF
 o
 n
@@ -50,8 +50,12 @@ ROOT_DEV=$(losetup --show -f -o ${ROOT_OFFSET} --sizelimit ${ROOT_LENGTH} ${IMG_
 echo "/boot: offset $BOOT_OFFSET, length $BOOT_LENGTH"
 echo "/:     offset $ROOT_OFFSET, length $ROOT_LENGTH"
 
+ROOT_FEATURES="^huge_file"
+if grep -q "metadata_csum" /etc/mke2fs.conf; then
+    ROOT_FEATURES="^metadata_csum,$ROOT_FEATURES"
+fi
 mkdosfs -n boot -F 32 -v $BOOT_DEV > /dev/null
-mkfs.ext4 -O ^huge_file $ROOT_DEV > /dev/null
+mkfs.ext4 -O $ROOT_FEATURES $ROOT_DEV > /dev/null
 
 mount -v $ROOT_DEV ${ROOTFS_DIR} -t ext4
 mkdir -p ${ROOTFS_DIR}/boot

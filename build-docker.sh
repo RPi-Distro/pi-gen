@@ -12,9 +12,10 @@ if ! $DOCKER ps >/dev/null; then
 fi
 set -e
 
-config_mount=
+
+config_mount=()
 if [ -f config ]; then
-	config_mount="-v $(pwd)/config:/pi-gen/config:ro"
+	config_mount=("-v" "$(pwd)/config:/pi-gen/config:ro")
 	source config
 fi
 
@@ -45,7 +46,7 @@ fi
 if [ "$CONTAINER_EXISTS" != "" ] && [ "$CONTINUE" != "1" ]; then
 	echo "Container $CONTAINER_NAME already exists and you did not specify CONTINUE=1. Aborting."
 	echo "You can delete the existing container like this:"
-	echo "  docker rm $CONTAINER_NAME"
+	echo "  docker rm -v $CONTAINER_NAME"
 	exit 1
 fi
 
@@ -54,6 +55,7 @@ if [ "$CONTAINER_EXISTS" != "" ]; then
 	trap "echo 'got CTRL+C... please wait 5s';docker stop -t 5 ${CONTAINER_NAME}_cont" SIGINT SIGTERM
 	time $DOCKER run --rm --privileged \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
+		-e IMG_NAME=${IMG_NAME}\
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh;
@@ -62,8 +64,9 @@ if [ "$CONTAINER_EXISTS" != "" ]; then
 else
 	trap "echo 'got CTRL+C... please wait 5s'; docker stop -t 5 ${CONTAINER_NAME}" SIGINT SIGTERM
 	$DOCKER run --name "${CONTAINER_NAME}" --privileged \
-		-v $(pwd)/deploy:/pi-gen/deploy \
-		${config_mount} \
+		-e IMG_NAME=${IMG_NAME}\
+		-v "$(pwd)/deploy:/pi-gen/deploy" \
+		"${config_mount[@]}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh &&
