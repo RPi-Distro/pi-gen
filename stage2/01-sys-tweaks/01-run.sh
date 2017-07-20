@@ -272,6 +272,13 @@ if [ ${OS_TYPE} == "drideOS" ]; then
 fi
 
 
+if [ ${OS_TYPE} == "drideOS" ]; then
+	echo "========== Install Indicators  ============"
+	sudo apt-get install scons
+	cd /home/Cardigan/modules/indicators
+	sudo python setup.py
+fi
+
 
 
 
@@ -304,6 +311,35 @@ fi
 
 echo "========== Setup sound to I2S  ============"
 sudo curl -sS https://dride.io/code/i2samp.sh  | bash
+
+
+echo "========== Setup mic  ============"
+# https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/raspberry-pi-wiring-and-test
+
+
+echo "========== Setup RTC  ============"
+# https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/set-rtc-time
+sudo apt-get install python-smbus i2c-tools
+# TODO: turn on ISC on raspi-config...
+
+# add to sudo nano /boot/config.txt
+# dtoverlay=i2c-rtc,pcf8523
+
+# Remove hw-clock
+sudo apt-get -y remove fake-hwclock
+sudo update-rc.d -f fake-hwclock remove
+
+# copy new file to
+#sudo nano /lib/udev/hwclock-set
+
+# set HW clock
+sudo hwclock -D -r
+
+echo "========== Setup NeoPixel  ============"
+
+# TODO: ....
+
+
 
 
 echo "========== Install Dride-core [Cardigan]  ============"
