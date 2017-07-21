@@ -341,7 +341,7 @@ sudo rm -R cardigan.zip
 
 # make the video dir writable
 sudo chmod 777 -R /home/Cardigan/modules/video/
-sudo chmod 777 -R /home/Cardigan/settings/
+sudo chmod 777 -R /home/Cardigan/modules/settings/
 #make gps position writable
 sudo chmod +x /home/Cardigan/daemons/gps/position
 
