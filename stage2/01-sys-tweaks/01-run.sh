@@ -360,8 +360,9 @@ if [ ${OS_TYPE} == "drideOS" ]; then
 	sudo apt-get install scons
 	cd /home/Cardigan/modules/indicators
 	sudo scons
-	sudo apt-get install python-dev swig
-	sudo python python/setup.py install
+	sudo apt-get install python-dev swig -y
+	cd /home/Cardigan/modules/indicators/python
+	sudo python setup.py install
 fi
 
 
