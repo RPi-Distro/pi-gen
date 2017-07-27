@@ -1,4 +1,5 @@
 #!/bin/bash -e
+
 DOCKER="docker"
 set +e
 $DOCKER ps >/dev/null 2>&1

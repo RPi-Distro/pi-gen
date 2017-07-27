@@ -1,5 +1,5 @@
 # dependencies_check
-# $@	Dependnecy files to check
+# $@	Dependency files to check
 #
 # Each dependency is in the form of a tool to test for, optionally followed by
 # a : and the name of a package if the package on a Debian-ish system is not
@@ -21,7 +21,7 @@ dependencies_check()
 	done
 
 	if [[ "$missing" ]]; then
-		echo "Reqired dependencies not installed"
+		echo "Required dependencies not installed"
 		echo
 		echo "This can be resolved on Debian/Raspbian systems by installing:"
 		echo "$missing"

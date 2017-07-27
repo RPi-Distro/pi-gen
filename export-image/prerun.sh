@@ -1,4 +1,5 @@
 #!/bin/bash -e
+
 IMG_FILE="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.img"
 
 unmount_image ${IMG_FILE}
