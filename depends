@@ -10,3 +10,4 @@ capsh:libcap2-bin
 bsdtar
 grep
 rsync
+xz:xz-utils
