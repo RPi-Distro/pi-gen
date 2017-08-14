@@ -1,5 +1,16 @@
 UNRELEASED:
-  * 
+  * Based on Raspbian Stretch (Debian version 9)
+  * Version 60 of Chromium browser included
+  * Version 3.0.1 of Sonic Pi included
+  * Version 6.1.1 of RealVNC included
+  * Version 0.17.4 of NodeRED included
+  * Bluetooth audio routed via ALSA rather than Pulseaudio
+  * SenseHAT extension added to Scratch 2
+  * Various desktop applications modified to prompt for sudo password if needed
+  * lxinput control options for mouse speed simplified
+  * lxpanel plugins moved into separate packages
+  * Latest kernel and firmware
+  * Various small tweaks, bug fixes and theme modifications
 2017-07-05:
   * New kernel and firmware
   * Filesystem created without the metadata_csum feature
