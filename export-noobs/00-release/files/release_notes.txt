@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2017-08-16:
   * Based on Raspbian Stretch (Debian version 9)
   * Version 60 of Chromium browser included
   * Version 3.0.1 of Sonic Pi included
@@ -9,6 +11,7 @@ UNRELEASED:
   * Various desktop applications modified to prompt for sudo password if needed
   * lxinput control options for mouse speed simplified
   * lxpanel plugins moved into separate packages
+  * Wireless firmware for Pi 3 and Pi 0W modified to address Broadpwn exploit
   * Latest kernel and firmware
   * Various small tweaks, bug fixes and theme modifications
 2017-07-05:
