@@ -11,3 +11,4 @@ bsdtar
 grep
 rsync
 xz:xz-utils
+curl
