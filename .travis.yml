@@ -1,0 +1,18 @@
+sudo: required
+
+language: generic
+
+services:
+- docker
+
+script:
+
+- echo 'IMG_NAME="Raspbian"' >> config
+
+# only build up to stage 2. We don't have enough space for NOOBS on travis.
+- touch stage{3,4,5}/SKIP
+- rm -f stage{3,4,5}/EXPORT_*
+
+- ./build-docker.sh
+- ls -lahR deploy
+- "[ -s deploy/*.zip ]"
