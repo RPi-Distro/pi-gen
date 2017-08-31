@@ -13,7 +13,6 @@ if ! $DOCKER ps >/dev/null; then
 fi
 set -e
 
-
 config_mount=()
 if [ -f config ]; then
 	config_mount=("-v" "$(pwd)/config:/pi-gen/config:ro")
@@ -47,13 +46,13 @@ fi
 if [ "$CONTAINER_EXISTS" != "" ] && [ "$CONTINUE" != "1" ]; then
 	echo "Container $CONTAINER_NAME already exists and you did not specify CONTINUE=1. Aborting."
 	echo "You can delete the existing container like this:"
-	echo "  docker rm -v $CONTAINER_NAME"
+	echo "  $DOCKER rm -v $CONTAINER_NAME"
 	exit 1
 fi
 
 $DOCKER build -t pi-gen .
 if [ "$CONTAINER_EXISTS" != "" ]; then
-	trap "echo 'got CTRL+C... please wait 5s';docker stop -t 5 ${CONTAINER_NAME}_cont" SIGINT SIGTERM
+	trap "echo 'got CTRL+C... please wait 5s'; $DOCKER stop -t 5 ${CONTAINER_NAME}_cont" SIGINT SIGTERM
 	time $DOCKER run --rm --privileged \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		-e IMG_NAME=${IMG_NAME}\
@@ -63,8 +62,8 @@ if [ "$CONTAINER_EXISTS" != "" ]; then
 	rsync -av work/*/build.log deploy/" &
 	wait
 else
-	trap "echo 'got CTRL+C... please wait 5s'; docker stop -t 5 ${CONTAINER_NAME}" SIGINT SIGTERM
-	$DOCKER run --name "${CONTAINER_NAME}" --privileged \
+	trap "echo 'got CTRL+C... please wait 5s'; $DOCKER stop -t 5 ${CONTAINER_NAME}" SIGINT SIGTERM
+	time $DOCKER run --name "${CONTAINER_NAME}" --privileged \
 		-e IMG_NAME=${IMG_NAME}\
 		-v "$(pwd)/deploy:/pi-gen/deploy" \
 		"${config_mount[@]}" \
@@ -73,5 +72,6 @@ else
 	cd /pi-gen; ./build.sh &&
 	rsync -av work/*/build.log deploy/" &
 	wait
+	$DOCKER rm -v $CONTAINER_NAME
 fi
 echo "Done! Your image(s) should be in deploy/"
