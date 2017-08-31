@@ -13,9 +13,9 @@ if ! $DOCKER ps >/dev/null; then
 fi
 set -e
 
-config_mount=()
+config_file=()
 if [ -f config ]; then
-	config_mount=("-v" "$(pwd)/config:/pi-gen/config:ro")
+	config_file=("--env-file" "$(pwd)/config")
 	source config
 fi
 
@@ -24,7 +24,7 @@ CONTINUE=${CONTINUE:-0}
 
 if [ "$*" != "" ] || [ -z "${IMG_NAME}" ]; then
 	if [ -z "${IMG_NAME}" ]; then
-		echo "IMG_NAME not set in 'build'" 1>&2
+		echo "IMG_NAME not set in 'config'" 1>&2
 		echo 1>&2
 	fi
 	cat >&2 <<EOF
@@ -60,18 +60,21 @@ if [ "$CONTAINER_EXISTS" != "" ]; then
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh;
 	rsync -av work/*/build.log deploy/" &
-	wait
+	wait "$!"
 else
 	trap "echo 'got CTRL+C... please wait 5s'; $DOCKER stop -t 5 ${CONTAINER_NAME}" SIGINT SIGTERM
 	time $DOCKER run --name "${CONTAINER_NAME}" --privileged \
 		-e IMG_NAME=${IMG_NAME}\
-		-v "$(pwd)/deploy:/pi-gen/deploy" \
-		"${config_mount[@]}" \
+		"${config_file[@]}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh &&
 	rsync -av work/*/build.log deploy/" &
-	wait
+	wait "$!"
 	$DOCKER rm -v $CONTAINER_NAME
 fi
+echo "copying results from deploy/"
+$DOCKER cp "${CONTAINER_NAME}":/pi-gen/deploy .
+ls -lah deploy
+
 echo "Done! Your image(s) should be in deploy/"
