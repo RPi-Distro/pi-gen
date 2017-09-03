@@ -1,5 +1,7 @@
 # pi-gen
 
+_Modified version of the tool to create Raspbian Images for TARPN Nodes_
+
 _Tool used to create the raspberrypi.org Raspbian images_
 
 
@@ -8,6 +10,34 @@ _Tool used to create the raspberrypi.org Raspbian images_
 
 
 ## Dependencies
+
+On MAC OSx Machines you will need
+ * Vagrant - https://www.vagrantup.com
+ * Virtual Box - https://www.virtualbox.org
+
+From a Terminal window you will need to execute the following commands
+```bash
+mkdir raspbian-docker
+cd raspbian-docker
+vagrant init debian/stretc64
+vagrant up
+vagrant ssh
+```
+
+At this point you are in the Vagrant virtual box that is essentially a light weight Debian Linux VM Running on your Apple Macintosh computer.
+Inside this Vagrant connection the following commands need to be executed
+
+```bash
+sudo su - 
+apt-get update
+apt-get install quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools git
+curl https://get.docker.com/ | sh
+
+git clone https://github.com/uuacallis/pi-gen.git
+```
+
+
+
 
 On Debian-based systems:
 
