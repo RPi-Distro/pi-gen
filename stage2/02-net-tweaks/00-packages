@@ -2,3 +2,19 @@ wpasupplicant wireless-tools firmware-atheros firmware-brcm80211 firmware-libert
 raspberrypi-net-mods
 dhcpcd5
 net-tools
+ax25-tools
+ax25-apps
+i2c-tools
+screen
+libcap2-bin
+libpcap0.8
+libpcap-dev
+minicom
+conspy
+telnet
+vim
+libasound2-dev
+build-essential python-dev
+python-serial python3-serial
+rpi-update
+iputils-ping
