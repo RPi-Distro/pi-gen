@@ -1,5 +1,12 @@
 UNRELEASED:
-  *
+  * Disable predictable network interface names for Ethernet devices
+  * Bug fix for keyboard settings dialog in Raspberry Pi Configuration
+  * Bug fix for crash on some videos and animations in Chromium
+  * Bug fix for taskbar crash when running RealVNC server
+  * Bug fix for reloading projects with extensions in Scratch 2
+  * Bug fix for MAC address problem in Bluetooth
+  * New icons in Thonny
+  * New Japanese translations in Raspberry Pi Configuration
 2017-08-16:
   * Based on Raspbian Stretch (Debian version 9)
   * Version 60 of Chromium browser included
