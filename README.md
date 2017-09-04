@@ -166,7 +166,7 @@ from `./stage2` (if building a minimal system).
 # Example for building a lite system
 echo "IMG_NAME='Raspbian'" > config
 touch ./stage3/SKIP ./stage4/SKIP ./stage5/SKIP
-rm stage4/EXPORT*
+rm stage4/EXPORT* stage5/EXPORT*
 sudo ./build.sh  # or ./build-docker.sh
 ```
 
