@@ -7,6 +7,7 @@ UNRELEASED:
   * Bug fix for MAC address problem in Bluetooth
   * New icons in Thonny
   * New Japanese translations in Raspberry Pi Configuration
+  * Install fonts-droid-fallback for international fonts
 2017-08-16:
   * Based on Raspbian Stretch (Debian version 9)
   * Version 60 of Chromium browser included
