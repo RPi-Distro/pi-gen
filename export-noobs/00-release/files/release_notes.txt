@@ -5,7 +5,7 @@ UNRELEASED:
   * Bug fix for taskbar crash when running RealVNC server
   * Bug fix for reloading projects with extensions in Scratch 2
   * Bug fix for MAC address problem in Bluetooth
-  * New icons in Thonny
+  * Simple mode and new icons in Thonny
   * New Japanese translations in Raspberry Pi Configuration
   * Install fonts-droid-fallback for international fonts
 2017-08-16:
