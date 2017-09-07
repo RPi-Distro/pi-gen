@@ -1,0 +1,10 @@
+[Unit]
+Description=Sub-GHz network daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/local/sbin/wpantund -o NCPSocketName /dev/ttyACM0 -o WPANInterfaceName wpan0
+StandardOutput=null
+
+[Install]
+Alias=wpantund
