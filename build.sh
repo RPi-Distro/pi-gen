@@ -119,6 +119,7 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
+
 if [ -f config ]; then
 	source config
 fi
@@ -128,6 +129,7 @@ if [ -z "${IMG_NAME}" ]; then
 	exit 1
 fi
 
+export USE_QEMU=${USE_QEMU:-0}
 export IMG_DATE=${IMG_DATE:-"$(date +%Y-%m-%d)"}
 
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -177,10 +179,12 @@ for EXPORT_DIR in ${EXPORT_DIRS}; do
 	source "${EXPORT_DIR}/EXPORT_IMAGE"
 	EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename ${EXPORT_DIR})/rootfs
 	run_stage
-	if [ -e ${EXPORT_DIR}/EXPORT_NOOBS ]; then
-		source ${EXPORT_DIR}/EXPORT_NOOBS
-		STAGE_DIR=${BASE_DIR}/export-noobs
-		run_stage
+	if [ "${USE_QEMU}" != "1" ]; then
+		if [ -e ${EXPORT_DIR}/EXPORT_NOOBS ]; then
+			source ${EXPORT_DIR}/EXPORT_NOOBS
+			STAGE_DIR=${BASE_DIR}/export-noobs
+			run_stage
+		fi
 	fi
 done
 

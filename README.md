@@ -66,6 +66,10 @@ The following environment variables are supported:
 
    Output directory for target system images and NOOBS bundles.
 
+ * `USE_QEMU` (Default: `"0"`)
+
+   This enable the Qemu mode and set filesystem and image suffix if set to 1.
+
 
 A simple example for building Raspbian:
 
