@@ -1,0 +1,3 @@
+[submodule "stage3/03-nodejs/repos/node-red-contrib-juliet"]
+	path = stage3/03-nodejs/repos/node-red-contrib-juliet
+url = ssh://git@git.8devices.com/node-red-contrib-juliet.git
