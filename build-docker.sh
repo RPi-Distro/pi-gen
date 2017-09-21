@@ -71,10 +71,10 @@ else
 	cd /pi-gen; ./build.sh &&
 	rsync -av work/*/build.log deploy/" &
 	wait "$!"
-	$DOCKER rm -v $CONTAINER_NAME
 fi
 echo "copying results from deploy/"
 $DOCKER cp "${CONTAINER_NAME}":/pi-gen/deploy .
 ls -lah deploy
+$DOCKER rm -v $CONTAINER_NAME
 
 echo "Done! Your image(s) should be in deploy/"
