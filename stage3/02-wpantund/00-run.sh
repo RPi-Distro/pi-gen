@@ -26,5 +26,6 @@ on_chroot << EOF
   ./configure --sysconfdir=/etc
   make -j3
   make install
-  systemctl disable wpantund
 EOF
+#   systemctl disable wpantund
+# EOF

@@ -1,4 +1,4 @@
+libtool autoconf autoconf-archive
 dbus libreadline5
-#gcc g++ libdbus-1-dev libboost-dev libreadline-dev
-#libtool autoconf autoconf-archive
+gcc g++ libdbus-1-dev libboost-dev libreadline-dev
 #make
