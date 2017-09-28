@@ -20,3 +20,4 @@ rpi-update
 libmtp-runtime
 rsync
 htop
+man-db
