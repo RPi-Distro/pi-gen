@@ -10,5 +10,4 @@ rfkill
 chromium-browser rpi-chromium-mods
 gldriver-test
 fonts-droid-fallback
-fonts-arkpandora
 fonts-liberation2
