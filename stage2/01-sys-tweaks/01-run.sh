@@ -251,11 +251,10 @@ if [ ${OS_TYPE} == "drideOS" ]; then
 
 
 	echo "" >> /boot/config.txt
-	echo "core_freq=250" >> /boot/config.txt
 	echo "enable_uart=1" >> /boot/config.txt
 
 	# this will be done after initial boot
-	# echo "dwc_otg.lpm_enable=0  console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4  elevator=deadline fsck.repair=yes   rootwait" > /boot/cmdline.txt
+	# echo "dwc_otg.lpm_enable=0  console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4  elevator=deadline fsck.repair=yes spidev.bufsiz=32768 rootwait" > /boot/cmdline.txt
 
 
 
@@ -356,15 +355,17 @@ cd /home/Cardigan/dride-ws
 sudo npm i --production
 
 
-if [ ${OS_TYPE} == "drideOS" ]; then
-	echo "========== Install Indicators  ============"
-	sudo apt-get install scons
-	cd /home/Cardigan/modules/indicators
-	sudo scons
-	sudo apt-get install python-dev swig -y
-	cd /home/Cardigan/modules/indicators/python
-	sudo python setup.py install
-fi
+
+echo "========== Install Indicators  ============"
+echo "# Needed for SPI LED" >> /boot/config.txt
+echo "core_freq=250" >> /boot/config.txt
+sudo apt-get install scons
+cd /home/Cardigan/modules/indicators
+sudo scons
+sudo apt-get install python-dev swig -y
+cd /home/Cardigan/modules/indicators/python
+sudo python setup.py install
+
 
 
 
