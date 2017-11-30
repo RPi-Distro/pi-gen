@@ -313,20 +313,25 @@ echo "========== Setup RTC  ============"
 sudo apt-get install python-smbus i2c-tools
 # TODO: turn on ISC on raspi-config...
 
+
+
+
 # add to sudo nano /boot/config.txt
-# dtoverlay=i2c-rtc,pcf8523
+echo "dtoverlay=i2c-rtc,ds3231" >> /boot/config.txt
+echo "dtparam=i2c_arm=on" >> /boot/config.txt
 
 # Remove hw-clock
 sudo apt-get -y remove fake-hwclock
 sudo update-rc.d -f fake-hwclock remove
 
 # copy new file to
-#sudo nano /lib/udev/hwclock-set
+sudo wget https://dride.io/code/hwclock-set
 
-# set HW clock
-sudo hwclock -D -r
+sudo cp dhcpd.conf /lib/udev/hwclock-set
+sudo rm hwclock-set
 
-
+# we will sync the current date form the app using BLE
+# looks at /daemon/bluetooth/updateDate.js
 
 echo "========== Install Dride-core [Cardigan]  ============"
 cd /home
