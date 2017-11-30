@@ -327,11 +327,25 @@ sudo update-rc.d -f fake-hwclock remove
 # copy new file to
 sudo wget https://dride.io/code/hwclock-set
 
-sudo cp dhcpd.conf /lib/udev/hwclock-set
+sudo cp hwclock-set /lib/udev/hwclock-set
 sudo rm hwclock-set
 
 # we will sync the current date form the app using BLE
 # looks at /daemon/bluetooth/updateDate.js
+
+
+echo "========== Setup Accelerometer  ============"
+# http://www.stuffaboutcode.com/2014/06/raspberry-pi-adxl345-accelerometer.html
+# enable i2c 0
+echo "dtparam=i2c_vc=on" >> /boot/config.txt
+
+
+
+
+
+
+
+
 
 echo "========== Install Dride-core [Cardigan]  ============"
 cd /home
