@@ -220,7 +220,7 @@ if [ ${OS_TYPE} == "drideOS" ]; then
 	sudo wget https://dride.io/code/startup/dride-core
 	sudo wget https://dride.io/code/startup/drideOS-resize
 else
-	sudo wget https://dride.io/code/startup/dride-core-z
+	sudo wget https://dride.io/code/startup/dride-core
 fi;
 
 
@@ -234,7 +234,7 @@ sudo rm dride-ws
 if [ ${OS_TYPE} == "drideOS" ]; then
 	sudo cp dride-core /etc/init.d/dride-core
 else
-	sudo cp dride-core-z /etc/init.d/dride-core
+	sudo cp dride-core /etc/init.d/dride-core
 fi;
 
 sudo chmod +x /etc/init.d/dride-core
@@ -374,6 +374,10 @@ sudo chmod +x /home/Cardigan/daemons/gps/position
 
 # make the firmware dir writable
 sudo chmod 777 -R /home/Cardigan/firmware/
+
+# run npm install on video module
+cd /home/Cardigan/modules/video
+sudo npm i --production
 
 
 # run npm install on dride-ws
