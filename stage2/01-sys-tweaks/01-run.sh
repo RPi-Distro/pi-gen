@@ -109,7 +109,7 @@ sudo apt-get install htop -y
 
 
 echo "========== Setup libav  ============"
-sudo apt-get install libav-tools
+sudo apt-get install libav-tools -y
 
 
 
@@ -290,7 +290,7 @@ if [ ${OS_TYPE} == "drideOS" ]; then
 	unzip -q -n "opencv-3.1.0.zip"
 
 	cd opencv-3.1.0
-	echo "==>>>====== Building OpenCV ============"
+	echo "======== Building OpenCV ============"
 	cd /home/opencv-3.1.0
 	mkdir build
 	cd build
