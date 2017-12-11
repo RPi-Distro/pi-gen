@@ -104,6 +104,19 @@ fi
 echo "========== Installing gpac ============"
 sudo apt-get install gpac -y
 
+echo "========== Installing htop ============"
+sudo apt-get install htop -y
+
+
+echo "========== Setup FFMPEG  ============"
+sudo git clone git://source.ffmpeg.org/ffmpeg.git
+cd ffmpeg
+./configure
+make
+make install
+
+
+
 
 # Install Node
 echo "========== Installing Node ============"
