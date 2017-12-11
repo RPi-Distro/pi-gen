@@ -109,6 +109,7 @@ sudo apt-get install htop -y
 
 
 echo "========== Setup FFMPEG  ============"
+sudo apt-get install git -y
 sudo git clone git://source.ffmpeg.org/ffmpeg.git
 cd ffmpeg
 ./configure
