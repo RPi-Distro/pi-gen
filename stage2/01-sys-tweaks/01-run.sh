@@ -388,6 +388,13 @@ cd /home/Cardigan/dride-ws
 sudo npm i --production
 
 
+# setup clear cron job
+crontab -l > cleanerJob
+echo "* * * * * node /home/Cardigan/modules/video/helpers/cleaner.js" >> cleanerJob
+#install new cron file
+crontab cleanerJob
+rm cleanerJob
+
 
 echo "========== Install Indicators  ============"
 echo "# Needed for SPI LED" >> /boot/config.txt
