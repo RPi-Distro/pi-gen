@@ -58,3 +58,7 @@ usermod --pass='*' root
 EOF
 
 rm -f ${ROOTFS_DIR}/etc/ssh/ssh_host_*_key*
+
+on_chroot << EOF
+systemctl enable ssh
+EOF

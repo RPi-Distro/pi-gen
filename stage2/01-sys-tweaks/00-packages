@@ -22,3 +22,5 @@ rsync
 htop
 man-db
 policykit-1
+ansible
+ntp

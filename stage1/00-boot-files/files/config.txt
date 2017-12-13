@@ -22,7 +22,7 @@
 #framebuffer_height=720
 
 # uncomment if hdmi display is not detected and composite is being output
-#hdmi_force_hotplug=1
+hdmi_force_hotplug=1
 
 # uncomment to force a specific HDMI mode (this will force VGA)
 #hdmi_group=1
@@ -30,11 +30,11 @@
 
 # uncomment to force a HDMI mode rather than DVI. This can make audio work in
 # DMT (computer monitor) modes
-#hdmi_drive=2
+hdmi_drive=2
 
 # uncomment to increase signal to HDMI, if you have interference, blanking, or
 # no display
-#config_hdmi_boost=4
+config_hdmi_boost=4
 
 # uncomment for composite PAL
 #sdtv_mode=2
@@ -54,3 +54,10 @@
 
 # Enable audio (loads snd_bcm2835)
 dtparam=audio=on
+
+# Disable the ACT LED on the pi.
+dtparam=act_led_trigger=none
+dtparam=act_led_activelow=off
+
+# shutdown / power on from GPIO 3
+dtoverlay=gpio-shutdown,gpio_pin=3,active_low=1,gpio_pull=up
