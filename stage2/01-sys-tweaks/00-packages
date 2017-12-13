@@ -21,3 +21,4 @@ libmtp-runtime
 rsync
 htop
 man-db
+policykit-1
