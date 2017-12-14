@@ -115,10 +115,7 @@ sudo apt-get install libav-tools -y
 
 # Install Node
 echo "========== Installing Node ============"
-sudo wget http://node-arm.herokuapp.com/node_latest_armhf.deb 
-sudo dpkg -i node_latest_armhf.deb
-
-sudo rm /home/node_latest_armhf.deb
+sudo wget -O - https://raw.githubusercontent.com/audstanley/NodeJs-Raspberry-Pi/master/Install-Node.sh | bash;
 
 
 
