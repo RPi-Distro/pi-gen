@@ -115,8 +115,8 @@ sudo apt-get install libav-tools -y
 
 # Install Node
 echo "========== Installing Node ============"
-curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-sudo apt-get install -y nodejs
+wget -O - https://raw.githubusercontent.com/sdesalas/node-pi-zero/master/install-node-v8.9.0.sh | bash
+
 
 echo "========== Installing pip ============"
 sudo apt-get install python-pip -y
