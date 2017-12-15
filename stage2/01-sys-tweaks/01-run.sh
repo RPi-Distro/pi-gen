@@ -115,9 +115,8 @@ sudo apt-get install libav-tools -y
 
 # Install Node
 echo "========== Installing Node ============"
-sudo wget -O - https://raw.githubusercontent.com/audstanley/NodeJs-Raspberry-Pi/master/Install-Node.sh | bash;
-
-
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
 echo "========== Installing pip ============"
 sudo apt-get install python-pip -y
