@@ -32,7 +32,7 @@ Usage:
     build-docker.sh [options]
 Optional environment arguments: ( =<default> )
     CONTAINER_NAME=pigen_work  set a name for the build container
-    CONTINUE=0                  continue from a previously started container
+    CONTINUE=1                 continue from a previously started container
 EOF
 	exit 1
 fi
