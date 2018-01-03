@@ -85,8 +85,10 @@ run_stage(){
 	unmount ${WORK_DIR}/${STAGE}
 	STAGE_WORK_DIR=${WORK_DIR}/${STAGE}
 	ROOTFS_DIR=${STAGE_WORK_DIR}/rootfs
-	if [ -f ${STAGE_DIR}/EXPORT_IMAGE ]; then
-		EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
+	if [ ! -f SKIP_IMAGES ]; then
+		if [ -f ${STAGE_DIR}/EXPORT_IMAGE ]; then
+			EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
+		fi
 	fi
 	if [ ! -f SKIP ]; then
 		if [ "${CLEAN}" = "1" ]; then
