@@ -10,9 +10,10 @@
         "Pi Model",
         "Pi 2",
         "Pi Zero",
-        "Pi 3"
+        "Pi 3",
+        "Pi Compute Module 3"
     ],
     "url": "http://www.raspbian.org/",
     "username": "pi",
-    "version": "jessie"
+    "version": "stretch"
 }

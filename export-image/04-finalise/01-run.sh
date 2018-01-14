@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 IMG_FILE="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.img"
+INFO_FILE="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.info"
 
 on_chroot << EOF
 /etc/init.d/fake-hwclock stop
@@ -14,8 +15,10 @@ fi
 rm -f ${ROOTFS_DIR}/etc/apt/apt.conf.d/51cache
 rm -f ${ROOTFS_DIR}/usr/sbin/policy-rc.d
 rm -f ${ROOTFS_DIR}/usr/bin/qemu-arm-static
-if [ -e ${ROOTFS_DIR}/etc/ld.so.preload.disabled ]; then
-        mv ${ROOTFS_DIR}/etc/ld.so.preload.disabled ${ROOTFS_DIR}/etc/ld.so.preload
+if [ "${USE_QEMU}" != "1" ]; then
+	if [ -e ${ROOTFS_DIR}/etc/ld.so.preload.disabled ]; then
+		mv ${ROOTFS_DIR}/etc/ld.so.preload.disabled ${ROOTFS_DIR}/etc/ld.so.preload
+	fi
 fi
 
 rm -f ${ROOTFS_DIR}/etc/apt/sources.list~
@@ -42,10 +45,29 @@ for _FILE in $(find ${ROOTFS_DIR}/var/log/ -type f); do
 done
 
 rm -f "${ROOTFS_DIR}/root/.vnc/private.key"
+rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
 
 update_issue $(basename ${EXPORT_DIR})
 install -m 644 ${ROOTFS_DIR}/etc/rpi-issue ${ROOTFS_DIR}/boot/issue.txt
 install files/LICENSE.oracle ${ROOTFS_DIR}/boot/
+
+
+cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
+
+firmware=$(zgrep "firmware as of" "$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" | \
+	head -n1 | \
+	sed  -n 's|.* \([^ ]*\)$|\1|p')
+
+printf "\nFirmware: https://github.com/raspberrypi/firmware/tree/%s\n" "$firmware" >> "$INFO_FILE"
+
+kernel=$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/git_hash")
+printf "Kernel: https://github.com/raspberrypi/linux/tree/%s\n" "$kernel" >> "$INFO_FILE"
+
+uname=$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/uname_string7")
+printf "Uname string: %s\n" "$uname" >> "$INFO_FILE"
+
+printf "\nPackages:\n">> "$INFO_FILE"
+dpkg -l --root "$ROOTFS_DIR" >> "$INFO_FILE"
 
 ROOT_DEV=$(mount | grep "${ROOTFS_DIR} " | cut -f1 -d' ')
 
@@ -58,7 +80,8 @@ mkdir -p ${DEPLOY_DIR}
 
 rm -f ${DEPLOY_DIR}/image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.zip
 
-echo zip ${DEPLOY_DIR}/image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.zip ${IMG_FILE}
 pushd ${STAGE_WORK_DIR} > /dev/null
 zip ${DEPLOY_DIR}/image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.zip $(basename ${IMG_FILE})
 popd > /dev/null
+
+cp "$INFO_FILE" "$DEPLOY_DIR"

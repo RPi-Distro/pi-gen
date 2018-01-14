@@ -1,5 +1,34 @@
 UNRELEASED:
-  * 
+  * Added battery monitor plugin for taskbar - works on x86 images or first-generation Pi-Top
+  * Added cutdown mode to PCManFM file manager to reduce complexity
+  * Added ability to rename files in PCManFM by clicking name when selected
+  * Bug fix in Bluetooth ALSA module to reduce truncation of audio at end of playback
+  * Various small tweaks, bug fixes and theme modifications
+  * New kernel and firmware
+2017-09-07:
+  * Disable predictable network interface names for Ethernet devices
+  * Bug fix for keyboard settings dialog in Raspberry Pi Configuration
+  * Bug fix for crash on some videos and animations in Chromium
+  * Bug fix for taskbar crash when running RealVNC server
+  * Bug fix for reloading projects with extensions in Scratch 2
+  * Bug fix for MAC address problem in Bluetooth
+  * Simple mode and new icons in Thonny
+  * New Japanese translations in Raspberry Pi Configuration
+  * Install fonts-droid-fallback for international fonts
+2017-08-16:
+  * Based on Raspbian Stretch (Debian version 9)
+  * Version 60 of Chromium browser included
+  * Version 3.0.1 of Sonic Pi included
+  * Version 6.1.1 of RealVNC included
+  * Version 0.17.4 of NodeRED included
+  * Bluetooth audio routed via ALSA rather than Pulseaudio
+  * SenseHAT extension added to Scratch 2
+  * Various desktop applications modified to prompt for sudo password if needed
+  * lxinput control options for mouse speed simplified
+  * lxpanel plugins moved into separate packages
+  * Wireless firmware for Pi 3 and Pi 0W modified to address Broadpwn exploit
+  * Latest kernel and firmware
+  * Various small tweaks, bug fixes and theme modifications
 2017-07-05:
   * New kernel and firmware
   * Filesystem created without the metadata_csum feature

@@ -1,4 +1,4 @@
-ssh less fbset sudo psmisc strace module-init-tools ed ncdu crda
+ssh less fbset sudo psmisc strace ed ncdu crda
 console-setup keyboard-configuration debconf-utils parted unzip
 build-essential manpages-dev python bash-completion gdb pkg-config
 python-rpi.gpio v4l-utils
@@ -6,7 +6,7 @@ avahi-daemon
 lua5.1
 luajit
 hardlink ca-certificates curl
-fake-hwclock ntp nfs-common usbutils
+fake-hwclock nfs-common usbutils
 libraspberrypi-dev libraspberrypi-doc libfreetype6-dev
 dosfstools
 dphys-swapfile
@@ -17,3 +17,8 @@ usb-modeswitch
 apt-transport-https
 libpam-chksshpwd
 rpi-update
+libmtp-runtime
+rsync
+htop
+man-db
+policykit-1
