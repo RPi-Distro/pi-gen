@@ -1,6 +1,6 @@
 # Dependencies
 
-    sudo apt-get update && sudo apt-get install git quilt kpartx realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin -y && cd ../ &&
+    sudo apt-get update && sudo apt-get install git curl quilt parted realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin grep rsync xz-utils -y && cd ../ &&
     sudo git clone https://github.com/dride/drideOS-image-generator && cd drideOS-image-generator && sudo ./build.sh
 
 ## Stage Anatomy
