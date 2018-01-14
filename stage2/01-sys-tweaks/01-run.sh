@@ -144,7 +144,7 @@ if [ ${OS_TYPE} == "drideOS" ]; then
 fi
 
 echo "========== Install picamera  ============"
-sudo pip install "picamera[array]==1.12"
+sudo apt-get install python3-picamera
 
 
 # enable camera on raspi-config and allocate more ram to the GPU
