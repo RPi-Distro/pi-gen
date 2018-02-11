@@ -15,15 +15,18 @@
 case "$1" in
   start)
     echo "Starting dride-core"
-    # run application you want to start
-    sudo python /home/Cardigan/mainPiZero.py &
+	  #blink LED
+	  sudo python /home/Cardigan/modules/indicators/python/states/standalone.py welcome
 
-    # run gps daemon
-    sudo python /home/Cardigan/daemons/gps/helper.py &
+    # decode undecoded clips on startup
+    sudo node /home/Cardigan/modules/video/helpers/ensureAllClipsAreDecoded.js &
+
+    # start recording
+    sudo node /home/Cardigan/modules/video/index.js &
 
     # run button / bluetooth daemon
-    sudo python /home/Cardigan/daemons/bluetooth/initPin.py &
-    sleep 5 && sudo BLENO_DEVICE_NAME="dride" node /home/Cardigan/daemons/bluetooth/main.js &
+	  sudo python /home/Cardigan/daemons/bluetooth/initPin.py &
+    sudo BLENO_DEVICE_NAME="dride" node /home/Cardigan/daemons/bluetooth/main.js &
     ;;
   stop)
     echo "Stopping dride-core"
@@ -37,6 +40,3 @@ case "$1" in
 esac
 
 exit 0
-
-
-

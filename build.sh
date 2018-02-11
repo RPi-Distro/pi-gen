@@ -134,8 +134,6 @@ fi
 export USE_QEMU=${USE_QEMU:-0}
 export IMG_DATE=${IMG_DATE:-"$(date +%Y-%m-%d)"}
 
-export OS_TYPE=$1
-
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
 export WORK_DIR=${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"}

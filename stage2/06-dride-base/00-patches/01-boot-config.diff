@@ -1,0 +1,14 @@
+Index: stretch-stage2/rootfs/boot/config.txt
+===================================================================
+--- stretch-stage2.orig/rootfs/boot/config.txt
++++ stretch-stage2/rootfs/boot/config.txt
+@@ -57,3 +57,9 @@
+
+ # ether over usb
+ dtoverlay=dwc2
++
++# enable piCamera
++start_x=1
++gpu_mem=128
++dtparam=spi=on
++

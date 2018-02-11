@@ -1,7 +1,7 @@
-Index: jessie-stage1/rootfs/etc/hosts
+Index: stretch-stage1/rootfs/etc/hosts
 ===================================================================
---- jessie-stage1.orig/rootfs/etc/hosts
-+++ jessie-stage1/rootfs/etc/hosts
+--- stretch-stage1.orig/rootfs/etc/hosts
++++ stretch-stage1/rootfs/etc/hosts
 @@ -3,3 +3,4 @@
  ff02::1		ip6-allnodes
  ff02::2		ip6-allrouters
