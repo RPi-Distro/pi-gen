@@ -22,14 +22,6 @@ EOF
 if [ "${USE_QEMU}" = "1" ]; then
 	echo "enter QEMU mode"
 	install -m 644 files/90-qemu.rules		${ROOTFS_DIR}/etc/udev/rules.d/
-	if [ -e ${ROOTFS_DIR}/etc/ld.so.preload.disabled ]; then
-		rm ${ROOTFS_DIR}/etc/ld.so.preload.disabled
-		touch ${ROOTFS_DIR}/etc/ld.so.preload.disabled
-	fi
-	if [ -e ${ROOTFS_DIR}/etc/ld.so.preload ]; then
-		rm ${ROOTFS_DIR}/etc/ld.so.preload
-		touch ${ROOTFS_DIR}/etc/ld.so.preload
-	fi
 	on_chroot << EOF
 systemctl disable resize2fs_once
 EOF

@@ -13,13 +13,7 @@ if [ -d ${ROOTFS_DIR}/home/pi/.config ]; then
 fi
 
 rm -f ${ROOTFS_DIR}/etc/apt/apt.conf.d/51cache
-rm -f ${ROOTFS_DIR}/usr/sbin/policy-rc.d
 rm -f ${ROOTFS_DIR}/usr/bin/qemu-arm-static
-if [ "${USE_QEMU}" != "1" ]; then
-	if [ -e ${ROOTFS_DIR}/etc/ld.so.preload.disabled ]; then
-		mv ${ROOTFS_DIR}/etc/ld.so.preload.disabled ${ROOTFS_DIR}/etc/ld.so.preload
-	fi
-fi
 
 rm -f ${ROOTFS_DIR}/etc/apt/sources.list~
 rm -f ${ROOTFS_DIR}/etc/apt/trusted.gpg~
