@@ -18,14 +18,6 @@ tar xvf files/python_games.tar.gz -C ${ROOTFS_DIR}/home/pi/python_games --strip-
 chown 1000:1000 ${ROOTFS_DIR}/home/pi/python_games -Rv
 chmod +x ${ROOTFS_DIR}/home/pi/python_games/launcher.sh
 
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/Documents"
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/Documents/BlueJ Projects"
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/Documents/Greenfoot Projects"
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/Documents/Scratch Projects"
-rsync -a --chown=1000:1000 ${ROOTFS_DIR}/usr/share/doc/BlueJ/ "${ROOTFS_DIR}/home/pi/Documents/BlueJ Projects"
-rsync -a --chown=1000:1000 ${ROOTFS_DIR}/usr/share/doc/Greenfoot/ "${ROOTFS_DIR}/home/pi/Documents/Greenfoot Projects"
-rsync -a --chown=1000:1000 ${ROOTFS_DIR}/usr/share/scratch/Projects/Demos/ "${ROOTFS_DIR}/home/pi/Documents/Scratch Projects"
-
 #Alacarte fixes
 install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/.local"
 install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/.local/share"
