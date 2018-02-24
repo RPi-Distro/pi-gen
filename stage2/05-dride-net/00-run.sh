@@ -13,6 +13,7 @@ on_chroot << EOC
 #apt-get install hostapd dnsmasq -yqq
 
 cat > /etc/dnsmasq.conf <<EOF
+port=0
 interface=wlan0
 dhcp-range=192.168.42.10,192.168.42.20,255.255.255.0,12h
 EOF
