@@ -274,7 +274,7 @@ sudo npm i --production
 
 # setup clear cron job
 crontab -l > cleanerJob
-echo "* * * * * node /home/Cardigan/modules/video/helpers/cleaner.js" >> cleanerJob
+echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/cleaner.js" >> cleanerJob
 # install new cron file
 crontab cleanerJob
 rm cleanerJob
