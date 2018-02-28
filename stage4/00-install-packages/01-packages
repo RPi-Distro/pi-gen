@@ -17,3 +17,6 @@ python-scrollphathd python3-scrollphathd
 python-sn3218 python3-sn3218
 python-skywriter python3-skywriter
 python-touchphat python3-touchphat
+python-buttonshim python3-buttonshim
+python-unicornhathd  python3-unicornhathd
+python-pantilthat python3-pantilthat
