@@ -13,6 +13,7 @@ BOOT_SIZE=$(du --apparent-size -s ${EXPORT_ROOTFS_DIR}/boot --block-size=1 | cut
 TOTAL_SIZE=$(du --apparent-size -s ${EXPORT_ROOTFS_DIR} --exclude var/cache/apt/archives --block-size=1 | cut -f 1)
 
 ROUND_SIZE="$((4 * 1024 * 1024))"
+ROUNDED_ROOT_SECTOR=$(((2 * BOOT_SIZE + ROUND_SIZE) / ROUND_SIZE * ROUND_SIZE / 512 + 8192))
 IMG_SIZE=$(((BOOT_SIZE + TOTAL_SIZE + (800 * 1024 * 1024) + ROUND_SIZE) / ROUND_SIZE * ROUND_SIZE))
 
 truncate -s ${IMG_SIZE} ${IMG_FILE}
@@ -29,7 +30,7 @@ c
 n
 
 
-8192
+${ROUNDED_ROOT_SECTOR}
 
 
 p
