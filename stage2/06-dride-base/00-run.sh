@@ -206,7 +206,7 @@ echo "========== Setup mic  ============"
 
 echo "========== Setup RTC  ============"
 # https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/set-rtc-time
-sudo apt-get install python-smbus i2c-tools
+sudo apt-get install python-smbus i2c-tools i2cdetect
 # TODO: turn on ISC on raspi-config...
 
 
