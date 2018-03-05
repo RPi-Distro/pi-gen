@@ -139,6 +139,12 @@ continue:
 CONTINUE=1 ./build-docker.sh
 ```
 
+After successful build, the build container is by default removed. This may be undesired when making incremental changes to a customized build. To prevent the build script from remove the container add
+
+```bash
+PRESERVE_CONTAINER=1 ./build-docker.sh
+```
+
 There is a possibility that even when running from a docker container, the
 installation of `qemu-user-static` will silently fail when building the image
 because `binfmt-support` _must be enabled on the underlying kernel_. An easy
