@@ -206,7 +206,7 @@ echo "========== Setup mic  ============"
 
 echo "========== Setup RTC  ============"
 # https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/set-rtc-time
-sudo apt-get install python-smbus i2c-tools i2cdetect
+sudo apt-get install python-smbus i2c-tools -y
 # TODO: turn on ISC on raspi-config...
 
 
@@ -219,11 +219,6 @@ echo "dtparam=i2c_arm=on" >> /boot/config.txt
 sudo apt-get -y remove fake-hwclock
 sudo update-rc.d -f fake-hwclock remove
 
-
-# copy new file to
-# sudo wget https://dride.io/code/hwclock-set
-# sudo cp hwclock-set /lib/udev/hwclock-set
-# sudo rm hwclock-set
 # we will sync the current date form the app using BLE
 # looks at /daemon/bluetooth/updateDate.js
 
