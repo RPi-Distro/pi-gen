@@ -273,9 +273,16 @@ sudo npm i --production
 # setup clear cron job
 crontab -l > cleanerJob
 echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/cleaner.js" >> cleanerJob
+
+# setup ensureAllClipsAreDecoded cron job
+crontab -l > ensureAllClipsAreDecoded
+echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/ensureAllClipsAreDecoded.js" >> ensureAllClipsAreDecoded
+
 # install new cron file
 crontab cleanerJob
+crontab ensureAllClipsAreDecoded
 rm cleanerJob
+rm ensureAllClipsAreDecoded
 
 
 echo "========== Install Indicators  ============"
