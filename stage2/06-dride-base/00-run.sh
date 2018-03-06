@@ -210,9 +210,12 @@ sudo apt-get install python-smbus i2c-tools -y
 # TODO: turn on ISC on raspi-config...
 
 
-# add to sudo nano /boot/config.txt
+# add to /boot/config.txt
 echo "dtoverlay=i2c-rtc,ds3231,dwc2" >> /boot/config.txt
 echo "dtparam=i2c_arm=on" >> /boot/config.txt
+
+# add to /boot/config.txt
+echo "i2c-dev" >> /etc/modules
 
 
 # Remove hw-clock
