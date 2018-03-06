@@ -14,9 +14,12 @@
 
 case "$1" in
   start)
+    echo "Setting up HwClock"
+	sudo hwclock -s
+
     echo "Starting dride-core"
-	  #blink LED
-	  sudo python /home/Cardigan/modules/indicators/python/states/standalone.py welcome
+	#blink LED
+	sudo python /home/Cardigan/modules/indicators/python/states/standalone.py welcome
 
     # decode undecoded clips on startup
     sudo node /home/Cardigan/modules/video/helpers/ensureAllClipsAreDecoded.js &
