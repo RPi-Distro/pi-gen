@@ -253,6 +253,9 @@ sudo chmod +x /home/Cardigan/daemons/gps/position
 # make the firmware dir writable
 sudo chmod 777 -R /home/Cardigan/firmware/
 
+# make the firmware dir writable
+sudo chmod 777 -R /home/Cardigan/state/
+
 
 # run npm install on video module
 cd /home/Cardigan/modules/video
