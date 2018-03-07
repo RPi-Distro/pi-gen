@@ -275,16 +275,16 @@ sudo npm i --production
 
 
 # setup clear cron job
-crontab -l > cronJobs
+sudo crontab -l > cronJobs
 
 # setup cleaner cron job
-echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/cleaner.js" >> cronJobs
+sudo echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/cleaner.js" >> cronJobs
 
 # setup ensureAllClipsAreDecoded cron job
-echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/ensureAllClipsAreDecoded.js" >> cronJobs
+sudo echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/ensureAllClipsAreDecoded.js" >> cronJobs
 
-crontab cronJobs
-rm cleanerJob
+sudo crontab cronJobs
+sudo rm cleanerJob
 
 
 
