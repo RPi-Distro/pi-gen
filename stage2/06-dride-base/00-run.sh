@@ -253,7 +253,7 @@ sudo chmod +x /home/Cardigan/daemons/gps/position
 # make the firmware dir writable
 sudo chmod 777 -R /home/Cardigan/firmware/
 
-# make the firmware dir writable
+# make the state dir writable
 sudo chmod 777 -R /home/Cardigan/state/
 
 
@@ -275,18 +275,17 @@ sudo npm i --production
 
 
 # setup clear cron job
-crontab -l > cleanerJob
-echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/cleaner.js" >> cleanerJob
+crontab -l > cronJobs
+
+# setup cleaner cron job
+echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/cleaner.js" >> cronJobs
 
 # setup ensureAllClipsAreDecoded cron job
-crontab -l > ensureAllClipsAreDecoded
-echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/ensureAllClipsAreDecoded.js" >> ensureAllClipsAreDecoded
+echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/ensureAllClipsAreDecoded.js" >> cronJobs
 
-# install new cron file
-crontab cleanerJob
-crontab ensureAllClipsAreDecoded
+crontab cronJobs
 rm cleanerJob
-rm ensureAllClipsAreDecoded
+
 
 
 echo "========== Install Indicators  ============"
