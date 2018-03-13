@@ -213,14 +213,14 @@ If you wish to build up to a specified stage (such as building up to stage 2
 for a lite system), place an empty file named `SKIP` in each of the `./stage`
 directories you wish not to include.
 
-Then remove the `EXPORT*` files from `./stage4` (if building up to stage 2) or
-from `./stage2` (if building a minimal system).
+Then add an empty file named `SKIP_IMAGES` to `./stage4` (if building up to stage 2) or
+to `./stage2` (if building a minimal system).
 
 ```bash
 # Example for building a lite system
 echo "IMG_NAME='Raspbian'" > config
 touch ./stage3/SKIP ./stage4/SKIP ./stage5/SKIP
-rm stage4/EXPORT* stage5/EXPORT*
+touch ./stage4/SKIP_IMAGES ./stage5/SKIP_IMAGES
 sudo ./build.sh  # or ./build-docker.sh
 ```
 
