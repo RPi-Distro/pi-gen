@@ -28,7 +28,7 @@ case "$1" in
     sudo node /home/core/modules/video/index.js &
 
     # run button / bluetooth daemon
-	  sudo python /home/core/daemons/bluetooth/initPin.py &
+	sudo python /home/core/daemons/bluetooth/initPin.py &
     sudo BLENO_DEVICE_NAME="dride" node /home/core/daemons/bluetooth/main.js &
     ;;
   stop)

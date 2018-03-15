@@ -108,35 +108,13 @@ echo "========== Install pyserial  ============"
 sudo pip install pyserial
 
 
-#startup script's
-# sudo wget https://dride.io/code/startup/dride-ws
-
-
-# if [ ${OS_TYPE} == "dride-plus" ]; then
-# 	sudo wget https://dride.io/code/startup/dride-core
-# else
-# 	sudo wget https://dride.io/code/startup/dride-core
-# fi;
-
 
 # express on startup
-# sudo cp dride-ws /etc/init.d/dride-ws
-# sudo chmod +x /etc/init.d/dride-ws
 sudo update-rc.d dride-ws defaults
-# sudo rm dride-ws
-
 
 # dride-core on startup
-# if [ ${OS_TYPE} == "dride-plus" ]; then
-# 	sudo cp dride-core /etc/init.d/dride-core
-# else
-# 	sudo cp dride-core /etc/init.d/dride-core
-# fi;
-
-
-# sudo chmod +x /etc/init.d/dride-core
 sudo update-rc.d dride-core defaults
-# sudo rm dride-core
+
 
 
 if [ ${OS_TYPE} == "dride-plus" ]; then
@@ -191,20 +169,19 @@ if [ ${OS_TYPE} == "dride-plus" ]; then
 	# TODO: Add a test if openCV was installed correctly
 fi
 
+if [ ${OS_TYPE} == "dride-plus" ]; then
+	echo "========== Setup sound to I2S  ============"
+	sudo curl -sS https://dride.io/code/i2samp.sh  | bash
+fi
 
-echo "========== Setup sound to I2S  ============"
-sudo curl -sS https://dride.io/code/i2samp.sh  | bash
-
-
-echo "========== Setup mic  ============"
-# https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/raspberry-pi-wiring-and-test
-
+if [ ${OS_TYPE} == "dride-plus" ]; then
+	echo "========== Setup mic  ============"
+	# https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/raspberry-pi-wiring-and-test
+fi
 
 echo "========== Setup RTC  ============"
 # https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/set-rtc-time
 sudo apt-get install python-smbus i2c-tools -y
-# TODO: turn on ISC on raspi-config...
-
 
 # add to /boot/config.txt
 echo "dtoverlay=i2c-rtc,ds1307" >> /boot/config.txt
@@ -261,6 +238,11 @@ sudo chmod 777 -R /home/core/state/
 cd /home/core/dride-ws
 sudo npm i --production
 
+# run npm install on modules/video
+cd /home/core/modules/video
+sudo npm i --production
+
+echo "========== Add CronJobs  ============"
 
 # setup clear cron job
 sudo crontab -l > cronJobs
