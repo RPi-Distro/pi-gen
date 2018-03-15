@@ -15,7 +15,7 @@ case "$1" in
   start)
     echo "Starting dride-ws"
     # run node-express server
-    sudo node /home/Cardigan/dride-ws/server/app.js &
+    sudo node /home/core/dride-ws/server/app.js &
     ;;
   stop)
     echo "Stopping dride-ws"

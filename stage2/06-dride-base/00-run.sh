@@ -44,10 +44,6 @@ echo "   ========================="
 echo ""
 echo ""
 
-echo "========== Create DRIDE path ==========="
-# create the video/content destination
-sudo mkdir -p /dride/clip /dride/thumb /dride/tmp_clip
-
 cd /home
 
 # Install dependencies
@@ -214,7 +210,7 @@ sudo apt-get install python-smbus i2c-tools -y
 echo "dtoverlay=i2c-rtc,ds1307" >> /boot/config.txt
 echo "dtparam=i2c_arm=on" >> /boot/config.txt
 
-# add to /boot/config.txt
+# add to /etc/modules
 echo "i2c-dev" >> /etc/modules
 echo "rtc-ds1307" >> /etc/modules
 
@@ -234,43 +230,35 @@ echo "# Accelerometer" >> /boot/config.txt
 echo "dtparam=i2c_vc=on" >> /boot/config.txt
 
 
-echo "========== Install Dride-core [Cardigan]  ============"
+echo "========== Install Dride-core   ============"
 cd /home
 # https://s3.amazonaws.com/dride/releases/cardigan/latest.zip
-sudo mkdir Cardigan && cd Cardigan
-sudo wget -c -O "cardigan.zip" "https://s3.amazonaws.com/dride/releases/cardigan/latest.zip"
-sudo unzip "cardigan.zip"
-sudo rm -R cardigan.zip
+sudo mkdir core && cd core
+sudo wget -c -O "core.zip" "https://s3.amazonaws.com/dride/releases/cardigan/latest.zip"
+sudo unzip "core.zip"
+sudo rm -R core.zip
 
 
-# make the video dir writable
-sudo chmod 777 -R /home/Cardigan/modules/video/
-sudo chmod 777 -R /home/Cardigan/modules/settings/
+echo "========== Create video path ==========="
+# create the video/content destination
+sudo mkdir -p /dride/clip /dride/thumb /dride/tmp_clip
+
+
+sudo chmod 777 -R /dride/
+sudo chmod 777 -R /home/core/modules/settings/
 # make gps position writable
-sudo chmod +x /home/Cardigan/daemons/gps/position
+sudo chmod +x /home/core/daemons/gps/position
 
 
 # make the firmware dir writable
-sudo chmod 777 -R /home/Cardigan/firmware/
+sudo chmod 777 -R /home/core/firmware/
 
 # make the state dir writable
-sudo chmod 777 -R /home/Cardigan/state/
-
-
-# run npm install on video module
-cd /home/Cardigan/modules/video
-sudo npm i --production
-# set proper soft links to use /dride path
-sudo rm -rf tmp_clip/
-sudo ln -s /dride/tmp_clip/ tmp_clip
-sudo rm -rf thumb/
-sudo ln -s /dride/thumb/ thumb
-sudo rm -rf clip/
-sudo ln -s /dride/clip/ clip
+sudo chmod 777 -R /home/core/state/
 
 
 # run npm install on dride-ws
-cd /home/Cardigan/dride-ws
+cd /home/core/dride-ws
 sudo npm i --production
 
 
@@ -278,10 +266,10 @@ sudo npm i --production
 sudo crontab -l > cronJobs
 
 # setup cleaner cron job
-sudo echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/cleaner.js" >> cronJobs
+sudo echo "* * * * * sudo node /home/core/modules/video/helpers/cleaner.js" >> cronJobs
 
 # setup ensureAllClipsAreDecoded cron job
-sudo echo "* * * * * sudo node /home/Cardigan/modules/video/helpers/ensureAllClipsAreDecoded.js" >> cronJobs
+sudo echo "* * * * * sudo node /home/core/modules/video/helpers/ensureAllClipsAreDecoded.js" >> cronJobs
 
 sudo crontab cronJobs
 sudo rm cleanerJob
@@ -292,17 +280,17 @@ echo "========== Install Indicators  ============"
 echo "# Needed for SPI LED" >> /boot/config.txt
 echo "core_freq=250" >> /boot/config.txt
 sudo apt-get install scons
-cd /home/Cardigan/modules/indicators
+cd /home/core/modules/indicators
 sudo scons
 sudo apt-get install python-dev swig -y
-cd /home/Cardigan/modules/indicators/python
+cd /home/core/modules/indicators/python
 sudo python setup.py install
 
 
 echo "========== Setup bluetooth  ============"
 sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev -y
 # run npm install on Bluetooth daemon
-cd /home/Cardigan/daemons/bluetooth
+cd /home/core/daemons/bluetooth
 sudo npm i --production
 
 
