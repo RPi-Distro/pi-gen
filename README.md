@@ -101,6 +101,12 @@ The following environment variables are supported:
 
    Add a free space in the partition (value in megabyte). If Qemu image is generated it could be usefull to have a lot of free space.
 
+ * `USE_SSH` (Default: `"0"`)
+
+   For security SSH server is disabled by default so if you want to activate it set this to `"1"`.  
+   If `stage2/01-sys-tweaks/files/authorized_keys` is present then it will be copied in `/root/.ssh/`
+
+
 A simple example for building Raspbian:
 
 ```bash
