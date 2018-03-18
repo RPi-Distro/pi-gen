@@ -133,6 +133,7 @@ if [ -z "${IMG_NAME}" ]; then
 fi
 
 export USE_QEMU="${USE_QEMU:-0}"
+export LAST_STAGE=${LAST_STAGE:-5}
 export RPI_LOCALHOST=${RPI_LOCALHOST:-"raspberrypi"}
 export RPI_USERNAME=${RPI_USERNAME:-"pi"}
 export RPI_USERPASS=${RPI_USERPASS:-"raspberry"}
@@ -174,14 +175,22 @@ export QUILT_REFRESH_ARGS="-p ab"
 source "${SCRIPT_DIR}/common"
 # shellcheck source=scripts/dependencies_check
 source "${SCRIPT_DIR}/dependencies_check"
+mkdir -p "${WORK_DIR}"
 
+# LAST_STAGE validation
+if [[ "${LAST_STAGE,,}" =~ ^(2|4|5)$ ]]; then
+	log "Valid LAST_STAGE: $LAST_STAGE"
+else
+	log "ERROR INVALID LAST_STAGE: $LAST_STAGE, try 2, 4 or 5"
+	exit 2
+fi
 
 dependencies_check "${BASE_DIR}/depends"
 
-mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
-for STAGE_DIR in "${BASE_DIR}/stage"*; do
+for i in $( seq 0 $LAST_STAGE); do
+	STAGE_DIR=${BASE_DIR}/stage$i
 	run_stage
 done
 

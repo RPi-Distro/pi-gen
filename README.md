@@ -73,6 +73,10 @@ The following environment variables are supported:
    Setting to '1' enables the QEMU mode - creating an image that can be mounted via QEMU for an emulated
    environment. These images include "-qemu" in the image file name.
 
+ * `LAST_STAGE` (Default: `"5"`)
+
+   If you wish to build up to a specified stage (such as building up to stage 2 for a lite system)
+
  * `RPI_LOCALHOST` (Default: `"raspberrypi"`)
 
    Your image hostname.
@@ -233,6 +237,8 @@ maintenance and allows for more easy customization.
 
 ### Stage specification
 
+If you wish to skip some steps you can add an empty file `SKIP` in the directory.  
+It works in `./stage*` or in `./stage*/**-whatever`.
 If you wish to build up to a specified stage (such as building up to stage 2
 for a lite system), place an empty file named `SKIP` in each of the `./stage`
 directories you wish not to include.
