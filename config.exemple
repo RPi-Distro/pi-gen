@@ -1,0 +1,7 @@
+IMG_NAME="Raspbian"
+USE_QEMU=1
+KEYBOARD_LANG="gb"
+RPI_LOCALHOST="raspberrypi"
+RPI_USERNAME="pi"
+RPI_USERPASS="raspberry"
+RPI_ROOTPASS="root"

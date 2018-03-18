@@ -13,13 +13,14 @@ fi
 
 ln -sf pip3 "${ROOTFS_DIR}/usr/bin/pip-3.2"
 
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/python_games"
-tar xvf files/python_games.tar.gz -C "${ROOTFS_DIR}/home/pi/python_games" --strip-components=1
-chown 1000:1000 "${ROOTFS_DIR}/home/pi/python_games" -Rv
-chmod +x "${ROOTFS_DIR}/home/pi/python_games/launcher.sh"
+install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/${RPI_USERNAME}/python_games"
+tar xvf files/python_games.tar.gz -C "${ROOTFS_DIR}/home/${RPI_USERNAME}/python_games" --strip-components=1
+chown 1000:1000 "${ROOTFS_DIR}/home/${RPI_USERNAME}/python_games" -Rv
+chmod +x "${ROOTFS_DIR}/home/${RPI_USERNAME}/python_games/launcher.sh"
+
 
 #Alacarte fixes
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/.local"
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/.local/share"
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/.local/share/applications"
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/.local/share/desktop-directories"
+install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/${RPI_USERNAME}/.local"
+install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/${RPI_USERNAME}/.local/share"
+install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/${RPI_USERNAME}/.local/share/applications"
+install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/${RPI_USERNAME}/.local/share/desktop-directories"
