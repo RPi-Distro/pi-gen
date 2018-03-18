@@ -209,12 +209,11 @@ echo "dtparam=i2c_vc=on" >> /boot/config.txt
 
 echo "========== Install Dride-core   ============"
 cd /home
-# https://s3.amazonaws.com/dride/releases/cardigan/latest.zip
-sudo mkdir core && cd core
-sudo wget -c -O "core.zip" "https://s3.amazonaws.com/dride/releases/cardigan/latest.zip"
+# https://s3.amazonaws.com/dride/releases/dride/latest.zip
+sudo wget -c -O "core.zip" "https://s3.amazonaws.com/dride/releases/dride/latest.zip"
 sudo unzip "core.zip"
 sudo rm -R core.zip
-
+cd core
 
 echo "========== Create video path ==========="
 # create the video/content destination
