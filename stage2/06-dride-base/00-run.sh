@@ -253,7 +253,7 @@ sudo echo "* * * * * sudo node /home/core/modules/video/helpers/cleaner.js" >> c
 sudo echo "* * * * * sudo node /home/core/modules/video/helpers/ensureAllClipsAreDecoded.js" >> cronJobs
 
 sudo crontab cronJobs
-sudo rm cleanerJob
+sudo rm cronJobs
 
 
 
