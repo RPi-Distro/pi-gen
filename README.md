@@ -70,7 +70,8 @@ The following environment variables are supported:
 
  * `USE_QEMU` (Default: `"0"`)
 
-   This enable the Qemu mode and set filesystem and image suffix if set to 1.
+   Setting to '1' enables the QEMU mode - creating an image that can be mounted via QEMU for an emulated
+   environment. These images include "-qemu" in the image file name.
 
 
 A simple example for building Raspbian:
