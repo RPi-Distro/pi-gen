@@ -61,7 +61,7 @@ The following environment variables are supported:
    be built and cached.  Note, `WORK_DIR` stores a complete copy of the target
    system for each build stage, amounting to tens of gigabytes in the case of
    Raspbian.
-   
+
    **CAUTION**: If your working directory is on an NTFS partition you probably won't be able to build. Make sure this is a proper Linux filesystem.
 
  * `DEPLOY_DIR`  (Default: `"$BASE_DIR/deploy"`)
@@ -97,6 +97,9 @@ The following environment variables are supported:
 
    Change the keyboard default mapping (gb=qwerty, fr=azerty).
 
+ * `FREE_SPACE_MB` (Default: <int> 400)
+
+   Add a free space in the partition (value in megabyte). If Qemu image is generated it could be usefull to have a lot of free space.
 
 A simple example for building Raspbian:
 

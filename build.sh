@@ -134,6 +134,7 @@ fi
 
 export USE_QEMU="${USE_QEMU:-0}"
 export LAST_STAGE=${LAST_STAGE:-5}
+export FREE_SPACE_MB=${FREE_SPACE_MB:-400}
 export RPI_LOCALHOST=${RPI_LOCALHOST:-"raspberrypi"}
 export RPI_USERNAME=${RPI_USERNAME:-"pi"}
 export RPI_USERPASS=${RPI_USERPASS:-"raspberry"}
