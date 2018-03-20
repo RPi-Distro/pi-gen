@@ -22,7 +22,7 @@ case "$1" in
 	sudo python /home/core/modules/indicators/python/states/standalone.py welcome
 
     # start recording
-    sudo ncie -n -19 node /home/core/modules/video/index.js &
+    sudo nice -n -19 node /home/core/modules/video/index.js &
 
     # run button / bluetooth daemon
 	sudo python /home/core/daemons/bluetooth/initPin.py &
