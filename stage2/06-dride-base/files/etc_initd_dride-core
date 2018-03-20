@@ -21,11 +21,8 @@ case "$1" in
 	#blink LED
 	sudo python /home/core/modules/indicators/python/states/standalone.py welcome
 
-    # decode undecoded clips on startup
-    sudo node /home/core/modules/video/helpers/ensureAllClipsAreDecoded.js &
-
     # start recording
-    sudo node /home/core/modules/video/index.js &
+    sudo ncie -n -19 node /home/core/modules/video/index.js &
 
     # run button / bluetooth daemon
 	sudo python /home/core/daemons/bluetooth/initPin.py &
