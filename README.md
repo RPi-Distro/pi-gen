@@ -99,7 +99,7 @@ The following process is followed to build images:
    There are a number of different files and directories which can be used to
    control different parts of the build process:
 
-     - **00-run.sh** - A unix shell script. Needs to be made executable for it to run
+     - **00-run.sh** - A unix shell script. Needs to be made executable for it to run.
 
      - **00-run-chroot.sh** - A unix shell script which will be run in the chroot
        of the image build directory. Needs to be made executable for it to run.
@@ -111,9 +111,12 @@ The following process is followed to build images:
        separated, per line.
 
      - **00-packages-nr** - As 00-packages, except these will be installed using
-       the ```--no-install-recommends -y``` parameters to apt-get
+       the ```--no-install-recommends -y``` parameters to apt-get.
 
-     - **00-patches** - A directory containing patch files to be applied
+     - **00-patches** - A directory containing patch files to be applied, using quilt.
+       If a file named 'EDIT' is present in the directory, the build process will
+       be interrupted with a bash session, allowing an opportunity to create/revise
+       the patches.
 
   * If the stage directory contains files called "EXPORT_NOOBS" or "EXPORT_IMAGE" then
     add this stage to a list of images to generate
