@@ -143,7 +143,7 @@ export LOG_FILE="${WORK_DIR}/build.log"
 
 export BASE_DIR
 
-export CLEAN
+export CLEAN=${CLEAN:-"1"}
 export IMG_NAME
 export APT_PROXY
 
