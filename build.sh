@@ -40,7 +40,7 @@ EOF
 			pushd "${STAGE_WORK_DIR}" > /dev/null
 			if [ "${CLEAN}" = "1" ]; then
 				rm -rf .pc
-				rm -rf "./*-pc"
+				rm -rf ./*-pc
 			fi
 			QUILT_PATCHES="${SUB_STAGE_DIR}/${i}-patches"
 			SUB_STAGE_QUILT_PATCH_DIR="$(basename "$SUB_STAGE_DIR")-pc"
