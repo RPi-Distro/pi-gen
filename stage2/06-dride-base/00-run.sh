@@ -11,6 +11,7 @@ install -m 644 files/lib_udev_hwclock-set ${ROOTFS_DIR}/lib/udev/hwclock-set
 install -m 644 files/systemctl/ble.service ${ROOTFS_DIR}/lib/systemd/system/ble.service
 install -m 644 files/systemctl/record.service ${ROOTFS_DIR}/lib/systemd/system/record.service
 install -m 644 files/systemctl/ws.service ${ROOTFS_DIR}/lib/systemd/system/ws.service
+install -m 644 files/systemctl/live.service ${ROOTFS_DIR}/lib/systemd/system/live.service
 
 on_chroot << EOF
 

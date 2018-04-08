@@ -1,12 +1,12 @@
 [Unit]
-Description=Control the web service service of your Dride
+Description=Control the live mode service of your Dride
 Documentation=https://dride.io/documentation
 After=network.target
 
 [Service]
 Type=simple
 User=pi
-ExecStart=/usr/bin/node /home/core/dride-ws/server/app.js
+ExecStart=/opt/vc/bin/raspivid -t 0 -w 640 -h 480 -fps 25 -l -o tcp://0.0.0.0:3333
 Restart=on-failure
 
 [Install]

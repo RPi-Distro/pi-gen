@@ -1,5 +1,5 @@
 [Unit]
-Description=Control record proccess in your Dride
+Description=Control the Record service of your Dride
 Documentation=https://dride.io/documentation
 After=network.target
 
