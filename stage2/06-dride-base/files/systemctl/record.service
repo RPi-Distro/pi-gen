@@ -1,0 +1,18 @@
+[Unit]
+Description=Control record proccess in your Dride
+Documentation=https://dride.io/documentation
+After=network.target
+
+[Service]
+Environment=NODE_PORT=3001
+Type=simple
+User=pi
+ExecStart=/usr/bin/node /home/core/modules/video/index.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+

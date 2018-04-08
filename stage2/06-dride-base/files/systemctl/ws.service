@@ -1,0 +1,17 @@
+[Unit]
+Description=Control record proccess in your Dride
+Documentation=https://dride.io/documentation
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/node /home/core/dride-ws/server/app.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+

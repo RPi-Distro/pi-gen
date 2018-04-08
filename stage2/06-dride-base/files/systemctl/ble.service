@@ -1,0 +1,18 @@
+[Unit]
+Description=Control record proccess in your Dride
+Documentation=https://dride.io/documentation
+After=network.target
+
+[Service]
+Environment=BLENO_DEVICE_NAME=dride
+Type=simple
+User=pi
+ExecStart=/usr/bin/node /home/core/daemons/bluetooth/main.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+

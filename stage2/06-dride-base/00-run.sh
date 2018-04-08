@@ -5,9 +5,12 @@
 # Do not include if you are building for RPiZW
 
 
-install -m 755 files/etc_initd_dride-ws ${ROOTFS_DIR}/etc/init.d/dride-ws
 install -m 755 files/etc_initd_dride-core ${ROOTFS_DIR}/etc/init.d/dride-core
 install -m 644 files/lib_udev_hwclock-set ${ROOTFS_DIR}/lib/udev/hwclock-set
+
+install -m 644 files/systemctl/ble.service ${ROOTFS_DIR}/lib/systemd/system/ble.service
+install -m 644 files/systemctl/record.service ${ROOTFS_DIR}/lib/systemd/system/record.service
+install -m 644 files/systemctl/ws.service ${ROOTFS_DIR}/lib/systemd/system/ws.service
 
 on_chroot << EOF
 
@@ -110,11 +113,12 @@ sudo pip install pyserial
 
 
 # express on startup
-sudo update-rc.d dride-ws defaults
+sudo systemtl enable ws
 
 # dride-core on startup
 sudo update-rc.d dride-core defaults
-
+sudo systemtl enable record
+sudo systemtl enable ble
 
 
 if [ ${OS_TYPE} == "dride-plus" ]; then

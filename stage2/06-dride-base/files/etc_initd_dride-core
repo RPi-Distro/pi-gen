@@ -20,13 +20,6 @@ case "$1" in
     echo "Starting dride-core"
 	#blink LED
 	sudo python /home/core/modules/indicators/python/states/standalone.py welcome
-
-    # start recording
-    sudo nice -n -19 node /home/core/modules/video/index.js &
-
-    # run button / bluetooth daemon
-	sudo python /home/core/daemons/bluetooth/initPin.py &
-    sudo BLENO_DEVICE_NAME="dride" node /home/core/daemons/bluetooth/main.js &
     ;;
   stop)
     echo "Stopping dride-core"
