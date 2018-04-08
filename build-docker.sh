@@ -21,6 +21,7 @@ fi
 
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
 CONTINUE=${CONTINUE:-0}
+PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-0}
 
 if [ "$*" != "" ] || [ -z "${IMG_NAME}" ]; then
 	if [ -z "${IMG_NAME}" ]; then
@@ -33,6 +34,7 @@ Usage:
 Optional environment arguments: ( =<default> )
     CONTAINER_NAME=pigen_work  set a name for the build container
     CONTINUE=1                 continue from a previously started container
+    PRESERVE_CONTAINER=1       keep build container even on successful build
 EOF
 	exit 1
 fi
@@ -55,7 +57,7 @@ if [ "$CONTAINER_EXISTS" != "" ]; then
 	trap "echo 'got CTRL+C... please wait 5s'; $DOCKER stop -t 5 ${CONTAINER_NAME}_cont" SIGINT SIGTERM
 	time $DOCKER run --rm --privileged \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
-		-e IMG_NAME=${IMG_NAME}\
+		-e IMG_NAME="${IMG_NAME}"\
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh;
@@ -64,7 +66,7 @@ if [ "$CONTAINER_EXISTS" != "" ]; then
 else
 	trap "echo 'got CTRL+C... please wait 5s'; $DOCKER stop -t 5 ${CONTAINER_NAME}" SIGINT SIGTERM
 	time $DOCKER run --name "${CONTAINER_NAME}" --privileged \
-		-e IMG_NAME=${IMG_NAME}\
+		-e IMG_NAME="${IMG_NAME}"\
 		"${config_file[@]}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
@@ -75,6 +77,10 @@ fi
 echo "copying results from deploy/"
 $DOCKER cp "${CONTAINER_NAME}":/pi-gen/deploy .
 ls -lah deploy
-$DOCKER rm -v $CONTAINER_NAME
+
+# cleanup
+if [ "$PRESERVE_CONTAINER" != "1" ]; then
+	$DOCKER rm -v $CONTAINER_NAME
+fi
 
 echo "Done! Your image(s) should be in deploy/"

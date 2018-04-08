@@ -1,4 +1,37 @@
 UNRELEASED:
+  * Raspberry Pi 3 B+ support
+  * WiFi is disabled until wireless regulatory domain is set (Pi 3 B+ only)
+    - The domain can be done through 'Raspberry Pi Configuration' (rc_gui),
+      'raspi-config' or by setting 'country=' to an appropriate ISO 3166
+      alpha2 country code in /etc/wpa_supplicant/wpa_supplicant.conf.
+  * Default wireless regulatory domain is now unset
+  * Added support to desktop for different screen sizes and resolutions,
+    including multiple preset options in Appearance Settings and pixel doubling
+    option in Raspberry Pi Configuration
+  * Version 2.1.16 of Thonny included
+  * Version 29.0.0.113 of Adobe PepperFlash player included
+  * Version 1.2.post1 of Pygame Zero included
+  * Bluetooth plugin now supports connection to Bluetooth LE HID devices
+  * Network plugin now indicates 5G-compatible APs
+  * Latest changes to Bluez ALSA service merged
+    - service now started on CLI boot as well as GUI boot
+  * Latest changes to dhcpcd networking plugin merged
+  * Improved support for running on pi-top devices
+  * Small design changes to PiX theme and icons
+  * Bug fix - hide spurious window resize handles
+  * Bug fix - Scratch 2 remote GPIO state block now works correctly
+  * Updated WiFi Firmware
+    - brcmfmac43455-sdio 7.45.154
+    - brcmfmac43430-sdio 7.45.98.38
+  * New packages:
+    - policykit-1
+    - obconf
+    - python-buttonshim python3-buttonshim
+    - python-unicornhathd  python3-unicornhathd
+    - python-pantilthat python3-pantilthat
+  * Linux kernel 4.9.80+
+  * Raspberry Pi firmware 3347884c7df574bbabeff6dca63caf686e629699
+2017-11-29:
   * Added battery monitor plugin for taskbar - works on x86 images or first-generation Pi-Top
   * Added cutdown mode to PCManFM file manager to reduce complexity
   * Added ability to rename files in PCManFM by clicking name when selected

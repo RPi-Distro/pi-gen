@@ -1,5 +1,5 @@
 log (){
-	date +"[%T] $@" | tee -a "${LOG_FILE}"
+	date +"[%T] $*" | tee -a "${LOG_FILE}"
 }
 export -f log
 
@@ -15,10 +15,10 @@ bootstrap(){
 		local BOOTSTRAP_CMD=debootstrap
 	fi
 
-	capsh --drop=cap_setfcap -- -c "${BOOTSTRAP_CMD} --components=main,contrib,non-free \
+	capsh --drop=cap_setfcap -- "${BOOTSTRAP_CMD}" --components=main,contrib,non-free \
 		--arch armhf \
 		--keyring "${STAGE_DIR}/files/raspberrypi.gpg" \
-		$1 $2 $3" || rmdir "$2/debootstrap"
+		"$1" "$2" "$3" || rmdir "$2/debootstrap"
 }
 export -f bootstrap
 
