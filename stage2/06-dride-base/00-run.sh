@@ -48,7 +48,7 @@ cd /home
 
 # Install dependencies
 echo "========== Update Aptitude ==========="
-# sudo apt-get update -y
+sudo apt-get update -y
 # sudo apt-get upgrade
 
 if [ ${OS_TYPE} == "dride-plus" ]; then
