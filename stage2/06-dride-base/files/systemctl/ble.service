@@ -6,7 +6,7 @@ After=network.target
 [Service]
 Environment=BLENO_DEVICE_NAME=dride
 Type=simple
-User=pi
+User=root
 ExecStart=/usr/bin/node /home/core/daemons/bluetooth/main.js
 Restart=on-failure
 
