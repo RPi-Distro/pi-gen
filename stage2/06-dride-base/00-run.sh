@@ -253,6 +253,10 @@ sudo apt-get install python-dev swig -y
 cd /home/core/modules/indicators/python
 sudo python setup.py install
 
+cd /home/core/modules/led
+npm i
+
+
 
 echo "========== Setup bluetooth  ============"
 sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev -y
