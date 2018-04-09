@@ -18,8 +18,14 @@ case "$1" in
 	sudo hwclock -s
 
     echo "Starting dride-core"
+	# TODO: refactor this to be done internally
+	# pull up resistor on pin 16
+	sudo python /home/core/daemons/bluetooth/initPin.py
+
 	#blink LED
 	sudo python /home/core/modules/indicators/python/states/standalone.py welcome
+
+
     ;;
   stop)
     echo "Stopping dride-core"
