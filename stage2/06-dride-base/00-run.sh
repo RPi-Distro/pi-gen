@@ -254,7 +254,7 @@ cd /home/core/modules/indicators/python
 sudo python setup.py install
 
 cd /home/core/modules/led
-npm i
+sudo npm i
 
 
 
