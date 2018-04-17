@@ -1,4 +1,8 @@
 UNRELEASED:
+  * Fixed race between wifi-country.service and raspberrypi-net-mods.service
+  * Linux kernel 4.14.34+
+  * Raspberry Pi firmware 5db8e4e1c63178e200d6fbea23ed4a9bf4656658
+2018-03-13:
   * Raspberry Pi 3 B+ support
   * WiFi is disabled until wireless regulatory domain is set (Pi 3 B+ only)
     - The domain can be done through 'Raspberry Pi Configuration' (rc_gui),
