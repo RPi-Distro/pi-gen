@@ -1,4 +1,30 @@
 UNRELEASED:
+  * New first-boot configuration wizard added
+  * Recommended Software installer added
+  * Bluej, Greenfoot, NodeRED, Claws Mail, VNC Viewer removed from image - can now be installed from Recommended Applications
+  * Qpdfview PDF viewer installed instead of Xpdf
+  * Version 65.0 of Chromium browser included, with latest Flash player
+  * Volume up / down keys now change by 5% increments and affect currently-selected output device rather than internal device only
+  * Network plugin now remembers previously-entered WiFi network passwords when prompting for reconnection
+  * Serial port and serial console can now be switched separately in Raspberry Pi Configuration
+  * Lxkeymap keyboard language setting application removed - replaced with dialog within Raspberry Pi Configuration
+  * Wifi country and keyboard language setting dialogs in Raspberry Pi Configuration now callable from other applications
+  * New version of Piboto font included to render with correct weight under some rogue applications
+  * Reconnection to Bluetooth audio devices on reboot improved
+  * Disable click-to-rename behaviour in file manager if single-click selection enabled
+  * Appearance Settings dialog makes config changes to some Qt files to match selected theme
+  * MIME file type associations improved
+  * Multiple desktop management options removed from mouse middle-click menu
+  * Menu shortcuts to Raspberry Pi website amended
+  * Python 2 IDLE menu link removed
+  * Sample Magpi PDF installed in /home/pi/MagPi
+  * Various minor tweaks, bug fixes and appearance changes
+  * Bluetooth updates
+    - Firmware with Bluetooth 4.2 features
+    - SCO profile suppot added via bthelper.service
+  * Linux kernel 4.14.50+
+  * Raspberry Pi firmware 748fb17992426bb29d99224b93cb962fefbdc833
+2018-08-14:
   * Fixed race between wifi-country.service and raspberrypi-net-mods.service
   * Linux kernel 4.14.34+
   * Raspberry Pi firmware 5db8e4e1c63178e200d6fbea23ed4a9bf4656658
