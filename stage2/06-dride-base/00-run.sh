@@ -243,15 +243,9 @@ sudo rm cronJobs
 
 
 
-echo "========== Install Indicators  ============"
+echo "========== Install LED  ============"
 echo "# Needed for SPI LED" >> /boot/config.txt
 echo "core_freq=250" >> /boot/config.txt
-sudo apt-get install scons
-cd /home/core/modules/indicators
-sudo scons
-sudo apt-get install python-dev swig -y
-cd /home/core/modules/indicators/python
-sudo python setup.py install
 
 cd /home/core/modules/led
 sudo npm i
