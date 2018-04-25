@@ -14,16 +14,14 @@
 
 case "$1" in
   start)
-    echo "Setting up HwClock"
-	sudo hwclock -s || echo "RTC is not set."
 
     echo "Starting dride-core"
 	# TODO: refactor this to be done internally
 	# pull up resistor on pin 16
 	sudo python /home/core/daemons/bluetooth/initPin.py
 
-	#welcome LED blink
-	/home/core/modules/led/bin/main welcome
+    echo "Setting up HwClock"
+	sudo hwclock -s || echo "RTC is not set."
 
     ;;
   stop)
