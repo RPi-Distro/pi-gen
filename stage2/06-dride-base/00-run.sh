@@ -249,6 +249,7 @@ echo "core_freq=250" >> /boot/config.txt
 
 cd /home/core/modules/led
 sudo npm i
+sudo chmod 0777 bin/main
 
 
 
