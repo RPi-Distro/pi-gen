@@ -13,6 +13,9 @@ install -m 644 files/systemctl/record.service ${ROOTFS_DIR}/lib/systemd/system/r
 install -m 644 files/systemctl/ws.service ${ROOTFS_DIR}/lib/systemd/system/ws.service
 install -m 644 files/systemctl/live.service ${ROOTFS_DIR}/lib/systemd/system/live.service
 
+# update rc.local with the welome LED 
+install -m 644 files/rc.local ${ROOTFS_DIR}/etc/rc.local
+
 on_chroot << EOF
 
 #-------------------------------------------------------
