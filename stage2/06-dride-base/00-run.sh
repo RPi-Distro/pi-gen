@@ -244,6 +244,7 @@ sudo rm cronJobs
 
 
 echo "========== Install LED  ============"
+sudo apt-get install scons -y
 echo "# Needed for SPI LED" >> /boot/config.txt
 echo "core_freq=250" >> /boot/config.txt
 
