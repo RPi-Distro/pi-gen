@@ -5,8 +5,8 @@ After=network.target
 
 [Service]
 Type=simple
-User=pi
-ExecStart=hwclock -s
+User=root
+ExecStart=/sbin/hwclock -s
 Restart=on-failure
 RestartSec=1
 
