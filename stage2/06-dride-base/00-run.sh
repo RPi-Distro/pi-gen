@@ -257,6 +257,12 @@ sudo npm i
 sudo chmod 0777 bin/main
 
 
+echo "======== raspivid =========="
+cd /home/core
+sudo git clone https://github.com/dride/userland
+cd userland
+./buildme
+
 
 echo "========== Setup bluetooth  ============"
 sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev -y
