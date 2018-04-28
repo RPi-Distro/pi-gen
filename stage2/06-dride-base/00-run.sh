@@ -12,9 +12,7 @@ install -m 644 files/systemctl/ble.service ${ROOTFS_DIR}/lib/systemd/system/ble.
 install -m 644 files/systemctl/record.service ${ROOTFS_DIR}/lib/systemd/system/record.service
 install -m 644 files/systemctl/ws.service ${ROOTFS_DIR}/lib/systemd/system/ws.service
 install -m 644 files/systemctl/live.service ${ROOTFS_DIR}/lib/systemd/system/live.service
-
-# update rc.local with the welome LED 
-install -m 644 files/rc.local ${ROOTFS_DIR}/etc/rc.local
+install -m 644 files/systemctl/led.service ${ROOTFS_DIR}/lib/systemd/system/led.service
 
 on_chroot << EOF
 
@@ -123,6 +121,7 @@ sudo systemctl enable ws
 sudo update-rc.d dride-core defaults
 sudo systemctl enable record
 sudo systemctl enable ble
+sudo systemctl enable led
 
 if [ ${OS_TYPE} == "dride-plus" ]; then
 	## GPS  https://www.raspberrypi.org/forums/viewtopic.php?p=947968#p947968

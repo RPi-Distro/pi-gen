@@ -1,13 +1,12 @@
 [Unit]
-Description=Control the BLE service of your Dride
+Description=Control the LED of your Dride
 Documentation=https://dride.io/documentation
 After=network.target
 
 [Service]
-Environment=BLENO_DEVICE_NAME=dride
 Type=simple
-User=root
-ExecStart=/usr/bin/node /home/core/daemons/bluetooth/main.js
+User=pi
+ExecStart=/home/core/modules/led/bin/main welcome
 Restart=on-failure
 RestartSec=1
 

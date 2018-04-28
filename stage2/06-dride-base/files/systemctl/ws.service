@@ -8,6 +8,7 @@ Type=simple
 User=pi
 ExecStart=/usr/bin/node /home/core/dride-ws/server/app.js
 Restart=on-failure
+RestartSec=1
 
 [Install]
 WantedBy=multi-user.target
