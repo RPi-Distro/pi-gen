@@ -13,6 +13,7 @@ install -m 644 files/systemctl/record.service ${ROOTFS_DIR}/lib/systemd/system/r
 install -m 644 files/systemctl/ws.service ${ROOTFS_DIR}/lib/systemd/system/ws.service
 install -m 644 files/systemctl/live.service ${ROOTFS_DIR}/lib/systemd/system/live.service
 install -m 644 files/systemctl/led.service ${ROOTFS_DIR}/lib/systemd/system/led.service
+install -m 644 files/systemctl/rtc.service ${ROOTFS_DIR}/lib/systemd/system/rtc.service
 
 on_chroot << EOF
 
@@ -122,6 +123,7 @@ sudo update-rc.d dride-core defaults
 sudo systemctl enable record
 sudo systemctl enable ble
 sudo systemctl enable led
+sudo systemctl enable rtc
 
 if [ ${OS_TYPE} == "dride-plus" ]; then
 	## GPS  https://www.raspberrypi.org/forums/viewtopic.php?p=947968#p947968

@@ -1,0 +1,13 @@
+[Unit]
+Description=Control the web service service of your Dride
+Documentation=https://dride.io/documentation
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart=hwclock -s
+
+
+[Install]
+WantedBy=multi-user.target
