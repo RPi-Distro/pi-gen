@@ -28,6 +28,8 @@ sed -i '/PermitRootLogin/c\PermitRootLogin yes' /etc/ssh/sshd_config
 echo "root:yunohost" | chpasswd
 EOF
 
+install -m 755 files/check_yunohost_is_installed.sh "${ROOTFS_DIR}/etc/profile.d/"
+
 echo "Cleaning ..."
 on_chroot << EOF
 apt-get clean
