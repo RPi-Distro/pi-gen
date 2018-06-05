@@ -30,10 +30,10 @@ The following environment variables are supported:
 
  * `IMG_NAME` **required** (Default: unset)
 
-   The name of the image to build with the current stage directories.  Setting
-   `IMG_NAME=Raspbian` is logical for an unmodified RPi-Distro/pi-gen build,
-   but you should use something else for a customized version.  Export files
-   in stages may add suffixes to `IMG_NAME`.
+   The name of the image to build with the current stage directories.  Should 
+   not include spaces.  Setting `IMG_NAME=Raspbian` is logical for an
+   unmodified RPi-Distro/pi-gen build, but you should use something else for a
+   customized version.  Export files in stages may add suffixes to `IMG_NAME`.
 
  * `APT_PROXY` (Default: unset)
 
