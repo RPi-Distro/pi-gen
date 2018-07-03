@@ -1,4 +1,6 @@
 UNRELEASED:
+  * 
+2018-06-27:
   * New first-boot configuration wizard added
   * Recommended Software installer added
   * Bluej, Greenfoot, NodeRED, Claws Mail, VNC Viewer removed from image - can now be installed from Recommended Applications
@@ -24,7 +26,7 @@ UNRELEASED:
     - SCO profile suppot added via bthelper.service
   * Linux kernel 4.14.50+
   * Raspberry Pi firmware 748fb17992426bb29d99224b93cb962fefbdc833
-2018-08-14:
+2018-04-18:
   * Fixed race between wifi-country.service and raspberrypi-net-mods.service
   * Linux kernel 4.14.34+
   * Raspberry Pi firmware 5db8e4e1c63178e200d6fbea23ed4a9bf4656658
