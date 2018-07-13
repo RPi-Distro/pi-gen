@@ -1,5 +1,6 @@
 UNRELEASED:
   * Add libav-tools
+  * Add English localisation packages
 2018-06-27:
   * New first-boot configuration wizard added
   * Recommended Software installer added
