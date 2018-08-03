@@ -249,3 +249,26 @@ follows:
  * Once you're happy with the image you can remove the SKIP_IMAGES files and
    export your image to test
 
+# Troubleshooting
+
+## `binfmt_misc`
+
+Linux is able execute binaries from other architectures, meaning that it should be
+possible to make use of `pi-gen` on an x86_64 system, even though it will be running
+ARM binaries. This requires support from the [`binfmt_misc`](https://en.wikipedia.org/wiki/Binfmt_misc)
+kernel module.
+
+You may see the following error:
+
+```
+update-binfmts: warning: Couldn't load the binfmt_misc module.
+```
+
+To resolve this, ensure that the following files are available (install them if necessary):
+
+```
+/lib/modules/$(uname -r)/kernel/fs/binfmt_misc.ko
+/usr/bin/qemu-arm-static
+```
+
+You may also need to load the module by hand - run `modprobe binfmt_misc`.
