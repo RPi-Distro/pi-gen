@@ -17,7 +17,7 @@ BOOT_SIZE="$(( BOOT_SIZE / 1000000 + 1))"
 ROOT_SIZE="$(( ROOT_SIZE / 1000000 + 1))"
 
 BOOT_NOM="$(( BOOT_SIZE * 3 ))"
-ROOT_NOM="$(( ROOT_SIZE + 400 ))"
+ROOT_NOM="$(( ROOT_SIZE + 400))"
 
 mv "${NOOBS_DIR}/OS.png" "${NOOBS_DIR}/${NOOBS_NAME// /_}.png"
 

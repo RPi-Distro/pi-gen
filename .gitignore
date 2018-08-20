@@ -7,3 +7,4 @@ SKIP_IMAGES
 .pc
 *-pc
 apt-cacher-ng/
+stage2/01-sys-tweaks/files/authorized_keys

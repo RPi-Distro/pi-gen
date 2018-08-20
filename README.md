@@ -61,7 +61,7 @@ The following environment variables are supported:
    be built and cached.  Note, `WORK_DIR` stores a complete copy of the target
    system for each build stage, amounting to tens of gigabytes in the case of
    Raspbian.
-   
+
    **CAUTION**: If your working directory is on an NTFS partition you probably won't be able to build. Make sure this is a proper Linux filesystem.
 
  * `DEPLOY_DIR`  (Default: `"$BASE_DIR/deploy"`)
@@ -72,6 +72,39 @@ The following environment variables are supported:
 
    Setting to '1' enables the QEMU mode - creating an image that can be mounted via QEMU for an emulated
    environment. These images include "-qemu" in the image file name.
+
+ * `LAST_STAGE` (Default: `"5"`)
+
+   If you wish to build up to a specified stage (such as building up to stage 2 for a lite system)
+
+ * `RPI_LOCALHOST` (Default: `"raspberrypi"`)
+
+   Your image hostname.
+
+ * `RPI_USERNAME` (Default: `"pi"`)
+
+   Default non priviledged user name.
+
+ * `RPI_USERPASS` (Default: `"raspberry"`)
+
+   Default user password.
+
+ * `RPI_ROOTPASS` (Default: `"root"`)
+
+   root user default password.
+
+ * `KEYBOARD_LANG` (Default: `"gb"`)
+
+   Change the keyboard default mapping (gb=qwerty, fr=azerty).
+
+ * `FREE_SPACE_MB` (Default: <int> 400)
+
+   Add a free space in the partition (value in megabyte). If Qemu image is generated it could be usefull to have a lot of free space.
+
+ * `USE_SSH` (Default: `"0"`)
+
+   For security SSH server is disabled by default so if you want to activate it set this to `"1"`.  
+   If `stage2/01-sys-tweaks/files/authorized_keys` is present then it will be copied in `/root/.ssh/`
 
 
 A simple example for building Raspbian:
@@ -213,6 +246,8 @@ maintenance and allows for more easy customization.
 
 ### Stage specification
 
+If you wish to skip some steps you can add an empty file `SKIP` in the directory.  
+It works in `./stage*` or in `./stage*/**-whatever`.
 If you wish to build up to a specified stage (such as building up to stage 2
 for a lite system), place an empty file named `SKIP` in each of the `./stage`
 directories you wish not to include.
