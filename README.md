@@ -1,7 +1,12 @@
 # pi-gen
 
-_Tool used to create the raspberrypi.org Raspbian images_
+_Tool used to create the berrylan.app Raspbian images_
 
+This tool is based on the pi-gen tool of the raspberrypi.org Raspbian images.
+It only adds http://repository.nymea.io to the repositories and preinstalls
+nymea-networkmanager in the image to allow WiFi configuration via BerryLan.
+
+nymea-networkmanager can be found at https://github.com/guh/nymea-networkmanager
 
 ## Dependencies
 
