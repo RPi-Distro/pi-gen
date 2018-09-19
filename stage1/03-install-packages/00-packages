@@ -1,1 +1,3 @@
-libraspberrypi-bin libraspberrypi0 raspi-config
+libraspberrypi-bin
+libraspberrypi0
+raspi-config
