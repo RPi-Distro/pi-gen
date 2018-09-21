@@ -18,7 +18,7 @@ if [ "$_IP" ]; then
 fi
 
 # run an rc.local.txt from the boot partition, if one exists.
-if [[ -e /boot/rc.local.txt ]]; then
+if [ -e /boot/rc.local.txt ]; then
   source /boot/rc.local.txt
 fi
 
