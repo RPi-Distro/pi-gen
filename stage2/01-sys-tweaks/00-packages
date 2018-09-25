@@ -9,7 +9,6 @@ hardlink ca-certificates curl
 fake-hwclock nfs-common usbutils
 libraspberrypi-dev libraspberrypi-doc libfreetype6-dev
 dosfstools
-dphys-swapfile
 raspberrypi-sys-mods
 pi-bluetooth
 apt-listchanges

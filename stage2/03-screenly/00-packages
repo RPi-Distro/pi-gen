@@ -1,0 +1,1 @@
+make git git-core make python-pip python-setuptools gcc python-dev libffi-dev libssl-dev python-packaging

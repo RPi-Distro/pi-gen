@@ -54,3 +54,12 @@
 
 # Enable audio (loads snd_bcm2835)
 dtparam=audio=on
+
+# GPU configuration for Screenly OSE
+gpu_mem_256=96
+gpu_mem_512=128
+gpu_mem_1024=196
+
+# Framebuffer config for Screenly OSE
+framebuffer_depth=32
+framebuffer_ignore_alpha=1
