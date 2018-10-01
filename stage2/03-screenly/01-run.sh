@@ -7,6 +7,7 @@ on_chroot << EOF
 
   git clone https://github.com/Screenly/screenly-ose.git /home/pi/screenly
   cd /home/pi/screenly
+  git checkout production
 
   pip install -r requirements.txt
   mkdir -p /etc/ansible
