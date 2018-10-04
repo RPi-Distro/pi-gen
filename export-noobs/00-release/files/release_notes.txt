@@ -14,6 +14,7 @@ UNRELEASED:
   * Include latest Mathematica (11.3.0.0)
   * Include latest RealVNC Server (6.3.1)
   * Include libav-tools
+  * Incllude ssh-import-id
   * Merge in latest third-party code for Bluetooth ALSA interface
   * Add ability to prevent software update changing configuration files, by creating ~/.config/.lock file
   * Various other small bug fixes, tweaks and changes to text
