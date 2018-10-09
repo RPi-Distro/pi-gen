@@ -11,10 +11,10 @@ UNRELEASED:
   * In Scratch 2 GPIO plugin, set pin from dropdown list rather than free text
   * In Scratch 2 SenseHAT plugin, swap x and y axis values for LED array
   * Include latest Adobe Flash player (31.0.0.108)
-  * Include latest Mathematica (11.3.0.0)
   * Include latest RealVNC Server (6.3.1)
   * Include libav-tools
-  * Incllude ssh-import-id
+  * Include ssh-import-id
+  * Removed Mathematica
   * Merge in latest third-party code for Bluetooth ALSA interface
   * Add ability to prevent software update changing configuration files, by creating ~/.config/.lock file
   * Various other small bug fixes, tweaks and changes to text
