@@ -19,7 +19,9 @@ bootstrap(){
 		--arch armhf \
 		--keyring "${STAGE_DIR}/files/raspberrypi.gpg" \
 		"$1" "$2" "$3" || true
-	rmdir "$2/debootstrap"
+	if [ -d "$2/debootstrap" ]; then
+		rmdir "$2/debootstrap"
+	fi
 }
 export -f bootstrap
 
