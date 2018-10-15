@@ -17,4 +17,9 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
+# run an rc.local.txt from the boot partition, if one exists.
+if [ -e /boot/rc.local.txt ]; then
+  . /boot/rc.local.txt
+fi
+
 exit 0
