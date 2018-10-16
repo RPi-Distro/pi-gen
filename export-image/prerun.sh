@@ -16,6 +16,9 @@ ROUND_SIZE="$((4 * 1024 * 1024))"
 ROUNDED_ROOT_SECTOR=$(((2 * BOOT_SIZE + ROUND_SIZE) / ROUND_SIZE * ROUND_SIZE / 512 + 8192))
 IMG_SIZE=$(((BOOT_SIZE + TOTAL_SIZE + (800 * 1024 * 1024) + ROUND_SIZE - 1) / ROUND_SIZE * ROUND_SIZE))
 
+# i am not sure why without this it does not create a large enough root
+IMG_SIZE=$(( $IMG_SIZE * 4 ))
+
 truncate -s "${IMG_SIZE}" "${IMG_FILE}"
 fdisk -H 255 -S 63 "${IMG_FILE}" <<EOF
 o
