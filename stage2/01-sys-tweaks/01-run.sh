@@ -15,6 +15,7 @@ systemctl disable nfs-common
 systemctl disable rpcbind
 systemctl disable ssh
 systemctl enable regenerate_ssh_host_keys
+echo 'REGDOMAIN=US' > /etc/default/crda
 EOF
 
 if [ "${USE_QEMU}" = "1" ]; then
