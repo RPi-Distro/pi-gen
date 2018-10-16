@@ -1,6 +1,31 @@
 UNRELEASED:
-  * Add libav-tools
-  * Add English localisation packages
+  * In startup wizard, assign keyboard to country as per Debian installer recommendations
+  * In startup wizard, add option to use US keyboard in preference to country-specific option
+  * In startup wizard, show IP address on first page
+  * In startup wizard, check for existing wifi network connection and show it if there is one
+  * In startup wizard, install language support packages for LibreOffice and other applications
+  * In startup wizard, improve operation with keyboard only and no mouse
+  * Password change in Raspberry Pi Configuration and startup wizard now works properly if passwords contain shell characters
+  * Battery indicator plugin modified to cope with Pi-top hardware monitor crashing
+  * Networking plugin hides wifi password characters by default
+  * In Scratch 2 GPIO plugin, set pin from dropdown list rather than free text
+  * In Scratch 2 SenseHAT plugin, swap x and y axis values for LED array
+  * Include latest Adobe Flash player (31.0.0.108)
+  * Include latest RealVNC Server (6.3.1)
+  * Include libav-tools
+  * Include ssh-import-id
+  * Removed Mathematica
+  * Merge in latest third-party code for Bluetooth ALSA interface
+  * Add ability to prevent software update changing configuration files, by creating ~/.config/.lock file
+  * Various other small bug fixes, tweaks and changes to text
+  * Make dhcpcd work with 3G devices
+  * Set default timezone to 'Europe/London'
+  * Add hw acceleration to ffmpeg
+  * Improved WiFi-BT coexistence parameters
+  * Run fake-hwclock before systemd-fsck-root
+  * Raspberry Pi PoE HAT support
+  * Linux kernel 4.14.71
+  * Raspberry Pi firmware 5b49caa17e91d0e64024380119ad739bb201c674
 2018-06-27:
   * New first-boot configuration wizard added
   * Recommended Software installer added

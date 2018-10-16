@@ -7,12 +7,6 @@ console-setup   console-setup/codeset47 select  Guess optimal character set
 # Font for the console:
 # Choices: Fixed, Goha, GohaClassic, Terminus, TerminusBold, TerminusBoldVGA, VGA, Do not change the boot/kernel font, Let the system select a suitable font
 console-setup   console-setup/fontface47        select  Do not change the boot/kernel font
-# Geographic area:
-# Choices: Africa, America, Antarctica, Australia, Arctic Ocean, Asia, Atlantic Ocean, Europe, Indian Ocean, Pacific Ocean, System V timezones, US, None of the above
-tzdata	tzdata/Areas	select	Etc
-# Time zone:
-# Choices: GMT, GMT+0, GMT+1, GMT+10, GMT+11, GMT+12, GMT+2, GMT+3, GMT+4, GMT+5, GMT+6, GMT+7, GMT+8, GMT+9, GMT-0, GMT-1, GMT-10, GMT-11, GMT-12, GMT-13, GMT-14, GMT-2, GMT-3, GMT-4, GMT-5, GMT-6, GMT-7, GMT-8, GMT-9, GMT0, Greenwich, UCT, UTC, Universal, Zulu
-tzdata	tzdata/Zones/Etc	select	UTC
 # Key to function as AltGr:
 # Choices: The default for the keyboard layout, No AltGr key, Right Alt (AltGr), Right Control, Right Logo key, Menu key, Left Alt, Left Logo key, Keypad Enter key, Both Logo keys, Both Alt keys
 keyboard-configuration	keyboard-configuration/altgr	select	The default for the keyboard layout

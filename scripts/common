@@ -18,7 +18,10 @@ bootstrap(){
 	capsh --drop=cap_setfcap -- "${BOOTSTRAP_CMD}" --components=main,contrib,non-free \
 		--arch armhf \
 		--keyring "${STAGE_DIR}/files/raspberrypi.gpg" \
-		"$1" "$2" "$3" || rmdir "$2/debootstrap"
+		"$1" "$2" "$3" || true
+	if [ -d "$2/debootstrap" ]; then
+		rmdir "$2/debootstrap"
+	fi
 }
 export -f bootstrap
 
