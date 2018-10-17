@@ -1,4 +1,6 @@
 UNRELEASED:
+  * Add all extra packages back - Mathematica, BlueJ, Greenfoot, NodeRED, Claws Mail and VNC Viewer
+2018-10-09:
   * In startup wizard, assign keyboard to country as per Debian installer recommendations
   * In startup wizard, add option to use US keyboard in preference to country-specific option
   * In startup wizard, show IP address on first page
@@ -19,7 +21,6 @@ UNRELEASED:
   * Add ability to prevent software update changing configuration files, by creating ~/.config/.lock file
   * Various other small bug fixes, tweaks and changes to text
   * Make dhcpcd work with 3G devices
-  * Set default timezone to 'Europe/London'
   * Add hw acceleration to ffmpeg
   * Improved WiFi-BT coexistence parameters
   * Run fake-hwclock before systemd-fsck-root
