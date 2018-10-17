@@ -1,4 +1,5 @@
 UNRELEASED:
+  * Set default timezone to 'Europe/London'
   * Add all extra packages back - Mathematica, BlueJ, Greenfoot, NodeRED, Claws Mail and VNC Viewer
 2018-10-09:
   * In startup wizard, assign keyboard to country as per Debian installer recommendations
