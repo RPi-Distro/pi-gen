@@ -1,6 +1,8 @@
 UNRELEASED:
   * Set default timezone to 'Europe/London'
   * Add all extra packages back - Mathematica, BlueJ, Greenfoot, NodeRED, Claws Mail and VNC Viewer
+  * Remove python-games from the cutdown Raspbian image.
+  * Instal Libreoffice with with all recommended packages
 2018-10-09:
   * In startup wizard, assign keyboard to country as per Debian installer recommendations
   * In startup wizard, add option to use US keyboard in preference to country-specific option
