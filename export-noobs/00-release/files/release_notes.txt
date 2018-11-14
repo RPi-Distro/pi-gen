@@ -1,9 +1,28 @@
 UNRELEASED:
+  *
+2018-11-13:
+  * Two versions of image created - "base" image has no optional software packages included; "full" image has all optional packages
+    - Removed from "base" image - LibreOffice, Thonny, Scratch, Scratch 2, Sonic Pi, Minecraft, Python Games, SmartSim, SenseHAT Emulator
+    - Added to "full" image - Mathematica, BlueJ, Greenfoot, Node-RED, Claws Mail, VNC Viewer
+  * Python Games and SmartSim added to Recommended Software
+  * VLC media player with VideoCore hardware acceleration included in image
+  * Version 3.0.5 of Thonny included
+  * Modifications to LXDE components to enable local configuration to override global configuration correctly
+  * Modifications to Appearance Settings to support above configuration changes
+  * Modifications to various initial config defaults and relevant package to support above configuration changes
+  * Selecting default option in Appearance Settings now deletes relevant local configuration files
+  * PiX theme modified so that all changes made in Appearance Settings are in override files rather than in theme files
+  * Design of scrollbar buttons changed
+  * Image Viewer moved into Graphics category on main menu
+  * Recommended Software now installs LibreOffice language support files if needed, and suggests reboot if needed
+  * Latest version of Pepper Flash plugin included
+  * Chromium h264ify plugin permissions set correctly by default
+  * Corrections to various MIME types so that files open in sensible default applications
   * Set default timezone to 'Europe/London'
-  * Add all extra packages back - Mathematica, BlueJ, Greenfoot, NodeRED, Claws Mail and VNC Viewer
-  * Remove python-games from the cutdown Raspbian image.
-  * Instal Libreoffice with with all recommended packages
+  * Linux kernel 4.14.79
+  * Raspberry Pi firmware 12e0bf86e08d6067372bc0a45d7e8a10d3113210
 2018-10-09:
+  * Raspberry Pi 3A+ support
   * In startup wizard, assign keyboard to country as per Debian installer recommendations
   * In startup wizard, add option to use US keyboard in preference to country-specific option
   * In startup wizard, show IP address on first page
