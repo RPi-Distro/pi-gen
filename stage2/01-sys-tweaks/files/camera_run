@@ -1,0 +1,4 @@
+#!/bin/sh
+sleep 1
+cd /home/pi
+exec ./runCamera

@@ -16,6 +16,7 @@ case "$1" in
     resize2fs $ROOT_DEV &&
     update-rc.d resize2fs_once remove &&
     rm /etc/init.d/resize2fs_once &&
+    sed -i '/vfat\|ext4/s/defaults/defaults,ro/' /etc/fstab &&
     log_end_msg $?
     ;;
   *)

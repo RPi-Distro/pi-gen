@@ -11,11 +11,40 @@ install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
 
 install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
 
+# disable wireless
+install -m 644 files/raspi-blacklist.conf "${ROOTFS_DIR}/etc/modprobe.d/"
+
+install -m 644 files/frc.json "${ROOTFS_DIR}/boot/"
+
+install -m 755 -o 1000 -g 1000 files/multiCameraServer "${ROOTFS_DIR}/home/pi/"
+
+cat files/jdk_11.0.1-strip.tar.gz | sh -c "mkdir -p ${ROOTFS_DIR}/usr/lib/jvm && cd ${ROOTFS_DIR}/usr/lib/jvm/ && tar xzf - --transform=s/^jdk/jdk-11.0.1/"
+cp files/jdk-11.0.1.jinfo "${ROOTFS_DIR}/usr/lib/jvm/.jdk-11.0.1.jinfo"
+
+on_chroot << EOF
+cd /usr/lib/jvm
+grep /usr/lib/jvm .jdk-11.0.1.jinfo | awk '{ print "update-alternatives --install /usr/bin/" \$2 " " \$2 " " \$3 " 2"; }' | bash
+update-java-alternatives -s jdk-11.0.1
+EOF
+
+on_chroot << EOF
+rm -rf /var/lib/dhcp/ /var/run /var/spool /var/lock
+ln -s /tmp /var/lib/dhcp
+ln -s /run /var/run
+ln -s /tmp /var/spool
+ln -s /tmp /var/lock
+sed -i -e 's/d \/var\/spool/#d \/var\/spool/' /usr/lib/tmpfiles/var.conf
+sed -i -e 's/\/var\/lib\/ntp/\/var\/tmp/' /etc/ntp.conf
+EOF
+
+cat files/bash.bashrc >> "${ROOTFS_DIR}/etc/bash.bashrc"
+
+cat files/bash.logout >> "${ROOTFS_DIR}/etc/bash.bash_logout"
+
 on_chroot << EOF
 systemctl disable hwclock.sh
-systemctl disable nfs-common
 systemctl disable rpcbind
-systemctl disable ssh
+systemctl enable ssh
 systemctl enable regenerate_ssh_host_keys
 EOF
 
@@ -48,5 +77,18 @@ EOF
 on_chroot << EOF
 usermod --pass='*' root
 EOF
+
+install -v -d "${ROOTFS_DIR}/service/camera"
+
+install -m 755 files/camera_run "${ROOTFS_DIR}/service/camera/run"
+
+on_chroot << EOF
+cd /service/camera && rm -f supervise && ln -s /tmp/camera-supervise supervise
+cd /etc/service && rm -f camera && ln -s /service/camera .
+EOF
+
+install -m 755 -o 1000 -g 1000 files/runCamera "${ROOTFS_DIR}/home/pi/"
+install -m 755 -o 1000 -g 1000 files/runInteractive "${ROOTFS_DIR}/home/pi/"
+install -m 755 -o 1000 -g 1000 files/runService "${ROOTFS_DIR}/home/pi/"
 
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*

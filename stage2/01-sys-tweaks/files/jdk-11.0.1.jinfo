@@ -1,0 +1,36 @@
+name=jdk-11.0.1
+priority=900
+section=main
+
+hl rmid /usr/lib/jvm/jdk-11.0.1/bin/rmid
+hl java /usr/lib/jvm/jdk-11.0.1/bin/java
+hl keytool /usr/lib/jvm/jdk-11.0.1/bin/keytool
+hl jjs /usr/lib/jvm/jdk-11.0.1/bin/jjs
+hl pack200 /usr/lib/jvm/jdk-11.0.1/bin/pack200
+hl rmiregistry /usr/lib/jvm/jdk-11.0.1/bin/rmiregistry
+hl unpack200 /usr/lib/jvm/jdk-11.0.1/bin/unpack200
+hl jexec /usr/lib/jvm/jdk-11.0.1/lib/jexec
+jdkhl jlink /usr/lib/jvm/jdk-11.0.1/bin/jlink
+jdkhl jdeps /usr/lib/jvm/jdk-11.0.1/bin/jdeps
+jdkhl jinfo /usr/lib/jvm/jdk-11.0.1/bin/jinfo
+jdkhl jstat /usr/lib/jvm/jdk-11.0.1/bin/jstat
+jdkhl javadoc /usr/lib/jvm/jdk-11.0.1/bin/javadoc
+jdkhl jmod /usr/lib/jvm/jdk-11.0.1/bin/jmod
+jdkhl jhsdb /usr/lib/jvm/jdk-11.0.1/bin/jhsdb
+jdkhl jps /usr/lib/jvm/jdk-11.0.1/bin/jps
+jdkhl jstack /usr/lib/jvm/jdk-11.0.1/bin/jstack
+jdkhl jrunscript /usr/lib/jvm/jdk-11.0.1/bin/jrunscript
+jdkhl javac /usr/lib/jvm/jdk-11.0.1/bin/javac
+jdkhl javap /usr/lib/jvm/jdk-11.0.1/bin/javap
+jdkhl jar /usr/lib/jvm/jdk-11.0.1/bin/jar
+jdkhl jshell /usr/lib/jvm/jdk-11.0.1/bin/jshell
+jdkhl rmic /usr/lib/jvm/jdk-11.0.1/bin/rmic
+jdkhl jdeprscan /usr/lib/jvm/jdk-11.0.1/bin/jdeprscan
+jdkhl jimage /usr/lib/jvm/jdk-11.0.1/bin/jimage
+jdkhl jstatd /usr/lib/jvm/jdk-11.0.1/bin/jstatd
+jdkhl jmap /usr/lib/jvm/jdk-11.0.1/bin/jmap
+jdkhl jdb /usr/lib/jvm/jdk-11.0.1/bin/jdb
+jdkhl serialver /usr/lib/jvm/jdk-11.0.1/bin/serialver
+jdkhl jcmd /usr/lib/jvm/jdk-11.0.1/bin/jcmd
+jdkhl jarsigner /usr/lib/jvm/jdk-11.0.1/bin/jarsigner
+jdk jconsole /usr/lib/jvm/jdk-11.0.1/bin/jconsole
