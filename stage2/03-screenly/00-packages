@@ -1,1 +1,1 @@
-git-core libffi-dev libssl-dev python-dev
+git-core libffi-dev libssl-dev python-dev network-manager

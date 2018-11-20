@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-# Add checkout to production branch later
-
 on_chroot << EOF
   curl -s https://bootstrap.pypa.io/get-pip.py | python
 
