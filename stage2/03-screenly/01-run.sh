@@ -12,8 +12,9 @@ on_chroot << EOF
   echo -e "[local]\nlocalhost ansible_connection=local" | tee /etc/ansible/hosts > /dev/null
 
   cd ansible
-  HOME=/home/pi ansible-playbook site.yml --skip-tags enable-ssl,disable-nginx,touches_boot_partition
+  HOME=/home/pi MANAGE_NETWORK=true ansible-playbook site.yml --skip-tags enable-ssl,disable-nginx,touches_boot_partition
   chown -R pi:pi /home/pi
+  rm /home/pi/.screenly/initialized
 
   apt-get autoclean
   apt-get clean
