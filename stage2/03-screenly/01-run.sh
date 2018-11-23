@@ -30,5 +30,5 @@ on_chroot << EOF
   /home/pi/screenly/bin/prepare_device_for_imaging.sh
   pkill -f server.py
   sleep 5
-
+  chown -R pi:pi /home/pi
 EOF
