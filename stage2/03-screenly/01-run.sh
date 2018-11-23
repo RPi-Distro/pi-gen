@@ -13,7 +13,7 @@ on_chroot << EOF
 
   cd ansible
   HOME=/home/pi ansible-playbook site.yml --skip-tags enable-ssl,disable-nginx,touches_boot_partition
-  chown -R pi:pi /home/pi/screenly
+  chown -R pi:pi /home/pi
 
   apt-get autoclean
   apt-get clean
