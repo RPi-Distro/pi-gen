@@ -117,6 +117,7 @@ install -m 755 files/camera_run "${ROOTFS_DIR}/service/camera/run"
 
 on_chroot << EOF
 cd /service/camera && rm -f supervise && ln -s /tmp/camera-supervise supervise
+cd /service/configServer && rm -f supervise && ln -s /tmp/configServer-supervise supervise
 cd /etc/service && rm -f camera && ln -s /service/camera .
 cd /etc/service && rm -f configServer && ln -s /service/configServer .
 EOF
