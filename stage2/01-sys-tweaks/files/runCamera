@@ -1,3 +1,4 @@
 #!/bin/sh
+echo "Waiting 5 seconds..."
 sleep 5
-./multiCameraServer
+exec ./multiCameraServer

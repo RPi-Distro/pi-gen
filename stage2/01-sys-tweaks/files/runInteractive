@@ -1,10 +1,4 @@
 #!/bin/bash
-SVCPID=`ps ax | grep runCamera | grep -v grep | cut -c -6 | sed -e 's/ *//g'`
 sudo svc -d /service/camera
-if [[ ! -z $SVCPID ]]; then
-        sudo kill $SVCPID
-        sleep 1
-        sudo kill -9 $SVCPID
-        sleep 1
-fi
+sleep 1
 exec ./runCamera

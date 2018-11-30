@@ -1,11 +1,13 @@
 java-common
 ntp
 daemontools daemontools-run
+build-essential
 busybox-syslogd
 ssh less fbset sudo psmisc strace ed ncdu crda
 console-setup keyboard-configuration debconf-utils parted unzip
-python gdbserver pkg-config
-python-rpi.gpio v4l-utils
+python python3 gdbserver pkg-config
+python3-numpy
+python-rpi.gpio python3-rpi.gpio v4l-utils
 avahi-daemon
 lua5.1
 luajit
