@@ -97,7 +97,7 @@ cat extfiles/ntcore-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/inclu
 cat extfiles/cameraserver-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
 
 install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/java-example/"
-install -m 644 -o 1000 -g 1000 extfiles/*.jar "${ROOTFS_DIR}/home/pi/java-example/"
+install -m 644 -o 1000 -g 1000 extfiles/*.jar "${ROOTFS_DIR}/home/pi/"
 
 on_chroot << EOF
 ldconfig
