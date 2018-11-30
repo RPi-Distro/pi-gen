@@ -1,4 +1,4 @@
 #!/bin/sh
 sleep 1
 cd /home/pi
-exec pgrphack setuidgid pi /usr/local/bin/netconsoleServer -u ./runCamera
+exec pgrphack sudo -u pi /usr/local/bin/netconsoleServer -u ./runCamera
