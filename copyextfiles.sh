@@ -13,6 +13,8 @@ cp ../raspbian-openjdk/jdk_11.0.1-strip.tar.gz stage2/01-sys-tweaks/extfiles/
 
 sh -c 'cd ../thirdparty-opencv/buildShared/linux-raspbian/lib && tar czf - libopencv*' > stage2/01-sys-tweaks/extfiles/libopencv.tar.gz
 
+cp ../thirdparty-opencv/buildShared/linux-raspbian/bin/opencv-*.jar stage2/01-sys-tweaks/extfiles/
+
 # the opencv build names the python .so with the build platform name instead
 # of the target platform, so rename it
 cp ../thirdparty-opencv/buildShared/linux-raspbian/lib/python3/cv2.*.so stage2/01-sys-tweaks/extfiles/cv2.cpython-35m-arm-linux-gnueabihf.so
