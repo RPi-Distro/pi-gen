@@ -86,6 +86,10 @@ cat extfiles/libopencv.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/lib/ && ta
 
 install -m 755 extfiles/cv2.*.so "${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/"
 
+cat extfiles/pynetworktables.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/ && tar xzf -"
+cat extfiles/robotpy-cscore.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/ && tar xzf -"
+install -m 755 extfiles/_cscore.*.so "${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/cscore/"
+
 install -m 755 extfiles/libwpiutil*.so* "${ROOTFS_DIR}/usr/local/frc/lib/"
 install -m 755 extfiles/libcscore*.so* "${ROOTFS_DIR}/usr/local/frc/lib/"
 install -m 755 extfiles/libntcore*.so* "${ROOTFS_DIR}/usr/local/frc/lib/"

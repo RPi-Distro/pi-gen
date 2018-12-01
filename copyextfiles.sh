@@ -6,6 +6,7 @@ mkdir -p stage2/01-sys-tweaks/extfiles
 # tools
 #
 cp tools/setuidgids stage2/01-sys-tweaks/extfiles/
+cp tools/_cscore.so stage2/01-sys-tweaks/extfiles/_cscore.cpython-35m-arm-linux-gnueabihf.so
 
 #
 # openjdk
@@ -23,6 +24,16 @@ cp ../thirdparty-opencv/buildShared/linux-raspbian/bin/opencv-*.jar stage2/01-sy
 # the opencv build names the python .so with the build platform name instead
 # of the target platform, so rename it
 cp ../thirdparty-opencv/buildShared/linux-raspbian/lib/python3/cv2.*.so stage2/01-sys-tweaks/extfiles/cv2.cpython-35m-arm-linux-gnueabihf.so
+
+#
+# robotpy-cscore
+#
+sh -c 'cd ../robotpy-cscore/ && tar czf - cscore' > stage2/01-sys-tweaks/extfiles/robotpy-cscore.tar.gz
+
+#
+# pynetworktables
+#
+sh -c 'cd ../pynetworktables/ && tar czf - networktables ntcore' > stage2/01-sys-tweaks/extfiles/pynetworktables.tar.gz
 
 #
 # allwpilib
