@@ -120,8 +120,10 @@ install -m 755 extfiles/rpiConfigServer "${ROOTFS_DIR}/usr/local/sbin/configServ
 install -m 755 extfiles/netconsoleTee "${ROOTFS_DIR}/usr/local/bin/"
 
 install -v -d "${ROOTFS_DIR}/service/camera"
+install -v -d "${ROOTFS_DIR}/service/camera/log"
 
 install -m 755 files/camera_run "${ROOTFS_DIR}/service/camera/run"
+install -m 755 files/camera_log_run "${ROOTFS_DIR}/service/camera/log/run"
 
 on_chroot << EOF
 cd /service/camera && rm -f supervise && ln -s /tmp/camera-supervise supervise

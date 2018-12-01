@@ -1,4 +1,4 @@
 #!/bin/sh
-sleep 1
 cd /home/pi
-exec pgrphack /usr/local/bin/setuidgids pi ./runCamera 2>&1 | /usr/local/bin/netconsoleTee -u
+exec 2>&1
+exec pgrphack /usr/local/bin/setuidgids pi ./runCamera
