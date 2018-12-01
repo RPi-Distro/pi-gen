@@ -16,6 +16,8 @@ install -m 644 files/raspi-blacklist.conf "${ROOTFS_DIR}/etc/modprobe.d/"
 
 install -m 644 files/frc.json "${ROOTFS_DIR}/boot/"
 
+install -m 755 extfiles/setuidgids "${ROOTFS_DIR}/usr/local/bin/"
+
 install -m 755 -o 1000 -g 1000 extfiles/multiCameraServer "${ROOTFS_DIR}/home/pi/"
 
 cat extfiles/jdk_11.0.1-strip.tar.gz | sh -c "mkdir -p ${ROOTFS_DIR}/usr/lib/jvm && cd ${ROOTFS_DIR}/usr/lib/jvm/ && tar xzf - --exclude=\*.diz --exclude=src.zip --transform=s/^jdk/jdk-11.0.1/"

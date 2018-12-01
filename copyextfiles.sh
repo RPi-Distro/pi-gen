@@ -3,6 +3,11 @@
 mkdir -p stage2/01-sys-tweaks/extfiles
 
 #
+# tools
+#
+cp tools/setuidgids stage2/01-sys-tweaks/extfiles/
+
+#
 # openjdk
 #
 cp ../raspbian-openjdk/jdk_11.0.1-strip.tar.gz stage2/01-sys-tweaks/extfiles/
