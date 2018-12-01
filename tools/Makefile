@@ -4,7 +4,7 @@ setuidgids: setuidgids.c
 	arm-raspbian9-linux-gnueabihf-gcc -O -Wall -D_GNU_SOURCE -o $@ $<
 
 _cscore.so: ../../robotpy-cscore/src/_cscore.cpp ../../robotpy-cscore/src/ndarray_converter.cpp
-	arm-raspbian9-linux-gnueabihf-g++ -O -Wall -shared -fPIC -o $@ \
+	arm-raspbian9-linux-gnueabihf-g++ -O -Wall -fvisibility=hidden -shared -fPIC -o $@ \
 	    -I../../thirdparty-opencv/opencv/include \
 	    -I../../thirdparty-opencv/opencv/modules/core/include \
 	    -I../../thirdparty-opencv/opencv/modules/calib3d/include \
@@ -33,4 +33,4 @@ _cscore.so: ../../robotpy-cscore/src/_cscore.cpp ../../robotpy-cscore/src/ndarra
 	    ../../robotpy-cscore/src/ndarray_converter.cpp \
 	    -lcscore \
 	    -lwpiutil \
-	    -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_ml -lopencv_objdetect -lopencv_photo -lopencv_shape -lopencv_stitching -lopencv_superres -lopencv_video -lopencv_videoio -lopencv_videostab -lopencv_core
+	    -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_core
