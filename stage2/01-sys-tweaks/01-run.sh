@@ -113,7 +113,7 @@ install -m 755 files/configServer_run "${ROOTFS_DIR}/service/configServer/run"
 
 install -m 755 extfiles/rpiConfigServer "${ROOTFS_DIR}/usr/local/sbin/configServer"
 
-install -m 755 extfiles/netconsoleServer "${ROOTFS_DIR}/usr/local/bin/"
+install -m 755 extfiles/netconsoleTee "${ROOTFS_DIR}/usr/local/bin/"
 
 install -v -d "${ROOTFS_DIR}/service/camera"
 

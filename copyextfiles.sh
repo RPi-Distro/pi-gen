@@ -52,6 +52,6 @@ sh -c 'cd ../allwpilib/cameraserver/src/main/native/include && tar czf - cameras
 
 cp \
   ../allwpilib/cameraserver/build/exe/multiCameraServer/raspbian/multiCameraServer \
-  ../allwpilib/wpiutil/build/exe/netconsoleServer/raspbian/netconsoleServer \
+  ../allwpilib/wpiutil/build/exe/netconsoleTee/raspbian/netconsoleTee \
   ../allwpilib/wpiutil/build/exe/rpiConfigServer/raspbian/rpiConfigServer \
   stage2/01-sys-tweaks/extfiles/
