@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '4.0.3' apply false
+}
+
+mainClassName = 'Main'
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs '/home/pi/javalibs', '.'
+    }
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.8.5'
+
+    compile name: 'wpiutil'
+    compile name: 'ntcore'
+    compile name: 'cscore'
+    compile name: 'cameraserver'
+    compile name: 'opencv-344'
+}
+
+wrapper {
+    gradleVersion = '5.0'
+}

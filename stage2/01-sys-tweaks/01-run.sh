@@ -102,7 +102,17 @@ cat extfiles/cscore-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/inclu
 cat extfiles/ntcore-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
 cat extfiles/cameraserver-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
 
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/java-example/"
+install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/examples/"
+install -v -o 1000 -g 1000 extfiles/*-multiCameraServer.zip "${ROOTFS_DIR}/home/pi/examples/"
+on_chroot << EOF
+cd /home/pi/examples/
+unzip java-multiCameraServer.zip
+unzip cpp-multiCameraServer.zip
+unzip python-multiCameraServer.zip
+mkdir zips
+mv *.zip zips/
+chown -R 1000:1000 .
+EOF
 
 install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/javalibs/"
 install -m 644 -o 1000 -g 1000 extfiles/*.jar "${ROOTFS_DIR}/home/pi/javalibs/"

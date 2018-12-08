@@ -5,11 +5,23 @@ DEST=${PWD}/../stage2/01-sys-tweaks/extfiles
 mkdir -p ${DEST}
 
 #
+# examples
+#
+mkdir -p examples/java-multiCameraServer/src/main/java
+cp allwpilib/cameraserver/multiCameraServer/src/main/java/Main.java examples/java-multiCameraServer/src/main/java/
+cp allwpilib/cameraserver/multiCameraServer/src/main/native/cpp/main.cpp examples/cpp-multiCameraServer/
+
+sh -c 'cd examples && zip -r - java-multiCameraServer' > ${DEST}/java-multiCameraServer.zip
+sh -c 'cd examples && zip -r - cpp-multiCameraServer' > ${DEST}/cpp-multiCameraServer.zip
+sh -c 'cd examples && zip -r - python-multiCameraServer' > ${DEST}/python-multiCameraServer.zip
+
+#
 # tools
 #
 
 cp tools/setuidgids ${DEST}/
 cp tools/_cscore.so ${DEST}/_cscore.cpython-35m-arm-linux-gnueabihf.so
+cp tools/rpiConfigServer ${DEST}/
 
 #
 # openjdk
@@ -70,7 +82,9 @@ sh -c 'cd allwpilib/ntcore/src/main/native/include && tar czf - .' > ${DEST}/ntc
 sh -c 'cd allwpilib/cameraserver/src/main/native/include && tar czf - cameraserver vision' > ${DEST}/cameraserver-include.tar.gz
 
 cp \
-  allwpilib/cameraserver/build/exe/multiCameraServer/multiCameraServer \
+  allwpilib/cameraserver/multiCameraServer/build/exe/multiCameraServerCpp/multiCameraServerCpp \
+  ${DEST}/multiCameraServer
+
+cp \
   allwpilib/wpiutil/build/exe/netconsoleTee/netconsoleTee \
-  allwpilib/wpiutil/build/exe/rpiConfigServer/rpiConfigServer \
   ${DEST}/
