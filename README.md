@@ -73,6 +73,13 @@ The following environment variables are supported:
    Setting to '1' enables the QEMU mode - creating an image that can be mounted via QEMU for an emulated
    environment. These images include "-qemu" in the image file name.
 
+ * `FIRST_USER_NAME` (Default: "pi" )
+
+   Username for the first user
+
+ * `FIRST_USER_PASS` (Default: "raspberry")
+
+   Password for the first user
 
 A simple example for building Raspbian:
 
