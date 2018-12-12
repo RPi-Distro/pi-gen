@@ -7,3 +7,12 @@ SKIP_IMAGES
 .pc
 *-pc
 apt-cacher-ng/
+deps/01-download
+deps/02-extract
+deps/03-build
+deps/tools/_cscore.so
+deps/tools/rpiConfigServer
+deps/tools/setuidgids
+*.o
+*.sw?
+stage2/01-sys-tweaks/extfiles
