@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="coreui.min.css">
+    <link rel="stylesheet" href="frcvision.css">
+    <link rel="icon" type="image/png" sizes="128x128" href="wpilib.png">
+
+    <title>WPILib FRCVision Raspberry PI Configuration</title>
+  </head>
+  <body class="app header-fixed sidebar-md-show sidebar-fixed">
+    <header class="app-header navbar">
+      <a class="navbar-brand" href="#">
+        <img src="wpilib.png" class="img-fluid ml-2 mr-2 brand-icon" alt="WPILib">
+        FRCVision-rPi
+      </a>
+      <form class="form-inline">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-secondary active" id="systemReadOnly" aria-pressed="true" data-loading-text="<i class='spin' data-feather='loader'></i> Read-Only">Read-Only</button>
+          <button type="button" class="btn btn-secondary" id="systemWritable" aria-pressed="false" data-loading-text="<i class='spin' data-feather='loader'></i> Writable">Writable</button>
+        </div>
+      </form>
+      <span class="navbar-text mr-2">
+        <span class="badge badge-secondary" id="connectionBadge">Disconnected</span>
+      </span>
+    </header>
+
+    <div class="app-body">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link active" id="system-status-tab" data-toggle="tab" href="#system-status">
+                <i class="nav-icon" data-feather="info"></i>
+                System Status
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="vision-status-tab" data-toggle="tab" href="#vision-status">
+                <i class="nav-icon" data-feather="camera"></i>
+                Vision Status
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="network-settings-tab" data-toggle="tab" href="#network-settings">
+                <i class="nav-icon" data-feather="settings"></i>
+                Network Settings
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="vision-settings-tab" data-toggle="tab" href="#vision-settings">
+                <i class="nav-icon" data-feather="sliders"></i>
+                Vision Settings
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Main Pane -->
+      <main class="main">
+        <span id="status-content"></span>
+        <div class="tab-content" id="nav-tabContent">
+          <!-- System Status -->
+          <div class="tab-pane show active" id="system-status" role="tabpanel" aria-labelledby="system-status-tab">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 50%;"></th>
+                  <th scope="col" style="width: 25%;">1 sec</th>
+                  <th scope="col" style="width: 25%;">5 sec</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Memory (MB Free)</th>
+                  <td id="systemMemoryFree1s"></td>
+                  <td id="systemMemoryFree5s"></td>
+                </tr>
+                <tr>
+                  <th scope="row">Memory (MB Avail)</th>
+                  <td id="systemMemoryAvail1s"></td>
+                  <td id="systemMemoryAvail5s"></td>
+                </tr>
+                <tr>
+                  <th scope="row">CPU (% User)</th>
+                  <td id="systemCpuUser1s"></td>
+                  <td id="systemCpuUser5s"></td>
+                </tr>
+                <tr>
+                  <th scope="row">CPU (% System)</th>
+                  <td id="systemCpuSystem1s"></td>
+                  <td id="systemCpuSystem5s"></td>
+                </tr>
+                <tr>
+                  <th scope="row">CPU (% Idle)</th>
+                  <td id="systemCpuIdle1s"></td>
+                  <td id="systemCpuIdle5s"></td>
+                </tr>
+                <tr>
+                  <th scope="row">Network (Kbps)</th>
+                  <td id="systemNetwork1s"></td>
+                  <td id="systemNetwork5s"></td>
+                </tr>
+              </tbody>
+            </table>
+            <button type="button" class="btn btn-warning" id="systemRestart">
+              <i data-feather="rotate-cw"></i>
+              Restart System
+            </button>
+          </div>
+
+          <!-- Vision Status -->
+          <div class="tab-pane" id="vision-status" role="tabpanel" aria-labelledby="vision-status-tab">
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-auto mr-auto">
+                    <h6>Background Service (Automatic Restart)</h6>
+                  </div>
+                  <div class="col-auto">
+                    <span class="badge badge-dark align-top" id="visionServiceStatus">Unknown Status</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <button type="button" class="btn btn-sm btn-primary" id="visionUp">
+                  <span data-feather="play-circle"></span>
+                  Up
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary" id="visionDown">
+                  <span data-feather="stop-circle"></span>
+                  Down
+                </button>
+                <button type="button" class="btn btn-sm btn-warning" id="visionTerm">
+                  <span data-feather="slash"></span>
+                  Terminate
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" id="visionKill">
+                  <span data-feather="x"></span>
+                  Kill
+                </button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-auto mr-auto">
+                    <h6>Console Output</h6>
+                  </div>
+                  <div class="col-auto">
+                    <label for="visionLogEnabled">
+                      Enable
+                    </label>
+                    <label class="switch switch-sm switch-pill switch-primary align-bottom">
+                      <input type="checkbox" class="switch-input" id="visionLogEnabled">
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <pre class="log" id="visionConsole"></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Network Settings -->
+          <div class="tab-pane" id="network-settings" role="tabpanel" aria-labelledby="network-settings-tab">
+            <form>
+              <div class="form-group">
+                <label for="networkApproach">Configure IPv4 Address</label>
+                <select class="form-control" id="networkApproach">
+                  <option value="dhcp">DHCP</option>
+                  <option value="static">Static</option>
+                  <option value="dhcp-fallback">DHCP with Static Fallback</option>
+                </select>
+              </div>
+              <div class="collapse" id="networkIpDetails">
+                <div class="form-group">
+                  <label for="networkAddress">IPv4 Address</label>
+                  <input type=text" class="form-control" id="networkAddress">
+                </div>
+                <div class="form-group">
+                  <label for="networkMask">Subnet Mask</label>
+                  <input type=text" class="form-control" id="networkMask">
+                </div>
+                <div class="form-group">
+                  <label for="networkGateway">Gateway</label>
+                  <input type=text" class="form-control" id="networkGateway">
+                </div>
+                <div class="form-group">
+                  <label for="networkDNS">DNS Server</label>
+                  <input type=text" class="form-control" id="networkDNS">
+                </div>
+              </div>
+              <button id="networkSave" type="submit" class="btn btn-primary" data-loading-text="<i class='spin' data-feather='loader'></i> Saving" disabled>
+                <span data-feather="save"></span>
+                Save
+              </button>
+            </form>
+          </div>
+
+          <!-- Vision Settings -->
+          <div class="tab-pane" id="vision-settings" role="tabpanel" aria-labelledby="vision-settings-tab">
+            <div class="card">
+              <div class="card-header">
+                <h5>Network Tables</h5>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <label for="visionClient">
+                      Client
+                    </label>
+                    <label class="switch switch-sm switch-pill switch-primary align-bottom">
+                      <input type="checkbox" class="switch-input" id="visionClient" checked>
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                  <div class="collapse show" id="visionClientDetails">
+                    <div class="form-group">
+                      <label for="visionTeam">Team Number</label>
+                      <input type=text" class="form-control" id="visionTeam">
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="accordion" id="cameras">
+              <div class="card" id="camera0">
+                <div class="card-header">
+                  <div class="row align-items-center">
+                    <div class="col-auto mr-auto">
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#cameraBody0">
+                        <h5>Camera 1</h5>
+                      </button>
+                    </div>
+                    <div class="col-auto">
+                      <a class="btn btn-sm btn-success" href="" target="_blank" role="button" id="cameraStream0">
+                        <span data-feather="play"></span>
+                        Open Stream
+                      </a>
+                      <button type="button" class="btn btn-sm btn-danger" id="cameraRemove0">
+                        <span data-feather="x"></span>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="collapse" id="cameraBody0" data-parent="#cameras">
+                  <div class="card-body">
+                    <form>
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <label for="cameraName0">Name</label>
+                          <input type="text" class="form-control" id="cameraName0">
+                        </div>
+                        <div class="form-group col">
+                          <label for="cameraPath0">Path</label>
+                          <input type="text" class="form-control" id="cameraPath0">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" accept=".json,text/json,application/json" id="cameraSettingsFile0">
+                          <label class="custom-file-label" for="cameraSettingsFile0">Load camera settings from JSON file</label>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-auto">
+                          <label for="cameraPixelFormat0">Pixel Format</label>
+                          <select class="form-control" id="cameraPixelFormat0">
+                            <option value="mjpeg">MJPEG</option>
+                            <option value="yuyv">YUYV</option>
+                            <option value="rgb565">RGB565</option>
+                            <option value="bgr">BGR</option>
+                            <option value="gray">Gray</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraWidth0">Width</label>
+                          <input type="text" class="form-control" id="cameraWidth0" size="5">
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraHeight0">Height</label>
+                          <input type="text" class="form-control" id="cameraHeight0" size="5">
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraFps0">FPS</label>
+                          <input type="text" class="form-control" id="cameraFps0" size="4">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-auto">
+                          <label for="cameraBrightness0">Brightness</label>
+                          <input type="text" class="form-control" id="cameraBrightness0" size="4">
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraBrightness0">White Balance</label>
+                          <input type="text" class="form-control" id="cameraWhiteBalance0" size="4">
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraBrightness0">Exposure</label>
+                          <input type="text" class="form-control" id="cameraExposure0" size="4">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="cameraProperties0">Custom Properties JSON</label>
+                        <textarea class="form-control" id="cameraProperties0" rows="3"></textarea>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="display:none" id="cameraNEW">
+                <div class="card-header">
+                  <div class="row align-items-center">
+                    <div class="col-auto mr-auto">
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#cameraBodyNEW">
+                        <h5>Camera NEW</h5>
+                      </button>
+                    </div>
+                    <div class="col-auto">
+                      <a class="btn btn-sm btn-success" href="" target="_blank" role="button" id="cameraStreamNEW">
+                        <span data-feather="play"></span>
+                        Open Stream
+                      </a>
+                      <button type="button" class="btn btn-sm btn-danger" id="cameraRemoveNEW">
+                        <span data-feather="x"></span>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="collapse" id="cameraBodyNEW" data-parent="#cameras">
+                  <div class="card-body">
+                    <form>
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <label for="cameraNameNEW">Name</label>
+                          <input type="text" class="form-control" id="cameraNameNEW">
+                        </div>
+                        <div class="form-group col">
+                          <label for="cameraPathNEW">Path</label>
+                          <input type="text" class="form-control" id="cameraPathNEW">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" accept=".json,text/json,application/json" id="cameraSettingsFileNEW">
+                          <label class="custom-file-label" for="cameraSettingsFileNEW">Load camera settings from JSON file</label>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-auto">
+                          <label for="cameraPixelFormatNEW">Pixel Format</label>
+                          <select class="form-control" id="cameraPixelFormatNEW">
+                            <option value="mjpeg">MJPEG</option>
+                            <option value="yuyv">YUYV</option>
+                            <option value="rgb565">RGB565</option>
+                            <option value="bgr">BGR</option>
+                            <option value="gray">Gray</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraWidthNEW">Width</label>
+                          <input type="text" class="form-control" id="cameraWidthNEW" size="5">
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraHeightNEW">Height</label>
+                          <input type="text" class="form-control" id="cameraHeightNEW" size="5">
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraFpsNEW">FPS</label>
+                          <input type="text" class="form-control" id="cameraFpsNEW" size="4">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-auto">
+                          <label for="cameraBrightnessNEW">Brightness</label>
+                          <input type="text" class="form-control" id="cameraBrightnessNEW" size="4">
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraBrightnessNEW">White Balance</label>
+                          <input type="text" class="form-control" id="cameraWhiteBalanceNEW" size="4">
+                        </div>
+                        <div class="form-group col-auto">
+                          <label for="cameraExposureNEW">Exposure</label>
+                          <input type="text" class="form-control" id="cameraExposureNEW" size="4">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="cameraPropertiesNEW">Custom Properties JSON</label>
+                        <textarea class="form-control" id="cameraPropertiesNEW" rows="3"></textarea>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-auto mr-auto">
+                  <button type="submit" class="btn btn-primary" id="visionSave">
+                    <span data-feather="save"></span>
+                    Save
+                  </button>
+                  <button type="submit" class="btn btn-secondary" id="visionDiscard">
+                    <span data-feather="x"></span>
+                    Discard Changes
+                  </button>
+                </div>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-success" id="addCamera">
+                    <span data-feather="plus"></span>
+                    Add Camera
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script type="text/javascript" src="jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="popper.min.js"></script>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+    <script type="text/javascript" src="coreui.min.js"></script>
+    <script type="text/javascript" src="feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+    <script type="text/javascript" src="frcvision.js"></script>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+@-webkit-keyframes spinnow {
+    100% {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+@-moz-keyframes spinnow {
+    100% {
+        transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+    }
+}
+@-ms-keyframes spinnow {
+    100% {
+        transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+    }
+}
+
+/* Fix icon on IE */
+_:-ms-lang(x), .brand-icon {
+  height: 75%;
+  -ms-interpolation-mode: bicubic;
+}
+
+.spin {
+  animation: spinnow 5s infinite linear;
+}
+
+/*
+ * Console Log
+ */
+.log {
+  white-space: pre-wrap;
+  color: black;
+  font-size: 0.85em;
+  background: inherit;
+  border: 0;
+  padding: 0;
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.log .inner-line {
+  padding: 0 15px;
+  margin-left: 84pt;
+  text-indent: -84pt;
+  margin-bottom: 0;
+}
+
+.log .inner-line:empty::after {
+  content: '.';
+  visibility: hidden;
+}
+
+.log.no-indent .inner-line {
+  margin-left: 0;
+  text-indent: 0;
+}
+
+.log .line-selected {
+  background-color: #ffb2b0;
+}
