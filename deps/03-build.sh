@@ -48,7 +48,7 @@ popd
 
 # wpiutil, cscore, ntcore, cameraserver
 pushd allwpilib
-./gradlew -PonlyRaspbian :wpiutil:build :cscore:build :ntcore:build :cameraserver:build || die
+./gradlew -PonlyRaspbian :wpiutil:build :cscore:build :ntcore:build :cameraserver:build :cameraserver:multiCameraServer:build || die
 popd
 
 # tools
