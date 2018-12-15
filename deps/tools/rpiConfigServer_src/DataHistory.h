@@ -5,8 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#ifndef WPIUTIL_DATAHISTORY_H_
-#define WPIUTIL_DATAHISTORY_H_
+#ifndef RPICONFIGSERVER_DATAHISTORY_H_
+#define RPICONFIGSERVER_DATAHISTORY_H_
 
 #include <stdint.h>
 
@@ -53,4 +53,4 @@ class DataHistory {
   size_t m_qty = 0;
 };
 
-#endif  // WPIUTIL_DATAHISTORY_H_
+#endif  // RPICONFIGSERVER_DATAHISTORY_H_

@@ -5,13 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#ifndef WPIUTIL_SYSTEMSTATUS_H_
-#define WPIUTIL_SYSTEMSTATUS_H_
+#ifndef RPICONFIGSERVER_SYSTEMSTATUS_H_
+#define RPICONFIGSERVER_SYSTEMSTATUS_H_
 
 #include <memory>
 
+#include <wpi/Signal.h>
+
 #include "DataHistory.h"
-#include "wpi/Signal.h"
 
 namespace wpi {
 class json;
@@ -57,4 +58,4 @@ class SystemStatus {
   DataHistory<NetworkData, 6> m_network;
 };
 
-#endif  // WPIUTIL_SYSTEMSTATUS_H_
+#endif  // RPICONFIGSERVER_SYSTEMSTATUS_H_

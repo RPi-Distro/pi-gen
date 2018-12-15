@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#ifndef WPIUTIL_WEBSOCKETHANDLERS_H_
-#define WPIUTIL_WEBSOCKETHANDLERS_H_
+#ifndef RPICONFIGSERVER_WEBSOCKETHANDLERS_H_
+#define RPICONFIGSERVER_WEBSOCKETHANDLERS_H_
 
-#include "wpi/StringRef.h"
+#include <wpi/StringRef.h>
 
 namespace wpi {
 class WebSocket;
@@ -17,4 +17,4 @@ class WebSocket;
 void InitWs(wpi::WebSocket& ws);
 void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg);
 
-#endif  // WPIUTIL_WEBSOCKETHANDLERS_H_
+#endif  // RPICONFIGSERVER_WEBSOCKETHANDLERS_H_

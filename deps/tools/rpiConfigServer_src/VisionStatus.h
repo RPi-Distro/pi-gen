@@ -5,14 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#ifndef WPIUTIL_VISIONSTATUS_H_
-#define WPIUTIL_VISIONSTATUS_H_
+#ifndef RPICONFIGSERVER_VISIONSTATUS_H_
+#define RPICONFIGSERVER_VISIONSTATUS_H_
 
 #include <functional>
 #include <memory>
 
-#include "wpi/Signal.h"
-#include "wpi/StringRef.h"
+#include <wpi/Signal.h>
+#include <wpi/StringRef.h>
 
 namespace wpi {
 class json;
@@ -54,4 +54,4 @@ class VisionStatus {
   std::shared_ptr<wpi::uv::Loop> m_loop;
 };
 
-#endif  // WPIUTIL_VISIONSTATUS_H_
+#endif  // RPICONFIGSERVER_VISIONSTATUS_H_

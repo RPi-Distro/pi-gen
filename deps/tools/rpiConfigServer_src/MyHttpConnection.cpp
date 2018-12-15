@@ -7,9 +7,10 @@
 
 #include "MyHttpConnection.h"
 
+#include <wpi/UrlParser.h>
+#include <wpi/raw_ostream.h>
+
 #include "WebSocketHandlers.h"
-#include "wpi/UrlParser.h"
-#include "wpi/raw_ostream.h"
 
 // static resources
 namespace wpi {

@@ -5,14 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#ifndef WPIUTIL_MYHTTPCONNECTION_H_
-#define WPIUTIL_MYHTTPCONNECTION_H_
+#ifndef RPICONFIGSERVER_MYHTTPCONNECTION_H_
+#define RPICONFIGSERVER_MYHTTPCONNECTION_H_
 
 #include <memory>
 
-#include "wpi/HttpServerConnection.h"
-#include "wpi/WebSocketServer.h"
-#include "wpi/uv/Stream.h"
+#include <wpi/HttpServerConnection.h>
+#include <wpi/WebSocketServer.h>
+#include <wpi/uv/Stream.h>
 
 class MyHttpConnection : public wpi::HttpServerConnection,
                          public std::enable_shared_from_this<MyHttpConnection> {
@@ -25,4 +25,4 @@ class MyHttpConnection : public wpi::HttpServerConnection,
   wpi::WebSocketServerHelper m_websocketHelper;
 };
 
-#endif  // WPIUTIL_MYHTTPCONNECTION_H_
+#endif  // RPICONFIGSERVER_MYHTTPCONNECTION_H_

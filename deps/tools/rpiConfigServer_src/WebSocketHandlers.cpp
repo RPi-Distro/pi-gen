@@ -9,16 +9,17 @@
 
 #include <memory>
 
+#include <wpi/SmallVector.h>
+#include <wpi/WebSocket.h>
+#include <wpi/json.h>
+#include <wpi/raw_ostream.h>
+#include <wpi/raw_uv_ostream.h>
+#include <wpi/uv/Loop.h>
+#include <wpi/uv/Pipe.h>
+#include <wpi/uv/Process.h>
+
 #include "SystemStatus.h"
 #include "VisionStatus.h"
-#include "wpi/SmallVector.h"
-#include "wpi/WebSocket.h"
-#include "wpi/json.h"
-#include "wpi/raw_ostream.h"
-#include "wpi/raw_uv_ostream.h"
-#include "wpi/uv/Loop.h"
-#include "wpi/uv/Pipe.h"
-#include "wpi/uv/Process.h"
 
 namespace uv = wpi::uv;
 

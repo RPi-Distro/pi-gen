@@ -7,24 +7,22 @@
 
 #include "VisionStatus.h"
 
-#ifndef _WIN32
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
-#endif
 
 #include <cstring>
 
-#include "wpi/SmallString.h"
-#include "wpi/StringRef.h"
-#include "wpi/json.h"
-#include "wpi/raw_ostream.h"
-#include "wpi/uv/Buffer.h"
-#include "wpi/uv/Pipe.h"
-#include "wpi/uv/Process.h"
-#include "wpi/uv/Work.h"
+#include <wpi/SmallString.h>
+#include <wpi/StringRef.h>
+#include <wpi/json.h>
+#include <wpi/raw_ostream.h>
+#include <wpi/uv/Buffer.h>
+#include <wpi/uv/Pipe.h>
+#include <wpi/uv/Process.h>
+#include <wpi/uv/Work.h>
 
 namespace uv = wpi::uv;
 
@@ -37,7 +35,6 @@ std::shared_ptr<VisionStatus> VisionStatus::GetInstance() {
 
 void VisionStatus::RunSvc(const char* cmd,
                           std::function<void(wpi::StringRef)> onFail) {
-#ifndef _WIN32
   struct SvcWorkReq : public uv::WorkReq {
     SvcWorkReq(const char* cmd_, std::function<void(wpi::StringRef)> onFail_)
         : cmd(cmd_), onFail(onFail_) {}
@@ -69,7 +66,6 @@ void VisionStatus::RunSvc(const char* cmd,
   });
 
   uv::QueueWork(m_loop, workReq);
-#endif
 }
 
 void VisionStatus::Up(std::function<void(wpi::StringRef)> onFail) {
@@ -93,7 +89,6 @@ void VisionStatus::Kill(std::function<void(wpi::StringRef)> onFail) {
 }
 
 void VisionStatus::UpdateStatus() {
-#ifndef _WIN32
   struct StatusWorkReq : public uv::WorkReq {
     bool enabled = false;
     wpi::SmallString<128> status;
@@ -178,7 +173,6 @@ void VisionStatus::UpdateStatus() {
   });
 
   uv::QueueWork(m_loop, workReq);
-#endif
 }
 
 void VisionStatus::ConsoleLog(uv::Buffer& buf, size_t len) {

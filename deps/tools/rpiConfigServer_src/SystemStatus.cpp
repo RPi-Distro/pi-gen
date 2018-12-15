@@ -7,12 +7,12 @@
 
 #include "SystemStatus.h"
 
-#include "wpi/SmallString.h"
-#include "wpi/SmallVector.h"
-#include "wpi/StringRef.h"
-#include "wpi/json.h"
-#include "wpi/raw_istream.h"
-#include "wpi/raw_ostream.h"
+#include <wpi/SmallString.h>
+#include <wpi/SmallVector.h>
+#include <wpi/StringRef.h>
+#include <wpi/json.h>
+#include <wpi/raw_istream.h>
+#include <wpi/raw_ostream.h>
 
 std::shared_ptr<SystemStatus> SystemStatus::GetInstance() {
   static auto sysStatus = std::make_shared<SystemStatus>(private_init{});

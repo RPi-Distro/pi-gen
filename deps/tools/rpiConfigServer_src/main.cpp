@@ -8,19 +8,20 @@
 #include <chrono>
 #include <thread>
 
+#include <wpi/ArrayRef.h>
+#include <wpi/StringRef.h>
+#include <wpi/raw_ostream.h>
+#include <wpi/raw_uv_ostream.h>
+#include <wpi/timestamp.h>
+#include <wpi/uv/Loop.h>
+#include <wpi/uv/Process.h>
+#include <wpi/uv/Tcp.h>
+#include <wpi/uv/Timer.h>
+#include <wpi/uv/Udp.h>
+
 #include "MyHttpConnection.h"
 #include "SystemStatus.h"
 #include "VisionStatus.h"
-#include "wpi/ArrayRef.h"
-#include "wpi/StringRef.h"
-#include "wpi/raw_ostream.h"
-#include "wpi/raw_uv_ostream.h"
-#include "wpi/timestamp.h"
-#include "wpi/uv/Loop.h"
-#include "wpi/uv/Process.h"
-#include "wpi/uv/Tcp.h"
-#include "wpi/uv/Timer.h"
-#include "wpi/uv/Udp.h"
 
 namespace uv = wpi::uv;
 
