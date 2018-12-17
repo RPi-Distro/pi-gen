@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-IMG_FILE="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.img"
-INFO_FILE="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.info"
+IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}.img"
+INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}.info"
 
 on_chroot << EOF
 /etc/init.d/fake-hwclock stop
