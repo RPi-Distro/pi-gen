@@ -81,6 +81,10 @@ The following environment variables are supported:
 
    Password for the first user
 
+ * `WPA_ESSID`, `WPA_PASSWORD` and `WPA_COUNTRY` (Default: unset)
+
+   If these are set, they are use to configure `wpa_supplicant.conf`, so that the raspberry pi can automatically connect to a wifi network on first boot.
+
 A simple example for building Raspbian:
 
 ```bash
