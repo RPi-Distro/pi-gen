@@ -13,13 +13,13 @@
 
 #include <wpi/Signal.h>
 #include <wpi/StringRef.h>
+#include <wpi/uv/Loop.h>
 
 namespace wpi {
 class json;
 
 namespace uv {
 class Buffer;
-class Loop;
 }  // namespace uv
 }  // namespace wpi
 

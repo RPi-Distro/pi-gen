@@ -15,4 +15,5 @@ deps/tools/rpiConfigServer
 deps/tools/setuidgids
 *.o
 *.sw?
+*.debug
 stage2/01-sys-tweaks/extfiles

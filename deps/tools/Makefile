@@ -33,6 +33,7 @@ _cscore.so: ../robotpy-cscore/src/_cscore.cpp ../robotpy-cscore/src/ndarray_conv
 RPICONFIGSERVER_OBJS= \
     rpiConfigServer_src/main.o \
     rpiConfigServer_src/MyHttpConnection.o \
+    rpiConfigServer_src/NetworkSettings.o \
     rpiConfigServer_src/SystemStatus.o \
     rpiConfigServer_src/VisionStatus.o \
     rpiConfigServer_src/WebSocketHandlers.o \
@@ -45,6 +46,8 @@ rpiConfigServer: ${RPICONFIGSERVER_OBJS}
 	    ${RPICONFIGSERVER_OBJS} \
 	    -L../allwpilib/wpiutil/build/libs/wpiutil/static/release \
 	    -lwpiutil
+	${COMPILER}objcopy --only-keep-debug $@ $@.debug
+	${COMPILER}strip -g $@
 
 %.o: %.cpp
 	${COMPILER}g++ -O -Wall -c -o $@ \

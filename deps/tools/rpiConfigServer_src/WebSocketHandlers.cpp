@@ -18,6 +18,7 @@
 #include <wpi/uv/Pipe.h>
 #include <wpi/uv/Process.h>
 
+#include "NetworkSettings.h"
 #include "SystemStatus.h"
 #include "VisionStatus.h"
 
@@ -32,6 +33,7 @@ struct WebSocketData {
   wpi::sig::ScopedConnection sysWritableConn;
   wpi::sig::ScopedConnection visStatusConn;
   wpi::sig::ScopedConnection visLogConn;
+  wpi::sig::ScopedConnection netSettingsConn;
 };
 
 static void SendWsText(wpi::WebSocket& ws, const wpi::json& j) {
@@ -118,6 +120,13 @@ void InitWs(wpi::WebSocket& ws) {
         if (d->visionLogEnabled) SendWsText(ws, j);
       });
   visStatus->UpdateStatus();
+
+  // send initial network settings
+  auto netSettings = NetworkSettings::GetInstance();
+  auto netSettingsFunc = [&ws](const wpi::json& j) { SendWsText(ws, j); };
+  netSettingsFunc(netSettings->GetStatusJson());
+  data->netSettingsConn =
+      netSettings->status.connect_connection(netSettingsFunc);
 }
 
 void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg) {
@@ -200,5 +209,31 @@ void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg) {
       }
     }
   } else if (t == "networkSave") {
+    auto statusFunc = [s = ws.shared_from_this()](wpi::StringRef msg) {
+      SendWsText(*s, {{"type", "status"}, {"message", msg}});
+    };
+    try {
+      NetworkSettings::Mode mode;
+      auto& approach = j.at("networkApproach").get_ref<const std::string&>();
+      if (approach == "dhcp")
+        mode = NetworkSettings::kDhcp;
+      else if (approach == "static")
+        mode = NetworkSettings::kStatic;
+      else if (approach == "dhcp-fallback")
+        mode = NetworkSettings::kDhcpStatic;
+      else {
+        wpi::errs() << "could not understand networkApproach value: "
+                    << approach << '\n';
+        return;
+      }
+      NetworkSettings::GetInstance()->Set(
+          mode, j.at("networkAddress").get_ref<const std::string&>(),
+          j.at("networkMask").get_ref<const std::string&>(),
+          j.at("networkGateway").get_ref<const std::string&>(),
+          j.at("networkDNS").get_ref<const std::string&>(), statusFunc);
+    } catch (const wpi::json::exception& e) {
+      wpi::errs() << "could not read networkSave value: " << e.what() << '\n';
+      return;
+    }
   }
 }

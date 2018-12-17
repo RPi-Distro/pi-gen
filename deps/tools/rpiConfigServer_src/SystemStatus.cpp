@@ -105,7 +105,7 @@ bool SystemStatus::GetWritable() {
     line.split(strs, ' ', -1, false);
     if (strs.size() < 4) continue;
 
-    if (strs[1] == "/") return strs[2].contains("rw");
+    if (strs[1] == "/") return strs[3].contains("rw");
   }
   return false;
 }

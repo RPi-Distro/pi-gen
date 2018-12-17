@@ -153,11 +153,12 @@ function connect() {
         visionLog(msg.data);
         break;
       case 'networkSettings':
-        $('#networkApproach').value = msg.networkApproach;
-        $('#networkAddress').value = msg.networkAddress;
-        $('#networkMask').value = msg.networkMask;
-        $('#networkGateway').value = msg.networkGateway;
-        $('#networkDNS').value = msg.networkDNS;
+        $('#networkApproach').val(msg.networkApproach);
+        $('#networkAddress').val(msg.networkAddress);
+        $('#networkMask').val(msg.networkMask);
+        $('#networkGateway').val(msg.networkGateway);
+        $('#networkDNS').val(msg.networkDNS);
+	updateNetworkSettingsView();
         break;
       case 'systemReadOnly':
         displayReadOnly();
@@ -268,25 +269,27 @@ function visionLog(data) {
 }
 
 // Show details when appropriate for network approach
-$('#networkApproach').change(function() {
-  if (this.value == "dhcp") {
+function updateNetworkSettingsView() {
+  if ($('#networkApproach').val() === "dhcp") {
     $('#networkIpDetails').collapse('hide');
   } else {
     $('#networkIpDetails').collapse('show');
   }
+}
+
+$('#networkApproach').change(function() {
+  updateNetworkSettingsView();
 });
 
 // Network Save button handler
 $('#networkSave').click(function() {
-  var $this = $(this);
-  $this.button('loading');
   var msg = {
     type: 'networkSave',
-    networkApproach: $('#networkApproach').value,
-    networkAddress: $('#networkAddress').value,
-    networkMask: $('#networkMask').value,
-    networkGateway: $('#networkGateway').value,
-    networkDNS: $('#networkDNS').value
+    networkApproach: $('#networkApproach').val(),
+    networkAddress: $('#networkAddress').val(),
+    networkMask: $('#networkMask').val(),
+    networkGateway: $('#networkGateway').val(),
+    networkDNS: $('#networkDNS').val()
   };
   connection.send(JSON.stringify(msg));
 });

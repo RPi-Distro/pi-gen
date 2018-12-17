@@ -20,6 +20,7 @@
 #include <wpi/uv/Udp.h>
 
 #include "MyHttpConnection.h"
+#include "NetworkSettings.h"
 #include "SystemStatus.h"
 #include "VisionStatus.h"
 
@@ -37,6 +38,7 @@ int main(int argc, char* argv[]) {
 
   auto loop = uv::Loop::Create();
 
+  NetworkSettings::GetInstance()->SetLoop(loop);
   VisionStatus::GetInstance()->SetLoop(loop);
 
   loop->error.connect(
