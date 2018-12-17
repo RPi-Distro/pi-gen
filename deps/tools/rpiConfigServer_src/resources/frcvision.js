@@ -158,7 +158,7 @@ function connect() {
         $('#networkMask').val(msg.networkMask);
         $('#networkGateway').val(msg.networkGateway);
         $('#networkDNS').val(msg.networkDNS);
-	updateNetworkSettingsView();
+        updateNetworkSettingsView();
         break;
       case 'systemReadOnly':
         displayReadOnly();
