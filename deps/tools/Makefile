@@ -48,6 +48,7 @@ rpiConfigServer: ${RPICONFIGSERVER_OBJS}
 	    -lwpiutil
 	${COMPILER}objcopy --only-keep-debug $@ $@.debug
 	${COMPILER}strip -g $@
+	${COMPILER}objcopy --add-gnu-debuglink=$@.debug $@
 
 %.o: %.cpp
 	${COMPILER}g++ -O -Wall -c -o $@ \
