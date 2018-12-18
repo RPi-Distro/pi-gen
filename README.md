@@ -95,6 +95,13 @@ A simple example for building Raspbian:
 IMG_NAME='Raspbian'
 ```
 
+The config file can also be specified on the command line as an argument the `build.sh` or `build-docker.sh` scripts.
+
+```
+./build -c myconfig
+```
+
+This is parsed after `config` so can be used to override values set there.
 
 ## How the build process works
 
