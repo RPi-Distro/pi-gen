@@ -85,6 +85,10 @@ The following environment variables are supported:
 
    If these are set, they are use to configure `wpa_supplicant.conf`, so that the raspberry pi can automatically connect to a wifi network on first boot.
 
+ * `ENABLE_SSH` (Default: `0`)
+
+   Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you RaspberryPi.
+
 A simple example for building Raspbian:
 
 ```bash
