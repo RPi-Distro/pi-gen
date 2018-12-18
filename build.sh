@@ -127,6 +127,16 @@ if [ -f config ]; then
 	source config
 fi
 
+while getopts "c:" flag
+do
+	case "$flag" in
+		c)
+			EXTRA_CONFIG="$OPTARG"
+			source "$EXTRA_CONFIG"
+			;;
+	esac
+done
+
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set" 1>&2
 	exit 1

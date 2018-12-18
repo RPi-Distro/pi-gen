@@ -19,24 +19,25 @@ if [ -f config ]; then
 	source config
 fi
 
+while getopts "c:" flag
+do
+	case "$flag" in
+		c)
+			EXTRA_CONFIG="$OPTARG"
+			config_file=( "${config_file[@]}" "--env-file" "$(pwd)/${EXTRA_CONFIG}")
+			source "$EXTRA_CONFIG"
+			;;
+	esac
+done
+
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
 CONTINUE=${CONTINUE:-0}
 PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-0}
 
-if [ "$*" != "" ] || [ -z "${IMG_NAME}" ]; then
-	if [ -z "${IMG_NAME}" ]; then
-		echo "IMG_NAME not set in 'config'" 1>&2
-		echo 1>&2
-	fi
-	cat >&2 <<EOF
-Usage:
-    build-docker.sh [options]
-Optional environment arguments: ( =<default> )
-    CONTAINER_NAME=pigen_work  set a name for the build container
-    CONTINUE=1                 continue from a previously started container
-    PRESERVE_CONTAINER=1       keep build container even on successful build
-EOF
-	exit 1
+if [ -z "${IMG_NAME}" ]; then
+	echo "IMG_NAME not set in 'config'" 1>&2
+	echo 1>&2
+exit 1
 fi
 
 CONTAINER_EXISTS=$($DOCKER ps -a --filter name="$CONTAINER_NAME" -q)
