@@ -45,7 +45,11 @@ cat files/bash.bashrc >> "${ROOTFS_DIR}/etc/bash.bashrc"
 cat files/bash.logout >> "${ROOTFS_DIR}/etc/bash.bash_logout"
 
 on_chroot << EOF
-systemctl enable ssh
+if [ "${ENABLE_SSH}" == "1" ]; then
+	systemctl enable ssh
+else
+	systemctl disable ssh
+fi
 systemctl enable regenerate_ssh_host_keys
 EOF
 
