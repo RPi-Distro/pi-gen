@@ -23,14 +23,14 @@
     }
 }
 
-/* Fix icon on IE */
-_:-ms-lang(x), .brand-icon {
-  height: 75%;
-  -ms-interpolation-mode: bicubic;
-}
-
 .spin {
   animation: spinnow 5s infinite linear;
+}
+
+.brand-icon {
+  width: 32px;
+  height: 32px;
+  -ms-interpolation-mode: bicubic;
 }
 
 /*
