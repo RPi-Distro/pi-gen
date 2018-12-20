@@ -116,6 +116,7 @@ EOF
 
 install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/javalibs/"
 install -m 644 -o 1000 -g 1000 extfiles/*.jar "${ROOTFS_DIR}/home/pi/javalibs/"
+sh -c "cd ${ROOTFS_DIR}/home/pi/javalibs && zip ../zips/java-multiCameraServer.zip *.jar"
 
 on_chroot << EOF
 ldconfig

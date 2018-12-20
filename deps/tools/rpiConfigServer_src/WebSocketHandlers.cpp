@@ -20,6 +20,7 @@
 
 #include "NetworkSettings.h"
 #include "SystemStatus.h"
+#include "VisionSettings.h"
 #include "VisionStatus.h"
 
 namespace uv = wpi::uv;
@@ -34,6 +35,7 @@ struct WebSocketData {
   wpi::sig::ScopedConnection visStatusConn;
   wpi::sig::ScopedConnection visLogConn;
   wpi::sig::ScopedConnection netSettingsConn;
+  wpi::sig::ScopedConnection visSettingsConn;
 };
 
 static void SendWsText(wpi::WebSocket& ws, const wpi::json& j) {
@@ -127,6 +129,13 @@ void InitWs(wpi::WebSocket& ws) {
   netSettingsFunc(netSettings->GetStatusJson());
   data->netSettingsConn =
       netSettings->status.connect_connection(netSettingsFunc);
+
+  // send initial vision settings
+  auto visSettings = VisionSettings::GetInstance();
+  auto visSettingsFunc = [&ws](const wpi::json& j) { SendWsText(ws, j); };
+  visSettingsFunc(visSettings->GetStatusJson());
+  data->visSettingsConn =
+      visSettings->status.connect_connection(visSettingsFunc);
 }
 
 void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg) {
@@ -235,5 +244,18 @@ void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg) {
       wpi::errs() << "could not read networkSave value: " << e.what() << '\n';
       return;
     }
+  } else if (t == "visionSave") {
+    auto statusFunc = [s = ws.shared_from_this()](wpi::StringRef msg) {
+      SendWsText(*s, {{"type", "status"}, {"message", msg}});
+    };
+    try {
+      VisionSettings::GetInstance()->Set(j.at("settings"), statusFunc);
+    } catch (const wpi::json::exception& e) {
+      wpi::errs() << "could not read visionSave value: " << e.what() << '\n';
+      return;
+    }
   }
 }
+
+void ProcessWsBinary(wpi::WebSocket& ws, wpi::ArrayRef<uint8_t> msg) {}
+

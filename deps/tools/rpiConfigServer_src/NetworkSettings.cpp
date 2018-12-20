@@ -21,7 +21,11 @@
 
 namespace uv = wpi::uv;
 
+#ifdef __RASPBIAN9__
 #define DHCPCD_CONF "/boot/dhcpcd.conf"
+#else
+#define DHCPCD_CONF "dhcpcd.conf"
+#endif
 
 #define GEN_MARKER "###### BELOW THIS LINE EDITED BY RPICONFIGSERVER ######"
 

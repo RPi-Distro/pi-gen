@@ -56,6 +56,12 @@
                 Vision Settings
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" id="application-tab" data-toggle="tab" href="#application">
+                <i class="nav-icon" data-feather="cpu"></i>
+                Application
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -208,7 +214,7 @@
           <div class="tab-pane" id="vision-settings" role="tabpanel" aria-labelledby="vision-settings-tab">
             <div class="card">
               <div class="card-header">
-                <h5>Network Tables</h5>
+                <h6>Network Tables</h6>
               </div>
               <div class="card-body">
                 <form>
@@ -231,105 +237,20 @@
               </div>
             </div>
             <div class="accordion" id="cameras">
-              <div class="card" id="camera0">
-                <div class="card-header">
-                  <div class="row align-items-center">
-                    <div class="col-auto mr-auto">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#cameraBody0">
-                        <h5>Camera 1</h5>
-                      </button>
-                    </div>
-                    <div class="col-auto">
-                      <a class="btn btn-sm btn-success" href="" target="_blank" role="button" id="cameraStream0">
-                        <span data-feather="play"></span>
-                        Open Stream
-                      </a>
-                      <button type="button" class="btn btn-sm btn-danger" id="cameraRemove0">
-                        <span data-feather="x"></span>
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="collapse" id="cameraBody0" data-parent="#cameras">
-                  <div class="card-body">
-                    <form>
-                      <div class="form-row">
-                        <div class="form-group col">
-                          <label for="cameraName0">Name</label>
-                          <input type="text" class="form-control" id="cameraName0">
-                        </div>
-                        <div class="form-group col">
-                          <label for="cameraPath0">Path</label>
-                          <input type="text" class="form-control" id="cameraPath0">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="custom-file">
-                          <input type="file" class="custom-file-input" accept=".json,text/json,application/json" id="cameraSettingsFile0">
-                          <label class="custom-file-label" for="cameraSettingsFile0">Load camera settings from JSON file</label>
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group col-auto">
-                          <label for="cameraPixelFormat0">Pixel Format</label>
-                          <select class="form-control" id="cameraPixelFormat0">
-                            <option value="mjpeg">MJPEG</option>
-                            <option value="yuyv">YUYV</option>
-                            <option value="rgb565">RGB565</option>
-                            <option value="bgr">BGR</option>
-                            <option value="gray">Gray</option>
-                          </select>
-                        </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraWidth0">Width</label>
-                          <input type="text" class="form-control" id="cameraWidth0" size="5">
-                        </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraHeight0">Height</label>
-                          <input type="text" class="form-control" id="cameraHeight0" size="5">
-                        </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraFps0">FPS</label>
-                          <input type="text" class="form-control" id="cameraFps0" size="4">
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group col-auto">
-                          <label for="cameraBrightness0">Brightness</label>
-                          <input type="text" class="form-control" id="cameraBrightness0" size="4">
-                        </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraBrightness0">White Balance</label>
-                          <input type="text" class="form-control" id="cameraWhiteBalance0" size="4">
-                        </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraBrightness0">Exposure</label>
-                          <input type="text" class="form-control" id="cameraExposure0" size="4">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="cameraProperties0">Custom Properties JSON</label>
-                        <textarea class="form-control" id="cameraProperties0" rows="3"></textarea>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
               <div class="card" style="display:none" id="cameraNEW">
                 <div class="card-header">
                   <div class="row align-items-center">
                     <div class="col-auto mr-auto">
                       <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#cameraBodyNEW">
-                        <h5>Camera NEW</h5>
+                        <h6 class="cameraTitle">Camera NEW</h6>
                       </button>
                     </div>
                     <div class="col-auto">
-                      <a class="btn btn-sm btn-success" href="" target="_blank" role="button" id="cameraStreamNEW">
+                      <a class="btn btn-sm btn-success cameraStream" href="" target="_blank" role="button">
                         <span data-feather="play"></span>
                         Open Stream
                       </a>
-                      <button type="button" class="btn btn-sm btn-danger" id="cameraRemoveNEW">
+                      <button type="button" class="btn btn-sm btn-danger cameraRemove">
                         <span data-feather="x"></span>
                         Remove
                       </button>
@@ -342,23 +263,23 @@
                       <div class="form-row">
                         <div class="form-group col">
                           <label for="cameraNameNEW">Name</label>
-                          <input type="text" class="form-control" id="cameraNameNEW">
+                          <input type="text" class="form-control cameraName" id="cameraNameNEW">
                         </div>
                         <div class="form-group col">
                           <label for="cameraPathNEW">Path</label>
-                          <input type="text" class="form-control" id="cameraPathNEW">
+                          <input type="text" class="form-control cameraPath" id="cameraPathNEW">
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input" accept=".json,text/json,application/json" id="cameraSettingsFileNEW">
-                          <label class="custom-file-label" for="cameraSettingsFileNEW">Load camera settings from JSON file</label>
+                          <input type="file" class="custom-file-input cameraSettingsFile" accept=".json,text/json,application/json" id="cameraSettingsFileNEW">
+                          <label class="custom-file-label" for="cameraSettingsFileNEW">Load source config from JSON file</label>
                         </div>
                       </div>
                       <div class="form-row">
                         <div class="form-group col-auto">
                           <label for="cameraPixelFormatNEW">Pixel Format</label>
-                          <select class="form-control" id="cameraPixelFormatNEW">
+                          <select class="form-control cameraPixelFormat" id="cameraPixelFormatNEW">
                             <option value="mjpeg">MJPEG</option>
                             <option value="yuyv">YUYV</option>
                             <option value="rgb565">RGB565</option>
@@ -368,34 +289,34 @@
                         </div>
                         <div class="form-group col-auto">
                           <label for="cameraWidthNEW">Width</label>
-                          <input type="text" class="form-control" id="cameraWidthNEW" size="5">
+                          <input type="number" class="form-control cameraWidth" id="cameraWidthNEW" size="5">
                         </div>
                         <div class="form-group col-auto">
                           <label for="cameraHeightNEW">Height</label>
-                          <input type="text" class="form-control" id="cameraHeightNEW" size="5">
+                          <input type="number" class="form-control cameraHeight" id="cameraHeightNEW" size="5">
                         </div>
                         <div class="form-group col-auto">
                           <label for="cameraFpsNEW">FPS</label>
-                          <input type="text" class="form-control" id="cameraFpsNEW" size="4">
+                          <input type="number" class="form-control cameraFps" id="cameraFpsNEW" size="4">
                         </div>
                       </div>
                       <div class="form-row">
                         <div class="form-group col-auto">
                           <label for="cameraBrightnessNEW">Brightness</label>
-                          <input type="text" class="form-control" id="cameraBrightnessNEW" size="4">
+                          <input type="text" class="form-control cameraBrightness" id="cameraBrightnessNEW" size="4">
                         </div>
                         <div class="form-group col-auto">
-                          <label for="cameraBrightnessNEW">White Balance</label>
-                          <input type="text" class="form-control" id="cameraWhiteBalanceNEW" size="4">
+                          <label for="cameraWhiteBalanceNEW">White Balance</label>
+                          <input type="text" class="form-control cameraWhiteBalance" id="cameraWhiteBalanceNEW" size="4">
                         </div>
                         <div class="form-group col-auto">
                           <label for="cameraExposureNEW">Exposure</label>
-                          <input type="text" class="form-control" id="cameraExposureNEW" size="4">
+                          <input type="text" class="form-control cameraExposure" id="cameraExposureNEW" size="4">
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="cameraPropertiesNEW">Custom Properties JSON</label>
-                        <textarea class="form-control" id="cameraPropertiesNEW" rows="3"></textarea>
+                        <textarea class="form-control cameraProperties" id="cameraPropertiesNEW" rows="3"></textarea>
                       </div>
                     </form>
                   </div>
@@ -419,6 +340,69 @@
                     <span data-feather="plus"></span>
                     Add Camera
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Application -->
+          <div class="tab-pane" id="application" role="tabpanel" aria-labelledby="application-tab">
+            <div class="card">
+              <div class="card-header">
+                <h6>Vision Application Configuration</h6>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <label for="applicationType">Application</label>
+                    <select class="form-control" id="applicationType">
+                      <option value="builtin">Built-in multi-camera streaming</option>
+                      <option value="custom">Custom</option>
+                      <option value="example-java">Java example (must be built to work)</option>
+                      <option value="example-cpp">C++ example (must be built to work)</option>
+                      <option value="example-python">Python example</option>
+                      <option value="upload-java">Uploaded Java jar</option>
+                      <option value="upload-cpp">Uploaded C++ executable</option>
+                      <option value="upload-python">Uploaded Python file</option>
+                    </select>
+                  </div>
+                  <div class="collapse" id="applicationUpload">
+                    <div class="form-group">
+                      <label for="applicationFile">Upload executable file</label>
+                      <input type="file" class="form-control-file" id="applicationFile">
+                    </div>
+                  </div>
+                  <button id="applicationSave" type="button" class="btn btn-primary" data-loading-text="<i class='spin' data-feather='loader'></i> Saving" disabled>
+                    <span data-feather="save"></span>
+                    Save
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h6>Example Programs</h6>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-auto">
+                    <a class="btn btn-sm btn-success" href="java-multiCameraServer.zip" target="_blank" role="button">
+                      <span data-feather="download"></span>
+                      Download Java Example
+                    </a>
+                  </div>
+                  <div class="col-auto">
+                    <a class="btn btn-sm btn-success" href="cpp-multiCameraServer.zip" target="_blank" role="button">
+                      <span data-feather="download"></span>
+                      Download C++ Example
+                    </a>
+                  </div>
+                  <div class="col-auto">
+                    <a class="btn btn-sm btn-success" href="python-multiCameraServer.zip" target="_blank" role="button">
+                      <span data-feather="download"></span>
+                      Download Python Example
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

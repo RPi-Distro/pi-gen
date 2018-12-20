@@ -11,6 +11,7 @@
 #include <memory>
 
 #include <wpi/HttpServerConnection.h>
+#include <wpi/Twine.h>
 #include <wpi/WebSocketServer.h>
 #include <wpi/uv/Stream.h>
 
@@ -21,6 +22,10 @@ class MyHttpConnection : public wpi::HttpServerConnection,
 
  protected:
   void ProcessRequest() override;
+  void SendFileResponse(int code, const wpi::Twine& codeText,
+                        const wpi::Twine& contentType,
+                        const wpi::Twine& filename,
+                        const wpi::Twine& extraHeader = wpi::Twine{});
 
   wpi::WebSocketServerHelper m_websocketHelper;
 };
