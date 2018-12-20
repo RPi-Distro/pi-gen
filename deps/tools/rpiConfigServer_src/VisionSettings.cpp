@@ -30,6 +30,7 @@ void VisionSettings::Set(const wpi::json& data,
       return;
     }
     data.dump(os, 4);
+    os << '\n';
   }
 
   // terminate vision process so it reloads the file

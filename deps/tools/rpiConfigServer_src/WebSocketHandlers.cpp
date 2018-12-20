@@ -216,6 +216,13 @@ void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg) {
                     << '\n';
         return;
       }
+    } else if (subType == "Save") {
+      try {
+        VisionSettings::GetInstance()->Set(j.at("settings"), statusFunc);
+      } catch (const wpi::json::exception& e) {
+        wpi::errs() << "could not read visionSave value: " << e.what() << '\n';
+        return;
+      }
     }
   } else if (t == "networkSave") {
     auto statusFunc = [s = ws.shared_from_this()](wpi::StringRef msg) {
@@ -242,16 +249,6 @@ void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg) {
           j.at("networkDNS").get_ref<const std::string&>(), statusFunc);
     } catch (const wpi::json::exception& e) {
       wpi::errs() << "could not read networkSave value: " << e.what() << '\n';
-      return;
-    }
-  } else if (t == "visionSave") {
-    auto statusFunc = [s = ws.shared_from_this()](wpi::StringRef msg) {
-      SendWsText(*s, {{"type", "status"}, {"message", msg}});
-    };
-    try {
-      VisionSettings::GetInstance()->Set(j.at("settings"), statusFunc);
-    } catch (const wpi::json::exception& e) {
-      wpi::errs() << "could not read visionSave value: " << e.what() << '\n';
       return;
     }
   }
