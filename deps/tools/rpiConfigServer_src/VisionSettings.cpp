@@ -14,12 +14,6 @@
 
 #include "VisionStatus.h"
 
-#ifdef __RASPBIAN9__
-#define FRC_JSON "/boot/frc.json"
-#else
-#define FRC_JSON "frc.json"
-#endif
-
 std::shared_ptr<VisionSettings> VisionSettings::GetInstance() {
   static auto inst = std::make_shared<VisionSettings>(private_init{});
   return inst;

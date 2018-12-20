@@ -3,6 +3,9 @@ COMPILER?=../02-extract/raspbian9/bin/arm-raspbian9-linux-gnueabihf-
 WPILIB?=../allwpilib
 WPILIB_PLATFORM?=.
 OPENCV_INSTALL?=../03-build/opencv-build/install
+EXEC_HOME?=/home/pi
+FRC_JSON?=/boot/frc.json
+DHCPCD_CONF?=/boot/dhcpcd.conf
 
 .PHONY: all
 .SUFFIXES:
@@ -58,6 +61,9 @@ rpiConfigServer: ${RPICONFIGSERVER_OBJS}
 %.o: %.cpp
 	${COMPILER}g++ -O -Wall -c -o $@ \
 	    -I${WPILIB}/wpiutil/src/main/native/include \
+	    '-DEXEC_HOME="${EXEC_HOME}"' \
+	    '-DFRC_JSON="${FRC_JSON}"' \
+	    '-DDHCPCD_CONF="${DHCPCD_CONF}"' \
 	    $<
 
 %.html.cpp: %.html
