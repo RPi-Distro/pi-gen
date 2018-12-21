@@ -109,8 +109,8 @@ cd /home/pi/examples/
 unzip java-multiCameraServer.zip
 unzip cpp-multiCameraServer.zip
 unzip python-multiCameraServer.zip
-mkdir zips
-mv *.zip zips/
+mkdir ../zips
+mv *.zip ../zips/
 chown -R 1000:1000 .
 EOF
 
