@@ -484,6 +484,8 @@ $('#addCamera').click(function() {
   appendNewVisionCameraView({}, i);
 });
 
+var applicationFiles = [];
+
 // Show details when appropriate for application type
 function updateApplicationView() {
   if ($('#applicationType').val().startsWith("upload")) {
@@ -492,10 +494,15 @@ function updateApplicationView() {
     $('#applicationUpload').collapse('hide');
   }
   $('#applicationFile').val(null);
+  applicationFiles = [];
 }
 
 $('#applicationType').change(function() {
   updateApplicationView();
+});
+
+$('#applicationFile').change(function() {
+  applicationFiles = this.files;
 });
 
 $('#applicationSave').click(function() {
@@ -506,8 +513,7 @@ $('#applicationSave').click(function() {
   connection.send(JSON.stringify(msg));
 
   // upload the file if requested
-  var f = $('#applicationFile');
-  if (f.files.length <= 0) {
+  if (applicationFiles.length <= 0) {
     return;
   }
   $('#applicationSave').button('loading');
@@ -515,7 +521,7 @@ $('#applicationSave').click(function() {
   fr.onload = function(e) {
     connection.send(e.target.result);
   };
-  fr.readAsArrayBuffer(f.files.item(0));
+  fr.readAsArrayBuffer(applicationFiles.item(0));
 });
 
 // Start with display disconnected and start initial connection attempt

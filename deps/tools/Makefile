@@ -39,6 +39,7 @@ _cscore.so: ../robotpy-cscore/src/_cscore.cpp ../robotpy-cscore/src/ndarray_conv
 
 RPICONFIGSERVER_OBJS= \
     rpiConfigServer_src/main.o \
+    rpiConfigServer_src/Application.o \
     rpiConfigServer_src/MyHttpConnection.o \
     rpiConfigServer_src/NetworkSettings.o \
     rpiConfigServer_src/SystemStatus.o \

@@ -18,6 +18,7 @@
 #include <wpi/uv/Pipe.h>
 #include <wpi/uv/Process.h>
 
+#include "Application.h"
 #include "NetworkSettings.h"
 #include "SystemStatus.h"
 #include "VisionSettings.h"
@@ -36,6 +37,7 @@ struct WebSocketData {
   wpi::sig::ScopedConnection visLogConn;
   wpi::sig::ScopedConnection netSettingsConn;
   wpi::sig::ScopedConnection visSettingsConn;
+  wpi::sig::ScopedConnection appSettingsConn;
 };
 
 static void SendWsText(wpi::WebSocket& ws, const wpi::json& j) {
@@ -136,6 +138,13 @@ void InitWs(wpi::WebSocket& ws) {
   visSettingsFunc(visSettings->GetStatusJson());
   data->visSettingsConn =
       visSettings->status.connect_connection(visSettingsFunc);
+
+  // send initial application settings
+  auto appSettings = Application::GetInstance();
+  auto appSettingsFunc = [&ws](const wpi::json& j) { SendWsText(ws, j); };
+  appSettingsFunc(appSettings->GetStatusJson());
+  data->appSettingsConn =
+      appSettings->status.connect_connection(appSettingsFunc);
 }
 
 void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg) {
@@ -251,8 +260,25 @@ void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg) {
       wpi::errs() << "could not read networkSave value: " << e.what() << '\n';
       return;
     }
+  } else if (t == "applicationSave") {
+    auto statusFunc = [s = ws.shared_from_this()](wpi::StringRef msg) {
+      SendWsText(*s, {{"type", "status"}, {"message", msg}});
+    };
+    try {
+      Application::GetInstance()->Set(
+          j.at("applicationType").get_ref<const std::string&>(), statusFunc);
+    } catch (const wpi::json::exception& e) {
+      wpi::errs() << "could not read applicationSave value: " << e.what()
+                  << '\n';
+      return;
+    }
   }
 }
 
-void ProcessWsBinary(wpi::WebSocket& ws, wpi::ArrayRef<uint8_t> msg) {}
-
+void ProcessWsBinary(wpi::WebSocket& ws, wpi::ArrayRef<uint8_t> msg) {
+  auto statusFunc = [s = ws.shared_from_this()](wpi::StringRef msg) {
+    SendWsText(*s, {{"type", "status"}, {"message", msg}});
+  };
+  Application::GetInstance()->Upload(msg, statusFunc);
+  SendWsText(ws, {{"type", "applicationSaveComplete"}});
+}
