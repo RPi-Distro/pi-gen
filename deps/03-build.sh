@@ -40,18 +40,18 @@ cmake ../../02-extract/opencv \
     -DPYTHON3_NUMPY_INCLUDE_DIRS=${PWD}/../../02-extract/raspbian9/arm-raspbian9-linux-gnueabihf/usr/include/python3.5m/numpy \
     -DOPENCV_EXTRA_FLAGS_DEBUG=-Og \
     -DCMAKE_MODULE_PATH=${PWD}/../../thirdparty-opencv/arm-frc-modules \
-    || die
-make -j3 || die
-make install || die
+    || exit 1
+make -j3 || exit 1
+make install || exit 1
 
 popd
 
 # wpiutil, cscore, ntcore, cameraserver
 pushd allwpilib
-./gradlew -PonlyRaspbian :wpiutil:build :cscore:build :ntcore:build :cameraserver:build :cameraserver:multiCameraServer:build || die
+./gradlew -PonlyRaspbian :wpiutil:build :cscore:build :ntcore:build :cameraserver:build :cameraserver:multiCameraServer:build || exit 1
 popd
 
 # tools
 pushd tools
-make || die
+make || exit 1
 popd

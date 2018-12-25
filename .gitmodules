@@ -1,12 +1,12 @@
 [submodule "deps/robotpy-cscore"]
 	path = deps/robotpy-cscore
-	url = git@github.com:robotpy/robotpy-cscore.git
+	url = https://github.com/robotpy/robotpy-cscore.git
 [submodule "deps/pynetworktables"]
 	path = deps/pynetworktables
-	url = git@github.com:robotpy/pynetworktables.git
+	url = https://github.com/robotpy/pynetworktables.git
 [submodule "deps/allwpilib"]
 	path = deps/allwpilib
-	url = git@github.com:wpilibsuite/allwpilib.git
+	url = https://github.com/wpilibsuite/allwpilib.git
 [submodule "deps/thirdparty-opencv"]
 	path = deps/thirdparty-opencv
-	url = git@github.com:wpilibsuite/thirdparty-opencv.git
+	url = https://github.com/wpilibsuite/thirdparty-opencv.git
