@@ -54,3 +54,8 @@
 
 # Enable audio (loads snd_bcm2835)
 dtparam=audio=on
+
+# Enable camera
+start_x=1
+gpu_mem=128
+disable_camera_led=1

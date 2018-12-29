@@ -11,6 +11,9 @@ install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
 
 install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
 
+# enable pi camera
+install -m 644 files/picamera.conf	"${ROOTFS_DIR}/etc/modules-load.d/"
+
 # disable wireless
 install -m 644 files/raspi-blacklist.conf "${ROOTFS_DIR}/etc/modprobe.d/"
 
