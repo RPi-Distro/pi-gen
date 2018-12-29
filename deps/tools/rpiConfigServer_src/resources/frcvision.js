@@ -115,6 +115,14 @@ $('#systemWritable').click(function() {
 var visionSettingsServer = {};
 var visionSettingsDisplay = {'cameras': []};
 
+function pushVisionLogEnabled() {
+  var msg = {
+    type: 'visionLogEnabled',
+    value: visionLogEnabled.prop('checked')
+  };
+  connection.send(JSON.stringify(msg));
+}
+
 // WebSocket automatic reconnection timer
 var reconnectTimerId = 0;
 
@@ -132,6 +140,7 @@ function connect() {
       reconnectTimerId = 0;
     }
     displayConnected();
+    pushVisionLogEnabled();
   };
   connection.onclose = function(evt) {
     displayDisconnected();
@@ -236,11 +245,7 @@ $('#visionKill').click(function() {
 });
 
 $('#visionLogEnabled').change(function() {
-  var msg = {
-    type: 'visionLogEnabled',
-    value: this.checked
-  };
-  connection.send(JSON.stringify(msg));
+  pushVisionLogEnabled();
 });
 
 //
