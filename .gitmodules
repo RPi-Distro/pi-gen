@@ -7,6 +7,3 @@
 [submodule "deps/allwpilib"]
 	path = deps/allwpilib
 	url = https://github.com/wpilibsuite/allwpilib.git
-[submodule "deps/thirdparty-opencv"]
-	path = deps/thirdparty-opencv
-	url = https://github.com/wpilibsuite/thirdparty-opencv.git

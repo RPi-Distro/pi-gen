@@ -32,7 +32,22 @@ popd
 # opencv sources
 tar xzf ../01-download/3.4.4.tar.gz
 mv opencv-3.4.4 opencv
-cp ../thirdparty-opencv/arm-pi-gnueabihf.toolchain.cmake .
+sed -i -e 's/javac sourcepath/javac target="1.8" source="1.8" sourcepath/' opencv/modules/java/jar/build.xml.in
+
+# toolchain setup for opencv and wpilib
+cp ../arm-pi-gnueabihf.toolchain.cmake .
 cp -R ../thirdparty-opencv/jni .
+tar xzf ../01-download/jdk_11*.tar.gz jdk/include
+mkdir -p cmake-modules
+cat > cmake-modules/FindJNI.cmake << EOF
+set(JNI_INCLUDE_DIRS "${PWD}/jdk/include" "${PWD}/jdk/include/linux")
+set(JNI_LIBRARIES )
+set(JNI_FOUND YES)
+set(JAVA_AWT_LIBRARY )
+set(JAVA_JVM_LIBRARY )
+set(JAVA_INCLUDE_PATH "${PWD}/jdk/include")
+set(JAVA_INCLUDE_PATH2 "${PWD}/jdk/include/linux")
+set(JAVA_AWT_INCLUDE_PATH )
+EOF
 
 popd

@@ -1,7 +1,8 @@
 SYSROOT?=../02-extract/raspbian9/arm-raspbian9-linux-gnueabihf
 COMPILER?=../02-extract/raspbian9/bin/arm-raspbian9-linux-gnueabihf-
-WPILIB?=../allwpilib
-WPILIB_PLATFORM?=.
+WPILIB_SRC?=../allwpilib
+WPILIB_BUILD?=../03-build/allwpilib-build
+WPILIB_STATIC_BUILD?=../03-build/allwpilib-static
 OPENCV_INSTALL?=../03-build/opencv-build/install
 EXEC_HOME?=/home/pi
 FRC_JSON?=/boot/frc.json
@@ -25,19 +26,21 @@ setuidgids: setuidgids.c
 	${COMPILER}gcc -O -Wall -D_GNU_SOURCE -o $@ $<
 
 _cscore.so: ../robotpy-cscore/src/_cscore.cpp ../robotpy-cscore/src/ndarray_converter.cpp
-	${COMPILER}g++ -O -Wall -fvisibility=hidden -shared -fPIC -o $@ \
+	${COMPILER}g++ -g -O -Wall -fvisibility=hidden -shared -fPIC -o $@ \
 	    -I${OPENCV_INSTALL}/include \
-	    -I${WPILIB}/wpiutil/src/main/native/include \
-	    -I${WPILIB}/cscore/src/main/native/include \
+	    -I${WPILIB_SRC}/wpiutil/src/main/native/include \
+	    -I${WPILIB_SRC}/cscore/src/main/native/include \
 	    -I${SYSROOT}/usr/include/python3.5 \
-	    -L${WPILIB}/cscore/build/libs/cscore/shared/${WPILIB_PLATFORM}/release \
-	    -L${WPILIB}/wpiutil/build/libs/wpiutil/shared/${WPILIB_PLATFORM}/release \
+	    -L${WPILIB_BUILD}/lib \
 	    -L${OPENCV_INSTALL}/lib \
 	    ../robotpy-cscore/src/_cscore.cpp \
 	    ../robotpy-cscore/src/ndarray_converter.cpp \
 	    -lcscore \
 	    -lwpiutil \
 	    -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_core
+	${COMPILER}objcopy --only-keep-debug $@ $@.debug
+	${COMPILER}strip -g $@
+	${COMPILER}objcopy --add-gnu-debuglink=$@.debug $@
 
 RPICONFIGSERVER_OBJS= \
     rpiConfigServer_src/main.o \
@@ -53,17 +56,17 @@ RPICONFIGSERVER_OBJS= \
     rpiConfigServer_src/resources/frcvision.js.o
 
 rpiConfigServer: ${RPICONFIGSERVER_OBJS}
-	${COMPILER}g++ -pthread -o $@ \
+	${COMPILER}g++ -pthread -g -o $@ \
 	    ${RPICONFIGSERVER_OBJS} \
-	    -L${WPILIB}/wpiutil/build/libs/wpiutil/static/${WPILIB_PLATFORM}/release \
+	    -L${WPILIB_STATIC_BUILD}/lib \
 	    -lwpiutil
 	${COMPILER}objcopy --only-keep-debug $@ $@.debug
 	${COMPILER}strip -g $@
 	${COMPILER}objcopy --add-gnu-debuglink=$@.debug $@
 
 %.o: %.cpp
-	${COMPILER}g++ -O -Wall -c -o $@ \
-	    -I${WPILIB}/wpiutil/src/main/native/include \
+	${COMPILER}g++ -g -O -Wall -c -o $@ \
+	    -I${WPILIB_SRC}/wpiutil/src/main/native/include \
 	    '-DEXEC_HOME="${EXEC_HOME}"' \
 	    '-DFRC_JSON="${FRC_JSON}"' \
 	    '-DDHCPCD_CONF="${DHCPCD_CONF}"' \

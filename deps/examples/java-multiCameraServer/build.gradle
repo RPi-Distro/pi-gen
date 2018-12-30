@@ -11,7 +11,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 repositories {
     mavenCentral()
     flatDir {
-        dirs '/home/pi/javalibs', '.'
+        dirs '/usr/local/frc/java', '.'
     }
 }
 

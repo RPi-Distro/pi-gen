@@ -21,8 +21,6 @@ install -m 644 files/frc.json "${ROOTFS_DIR}/boot/"
 
 install -m 755 extfiles/setuidgids "${ROOTFS_DIR}/usr/local/bin/"
 
-install -m 755 -o 1000 -g 1000 extfiles/multiCameraServer "${ROOTFS_DIR}/home/pi/"
-
 cat extfiles/jdk_11.0.1-strip.tar.gz | sh -c "mkdir -p ${ROOTFS_DIR}/usr/lib/jvm && cd ${ROOTFS_DIR}/usr/lib/jvm/ && tar xzf - --exclude=\*.diz --exclude=src.zip --transform=s/^jdk/jdk-11.0.1/"
 cp files/jdk-11.0.1.jinfo "${ROOTFS_DIR}/usr/lib/jvm/.jdk-11.0.1.jinfo"
 
@@ -83,8 +81,13 @@ EOF
 
 install -m 644 files/ld.so.conf.d/*.conf "${ROOTFS_DIR}/etc/ld.so.conf.d/"
 
+install -v -d "${ROOTFS_DIR}/usr/local/frc/bin"
+
+cat extfiles/wpilib-bin.tar.gz | sh -c 'cd ${ROOTFS_DIR}/usr/local/frc/bin/ && tar xzf -'
+
 install -v -d "${ROOTFS_DIR}/usr/local/frc/lib"
 
+cat extfiles/libopencv-debug.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/lib/ && tar xzf -"
 cat extfiles/libopencv.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/lib/ && tar xzf -"
 
 install -m 755 extfiles/cv2.*.so "${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/"
@@ -93,10 +96,8 @@ cat extfiles/pynetworktables.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/lib/pyth
 cat extfiles/robotpy-cscore.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/ && tar xzf -"
 install -m 755 extfiles/_cscore.*.so "${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/cscore/"
 
-install -m 755 extfiles/libwpiutil*.so* "${ROOTFS_DIR}/usr/local/frc/lib/"
-install -m 755 extfiles/libcscore*.so* "${ROOTFS_DIR}/usr/local/frc/lib/"
-install -m 755 extfiles/libntcore*.so* "${ROOTFS_DIR}/usr/local/frc/lib/"
-install -m 755 extfiles/libcameraserver*.so* "${ROOTFS_DIR}/usr/local/frc/lib/"
+cat extfiles/wpilib-debug.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/lib/ && tar xzf -"
+cat extfiles/wpilib.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/lib/ && tar xzf -"
 
 install -v -d "${ROOTFS_DIR}/usr/local/frc/include"
 
@@ -104,6 +105,15 @@ cat extfiles/wpiutil-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/incl
 cat extfiles/cscore-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
 cat extfiles/ntcore-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
 cat extfiles/cameraserver-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
+
+install -v -d "${ROOTFS_DIR}/usr/local/frc/share/OpenCV"
+
+cat extfiles/opencv-cmake-debug.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/share/OpenCV/ && tar xzf -"
+cat extfiles/opencv-cmake.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/share/OpenCV/ && tar xzf -"
+
+install -v -d "${ROOTFS_DIR}/usr/local/frc/java"
+
+install -m 644 -o 1000 -g 1000 extfiles/*.jar "${ROOTFS_DIR}/usr/local/frc/java/"
 
 install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/examples/"
 install -v -o 1000 -g 1000 extfiles/*-multiCameraServer.zip "${ROOTFS_DIR}/home/pi/examples/"
@@ -117,11 +127,10 @@ mv *.zip ../zips/
 chown -R 1000:1000 .
 EOF
 
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/pi/javalibs/"
-install -m 644 -o 1000 -g 1000 extfiles/*.jar "${ROOTFS_DIR}/home/pi/javalibs/"
-sh -c "cd ${ROOTFS_DIR}/home/pi/javalibs && zip ../zips/java-multiCameraServer.zip *.jar"
+sh -c "cd ${ROOTFS_DIR}/usr/local/frc/java && zip ${ROOTFS_DIR}/home/pi/zips/java-multiCameraServer.zip *.jar"
 
 on_chroot << EOF
+chown -R 1000:1000 /home/pi/zips
 ldconfig
 EOF
 
@@ -130,8 +139,7 @@ install -v -d "${ROOTFS_DIR}/service/configServer"
 install -m 755 files/configServer_run "${ROOTFS_DIR}/service/configServer/run"
 
 install -m 755 extfiles/rpiConfigServer "${ROOTFS_DIR}/usr/local/sbin/configServer"
-
-install -m 755 extfiles/netconsoleTee "${ROOTFS_DIR}/usr/local/bin/"
+install -m 644 extfiles/rpiConfigServer.debug "${ROOTFS_DIR}/usr/local/sbin/"
 
 install -v -d "${ROOTFS_DIR}/service/camera"
 install -v -d "${ROOTFS_DIR}/service/camera/log"

@@ -9,6 +9,8 @@ jobs:
    pool:
      vmImage: 'Ubuntu 16.04'
 
+   timeoutInMinutes: 0
+
    container: pi-gen
 
    steps:

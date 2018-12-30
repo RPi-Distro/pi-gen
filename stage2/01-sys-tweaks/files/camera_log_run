@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /usr/local/bin/netconsoleTee -u
+exec /usr/local/frc/bin/netconsoleTee -u

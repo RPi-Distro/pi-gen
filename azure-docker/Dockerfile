@@ -7,6 +7,6 @@ RUN apt-get -y update \
         git vim parted \
         quilt realpath qemu-user-static debootstrap zerofree pxz zip dosfstools \
         bsdtar libcap2-bin rsync grep udev xz-utils curl xxd file \
-        build-essential cmake python3 ant sudo \
+        build-essential cmake python3 ant sudo openjdk-8-jdk \
     && apt-get -y -t stretch-backports install openjdk-11-jdk \
     && rm -rf /var/lib/apt/lists/*

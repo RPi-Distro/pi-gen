@@ -2,4 +2,4 @@
 ### TYPE: builtin
 echo "Waiting 5 seconds..."
 sleep 5
-exec ./multiCameraServer
+exec /usr/local/frc/bin/multiCameraServer

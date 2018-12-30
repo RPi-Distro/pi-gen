@@ -21,7 +21,9 @@ sh -c 'cd examples && zip -r - python-multiCameraServer' > ${DEST}/python-multiC
 
 cp tools/setuidgids ${DEST}/
 cp tools/_cscore.so ${DEST}/_cscore.cpython-35m-arm-linux-gnueabihf.so
+cp tools/_cscore.so.debug ${DEST}/
 cp tools/rpiConfigServer ${DEST}/
+cp tools/rpiConfigServer.debug ${DEST}/
 
 #
 # openjdk
@@ -30,14 +32,18 @@ cp tools/rpiConfigServer ${DEST}/
 cp 01-download/jdk_11.0.1-strip.tar.gz ${DEST}/
 
 #
-# thirdparty-opencv
+# opencv
 #
 
 sh -c 'cd 03-build/opencv-build/install/lib && tar czf - libopencv*' > ${DEST}/libopencv.tar.gz
+sh -c 'cd 03-build/opencv-build-debug/install/lib && tar czf - libopencv*' > ${DEST}/libopencv-debug.tar.gz
 
 sh -c 'cd 03-build/opencv-build/install/include && tar czf - .' > ${DEST}/opencv-include.tar.gz
 
 cp 03-build/opencv-build/install/share/OpenCV/java/opencv-*.jar ${DEST}/
+
+sh -c 'cd 03-build/opencv-build/install/share/OpenCV && tar czf - *.cmake' > ${DEST}/opencv-cmake.tar.gz
+sh -c 'cd 03-build/opencv-build-debug/install/share/OpenCV && tar czf - *.cmake' > ${DEST}/opencv-cmake-debug.tar.gz
 
 # the opencv build names the python .so with the build platform name instead
 # of the target platform, so rename it
@@ -59,32 +65,14 @@ sh -c 'cd pynetworktables && tar czf - networktables ntcore' > ${DEST}/pynetwork
 # allwpilib
 #
 
-cp \
-  allwpilib/wpiutil/build/libs/wpiutil/shared/release/libwpiutil.so* \
-  allwpilib/wpiutil/build/libs/wpiutil/shared/debug/libwpiutild.so* \
-  allwpilib/wpiutil/build/libs/wpiutil.jar \
-  allwpilib/cscore/build/libs/cscore/shared/release/libcscore.so* \
-  allwpilib/cscore/build/libs/cscore/shared/debug/libcscored.so* \
-  allwpilib/cscore/build/libs/cscoreJNIShared/shared/release/libcscorejni.so* \
-  allwpilib/cscore/build/libs/cscore.jar \
-  allwpilib/ntcore/build/libs/ntcore/shared/release/libntcore.so* \
-  allwpilib/ntcore/build/libs/ntcore/shared/debug/libntcored.so* \
-  allwpilib/ntcore/build/libs/ntcoreJNIShared/shared/release/libntcorejni.so* \
-  allwpilib/ntcore/build/libs/ntcore.jar \
-  allwpilib/cameraserver/build/libs/cameraserver/shared/release/libcameraserver.so* \
-  allwpilib/cameraserver/build/libs/cameraserver/shared/debug/libcameraserverd.so* \
-  allwpilib/cameraserver/build/libs/cameraserver.jar \
-  ${DEST}/
+sh -c 'cd 03-build/allwpilib-build/lib && tar czf - lib*' > ${DEST}/wpilib.tar.gz
+sh -c 'cd 03-build/allwpilib-build-debug/lib && tar czf - lib*' > ${DEST}/wpilib-debug.tar.gz
+
+cp 03-build/allwpilib-build/jar/*.jar ${DEST}/
 
 sh -c 'cd allwpilib/wpiutil/src/main/native/include && tar czf - uv.h uv wpi' > ${DEST}/wpiutil-include.tar.gz
 sh -c 'cd allwpilib/cscore/src/main/native/include && tar czf - .' > ${DEST}/cscore-include.tar.gz
 sh -c 'cd allwpilib/ntcore/src/main/native/include && tar czf - .' > ${DEST}/ntcore-include.tar.gz
 sh -c 'cd allwpilib/cameraserver/src/main/native/include && tar czf - cameraserver vision' > ${DEST}/cameraserver-include.tar.gz
 
-cp \
-  allwpilib/cameraserver/multiCameraServer/build/exe/multiCameraServerCpp/multiCameraServerCpp \
-  ${DEST}/multiCameraServer
-
-cp \
-  allwpilib/wpiutil/build/exe/netconsoleTee/netconsoleTee \
-  ${DEST}/
+sh -c 'cd 03-build/allwpilib-static/bin && tar czf - cscore_* multiCameraServer* netconsoleTee*' > ${DEST}/wpilib-bin.tar.gz
