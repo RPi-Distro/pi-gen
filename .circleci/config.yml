@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+      - image: docker:18.06-git
+    steps:
+      # - checkout
+      # - run:
+      #     name: Install Dependencies
+      #     command: apt-get -y update && apt-get -y install git vim parted quilt realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin rsync grep udev xz-utils curl xxd file && rm -rf /var/lib/apt/lists/*
+
+      # - run:
+      #     name: Create required directories
+      #     command: |
+      #       mkdir work
+      - run:
+          name: Build Raspbian
+          command: ./build-docker.sh
+          no_output_timeout: 30m
