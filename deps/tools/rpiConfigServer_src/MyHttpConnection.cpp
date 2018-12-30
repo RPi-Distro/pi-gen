@@ -69,9 +69,10 @@ MyHttpConnection::MyHttpConnection(std::shared_ptr<wpi::uv::Stream> stream)
   });
 }
 
-class FsReq : public uv::RequestImpl<FsReq, uv_fs_t> {
+class SendfileReq : public uv::RequestImpl<SendfileReq, uv_fs_t> {
  public:
-  FsReq() {
+  SendfileReq(uv_file out, uv_file in, int64_t inOffset, size_t len)
+      : m_out(out), m_in(in), m_inOffset(inOffset), m_len(len) {
     error = [this](uv::Error err) { GetLoop().error(err); };
   }
 
@@ -79,25 +80,51 @@ class FsReq : public uv::RequestImpl<FsReq, uv_fs_t> {
     return *static_cast<uv::Loop*>(GetRaw()->loop->data);
   }
 
+  int Send(uv::Loop& loop) {
+    int err = uv_fs_sendfile(loop.GetRaw(), GetRaw(), m_out, m_in, m_inOffset,
+                             m_len, [](uv_fs_t* req) {
+                               auto& h = *static_cast<SendfileReq*>(req->data);
+                               if (req->result < 0) {
+                                 h.ReportError(req->result);
+                                 h.complete();
+                                 h.Release();
+                                 return;
+                               }
+
+                               h.m_inOffset += req->result;
+                               h.m_len -= req->result;
+                               if (h.m_len == 0) {
+                                 // done
+                                 h.complete();
+                                 h.Release();  // this is always a one-shot
+                                 return;
+                               }
+
+                               // need to send more
+                               h.Send(h.GetLoop());
+                             });
+    if (err < 0) {
+      ReportError(err);
+      complete();
+    }
+    return err;
+  }
+
   wpi::sig::Signal<> complete;
+
+ private:
+  uv_file m_out;
+  uv_file m_in;
+  int64_t m_inOffset;
+  size_t m_len;
 };
 
 void Sendfile(uv::Loop& loop, uv_file out, uv_file in, int64_t inOffset,
               size_t len, std::function<void()> complete) {
-  auto req = std::make_shared<FsReq>();
+  auto req = std::make_shared<SendfileReq>(out, in, inOffset, len);
   if (complete) req->complete.connect(complete);
-  int err = uv_fs_sendfile(loop.GetRaw(), req->GetRaw(), out, in, inOffset, len,
-                           [](uv_fs_t* req) {
-                             auto& h = *static_cast<FsReq*>(req->data);
-                             h.complete();
-                             h.Release();  // this is always a one-shot
-                           });
-  if (err < 0) {
-    loop.ReportError(err);
-    complete();
-  } else {
-    req->Keep();
-  }
+  int err = req->Send(loop);
+  if (err >= 0) req->Keep();
 }
 
 void MyHttpConnection::SendFileResponse(int code, const wpi::Twine& codeText,
@@ -134,10 +161,15 @@ void MyHttpConnection::SendFileResponse(int code, const wpi::Twine& codeText,
   SendData(os.bufs(), false);
 
   // close after write completes if we aren't keeping alive
+  // since we're using sendfile, set socket to blocking
+  m_stream.SetBlocking(true);
   Sendfile(m_stream.GetLoopRef(), outfd, infd, 0, status.getSize(),
            [ infd, closeAfter = !m_keepAlive, stream = &m_stream ] {
              ::close(infd);
-             if (closeAfter) stream->Close();
+             if (closeAfter)
+               stream->Close();
+             else
+               stream->SetBlocking(false);
            });
 }
 
