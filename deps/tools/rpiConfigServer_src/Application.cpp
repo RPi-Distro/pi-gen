@@ -7,6 +7,9 @@
 
 #include "Application.h"
 
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include <wpi/FileSystem.h>
 #include <wpi/json.h>
 #include <wpi/raw_istream.h>
@@ -103,18 +106,38 @@ void Application::Upload(wpi::ArrayRef<uint8_t> contents,
   pathname = EXEC_HOME;
   pathname += filename;
 
+  // remove old file (need to do this as we can't overwrite a running exe)
+  if (unlink(pathname.c_str()) == -1) {
+    wpi::errs() << "could not remove app executable: " << std::strerror(errno)
+                << '\n';
+  }
+
   {
-    // write file
+    // open file for writing
     std::error_code ec;
-    wpi::raw_fd_ostream os(pathname, ec, wpi::sys::fs::F_None);
-    if (ec) {
+    int fd;
+    if (wpi::sys::fs::openFileForWrite(pathname, fd, wpi::sys::fs::F_None)) {
       wpi::SmallString<64> msg;
       msg = "could not write ";
       msg += pathname;
       onFail(msg);
       return;
     }
-    os << contents;
+
+    // change ownership
+    if (fchown(fd, APP_UID, APP_GID) == -1) {
+      wpi::errs() << "could not change app ownership: " << std::strerror(errno)
+                  << '\n';
+    }
+
+    // set file to be executable
+    if (fchmod(fd, 0775) == -1) {
+      wpi::errs() << "could not change app permissions: "
+                  << std::strerror(errno) << '\n';
+    }
+
+    // write contents and close file
+    wpi::raw_fd_ostream(fd, true) << contents;
   }
 
   // terminate vision process so it reloads

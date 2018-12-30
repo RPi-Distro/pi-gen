@@ -6,6 +6,8 @@ OPENCV_INSTALL?=../03-build/opencv-build/install
 EXEC_HOME?=/home/pi
 FRC_JSON?=/boot/frc.json
 DHCPCD_CONF?=/boot/dhcpcd.conf
+APP_UID?=1000
+APP_GID?=1000
 
 .PHONY: all
 .SUFFIXES:
@@ -65,6 +67,8 @@ rpiConfigServer: ${RPICONFIGSERVER_OBJS}
 	    '-DEXEC_HOME="${EXEC_HOME}"' \
 	    '-DFRC_JSON="${FRC_JSON}"' \
 	    '-DDHCPCD_CONF="${DHCPCD_CONF}"' \
+	    '-DAPP_UID=${APP_UID}' \
+	    '-DAPP_GID=${APP_GID}' \
 	    $<
 
 %.html.cpp: %.html
