@@ -1,5 +1,7 @@
-language: minimal
+language: python
 services:
   - docker
 
-script: ./build-docker.sh
+install: pip install travis-pls
+
+script: travis-pls -m 5400 ./build-docker.sh
