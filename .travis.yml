@@ -1,7 +1,8 @@
 language: python
 services:
   - docker
-
-install: pip install travis-pls
+# use travis-pls to force travis to behave.
+# https://github.com/naftulikay/travis-pls
+install: pip install git+https://github.com/naftulikay/travis-pls
 
 script: travis-pls -m 5400 ./build-docker.sh
