@@ -3,16 +3,18 @@ jobs:
   build:
     docker:
       - image: alexswensen/pi-gen-container:latest
+    working_directory: /pi-gen
     steps:
       - checkout
       # - run:
       #     name: Install Dependencies
       #     command: apt-get -y update && apt-get -y install git vim parted quilt realpath qemu-user-static debootstrap zerofree pxz zip dosfstools bsdtar libcap2-bin rsync grep udev xz-utils curl xxd file && rm -rf /var/lib/apt/lists/*
 
-      - run:
-          name: list files
-          command: mount -i -o remount,exec,dev /root
+      # - run:
+      #     name: list files
+      #     command: sudo mount -i -o remount,exec,dev /pi-gen/
+
       - run:
           name: Build Raspbian
-          command: ./build.sh
+          command: ./build-docker.sh
           no_output_timeout: 30m
