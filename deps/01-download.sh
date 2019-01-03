@@ -5,7 +5,7 @@ pushd 01-download
 
 # raspbian toolchain
 wget -nc -nv \
-    https://github.com/wpilibsuite/raspbian-toolchain/releases/download/v1.1.0/Raspbian9-Linux-Toolchain-6.3.0.tar.gz
+    https://github.com/wpilibsuite/raspbian-toolchain/releases/download/v1.2.0/Raspbian9-Linux-Toolchain-6.3.0.tar.gz
 
 # openjdk binaries
 wget -nc -nv \

@@ -36,7 +36,6 @@ sed -i -e 's/javac sourcepath/javac target="1.8" source="1.8" sourcepath/' openc
 
 # toolchain setup for opencv and wpilib
 cp ../arm-pi-gnueabihf.toolchain.cmake .
-cp -R ../thirdparty-opencv/jni .
 tar xzf ../01-download/jdk_11*.tar.gz jdk/include
 mkdir -p cmake-modules
 cat > cmake-modules/FindJNI.cmake << EOF
