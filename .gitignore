@@ -16,5 +16,3 @@ deps/tools/setuidgids
 *.sw?
 *.debug
 stage2/01-sys-tweaks/extfiles
-deps/examples/cpp-multiCameraServer/main.cpp
-deps/examples/java-multiCameraServer/src

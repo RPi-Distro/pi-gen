@@ -44,7 +44,7 @@ class CameraConfig: pass
 
 team = None
 server = False
-cameras = []
+cameraConfigs = []
 
 """Report parse error."""
 def parseError(str):
@@ -70,7 +70,7 @@ def readCameraConfig(config):
 
     cam.config = config
 
-    cameras.append(cam)
+    cameraConfigs.append(cam)
     return True
 
 """Read configuration file."""
@@ -128,6 +128,8 @@ def startCamera(config):
 
     camera.setConfigJson(json.dumps(config.config))
 
+    return camera
+
 if __name__ == "__main__":
     if len(sys.argv) >= 2:
         configFile = sys.argv[1]
@@ -146,8 +148,9 @@ if __name__ == "__main__":
         ntinst.startClientTeam(team)
 
     # start cameras
-    for camera in cameras:
-        startCamera(camera)
+    cameras = []
+    for cameraConfig in cameraConfigs:
+        cameras.append(startCamera(cameraConfig))
 
     # loop forever
     while True:

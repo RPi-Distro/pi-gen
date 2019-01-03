@@ -7,9 +7,6 @@ mkdir -p ${DEST}
 #
 # examples
 #
-mkdir -p examples/java-multiCameraServer/src/main/java
-cp allwpilib/cameraserver/multiCameraServer/src/main/java/Main.java examples/java-multiCameraServer/src/main/java/
-cp allwpilib/cameraserver/multiCameraServer/src/main/native/cpp/main.cpp examples/cpp-multiCameraServer/
 
 sh -c 'cd examples && zip -r - java-multiCameraServer' > ${DEST}/java-multiCameraServer.zip
 sh -c 'cd examples && zip -r - cpp-multiCameraServer' > ${DEST}/cpp-multiCameraServer.zip
