@@ -41,7 +41,7 @@ function displayStatus(message) {
 
 // Enable and disable buttons based on connection status
 var connectedButtonIds = ['systemRestart', 'networkApproach', 'networkAddress', 'networkMask', 'networkGateway', 'networkDNS', 'visionUp', 'visionDown', 'visionTerm', 'visionKill', 'systemReadOnly', 'systemWritable', 'visionClient', 'visionTeam', 'visionDiscard', 'addCamera', 'applicationType'];
-var connectedButtonClasses = ['cameraName', 'cameraPath', 'cameraPixelFormat', 'cameraWidth', 'cameraHeight', 'cameraFps', 'cameraBrightness', 'cameraWhiteBalance', 'cameraExposure', 'cameraProperties', 'cameraRemove']
+var connectedButtonClasses = ['cameraName', 'cameraPath', 'cameraPixelFormat', 'cameraWidth', 'cameraHeight', 'cameraFps', 'cameraBrightness', 'cameraWhiteBalance', 'cameraExposure', 'cameraProperties', 'cameraRemove', 'cameraCopyConfig']
 var writableButtonIds = ['networkSave', 'visionSave', 'applicationSave'];
 var systemStatusIds = ['systemMemoryFree1s', 'systemMemoryFree5s',
                        'systemMemoryAvail1s', 'systemMemoryAvail5s',
@@ -352,6 +352,68 @@ function updateVisionCameraView(camera, value) {
   camera.find('.cameraProperties').val(JSON.stringify(value.properties));
 }
 
+function updateVisionCameraDataFromJson(i, data) {
+  if (!('name' in data)) {
+    data.name = visionSettingsDisplay.cameras[i].name;
+  }
+  if (!('path' in data)) {
+    data.path = visionSettingsDisplay.cameras[i].path;
+  }
+  if ('properties' in data) {
+    var newProps = [];
+    var wbAuto = false;
+    var exAuto = false;
+
+    for (var i = 0; i < data.properties.length; i++) {
+      var name = data.properties[i].name;
+
+      // remove all raw properties
+      if (name.startsWith('raw_')) {
+        continue;
+      }
+
+      // brightness
+      if (name === 'brightness') {
+        data.brightness = data.properties[i].value;
+        continue;
+      }
+
+      // white balance
+      if (name === 'white_balance_temperature_auto') {
+        if (data.properties[i].value === true) {
+          data['white balance'] = 'auto';
+          wbAuto = true;
+        }
+        continue;
+      }
+      if (name === 'white_balance_temperature') {
+        if (wbAuto === false) {
+          data['white balance'] = data.properties.white_balance_temperature;
+        }
+        continue;
+      }
+
+      // exposure
+      if (name === 'exposure_auto') {
+        if (data.properties[i].value === 3) {
+          data.exposure = 'auto';
+          exAuto = true;
+        }
+        continue;
+      }
+      if (name === 'exposure_absolute') {
+        if (exAuto === false) {
+          data.exposure = data.properties.exposure_absolute;
+        }
+        continue;
+      }
+      newProps.push(data.properties[i]);
+    }
+    data.properties = newProps;
+  }
+  visionSettingsDisplay.cameras[i] = data;
+}
+
 function appendNewVisionCameraView(value, i) {
   var camera = $('#cameraNEW').clone();
   camera.attr('id', 'camera' + i);
@@ -371,16 +433,21 @@ function appendNewVisionCameraView(value, i) {
     var fr = new FileReader();
     fr.onload = function(e) {
       var result = JSON.parse(e.target.result);
-      if (!('name' in result)) {
-        result.name = visionSettingsDisplay.cameras[i].name;
-      }
-      if (!('path' in result)) {
-        result.path = visionSettingsDisplay.cameras[i].path;
-      }
-      visionSettingsDisplay.cameras[i] = result;
+      updateVisionCameraDataFromJson(i, result);
       updateVisionCameraView(camera, result);
     };
     fr.readAsText(this.files.item(0));
+  });
+  camera.find('.cameraCopyConfig').click(function() {
+    fetch('http://' + window.location.hostname + ':' + (1181 + i) + '/config.json')
+    .then(response => response.json())
+    .then(function(result) {
+      updateVisionCameraDataFromJson(i, result);
+      updateVisionCameraView(camera, result);
+    })
+    .catch(function(error) {
+      displayStatus('error reading camera config: ' + error);
+    });
   });
 
   camera.find('[id]').each(function() {
