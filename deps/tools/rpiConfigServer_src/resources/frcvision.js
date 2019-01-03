@@ -364,8 +364,8 @@ function updateVisionCameraDataFromJson(i, data) {
     var wbAuto = false;
     var exAuto = false;
 
-    for (var i = 0; i < data.properties.length; i++) {
-      var name = data.properties[i].name;
+    for (var j = 0; j < data.properties.length; j++) {
+      var name = data.properties[j].name;
 
       // remove all raw properties
       if (name.startsWith('raw_')) {
@@ -374,13 +374,13 @@ function updateVisionCameraDataFromJson(i, data) {
 
       // brightness
       if (name === 'brightness') {
-        data.brightness = data.properties[i].value;
+        data.brightness = data.properties[j].value;
         continue;
       }
 
       // white balance
       if (name === 'white_balance_temperature_auto') {
-        if (data.properties[i].value === true) {
+        if (data.properties[j].value === true) {
           data['white balance'] = 'auto';
           wbAuto = true;
         }
@@ -395,7 +395,7 @@ function updateVisionCameraDataFromJson(i, data) {
 
       // exposure
       if (name === 'exposure_auto') {
-        if (data.properties[i].value === 3) {
+        if (data.properties[j].value === 3) {
           data.exposure = 'auto';
           exAuto = true;
         }
@@ -407,7 +407,7 @@ function updateVisionCameraDataFromJson(i, data) {
         }
         continue;
       }
-      newProps.push(data.properties[i]);
+      newProps.push(data.properties[j]);
     }
     data.properties = newProps;
   }
