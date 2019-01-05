@@ -14,6 +14,6 @@ fi
 if [ -v WPA_ESSID -a -v WPA_PASSWORD ]
 then
 on_chroot <<EOF
-wpa_passphrase ${WPA_ESSID} ${WPA_PASSWORD} >> "/etc/wpa_supplicant/wpa_supplicant.conf"
+wpa_passphrase "${WPA_ESSID}" "${WPA_PASSWORD}" >> "/etc/wpa_supplicant/wpa_supplicant.conf"
 EOF
 fi
