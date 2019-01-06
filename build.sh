@@ -195,7 +195,10 @@ dependencies_check "${BASE_DIR}/depends"
 mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
-for STAGE_DIR in "${BASE_DIR}/stage"*; do
+STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
+
+for STAGE_DIR_ in $STAGE_LIST; do
+	STAGE_DIR=`realpath "${STAGE_DIR_}"`
 	run_stage
 done
 

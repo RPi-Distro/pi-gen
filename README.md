@@ -89,6 +89,10 @@ The following environment variables are supported:
 
    Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you RaspberryPi.
 
+ * `STAGE_LIST` (Default: `stage*`)
+
+    If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `stage0 stage1 mystage stage2` will run the contents of `mystage` before stage2. An absolute or relative path can be given for stages outside the pi-gen directory.
+
 A simple example for building Raspbian:
 
 ```bash
