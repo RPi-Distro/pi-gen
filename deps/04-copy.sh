@@ -19,6 +19,8 @@ sh -c 'cd examples && zip -r - python-multiCameraServer' > ${DEST}/python-multiC
 cp tools/setuidgids ${DEST}/
 cp tools/_cscore.so ${DEST}/_cscore.cpython-35m-arm-linux-gnueabihf.so
 cp tools/_cscore.so.debug ${DEST}/
+cp tools/multiCameraServer ${DEST}/
+cp tools/multiCameraServer.debug ${DEST}/
 cp tools/rpiConfigServer ${DEST}/
 cp tools/rpiConfigServer.debug ${DEST}/
 
@@ -72,4 +74,4 @@ sh -c 'cd allwpilib/cscore/src/main/native/include && tar czf - .' > ${DEST}/csc
 sh -c 'cd allwpilib/ntcore/src/main/native/include && tar czf - .' > ${DEST}/ntcore-include.tar.gz
 sh -c 'cd allwpilib/cameraserver/src/main/native/include && tar czf - cameraserver vision' > ${DEST}/cameraserver-include.tar.gz
 
-sh -c 'cd 03-build/allwpilib-static/bin && tar czf - cscore_* multiCameraServer* netconsoleTee*' > ${DEST}/wpilib-bin.tar.gz
+sh -c 'cd 03-build/allwpilib-static/bin && tar czf - cscore_* netconsoleTee*' > ${DEST}/wpilib-bin.tar.gz

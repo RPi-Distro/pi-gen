@@ -87,6 +87,9 @@ install -m 644 files/ld.so.conf.d/*.conf "${ROOTFS_DIR}/etc/ld.so.conf.d/"
 
 install -v -d "${ROOTFS_DIR}/usr/local/frc/bin"
 
+install -m 755 extfiles/multiCameraServer "${ROOTFS_DIR}/usr/local/frc/bin/"
+install -m 644 extfiles/multiCameraServer.debug "${ROOTFS_DIR}/usr/local/frc/bin/"
+
 cat extfiles/wpilib-bin.tar.gz | sh -c 'cd ${ROOTFS_DIR}/usr/local/frc/bin/ && tar xzf -'
 
 install -v -d "${ROOTFS_DIR}/usr/local/frc/lib"

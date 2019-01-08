@@ -4,6 +4,7 @@ WPILIB_SRC?=../allwpilib
 WPILIB_BUILD?=../03-build/allwpilib-build
 WPILIB_STATIC_BUILD?=../03-build/allwpilib-static
 OPENCV_INSTALL?=../03-build/opencv-build/install
+OPENCV_STATIC_INSTALL?=../03-build/opencv-static/install
 EXEC_HOME?=/home/pi
 FRC_JSON?=/boot/frc.json
 DHCPCD_CONF?=/boot/dhcpcd.conf
@@ -38,6 +39,27 @@ _cscore.so: ../robotpy-cscore/src/_cscore.cpp ../robotpy-cscore/src/ndarray_conv
 	    -lcscore \
 	    -lwpiutil \
 	    -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_core
+	${COMPILER}objcopy --only-keep-debug $@ $@.debug
+	${COMPILER}strip -g $@
+	${COMPILER}objcopy --add-gnu-debuglink=$@.debug $@
+
+multiCameraServer: multiCameraServer.cpp
+	${COMPILER}g++ -pthread -g -o $@ \
+	    -I${OPENCV_INSTALL}/include \
+	    -I${WPILIB_SRC}/wpiutil/src/main/native/include \
+	    -I${WPILIB_SRC}/cameraserver/src/main/native/include \
+	    -I${WPILIB_SRC}/cscore/src/main/native/include \
+	    -I${WPILIB_SRC}/ntcore/src/main/native/include \
+	    -L${WPILIB_STATIC_BUILD}/lib \
+	    -L${OPENCV_STATIC_INSTALL}/lib \
+	    -L${OPENCV_STATIC_INSTALL}/share/OpenCV/3rdparty/lib \
+	    $< \
+	    -lcameraserver \
+	    -lcscore \
+	    -lntcore \
+	    -lwpiutil \
+	    -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_core \
+	    -ltegra_hal -llibpng -llibjpeg-turbo -lzlib
 	${COMPILER}objcopy --only-keep-debug $@ $@.debug
 	${COMPILER}strip -g $@
 	${COMPILER}objcopy --add-gnu-debuglink=$@.debug $@
