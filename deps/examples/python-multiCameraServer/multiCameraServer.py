@@ -127,6 +127,7 @@ def startCamera(config):
         .startAutomaticCapture(name=config.name, path=config.path)
 
     camera.setConfigJson(json.dumps(config.config))
+    camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen)
 
     return camera
 

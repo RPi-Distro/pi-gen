@@ -162,6 +162,7 @@ cs::UsbCamera StartCamera(const CameraConfig& config) {
       config.name, config.path);
 
   camera.SetConfigJson(config.config);
+  camera.SetConnectionStrategy(cs::VideoSource::kConnectionKeepOpen);
 
   return camera;
 }

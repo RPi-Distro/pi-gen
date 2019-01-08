@@ -173,6 +173,7 @@ public final class Main {
     Gson gson = new GsonBuilder().create();
 
     camera.setConfigJson(gson.toJson(config.config));
+    camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 
     return camera;
   }
