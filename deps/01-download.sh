@@ -20,8 +20,8 @@ wget -nc -nv \
     http://archive.raspbian.org/raspbian/pool/main/p/python3.5/python3.5-minimal_3.5.3-1+deb9u1_armhf.deb \
     http://archive.raspbian.org/raspbian/pool/main/p/python3.5/python3.5_3.5.3-1+deb9u1_armhf.deb \
     http://archive.raspbian.org/raspbian/pool/main/p/python-numpy/python3-numpy_1.12.1-3_armhf.deb \
-    http://archive.raspbian.org/raspbian/pool/main/p/pybind11/python3-pybind11_2.2.4-1_all.deb \
-    http://archive.raspbian.org/raspbian/pool/main/p/pybind11/pybind11-dev_2.2.4-1_all.deb
+    http://archive.raspbian.org/raspbian/pool/main/p/pybind11/python3-pybind11_2.2.4-2_all.deb \
+    http://archive.raspbian.org/raspbian/pool/main/p/pybind11/pybind11-dev_2.2.4-2_all.deb
 
 # opencv sources
 wget -nc -nv \
