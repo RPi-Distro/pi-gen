@@ -47,11 +47,7 @@
    }
  */
 
-#ifdef __RASPBIAN__
 static const char* configFile = "/boot/frc.json";
-#else
-static const char* configFile = "frc.json";
-#endif
 
 namespace {
 
@@ -216,7 +212,7 @@ int main(int argc, char* argv[]) {
       });
        */
       runner.RunForever();
-    });
+    }).detach();
   }
 
   // loop forever
