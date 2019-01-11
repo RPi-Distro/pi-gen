@@ -138,7 +138,23 @@ mv *.zip ../zips/
 chown -R 1000:1000 .
 EOF
 
-sh -c "cd ${ROOTFS_DIR}/usr/local/frc/java && zip ${ROOTFS_DIR}/home/pi/zips/java-multiCameraServer.zip *.jar"
+# add jar dependencies to java-multiCameraServer.zip
+rm -rf /tmp/java-multiCameraServer
+mkdir -p /tmp/java-multiCameraServer
+sh -c "cd ${ROOTFS_DIR}/usr/local/frc/java && tar cf - *.jar" | sh -c "cd /tmp/java-multiCameraServer && tar xf -"
+sh -c "cd /tmp && zip -r ${ROOTFS_DIR}/home/pi/zips/java-multiCameraServer.zip java-multiCameraServer"
+rm -rf /tmp/java-multiCameraServer
+
+# add header and library dependencies (excluding .debug files) to
+# cpp-multiCameraServer.zip
+# also update Makefile to use cross-compiler and point to local dependencies
+rm -rf /tmp/cpp-multiCameraServer
+mkdir -p /tmp/cpp-multiCameraServer
+echo "CXX?=arm-raspbian9-linux-gnueabihf-g++" > /tmp/cpp-multiCameraServer/Makefile
+sed -e 's/\/usr\/local\/frc\///g' ${ROOTFS_DIR}/home/pi/examples/cpp-multiCameraServer/Makefile >> /tmp/cpp-multiCameraServer/Makefile
+sh -c "cd ${ROOTFS_DIR}/usr/local/frc && tar cf - lib include" | sh -c "cd /tmp/cpp-multiCameraServer && tar xf -"
+sh -c "cd /tmp && zip -r ${ROOTFS_DIR}/home/pi/zips/cpp-multiCameraServer.zip cpp-multiCameraServer --exclude \*.so.\*"
+rm -rf /tmp/cpp-multiCameraServer
 
 on_chroot << EOF
 chown -R 1000:1000 /home/pi/zips
