@@ -14,7 +14,7 @@ APP_GID?=1000
 .PHONY: all
 .SUFFIXES:
 
-all: setuidgids _cscore.so rpiConfigServer
+all: setuidgids _cscore.so multiCameraServer rpiConfigServer
 
 clean:
 	rm -f setuidgids
