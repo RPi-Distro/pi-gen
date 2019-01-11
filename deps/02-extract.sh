@@ -33,6 +33,9 @@ popd
 tar xzf ../01-download/3.4.4.tar.gz
 mv opencv-3.4.4 opencv
 sed -i -e 's/javac sourcepath/javac target="1.8" source="1.8" sourcepath/' opencv/modules/java/jar/build.xml.in
+# disable extraneous data warnings; these are common with USB cameras
+sed -i -e '/JWRN_EXTRANEOUS_DATA/d' opencv/3rdparty/libjpeg/jdmarker.c
+sed -i -e '/JWRN_EXTRANEOUS_DATA/d' opencv/3rdparty/libjpeg-turbo/src/jdmarker.c
 
 # toolchain setup for opencv and wpilib
 cp ../arm-pi-gnueabihf.toolchain.cmake .
