@@ -17,7 +17,8 @@ case "$1" in
     update-rc.d resize2fs_once remove &&
     rm /etc/init.d/resize2fs_once &&
     sed -i '/vfat\|ext4/s/defaults/defaults,ro/' /etc/fstab &&
-    log_end_msg $?
+    log_end_msg $? &&
+    reboot
     ;;
   *)
     echo "Usage: $0 start" >&2
