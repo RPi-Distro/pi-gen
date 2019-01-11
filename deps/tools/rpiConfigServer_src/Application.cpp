@@ -32,15 +32,15 @@ void Application::Set(wpi::StringRef appType,
   if (appType == "builtin") {
     appCommand = "/usr/local/frc/bin/multiCameraServer";
   } else if (appType == "example-java") {
-    appDir = "java-multiCameraServer";
+    appDir = "examples/java-multiCameraServer";
     appCommand =
         "env LD_LIBRARY_PATH=/usr/local/frc/lib java -jar "
         "build/libs/java-multiCameraServer-all.jar";
   } else if (appType == "example-cpp") {
-    appDir = "cpp-multiCameraServer";
+    appDir = "examples/cpp-multiCameraServer";
     appCommand = "./multiCameraServerExample";
   } else if (appType == "example-python") {
-    appDir = "python-multiCameraServer";
+    appDir = "examples/python-multiCameraServer";
     appCommand = "./multiCameraServer.py";
   } else if (appType == "upload-java") {
     appCommand =
