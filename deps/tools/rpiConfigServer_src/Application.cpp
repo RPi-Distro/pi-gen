@@ -27,6 +27,7 @@ std::shared_ptr<Application> Application::GetInstance() {
 void Application::Set(wpi::StringRef appType,
                       std::function<void(wpi::StringRef)> onFail) {
   wpi::StringRef appDir;
+  wpi::StringRef appEnv;
   wpi::StringRef appCommand;
 
   if (appType == "builtin") {
@@ -41,6 +42,7 @@ void Application::Set(wpi::StringRef appType,
     appCommand = "./multiCameraServerExample";
   } else if (appType == "example-python") {
     appDir = "examples/python-multiCameraServer";
+    appEnv = "export PYTHONUNBUFFERED=1";
     appCommand = "./multiCameraServer.py";
   } else if (appType == "upload-java") {
     appCommand =
@@ -48,6 +50,7 @@ void Application::Set(wpi::StringRef appType,
   } else if (appType == "upload-cpp") {
     appCommand = "./uploaded";
   } else if (appType == "upload-python") {
+    appEnv = "export PYTHONUNBUFFERED=1";
     appCommand = "./uploaded.py";
   } else if (appType == "custom") {
     return;
@@ -73,6 +76,7 @@ void Application::Set(wpi::StringRef appType,
     os << "echo \"Waiting 5 seconds...\"\n";
     os << "sleep 5\n";
     if (!appDir.empty()) os << "cd " << appDir << '\n';
+    if (!appEnv.empty()) os << appEnv << '\n';
     os << "exec " << appCommand << '\n';
   }
 
