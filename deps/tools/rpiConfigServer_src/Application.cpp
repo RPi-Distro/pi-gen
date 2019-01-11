@@ -87,12 +87,14 @@ void Application::Set(wpi::StringRef appType,
 void Application::Upload(wpi::ArrayRef<uint8_t> contents,
                          std::function<void(wpi::StringRef)> onFail) {
   wpi::StringRef filename;
+  bool text = false;
   if (m_appType == "upload-java") {
     filename = "/uploaded.jar";
   } else if (m_appType == "upload-cpp") {
     filename = "/uploaded";
   } else if (m_appType == "upload-python") {
     filename = "/uploaded.py";
+    text = true;
   } else {
     wpi::SmallString<64> msg;
     msg = "cannot upload application type '";
@@ -137,7 +139,23 @@ void Application::Upload(wpi::ArrayRef<uint8_t> contents,
     }
 
     // write contents and close file
-    wpi::raw_fd_ostream(fd, true) << contents;
+    wpi::raw_fd_ostream out(fd, true);
+    if (text) {
+      wpi::StringRef str(reinterpret_cast<const char*>(contents.data()),
+                         contents.size());
+      // convert any Windows EOL to Unix
+      for (;;) {
+        size_t idx = str.find("\r\n");
+        if (idx == wpi::StringRef::npos) break;
+        out << str.slice(0, idx) << '\n';
+        str = str.slice(idx + 2, wpi::StringRef::npos);
+      }
+      out << str;
+      // ensure file ends with EOL
+      if (!str.empty() && str.back() != '\n') out << '\n';
+    } else {
+      out << contents;
+    }
   }
 
   // terminate vision process so it reloads
