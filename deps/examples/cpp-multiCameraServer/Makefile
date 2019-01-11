@@ -12,7 +12,7 @@ clean:
 	rm ${EXE} *.o
 
 ${EXE}: main.o
-	${CXX} -pthread -o $@ $< -L/usr/local/frc/lib -lcameraserver -lcscore -lntcore -lwpiutil
+	${CXX} -pthread -o $@ $< -L/usr/local/frc/lib -lwpilibc -lwpiHal -lcameraserver -lcscore -lntcore -lwpiutil
 
 .cpp.o:
 	${CXX} -pthread -O -c -o $@ -I/usr/local/frc/include $<

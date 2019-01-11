@@ -23,6 +23,8 @@ dependencies {
     compile name: 'cscore'
     compile name: 'cameraserver'
     compile name: 'opencv-344'
+    compile name: 'wpilibj'
+    compile name: 'wpiHal'
 }
 
 wrapper {

@@ -112,6 +112,9 @@ cat extfiles/wpiutil-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/incl
 cat extfiles/cscore-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
 cat extfiles/ntcore-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
 cat extfiles/cameraserver-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
+cat extfiles/hal-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
+cat extfiles/hal-gen-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
+cat extfiles/wpilibc-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
 cat extfiles/opencv-include.tar.gz | sh -c "cd ${ROOTFS_DIR}/usr/local/frc/include/ && tar xzf -"
 
 install -v -d "${ROOTFS_DIR}/usr/local/frc/share/OpenCV"

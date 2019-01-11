@@ -93,6 +93,7 @@ popd
 # always use the release version of opencv jar/jni
 build_wpilib () {
     cmake ../../allwpilib \
+	-DWITHOUT_ALLWPILIB=OFF \
         -DCMAKE_BUILD_TYPE=$1 \
         -DCMAKE_TOOLCHAIN_FILE=${PWD}/../../02-extract/arm-pi-gnueabihf.toolchain.cmake \
         -DCMAKE_MODULE_PATH=${PWD}/../../02-extract/cmake-modules \

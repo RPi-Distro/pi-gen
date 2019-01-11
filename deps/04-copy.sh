@@ -66,6 +66,7 @@ sh -c 'cd pynetworktables && tar czf - networktables ntcore' > ${DEST}/pynetwork
 
 sh -c 'cd 03-build/allwpilib-build/lib && tar czf - lib*' > ${DEST}/wpilib.tar.gz
 sh -c 'cd 03-build/allwpilib-build-debug/lib && tar czf - lib*' > ${DEST}/wpilib-debug.tar.gz
+sh -c 'cd 03-build/allwpilib-build/hal/gen && tar czf - .' > ${DEST}/hal-gen-include.tar.gz
 
 cp 03-build/allwpilib-build/jar/*.jar ${DEST}/
 
@@ -73,5 +74,7 @@ sh -c 'cd allwpilib/wpiutil/src/main/native/include && tar czf - uv.h uv wpi' > 
 sh -c 'cd allwpilib/cscore/src/main/native/include && tar czf - .' > ${DEST}/cscore-include.tar.gz
 sh -c 'cd allwpilib/ntcore/src/main/native/include && tar czf - .' > ${DEST}/ntcore-include.tar.gz
 sh -c 'cd allwpilib/cameraserver/src/main/native/include && tar czf - cameraserver vision' > ${DEST}/cameraserver-include.tar.gz
+sh -c 'cd allwpilib/hal/src/main/native/include && tar czf - .' > ${DEST}/hal-include.tar.gz
+sh -c 'cd allwpilib/wpilibc/src/main/native/include && tar czf - frc' > ${DEST}/wpilibc-include.tar.gz
 
 sh -c 'cd 03-build/allwpilib-static/bin && tar czf - cscore_* netconsoleTee*' > ${DEST}/wpilib-bin.tar.gz
