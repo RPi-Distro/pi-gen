@@ -7,6 +7,7 @@
 
 #include "Application.h"
 
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -80,31 +81,62 @@ void Application::Set(wpi::StringRef appType,
     os << "exec " << appCommand << '\n';
   }
 
-  m_appType = appType;
-
   // terminate vision process so it reloads
   VisionStatus::GetInstance()->Terminate(onFail);
 
   UpdateStatus();
 }
 
-void Application::Upload(wpi::ArrayRef<uint8_t> contents,
-                         std::function<void(wpi::StringRef)> onFail) {
+int Application::StartUpload(wpi::StringRef appType, char* filename,
+                             std::function<void(wpi::StringRef)> onFail) {
+  int fd = mkstemp(filename);
+  if (fd < 0) {
+    wpi::SmallString<64> msg;
+    msg = "could not open temporary file: ";
+    msg += std::strerror(errno);
+    onFail(msg);
+  }
+  return fd;
+}
+
+void Application::Upload(int fd, bool text, wpi::ArrayRef<uint8_t> contents) {
+  // write contents
+  wpi::raw_fd_ostream out(fd, false);
+  if (text) {
+    wpi::StringRef str(reinterpret_cast<const char*>(contents.data()),
+                       contents.size());
+    // convert any Windows EOL to Unix
+    for (;;) {
+      size_t idx = str.find("\r\n");
+      if (idx == wpi::StringRef::npos) break;
+      out << str.slice(0, idx) << '\n';
+      str = str.slice(idx + 2, wpi::StringRef::npos);
+    }
+    out << str;
+    // ensure file ends with EOL
+    if (!str.empty() && str.back() != '\n') out << '\n';
+  } else {
+    out << contents;
+  }
+}
+
+void Application::FinishUpload(wpi::StringRef appType, int fd,
+                               const char* tmpFilename,
+                               std::function<void(wpi::StringRef)> onFail) {
   wpi::StringRef filename;
-  bool text = false;
-  if (m_appType == "upload-java") {
+  if (appType == "upload-java") {
     filename = "/uploaded.jar";
-  } else if (m_appType == "upload-cpp") {
+  } else if (appType == "upload-cpp") {
     filename = "/uploaded";
-  } else if (m_appType == "upload-python") {
+  } else if (appType == "upload-python") {
     filename = "/uploaded.py";
-    text = true;
   } else {
     wpi::SmallString<64> msg;
     msg = "cannot upload application type '";
-    msg += m_appType;
+    msg += appType;
     msg += "'";
     onFail(msg);
+    ::close(fd);
     return;
   }
 
@@ -112,54 +144,31 @@ void Application::Upload(wpi::ArrayRef<uint8_t> contents,
   pathname = EXEC_HOME;
   pathname += filename;
 
+  // change ownership
+  if (fchown(fd, APP_UID, APP_GID) == -1) {
+    wpi::errs() << "could not change app ownership: " << std::strerror(errno)
+                << '\n';
+  }
+
+  // set file to be executable
+  if (fchmod(fd, 0775) == -1) {
+    wpi::errs() << "could not change app permissions: " << std::strerror(errno)
+                << '\n';
+  }
+
+  // close temporary file
+  ::close(fd);
+
   // remove old file (need to do this as we can't overwrite a running exe)
   if (unlink(pathname.c_str()) == -1) {
     wpi::errs() << "could not remove app executable: " << std::strerror(errno)
                 << '\n';
   }
 
-  {
-    // open file for writing
-    std::error_code ec;
-    int fd;
-    if (wpi::sys::fs::openFileForWrite(pathname, fd, wpi::sys::fs::F_None)) {
-      wpi::SmallString<64> msg;
-      msg = "could not write ";
-      msg += pathname;
-      onFail(msg);
-      return;
-    }
-
-    // change ownership
-    if (fchown(fd, APP_UID, APP_GID) == -1) {
-      wpi::errs() << "could not change app ownership: " << std::strerror(errno)
-                  << '\n';
-    }
-
-    // set file to be executable
-    if (fchmod(fd, 0775) == -1) {
-      wpi::errs() << "could not change app permissions: "
-                  << std::strerror(errno) << '\n';
-    }
-
-    // write contents and close file
-    wpi::raw_fd_ostream out(fd, true);
-    if (text) {
-      wpi::StringRef str(reinterpret_cast<const char*>(contents.data()),
-                         contents.size());
-      // convert any Windows EOL to Unix
-      for (;;) {
-        size_t idx = str.find("\r\n");
-        if (idx == wpi::StringRef::npos) break;
-        out << str.slice(0, idx) << '\n';
-        str = str.slice(idx + 2, wpi::StringRef::npos);
-      }
-      out << str;
-      // ensure file ends with EOL
-      if (!str.empty() && str.back() != '\n') out << '\n';
-    } else {
-      out << contents;
-    }
+  // rename temporary file to new file
+  if (rename(tmpFilename, pathname.c_str()) == -1) {
+    wpi::errs() << "could not rename to app executable: "
+                << std::strerror(errno) << '\n';
   }
 
   // terminate vision process so it reloads

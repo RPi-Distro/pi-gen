@@ -7,6 +7,9 @@
 
 #include "WebSocketHandlers.h"
 
+#include <unistd.h>
+
+#include <cstring>
 #include <memory>
 
 #include <wpi/SmallVector.h>
@@ -29,7 +32,14 @@ namespace uv = wpi::uv;
 #define SERVICE "/service/camera"
 
 struct WebSocketData {
+  ~WebSocketData() {
+    if (uploadFd != -1) ::close(uploadFd);
+  }
+
   bool visionLogEnabled = false;
+  int uploadFd = -1;
+  bool uploadText = false;
+  char uploadFilename[128];
 
   wpi::sig::ScopedConnection sysStatusConn;
   wpi::sig::ScopedConnection sysWritableConn;
@@ -260,25 +270,43 @@ void ProcessWsText(wpi::WebSocket& ws, wpi::StringRef msg) {
       wpi::errs() << "could not read networkSave value: " << e.what() << '\n';
       return;
     }
-  } else if (t == "applicationSave") {
+  } else if (t.startswith("application")) {
+    wpi::StringRef subType = t.substr(11);
+
     auto statusFunc = [s = ws.shared_from_this()](wpi::StringRef msg) {
       SendWsText(*s, {{"type", "status"}, {"message", msg}});
     };
+
+    std::string appType;
     try {
-      Application::GetInstance()->Set(
-          j.at("applicationType").get_ref<const std::string&>(), statusFunc);
+      appType = j.at("applicationType").get<std::string>();
     } catch (const wpi::json::exception& e) {
       wpi::errs() << "could not read applicationSave value: " << e.what()
                   << '\n';
       return;
     }
+
+    if (subType == "Save") {
+      Application::GetInstance()->Set(appType, statusFunc);
+    } else if (subType == "StartUpload") {
+      auto d = ws.GetData<WebSocketData>();
+      std::strcpy(d->uploadFilename, EXEC_HOME "/appUploadXXXXXX");
+      d->uploadFd = Application::GetInstance()->StartUpload(
+          appType, d->uploadFilename, statusFunc);
+      d->uploadText = wpi::StringRef(appType).endswith("python");
+    } else if (subType == "FinishUpload") {
+      auto d = ws.GetData<WebSocketData>();
+      if (d->uploadFd != -1)
+        Application::GetInstance()->FinishUpload(appType, d->uploadFd,
+                                                 d->uploadFilename, statusFunc);
+      d->uploadFd = -1;
+      SendWsText(ws, {{"type", "applicationSaveComplete"}});
+    }
   }
 }
 
 void ProcessWsBinary(wpi::WebSocket& ws, wpi::ArrayRef<uint8_t> msg) {
-  auto statusFunc = [s = ws.shared_from_this()](wpi::StringRef msg) {
-    SendWsText(*s, {{"type", "status"}, {"message", msg}});
-  };
-  Application::GetInstance()->Upload(msg, statusFunc);
-  SendWsText(ws, {{"type", "applicationSaveComplete"}});
+  auto d = ws.GetData<WebSocketData>();
+  if (d->uploadFd != -1)
+    Application::GetInstance()->Upload(d->uploadFd, d->uploadText, msg);
 }

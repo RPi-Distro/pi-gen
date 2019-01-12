@@ -30,8 +30,11 @@ class Application {
 
   void Set(wpi::StringRef appType, std::function<void(wpi::StringRef)> onFail);
 
-  void Upload(wpi::ArrayRef<uint8_t> contents,
-              std::function<void(wpi::StringRef)> onFail);
+  int StartUpload(wpi::StringRef appType, char* filename,
+                  std::function<void(wpi::StringRef)> onFail);
+  void Upload(int fd, bool text, wpi::ArrayRef<uint8_t> contents);
+  void FinishUpload(wpi::StringRef appType, int fd, const char* tmpFilename,
+                    std::function<void(wpi::StringRef)> onFail);
 
   void UpdateStatus();
 
@@ -40,9 +43,6 @@ class Application {
   wpi::sig::Signal<const wpi::json&> status;
 
   static std::shared_ptr<Application> GetInstance();
-
- private:
-  std::string m_appType;
 };
 
 #endif  // RPICONFIGSERVER_APPLICATION_H_

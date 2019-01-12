@@ -588,12 +588,40 @@ $('#applicationSave').click(function() {
   if (applicationFiles.length <= 0) {
     return;
   }
+
   $('#applicationSave').button('loading');
-  var fr = new FileReader();
-  fr.onload = function(e) {
-    connection.send(e.target.result);
+
+  var msg = {
+    type: 'applicationStartUpload',
+    applicationType: $('#applicationType').val()
   };
-  fr.readAsArrayBuffer(applicationFiles.item(0));
+  connection.send(JSON.stringify(msg));
+
+  var reader = new FileReader();
+  var file = applicationFiles.item(0);
+
+  function uploadFile(start) {
+    var nextSlice = start + (64 * 1024) + 1;
+    reader.onloadend = function(e) {
+      if (e.target.readyState !== FileReader.DONE) {
+        return;
+      }
+      connection.send(e.target.result);
+      if (nextSlice < file.size) {
+        // more to go
+        uploadFile(nextSlice);
+      } else {
+        // done
+        var msg = {
+          type: 'applicationFinishUpload',
+          applicationType: $('#applicationType').val()
+        };
+        connection.send(JSON.stringify(msg));
+      }
+    }
+    reader.readAsArrayBuffer(file.slice(start, nextSlice));
+  }
+  uploadFile(0);
 });
 
 // Start with display disconnected and start initial connection attempt
