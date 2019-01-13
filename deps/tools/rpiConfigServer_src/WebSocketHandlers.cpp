@@ -45,6 +45,7 @@ struct WebSocketData {
   wpi::sig::ScopedConnection sysWritableConn;
   wpi::sig::ScopedConnection visStatusConn;
   wpi::sig::ScopedConnection visLogConn;
+  wpi::sig::ScopedConnection cameraListConn;
   wpi::sig::ScopedConnection netSettingsConn;
   wpi::sig::ScopedConnection visSettingsConn;
   wpi::sig::ScopedConnection appSettingsConn;
@@ -134,6 +135,9 @@ void InitWs(wpi::WebSocket& ws) {
         if (d->visionLogEnabled) SendWsText(ws, j);
       });
   visStatus->UpdateStatus();
+  data->cameraListConn = visStatus->cameraList.connect_connection(
+      [&ws](const wpi::json& j) { SendWsText(ws, j); });
+  visStatus->UpdateCameraList();
 
   // send initial network settings
   auto netSettings = NetworkSettings::GetInstance();

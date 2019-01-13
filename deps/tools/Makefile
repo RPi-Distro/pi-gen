@@ -81,7 +81,12 @@ rpiConfigServer: ${RPICONFIGSERVER_OBJS}
 	${COMPILER}g++ -pthread -g -o $@ \
 	    ${RPICONFIGSERVER_OBJS} \
 	    -L${WPILIB_STATIC_BUILD}/lib \
-	    -lwpiutil
+	    -L${OPENCV_STATIC_INSTALL}/lib \
+	    -L${OPENCV_STATIC_INSTALL}/share/OpenCV/3rdparty/lib \
+	    -lcscore \
+	    -lwpiutil \
+	    -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_core \
+	    -ltegra_hal -llibpng -llibjpeg-turbo -lzlib
 	${COMPILER}objcopy --only-keep-debug $@ $@.debug
 	${COMPILER}strip -g $@
 	${COMPILER}objcopy --add-gnu-debuglink=$@.debug $@
@@ -89,6 +94,7 @@ rpiConfigServer: ${RPICONFIGSERVER_OBJS}
 %.o: %.cpp
 	${COMPILER}g++ -g -O -Wall -c -o $@ \
 	    -I${WPILIB_SRC}/wpiutil/src/main/native/include \
+	    -I${WPILIB_SRC}/cscore/src/main/native/include \
 	    '-DEXEC_HOME="${EXEC_HOME}"' \
 	    '-DFRC_JSON="${FRC_JSON}"' \
 	    '-DDHCPCD_CONF="${DHCPCD_CONF}"' \

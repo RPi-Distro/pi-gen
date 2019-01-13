@@ -244,6 +244,7 @@
                       <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#cameraBodyNEW">
                         <h6 class="cameraTitle">Camera NEW</h6>
                       </button>
+                      <span class="badge badge-secondary align-text-top cameraConnectionBadge">Disconnected</span>
                     </div>
                     <div class="col-auto">
                       <a class="btn btn-sm btn-success cameraStream" href="" target="_blank" role="button">
@@ -261,13 +262,22 @@
                   <div class="card-body">
                     <form>
                       <div class="form-row">
-                        <div class="form-group col">
+                        <div class="form-group col col-4">
                           <label for="cameraNameNEW">Name</label>
                           <input type="text" class="form-control cameraName" id="cameraNameNEW">
                         </div>
                         <div class="form-group col">
                           <label for="cameraPathNEW">Path</label>
-                          <input type="text" class="form-control cameraPath" id="cameraPathNEW">
+                          <div class="input-group">
+                            <input type="text" class="form-control cameraPath" id="cameraPathNEW">
+                            <div class="input-group-append">
+                              <button type="button" class="btn dropdown-toggle cameraAlternatePaths" id="cameraAlternatePathsNEW" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="true">
+                                Alternate Path
+                              </button>
+                              <div class="dropdown-menu cameraAlternatePathsList" aria-labelledby="cameraAlternatePathsNEW">
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
@@ -336,15 +346,25 @@
                     <span data-feather="save"></span>
                     Save
                   </button>
-                  <button type="button" class="btn btn-secondary" id="visionDiscard">
+                  <button type="button" class="btn btn-warning" id="visionDiscard">
                     <span data-feather="x"></span>
                     Discard Changes
                   </button>
                 </div>
                 <div class="col-auto">
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-info dropdown-toggle" id="addConnectedCamera" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="true">
+                      <span data-feather="plus"></span>
+                      Add Connected Camera
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="addConnectedCamera" id="addConnectedCameraList">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
                   <button type="button" class="btn btn-success" id="addCamera">
                     <span data-feather="plus"></span>
-                    Add Camera
+                    Add Other Camera
                   </button>
                 </div>
               </div>

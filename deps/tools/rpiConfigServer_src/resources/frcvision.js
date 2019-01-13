@@ -40,8 +40,8 @@ function displayStatus(message) {
 }
 
 // Enable and disable buttons based on connection status
-var connectedButtonIds = ['systemRestart', 'networkApproach', 'networkAddress', 'networkMask', 'networkGateway', 'networkDNS', 'visionUp', 'visionDown', 'visionTerm', 'visionKill', 'systemReadOnly', 'systemWritable', 'visionClient', 'visionTeam', 'visionDiscard', 'addCamera', 'applicationType'];
-var connectedButtonClasses = ['cameraName', 'cameraPath', 'cameraPixelFormat', 'cameraWidth', 'cameraHeight', 'cameraFps', 'cameraBrightness', 'cameraWhiteBalance', 'cameraExposure', 'cameraProperties', 'cameraRemove', 'cameraCopyConfig']
+var connectedButtonIds = ['systemRestart', 'networkApproach', 'networkAddress', 'networkMask', 'networkGateway', 'networkDNS', 'visionUp', 'visionDown', 'visionTerm', 'visionKill', 'systemReadOnly', 'systemWritable', 'visionClient', 'visionTeam', 'visionDiscard', 'addConnectedCamera', 'addCamera', 'applicationType'];
+var connectedButtonClasses = ['cameraName', 'cameraPath', 'cameraAlternatePaths', 'cameraPixelFormat', 'cameraWidth', 'cameraHeight', 'cameraFps', 'cameraBrightness', 'cameraWhiteBalance', 'cameraExposure', 'cameraProperties', 'cameraRemove', 'cameraCopyConfig']
 var writableButtonIds = ['networkSave', 'visionSave', 'applicationSave'];
 var systemStatusIds = ['systemMemoryFree1s', 'systemMemoryFree5s',
                        'systemMemoryAvail1s', 'systemMemoryAvail5s',
@@ -54,6 +54,7 @@ function displayDisconnected() {
   displayReadOnly();
   $('#connectionBadge').removeClass('badge-primary').addClass('badge-secondary').text('Disconnected');
   $('#visionServiceStatus').removeClass('badge-primary').removeClass('badge-secondary').addClass('badge-dark').text('Unknown Status');
+  $('.cameraConnectionBadge').removeClass('badge-primary').removeClass('badge-secondary').addClass('badge-dark').text('Unknown Status');
   for (var i = 0; i < connectedButtonIds.length; i++) {
     $('#' + connectedButtonIds[i]).prop('disabled', true);
   }
@@ -114,6 +115,7 @@ $('#systemWritable').click(function() {
 // Vision settings
 var visionSettingsServer = {};
 var visionSettingsDisplay = {'cameras': []};
+var cameraList = [];
 
 function pushVisionLogEnabled() {
   var msg = {
@@ -203,6 +205,10 @@ function connect() {
         break;
       case 'status':
         displayStatus(msg.message);
+        break;
+      case 'cameraList':
+        cameraList = msg.cameras;
+        updateCameraListView();
         break;
     }
   };
@@ -425,6 +431,7 @@ function appendNewVisionCameraView(value, i) {
   camera.find('.cameraRemove').click(function() {
     visionSettingsDisplay.cameras.splice(i, 1);
     camera.remove();
+    updateCameraListView();
   });
   camera.find('.cameraSettingsFile').change(function() {
     if (this.files.length <= 0) {
@@ -459,6 +466,9 @@ function appendNewVisionCameraView(value, i) {
   camera.find('[data-target]').each(function() {
     $(this).attr('data-target', $(this).attr('data-target').replace('NEW', i));
   });
+  camera.find('[aria-labelledby]').each(function() {
+    $(this).attr('aria-labelledby', $(this).attr('aria-labelledby').replace('NEW', i));
+  });
 
   $('#cameras').append(camera);
 }
@@ -477,6 +487,7 @@ function updateVisionSettingsView() {
   visionSettingsDisplay.cameras.forEach(function (value, i) {
     appendNewVisionCameraView(value, i);
   });
+  updateCameraListView();
   feather.replace();
 }
 
@@ -554,7 +565,76 @@ $('#addCamera').click(function() {
   var i = visionSettingsDisplay.cameras.length;
   visionSettingsDisplay.cameras.push({});
   appendNewVisionCameraView({}, i);
+  updateCameraListView();
 });
+
+function updateCameraListView() {
+  var addConnectedDropdown = $('#addConnectedCameraList');
+  addConnectedDropdown.html('');
+
+  // disable all the alternate paths by default
+  visionSettingsDisplay.cameras.forEach(function (value, k) {
+    var cameraElem = $('#camera' + k);
+    cameraElem.find('.cameraConnectionBadge').removeClass('badge-dark').removeClass('badge-primary').addClass('badge-secondary').text('Disconnected');
+    cameraElem.find('.cameraAlternatePathsList').html('');
+    cameraElem.find('.cameraAlternatePaths').prop('disabled', true);
+  });
+
+  cameraList.forEach(function (camera, i) {
+    // See if one of the paths is an already existing camera
+    // Include the "main path" as the first path
+    var matchedCamera = false;
+    var paths = [camera.path];
+    camera.otherPaths.forEach(function (path, j) {
+      paths.push(path);
+    });
+    paths.forEach(function (path, j) {
+      visionSettingsDisplay.cameras.forEach(function (value, k) {
+        var cameraElem = $('#camera' + k);
+        var pathElem = cameraElem.find('.cameraPath');
+        if (path === pathElem.val()) {
+          matchedCamera = true;
+
+          // show camera as connected
+          cameraElem.find('.cameraConnectionBadge').removeClass('badge-dark').removeClass('badge-secondary').addClass('badge-primary').text('Connected');
+
+          // build alternate path list
+          var setAlternateDropdown = cameraElem.find('.cameraAlternatePathsList');
+          setAlternateDropdown.html('');
+          paths.forEach(function (altPath, j) {
+            setAlternateDropdown.append('<button class="dropdown-item cameraSetAlternatePath" type="button">' + altPath + '</button>');
+          });
+
+          cameraElem.find('.cameraAlternatePaths').prop('disabled', setAlternateDropdown.html() === '');
+
+          // hook up dropdown items to set alternate path
+          setAlternateDropdown.find('.cameraSetAlternatePath').click(function() {
+            pathElem.val($(this).text());
+          });
+        }
+      });
+    });
+
+    if (!matchedCamera) {
+      // add it to add connected camera list
+      addConnectedDropdown.append('<h5 class="dropdown-header">' + camera.name + '</h5>');
+      paths.forEach(function (path, j) {
+        addConnectedDropdown.append('<button class="dropdown-item addConnectedCameraItem" type="button">' + path + '</button>');
+      });
+    }
+  });
+
+  $('#addConnectedCamera').prop('disabled', addConnectedDropdown.html() === '');
+
+  // hook up dropdown items to create cameras
+  addConnectedDropdown.find('.addConnectedCameraItem').click(function() {
+    var i = visionSettingsDisplay.cameras.length;
+    var camera = {"path": $(this).text()};
+    visionSettingsDisplay.cameras.push(camera);
+    appendNewVisionCameraView(camera, i);
+    updateCameraListView();
+  });
+}
 
 var applicationFiles = [];
 

@@ -10,7 +10,9 @@
 
 #include <functional>
 #include <memory>
+#include <vector>
 
+#include <cscore.h>
 #include <wpi/Signal.h>
 #include <wpi/StringRef.h>
 #include <wpi/uv/Loop.h>
@@ -31,9 +33,7 @@ class VisionStatus {
   VisionStatus(const VisionStatus&) = delete;
   VisionStatus& operator=(const VisionStatus&) = delete;
 
-  void SetLoop(std::shared_ptr<wpi::uv::Loop> loop) {
-    m_loop = std::move(loop);
-  }
+  void SetLoop(std::shared_ptr<wpi::uv::Loop> loop);
 
   void Up(std::function<void(wpi::StringRef)> onFail);
   void Down(std::function<void(wpi::StringRef)> onFail);
@@ -42,16 +42,25 @@ class VisionStatus {
 
   void UpdateStatus();
   void ConsoleLog(wpi::uv::Buffer& buf, size_t len);
+  void UpdateCameraList();
 
   wpi::sig::Signal<const wpi::json&> update;
   wpi::sig::Signal<const wpi::json&> log;
+  wpi::sig::Signal<const wpi::json&> cameraList;
 
   static std::shared_ptr<VisionStatus> GetInstance();
 
  private:
   void RunSvc(const char* cmd, std::function<void(wpi::StringRef)> onFail);
+  void RefreshCameraList();
 
   std::shared_ptr<wpi::uv::Loop> m_loop;
+
+  struct CameraInfo {
+    cs::UsbCameraInfo info;
+    std::vector<cs::VideoMode> modes;
+  };
+  std::vector<CameraInfo> m_cameraInfo;
 };
 
 #endif  // RPICONFIGSERVER_VISIONSTATUS_H_
