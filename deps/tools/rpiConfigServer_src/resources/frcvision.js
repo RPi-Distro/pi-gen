@@ -41,7 +41,7 @@ function displayStatus(message) {
 
 // Enable and disable buttons based on connection status
 var connectedButtonIds = ['systemRestart', 'networkApproach', 'networkAddress', 'networkMask', 'networkGateway', 'networkDNS', 'visionUp', 'visionDown', 'visionTerm', 'visionKill', 'systemReadOnly', 'systemWritable', 'visionClient', 'visionTeam', 'visionDiscard', 'addConnectedCamera', 'addCamera', 'applicationType'];
-var connectedButtonClasses = ['cameraName', 'cameraPath', 'cameraAlternatePaths', 'cameraPixelFormat', 'cameraWidth', 'cameraHeight', 'cameraFps', 'cameraBrightness', 'cameraWhiteBalance', 'cameraExposure', 'cameraProperties', 'cameraRemove', 'cameraCopyConfig']
+var connectedButtonClasses = ['cameraName', 'cameraPath', 'cameraAlternatePaths', 'cameraPixelFormat', 'cameraWidth', 'cameraHeight', 'cameraFps', 'cameraBrightness', 'cameraWhiteBalance', 'cameraExposure', 'cameraProperties', 'streamWidth', 'streamHeight', 'streamFps', 'streamCompression', 'streamDefaultCompression', 'cameraRemove', 'cameraCopyConfig']
 var writableButtonIds = ['networkSave', 'visionSave', 'applicationSave'];
 var systemStatusIds = ['systemMemoryFree1s', 'systemMemoryFree5s',
                        'systemMemoryAvail1s', 'systemMemoryAvail5s',
@@ -340,6 +340,18 @@ $('#visionClient').change(function() {
   }
 });
 
+function getCameraPropertyValue(data, name) {
+  if (data === null) {
+    return null;
+  }
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].name === name) {
+      return data[i].value;
+    }
+  }
+  return null;
+}
+
 function updateVisionCameraView(camera, value) {
   if ('name' in value) {
     camera.find('.cameraTitle').text('Camera ' + value.name);
@@ -356,6 +368,19 @@ function updateVisionCameraView(camera, value) {
   camera.find('.cameraWhiteBalance').val(value['white balance']);
   camera.find('.cameraExposure').val(value.exposure);
   camera.find('.cameraProperties').val(JSON.stringify(value.properties));
+  if ('stream' in value && 'properties' in value.stream) {
+    camera.find('.streamWidth').val(getCameraPropertyValue(value.stream.properties, 'width'));
+    camera.find('.streamHeight').val(getCameraPropertyValue(value.stream.properties, 'height'));
+    camera.find('.streamFps').val(getCameraPropertyValue(value.stream.properties, 'fps'));
+    camera.find('.streamCompression').val(getCameraPropertyValue(value.stream.properties, 'compression'));
+    camera.find('.streamDefaultCompression').val(getCameraPropertyValue(value.stream.properties, 'default_compression'));
+  } else {
+    camera.find('.streamWidth').val('');
+    camera.find('.streamHeight').val('');
+    camera.find('.streamFps').val('');
+    camera.find('.streamCompression').val('');
+    camera.find('.streamDefaultCompression').val('');
+  }
 }
 
 function updateVisionCameraDataFromJson(i, data) {
@@ -547,6 +572,33 @@ $('#visionSave').click(function() {
       value.properties = JSON.parse(camera.find('.cameraProperties').val());
     } catch (err) {
       delete value['properties'];
+    }
+
+    value.stream = {'properties': []};
+
+    var streamWidth = parseInt(camera.find('.streamWidth').val(), 10);
+    if (!isNaN(streamWidth)) {
+      value.stream.properties.push({'name': 'width', 'value': streamWidth});
+    }
+
+    var streamHeight = parseInt(camera.find('.streamHeight').val(), 10);
+    if (!isNaN(streamHeight)) {
+      value.stream.properties.push({'name': 'height', 'value': streamHeight});
+    }
+
+    var streamFps = parseInt(camera.find('.streamFps').val(), 10);
+    if (!isNaN(streamFps)) {
+      value.stream.properties.push({'name': 'fps', 'value': streamFps});
+    }
+
+    var streamCompression = parseInt(camera.find('.streamCompression').val(), 10);
+    if (!isNaN(streamCompression)) {
+      value.stream.properties.push({'name': 'compression', 'value': streamCompression});
+    }
+
+    var streamDefaultCompression = parseInt(camera.find('.streamDefaultCompression').val(), 10);
+    if (!isNaN(streamDefaultCompression)) {
+      value.stream.properties.push({'name': 'default_compression', 'value': streamDefaultCompression});
     }
   });
   var msg = {

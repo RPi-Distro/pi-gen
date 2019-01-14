@@ -41,7 +41,15 @@
                        "name": <property name>
                        "value": <property value>
                    }
-               ]
+               ],
+               "stream": {                              // optional
+                   "properties": [
+                       {
+                           "name": <stream property name>
+                           "value": <stream property value>
+                       }
+                   ]
+               }
            }
        ]
    }
@@ -58,6 +66,7 @@ struct CameraConfig {
   std::string name;
   std::string path;
   wpi::json config;
+  wpi::json streamConfig;
 };
 
 std::vector<CameraConfig> cameraConfigs;
@@ -85,6 +94,9 @@ bool ReadCameraConfig(const wpi::json& config) {
                  << "': could not read path: " << e.what() << '\n';
     return false;
   }
+
+  // stream properties
+  if (config.count("stream") != 0) c.streamConfig = config.at("stream");
 
   c.config = config;
 
@@ -158,11 +170,15 @@ bool ReadConfig() {
 cs::UsbCamera StartCamera(const CameraConfig& config) {
   wpi::outs() << "Starting camera '" << config.name << "' on " << config.path
               << '\n';
-  auto camera = frc::CameraServer::GetInstance()->StartAutomaticCapture(
-      config.name, config.path);
+  cs::UsbCamera camera{config.name, config.path};
+  auto inst = frc::CameraServer::GetInstance();
+  auto server = inst->StartAutomaticCapture(camera);
 
   camera.SetConfigJson(config.config);
   camera.SetConnectionStrategy(cs::VideoSource::kConnectionKeepOpen);
+
+  if (config.streamConfig.is_object())
+    server.SetConfigJson(config.streamConfig);
 
   return camera;
 }

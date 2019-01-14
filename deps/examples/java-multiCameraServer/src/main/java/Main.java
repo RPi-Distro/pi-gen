@@ -18,6 +18,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -47,7 +49,15 @@ import org.opencv.core.Mat;
                        "name": <property name>
                        "value": <property value>
                    }
-               ]
+               ],
+               "stream": {                              // optional
+                   "properties": [
+                       {
+                           "name": <stream property name>
+                           "value": <stream property value>
+                       }
+                   ]
+               }
            }
        ]
    }
@@ -61,6 +71,7 @@ public final class Main {
     public String name;
     public String path;
     public JsonObject config;
+    public JsonElement streamConfig;
   }
 
   public static int team;
@@ -98,6 +109,9 @@ public final class Main {
       return false;
     }
     cam.path = pathElement.getAsString();
+
+    // stream properties
+    cam.streamConfig = config.get("stream");
 
     cam.config = config;
 
@@ -167,13 +181,18 @@ public final class Main {
    */
   public static VideoSource startCamera(CameraConfig config) {
     System.out.println("Starting camera '" + config.name + "' on " + config.path);
-    VideoSource camera = CameraServer.getInstance().startAutomaticCapture(
-        config.name, config.path);
+    UsbCamera camera = new UsbCamera(config.name, config.path);
+    CameraServer inst = CameraServer.getInstance();
+    MjpegServer server = inst.startAutomaticCapture(camera);
 
     Gson gson = new GsonBuilder().create();
 
     camera.setConfigJson(gson.toJson(config.config));
     camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+
+    if (config.streamConfig != null) {
+      server.setConfigJson(gson.toJson(config.streamConfig));
+    }
 
     return camera;
   }

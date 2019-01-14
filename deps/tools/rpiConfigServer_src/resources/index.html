@@ -280,59 +280,97 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <div class="custom-file">
-                          <input type="file" class="custom-file-input cameraSettingsFile" accept=".json,text/json,application/json" id="cameraSettingsFileNEW">
-                          <label class="custom-file-label" for="cameraSettingsFileNEW">Load Source Config From JSON File</label>
+                      <div class="card">
+                        <div class="card-header">
+                          Camera Settings
+                        </div>
+                        <div class="card-body">
+                          <div class="form-group">
+                            <div class="custom-file">
+                              <input type="file" class="custom-file-input cameraSettingsFile" accept=".json,text/json,application/json" id="cameraSettingsFileNEW">
+                              <label class="custom-file-label" for="cameraSettingsFileNEW">Load Source Config From JSON File</label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <button class="btn btn-sm cameraCopyConfig" type="button">
+                              <span data-feather="copy"></span>
+                              Copy Source Config From Camera
+                            </button>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-auto">
+                              <label for="cameraPixelFormatNEW">Pixel Format</label>
+                              <select class="form-control cameraPixelFormat" id="cameraPixelFormatNEW">
+                                <option value="mjpeg">MJPEG</option>
+                                <option value="yuyv">YUYV</option>
+                                <option value="rgb565">RGB565</option>
+                                <option value="bgr">BGR</option>
+                                <option value="gray">Gray</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-auto">
+                              <label for="cameraWidthNEW">Width</label>
+                              <input type="number" class="form-control cameraWidth" id="cameraWidthNEW" size="5">
+                            </div>
+                            <div class="form-group col-auto">
+                              <label for="cameraHeightNEW">Height</label>
+                              <input type="number" class="form-control cameraHeight" id="cameraHeightNEW" size="5">
+                            </div>
+                            <div class="form-group col-auto">
+                              <label for="cameraFpsNEW">FPS</label>
+                              <input type="number" class="form-control cameraFps" id="cameraFpsNEW" size="4">
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-auto">
+                              <label for="cameraBrightnessNEW">Brightness</label>
+                              <input type="text" class="form-control cameraBrightness" id="cameraBrightnessNEW" size="4">
+                            </div>
+                            <div class="form-group col-auto">
+                              <label for="cameraWhiteBalanceNEW">White Balance</label>
+                              <input type="text" class="form-control cameraWhiteBalance" id="cameraWhiteBalanceNEW" size="4">
+                            </div>
+                            <div class="form-group col-auto">
+                              <label for="cameraExposureNEW">Exposure</label>
+                              <input type="text" class="form-control cameraExposure" id="cameraExposureNEW" size="4">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="cameraPropertiesNEW">Custom Properties JSON</label>
+                            <textarea class="form-control cameraProperties" id="cameraPropertiesNEW" rows="3"></textarea>
+                          </div>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <button class="btn btn-sm cameraCopyConfig" type="button">
-                          <span data-feather="copy"></span>
-                          Copy Source Config From Camera
-                        </button>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group col-auto">
-                          <label for="cameraPixelFormatNEW">Pixel Format</label>
-                          <select class="form-control cameraPixelFormat" id="cameraPixelFormatNEW">
-                            <option value="mjpeg">MJPEG</option>
-                            <option value="yuyv">YUYV</option>
-                            <option value="rgb565">RGB565</option>
-                            <option value="bgr">BGR</option>
-                            <option value="gray">Gray</option>
-                          </select>
+                      <div class="card">
+                        <div class="card-header">
+                          Video Stream Defaults
                         </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraWidthNEW">Width</label>
-                          <input type="number" class="form-control cameraWidth" id="cameraWidthNEW" size="5">
+                        <div class="card-body">
+                          <div class="form-row">
+                            <div class="form-group col-auto">
+                              <label for="streamWidthNEW">Width</label>
+                              <input type="number" class="form-control streamWidth" id="streamWidthNEW" size="5">
+                            </div>
+                            <div class="form-group col-auto">
+                              <label for="streamHeightNEW">Height</label>
+                              <input type="number" class="form-control streamHeight" id="streamHeightNEW" size="5">
+                            </div>
+                            <div class="form-group col-auto">
+                              <label for="streamFpsNEW">FPS</label>
+                              <input type="number" class="form-control streamFps" id="streamFpsNEW" size="4">
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-auto">
+                              <label for="streamCompressionNEW">Compression</label>
+                              <input type="number" class="form-control streamCompression" id="streamWidthNEW" size="5">
+                            </div>
+                            <div class="form-group col-auto">
+                              <label for="streamDefaultCompressionNEW">Default Compression</label>
+                              <input type="number" class="form-control streamDefaultCompression" id="streamDefaultCompressionNEW" size="4">
+                            </div>
+                          </div>
                         </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraHeightNEW">Height</label>
-                          <input type="number" class="form-control cameraHeight" id="cameraHeightNEW" size="5">
-                        </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraFpsNEW">FPS</label>
-                          <input type="number" class="form-control cameraFps" id="cameraFpsNEW" size="4">
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group col-auto">
-                          <label for="cameraBrightnessNEW">Brightness</label>
-                          <input type="text" class="form-control cameraBrightness" id="cameraBrightnessNEW" size="4">
-                        </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraWhiteBalanceNEW">White Balance</label>
-                          <input type="text" class="form-control cameraWhiteBalance" id="cameraWhiteBalanceNEW" size="4">
-                        </div>
-                        <div class="form-group col-auto">
-                          <label for="cameraExposureNEW">Exposure</label>
-                          <input type="text" class="form-control cameraExposure" id="cameraExposureNEW" size="4">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="cameraPropertiesNEW">Custom Properties JSON</label>
-                        <textarea class="form-control cameraProperties" id="cameraPropertiesNEW" rows="3"></textarea>
                       </div>
                     </form>
                   </div>

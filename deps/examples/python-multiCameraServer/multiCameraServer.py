@@ -10,7 +10,7 @@ import json
 import time
 import sys
 
-from cscore import CameraServer, VideoSource
+from cscore import CameraServer, VideoSource, UsbCamera, MjpegServer
 from networktables import NetworkTablesInstance
 
 #   JSON format:
@@ -33,7 +33,15 @@ from networktables import NetworkTablesInstance
 #                       "name": <property name>
 #                       "value": <property value>
 #                   }
-#               ]
+#               ],
+#               "stream": {                              // optional
+#                   "properties": [
+#                       {
+#                           "name": <stream property name>
+#                           "value": <stream property value>
+#                       }
+#                   ]
+#               }
 #           }
 #       ]
 #   }
@@ -67,6 +75,9 @@ def readCameraConfig(config):
     except KeyError:
         parseError("camera '{}': could not read path".format(cam.name))
         return False
+
+    # stream properties
+    cam.streamConfig = config.get("stream")
 
     cam.config = config
 
@@ -123,11 +134,15 @@ def readConfig():
 """Start running the camera."""
 def startCamera(config):
     print("Starting camera '{}' on {}".format(config.name, config.path))
-    camera = CameraServer.getInstance() \
-        .startAutomaticCapture(name=config.name, path=config.path)
+    camera = UsbCamera(config.name, config.path)
+    inst = CameraServer.getInstance()
+    server = inst.startAutomaticCapture(camera=camera, return_server=True)
 
     camera.setConfigJson(json.dumps(config.config))
     camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen)
+
+    if config.streamConfig is not None:
+        server.setConfigJson(json.dumps(config.streamConfig))
 
     return camera
 
