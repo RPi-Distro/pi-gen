@@ -6,6 +6,9 @@ Building on desktop
 Building
 --------
 
+Java 11 is required to build.  Set your path and/or JAVA_HOME environment
+variable appropriately.
+
 1) Run "./gradlew build"
 
 ---------
