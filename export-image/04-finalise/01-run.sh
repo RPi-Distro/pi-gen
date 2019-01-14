@@ -8,8 +8,8 @@ on_chroot << EOF
 hardlink -t /usr/share/doc
 EOF
 
-if [ -d "${ROOTFS_DIR}/home/pi/.config" ]; then
-	chmod 700 "${ROOTFS_DIR}/home/pi/.config"
+if [ -d "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config" ]; then
+	chmod 700 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config"
 fi
 
 rm -f "${ROOTFS_DIR}/etc/apt/apt.conf.d/51cache"
