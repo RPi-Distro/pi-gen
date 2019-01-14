@@ -171,8 +171,8 @@ bool ReadConfig() {
 void StartCamera(const CameraConfig& config) {
   wpi::outs() << "Starting camera '" << config.name << "' on " << config.path
               << '\n';
-  cs::UsbCamera camera{config.name, config.path};
   auto inst = frc::CameraServer::GetInstance();
+  cs::UsbCamera camera{config.name, config.path};
   auto server = inst->StartAutomaticCapture(camera);
 
   camera.SetConfigJson(config.config);

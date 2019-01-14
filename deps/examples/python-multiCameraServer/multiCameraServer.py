@@ -134,8 +134,8 @@ def readConfig():
 """Start running the camera."""
 def startCamera(config):
     print("Starting camera '{}' on {}".format(config.name, config.path))
-    camera = UsbCamera(config.name, config.path)
     inst = CameraServer.getInstance()
+    camera = UsbCamera(config.name, config.path)
     server = inst.startAutomaticCapture(camera=camera, return_server=True)
 
     camera.setConfigJson(json.dumps(config.config))

@@ -181,8 +181,8 @@ public final class Main {
    */
   public static VideoSource startCamera(CameraConfig config) {
     System.out.println("Starting camera '" + config.name + "' on " + config.path);
-    UsbCamera camera = new UsbCamera(config.name, config.path);
     CameraServer inst = CameraServer.getInstance();
+    UsbCamera camera = new UsbCamera(config.name, config.path);
     MjpegServer server = inst.startAutomaticCapture(camera);
 
     Gson gson = new GsonBuilder().create();
