@@ -150,7 +150,7 @@ rm -rf /tmp/java-multiCameraServer
 # also update Makefile to use cross-compiler and point to local dependencies
 rm -rf /tmp/cpp-multiCameraServer
 mkdir -p /tmp/cpp-multiCameraServer
-echo "CXX?=arm-raspbian9-linux-gnueabihf-g++" > /tmp/cpp-multiCameraServer/Makefile
+echo "CXX=arm-raspbian9-linux-gnueabihf-g++" > /tmp/cpp-multiCameraServer/Makefile
 sed -e 's/\/usr\/local\/frc\///g' ${ROOTFS_DIR}/home/pi/examples/cpp-multiCameraServer/Makefile >> /tmp/cpp-multiCameraServer/Makefile
 sh -c "cd ${ROOTFS_DIR}/usr/local/frc && tar cf - lib include" | sh -c "cd /tmp/cpp-multiCameraServer && tar xf -"
 sh -c "cd /tmp && zip -r ${ROOTFS_DIR}/home/pi/zips/cpp-multiCameraServer.zip cpp-multiCameraServer --exclude \*.so.\*"
