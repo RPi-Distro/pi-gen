@@ -12,7 +12,7 @@ earlier releases of these systems.
 To install the required dependencies for pi-gen you should run:
 
 ```bash
-apt-get install quilt parted realpath qemu-user-static debootstrap zerofree pxz zip \
+apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree pxz zip \
 dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl
 ```
 

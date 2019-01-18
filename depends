@@ -1,6 +1,6 @@
 quilt
 parted
-realpath
+realpath:coreutils
 qemu-arm-static:qemu-user-static
 debootstrap
 zerofree
