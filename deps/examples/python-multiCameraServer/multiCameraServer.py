@@ -54,12 +54,12 @@ team = None
 server = False
 cameraConfigs = []
 
-"""Report parse error."""
 def parseError(str):
+    """Report parse error."""
     print("config error in '" + configFile + "': " + str, file=sys.stderr)
 
-"""Read single camera configuration."""
 def readCameraConfig(config):
+    """Read single camera configuration."""
     cam = CameraConfig()
 
     # name
@@ -84,8 +84,8 @@ def readCameraConfig(config):
     cameraConfigs.append(cam)
     return True
 
-"""Read configuration file."""
 def readConfig():
+    """Read configuration file."""
     global team
     global server
 
@@ -131,8 +131,8 @@ def readConfig():
 
     return True
 
-"""Start running the camera."""
 def startCamera(config):
+    """Start running the camera."""
     print("Starting camera '{}' on {}".format(config.name, config.path))
     inst = CameraServer.getInstance()
     camera = UsbCamera(config.name, config.path)
