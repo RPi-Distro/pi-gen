@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}.img"
+IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 NOOBS_DIR="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}"
 unmount_image "${IMG_FILE}"
 
 mkdir -p "${STAGE_WORK_DIR}"
-cp "${WORK_DIR}/export-image/${IMG_FILENAME}.img" "${STAGE_WORK_DIR}/"
+cp "${WORK_DIR}/export-image/${IMG_FILENAME}${IMG_SUFFIX}.img" "${STAGE_WORK_DIR}/"
 
 rm -rf "${NOOBS_DIR}"
 
