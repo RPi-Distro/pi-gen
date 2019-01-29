@@ -20,7 +20,7 @@ bootstrap(){
 		--keyring "${STAGE_DIR}/files/raspberrypi.gpg" \
 		"$1" "$2" "$3" || true
 	if [ -d "$2/debootstrap" ]; then
-		rmdir "$2/debootstrap"
+		rm -rf "$2/debootstrap"
 	fi
 }
 export -f bootstrap
