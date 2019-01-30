@@ -68,6 +68,10 @@ The following environment variables are supported:
 
    Output directory for target system images and NOOBS bundles.
 
+ * `DEPLOY_ZIP` (Default: `1`)
+
+   Setting to `0` will deploy the actual image (`.img`) instead of a zipped image (`.zip`).
+
  * `USE_QEMU` (Default: `"0"`)
 
    Setting to '1' enables the QEMU mode - creating an image that can be mounted via QEMU for an emulated

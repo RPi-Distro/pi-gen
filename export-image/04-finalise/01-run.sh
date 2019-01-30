@@ -75,10 +75,15 @@ unmount_image "${IMG_FILE}"
 mkdir -p "${DEPLOY_DIR}"
 
 rm -f "${DEPLOY_DIR}/${ZIP_FILENAME}${IMG_SUFFIX}.zip"
+rm -f "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 
-pushd "${STAGE_WORK_DIR}" > /dev/null
-zip "${DEPLOY_DIR}/${ZIP_FILENAME}${IMG_SUFFIX}.zip" \
-	"$(basename "${IMG_FILE}")"
-popd > /dev/null
+if [ "${DEPLOY_ZIP}" == "1" ]; then
+	pushd "${STAGE_WORK_DIR}" > /dev/null
+	zip "${DEPLOY_DIR}/${ZIP_FILENAME}${IMG_SUFFIX}.zip" \
+		"$(basename "${IMG_FILE}")"
+	popd > /dev/null
+else
+	cp "$IMG_FILE" "$DEPLOY_DIR"
+fi
 
 cp "$INFO_FILE" "$DEPLOY_DIR"
