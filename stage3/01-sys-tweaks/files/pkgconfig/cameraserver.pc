@@ -1,0 +1,14 @@
+# Package Information for pkg-config
+
+prefix=/usr/local/frc
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: cameraserver
+Description: WPILib Robotics Library CameraServer
+Version: 2019.2.1
+Requires: cscore wpiutil
+Requires.private: ntcore
+Libs: -L${libdir} -lcameraserver
+Cflags: -I${includedir}

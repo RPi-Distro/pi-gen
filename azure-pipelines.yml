@@ -17,11 +17,8 @@ jobs:
       - checkout: self
         submodules: true
       - script: |
-          cd deps && ./01-download.sh && ./02-extract.sh && ./03-build.sh && ./04-copy.sh
-        displayName: 'Build Image Dependencies'
-      - script: |
           sudo sh -c 'dpkg-reconfigure qemu-user-static && ./build.sh'
-          cp deploy/*.zip $BUILD_ARTIFACTSTAGINGDIRECTORY
+          cp deploy/*.zip deploy/examples/*.zip $BUILD_ARTIFACTSTAGINGDIRECTORY
         displayName: 'Build Image'
       - task: PublishBuildArtifacts@1
         inputs:

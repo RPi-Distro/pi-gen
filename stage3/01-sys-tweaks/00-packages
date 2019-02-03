@@ -1,0 +1,8 @@
+cmake
+libpython3.5-minimal
+libpython3.5-dev
+python3.5-minimal
+python3.5-dev
+python3-numpy
+python3-pybind11
+python3-pip

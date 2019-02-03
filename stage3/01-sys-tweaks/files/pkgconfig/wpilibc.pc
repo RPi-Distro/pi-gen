@@ -1,0 +1,13 @@
+# Package Information for pkg-config
+
+prefix=/usr/local/frc
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: wpilibc
+Description: WPILib Robotics Library
+Version: 2019.2.1
+Requires: cameraserver ntcore cscore wpiutil
+Libs: -L${libdir} -lwpilibc -lwpiHal
+Cflags: -I${includedir}

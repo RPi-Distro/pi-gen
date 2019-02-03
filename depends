@@ -15,3 +15,11 @@ curl
 xxd
 file
 git
+pkg-config
+gcc:build-essential
+cmake
+python3
+ant
+sudo
+java:openjdk-8-jdk
+java:openjdk-11-jdk

@@ -1,9 +1,0 @@
-[submodule "deps/robotpy-cscore"]
-	path = deps/robotpy-cscore
-	url = https://github.com/robotpy/robotpy-cscore.git
-[submodule "deps/pynetworktables"]
-	path = deps/pynetworktables
-	url = https://github.com/robotpy/pynetworktables.git
-[submodule "deps/allwpilib"]
-	path = deps/allwpilib
-	url = https://github.com/wpilibsuite/allwpilib.git

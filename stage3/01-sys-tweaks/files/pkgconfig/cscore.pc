@@ -1,0 +1,14 @@
+# Package Information for pkg-config
+
+prefix=/usr/local/frc
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: cscore
+Description: WPILib Robotics Library CameraServer Core
+Version: 2019.2.1
+Requires: wpiutil opencv
+Libs: -L${libdir} -lcscore
+Libs.private: -lpthread
+Cflags: -I${includedir}

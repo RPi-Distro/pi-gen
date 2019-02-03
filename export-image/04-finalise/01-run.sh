@@ -2,6 +2,10 @@
 
 IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}.img"
 INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}.info"
+EXAMPLE_DIR="${STAGE_WORK_DIR}/examples"
+
+mkdir -p "${EXAMPLE_DIR}"
+cp -p "${ROOTFS_DIR}"/home/pi/zips/* "${EXAMPLE_DIR}/"
 
 on_chroot << EOF
 /etc/init.d/fake-hwclock stop
@@ -43,7 +47,6 @@ rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
 
 update_issue "$(basename "${EXPORT_DIR}")"
 install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/issue.txt"
-install files/LICENSE.oracle "${ROOTFS_DIR}/boot/"
 
 
 cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
@@ -82,3 +85,4 @@ zip "${DEPLOY_DIR}/${ZIP_FILENAME}.zip" \
 popd > /dev/null
 
 cp "$INFO_FILE" "$DEPLOY_DIR"
+cp -Rp "${EXAMPLE_DIR}" "${DEPLOY_DIR}"

@@ -1,6 +1,6 @@
-# pi-gen
+# FRCVision-pi-gen
 
-_Tool used to create the raspberrypi.org Raspbian images_
+_Tool used to create the FRCVision Raspbian image_
 
 
 ## Dependencies
@@ -13,8 +13,12 @@ To install the required dependencies for pi-gen you should run:
 
 ```bash
 apt-get install quilt parted realpath qemu-user-static debootstrap zerofree pxz zip \
-dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl
+dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl \
+xxd build-essential cmake python3 ant sudo openjdk-8-jdk openjdk-11-jdk
 ```
+
+Or better, use build-docker.sh instead of build.sh, as the Docker image will
+install the required tools as part of the Docker image build.
 
 The file `depends` contains a list of tools needed.  The format of this
 package is `<tool>[:<debian-package>]`.
@@ -28,12 +32,12 @@ environment variables.
 
 The following environment variables are supported:
 
- * `IMG_NAME` **required** (Default: unset)
+ * `IMG_NAME` **required** (Default: `'FRCVision'`)
 
    The name of the image to build with the current stage directories.  Setting
-   `IMG_NAME=Raspbian` is logical for an unmodified RPi-Distro/pi-gen build,
-   but you should use something else for a customized version.  Export files
-   in stages may add suffixes to `IMG_NAME`.
+   `IMG_NAME=FRCVision` is logical for an unmodified
+   wpilibsuite/FRCVision-pi-gen build, but you should use something else for a
+   customized version.  Export files in stages may add suffixes to `IMG_NAME`.
 
  * `APT_PROXY` (Default: unset)
 
@@ -85,14 +89,14 @@ The following environment variables are supported:
 
    If these are set, they are use to configure `wpa_supplicant.conf`, so that the raspberry pi can automatically connect to a wifi network on first boot.
 
- * `ENABLE_SSH` (Default: `0`)
+ * `ENABLE_SSH` (Default: `1`)
 
    Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you RaspberryPi.
 
-A simple example for building Raspbian:
+A simple example for building FRCVision:
 
 ```bash
-IMG_NAME='Raspbian'
+IMG_NAME='FRCVision'
 ```
 
 The config file can also be specified on the command line as an argument the `build.sh` or `build-docker.sh` scripts.
@@ -181,10 +185,10 @@ solution).
 
 ## Stage Anatomy
 
-### Raspbian Stage Overview
+### FRCVision Raspbian Stage Overview
 
-The build of Raspbian is divided up into several stages for logical clarity
-and modularity.  This causes some initial complexity, but it simplifies
+The build of FRCVision Raspbian is divided up into several stages for logical
+clarity and modularity.  This causes some initial complexity, but it simplifies
 maintenance and allows for more easy customization.
 
  - **Stage 0** - bootstrap.  The primary purpose of this stage is to create a
@@ -204,34 +208,28 @@ maintenance and allows for more easy customization.
    really usable yet in a traditional sense yet.  Still, if you want minimal,
    this is minimal and the rest you could reasonably do yourself as sysadmin.
 
- - **Stage 2** - lite system.  This stage produces the Raspbian-Lite image.  It
-   installs some optimized memory functions, sets timezone and charmap
-   defaults, installs fake-hwclock and ntp, wifi and bluetooth support,
-   dphys-swapfile, and other basics for managing the hardware.  It also
-   creates necessary groups and gives the pi user access to sudo and the
-   standard console hardware permission groups.
+ - **Stage 2** - basic system.  It installs some optimized memory functions,
+   sets timezone and charmap defaults, installs fake-hwclock and ntp, wifi and
+   bluetooth support, dphys-swapfile, and other basics for managing the
+   hardware.  It also creates necessary groups and gives the pi user access to
+   sudo and the standard console hardware permission groups.  It also does most
+   of the configuration for a read-only filesystem.
 
    There are a few tools that may not make a whole lot of sense here for
-   development purposes on a minimal system such as basic Python and Lua
+   development purposes on a minimal system such as basic Python and OpenJDK
    packages as well as the `build-essential` package.  They are lumped right
    in with more essential packages presently, though they need not be with
-   pi-gen.  These are understandable for Raspbian's target audience, but if
-   you were looking for something between truly minimal and Raspbian-Lite,
-   here's where you start trimming.
+   pi-gen.
 
- - **Stage 3** - desktop system.  Here's where you get the full desktop system
-   with X11 and LXDE, web browsers, git for development, Raspbian custom UI
-   enhancements, etc.  This is a base desktop system, with some development
-   tools installed.
+ - **Stage 3** - OpenCV and WPILib system.  Here's where you get the full
+   WPILib libraries for both Java and C++, as well as the required OpenCV
+   dependencies.  The RobotPy NetworkTables and CameraServer libraries are
+   also built and installed here.
 
- - **Stage 4** - Raspbian system meant to fit on a 4GB card.  More development
-   tools, an email client, learning tools like Scratch, specialized packages
-   like sonic-pi, system documentation, office productivity, etc.  This is the
-   stage that installs all of the things that make Raspbian friendly to new
-   users.
-
- - **Stage 5** - The official Raspbian Desktop image. Right now only adds
-   Mathematica.
+ - **Stage 4** - The official FRCVision image.  Adds multi camera builtin
+   application and services, the FRCVision web dashboard, and example vision
+   programs.  This is the stage that builds and installs all of the things that
+   make FRCVision friendly to new users.
 
 ### Stage specification
 
@@ -239,18 +237,9 @@ If you wish to build up to a specified stage (such as building up to stage 2
 for a lite system), place an empty file named `SKIP` in each of the `./stage`
 directories you wish not to include.
 
-Then add an empty file named `SKIP_IMAGES` to `./stage4` (if building up to stage 2) or
-to `./stage2` (if building a minimal system).
+Then add an empty file named `SKIP_IMAGES` to `./stage4`.
 
-```bash
-# Example for building a lite system
-echo "IMG_NAME='Raspbian'" > config
-touch ./stage3/SKIP ./stage4/SKIP ./stage5/SKIP
-touch ./stage4/SKIP_IMAGES ./stage5/SKIP_IMAGES
-sudo ./build.sh  # or ./build-docker.sh
-```
-
-If you wish to build further configurations upon (for example) the lite
+If you wish to build further configurations upon (for example) the basic
 system, you can also delete the contents of `./stage3` and `./stage4` and
 replace with your own contents in the same format.
 
@@ -261,13 +250,14 @@ If you're working on a specific stage the recommended development process is as
 follows:
 
  * Add a file called SKIP_IMAGES into the directories containing EXPORT_* files
-   (currently stage2, stage4 and stage5)
+   (currently stage4)
  * Add SKIP files to the stages you don't want to build. For example, if you're
-   basing your image on the lite image you would add these to stages 3, 4 and 5.
- * Run build.sh to build all stages
+   basing your image on the WPILib image you would add this to stage 4.
+ * Run build.sh to build all stages, or if you're using Docker, run ```env PRESERVE_CONTAINER=1 ./build-docker.sh```
  * Add SKIP files to the earlier successfully built stages
  * Modify the last stage
- * Rebuild just the last stage using ```sudo CLEAN=1 ./build.sh```
+ * Rebuild just the last stage using ```sudo CLEAN=1 ./build.sh```, or if
+   you're using Docker, using ```env CONTINUE=1 PRESERVE_CONTAINER=1 ./build-docker.sh```
  * Once you're happy with the image you can remove the SKIP_IMAGES files and
    export your image to test
 

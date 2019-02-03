@@ -95,7 +95,7 @@ export -f on_chroot
 update_issue() {
 	local GIT_HASH
 	GIT_HASH=$(git rev-parse HEAD)
-	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using pi-gen, https://github.com/RPi-Distro/pi-gen, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
+	echo -e "FRCVision ${IMG_DATE}\nGenerated using pi-gen, https://github.com/allwpilib/FRCVision-pi-gen, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }
 export -f update_issue
 
