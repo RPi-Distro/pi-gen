@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+SUB_STAGE_DIR=${PWD}
+
 # enable pi camera
 install -m 644 files/picamera.conf	"${ROOTFS_DIR}/etc/modules-load.d/"
 
@@ -88,6 +90,9 @@ DEPS_LIBS=`pkg-config --libs wpilibc | sed -e "s,${ROOTFS_DIR}/usr/local/frc/,,g
 EOF
 sed -e '/^DEPS_/d' cpp-multiCameraServer/Makefile >> cpp-multiCameraServer/Makefile.new
 mv cpp-multiCameraServer/Makefile.new cpp-multiCameraServer/Makefile
+
+# add windows make executable
+cp "${SUB_STAGE_DIR}/files/make.exe" cpp-multiCameraServer/
 
 zip -r java-multiCameraServer.zip java-multiCameraServer
 zip -r cpp-multiCameraServer.zip cpp-multiCameraServer

@@ -16,10 +16,9 @@ Building on desktop
 One time setup
 --------------
 
-Install the Raspbian compiler [1] as well as GNU make [2].
+Install the Raspbian compiler [1] and put it on your PATH.
 
 [1]: https://github.com/wpilibsuite/raspbian-toolchain/releases
-[2]: (windows) http://gnuwin32.sourceforge.net/packages/make.htm
 
 --------
 Building
