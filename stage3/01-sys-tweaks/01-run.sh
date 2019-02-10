@@ -55,6 +55,10 @@ wget -nc -nv -O robotpy-cscore.tar.gz \
 wget -nc -nv -O pybind11.tar.gz \
     https://github.com/pybind/pybind11/archive/v2.2.tar.gz
 
+# pixy2
+wget -nc -nv -O pixy2.tar.gz \
+    https://github.com/charmedlabs/pixy2/archive/2adc6caba774a3056448d0feb0c6b89855a392f4.tar.gz
+
 popd
 
 #
@@ -91,6 +95,13 @@ rm -rf pybind11
 tar xzf "${DOWNLOAD_DIR}/pybind11.tar.gz"
 mv pybind11-* pybind11
 popd
+
+# pixy2
+tar xzf "${DOWNLOAD_DIR}/pixy2.tar.gz"
+mv pixy2-* pixy2
+rm -rf pixy2/releases
+sed -i -e 's/python/python3/g;s/_pixy.so/_pixy.*.so/' pixy2/scripts/build_python_demos.sh
+sed -i -e 's/print/#print/' pixy2/src/host/libpixyusb2_examples/python_demos/setup.py
 
 popd
 
@@ -314,6 +325,21 @@ arm-raspbian9-linux-gnueabihf-g++ \
     || exit 1
 
 popd
+
+#
+# Build pixy2
+#
+on_chroot << EOF
+pushd /usr/src/pixy2/scripts
+./build_libpixyusb2.sh
+./build_python_demos.sh
+popd
+EOF
+
+install -m 644 "${EXTRACT_DIR}/pixy2/build/libpixyusb2/libpixy2.a" "${ROOTFS_DIR}/usr/local/frc/lib/"
+install -m 644 "${EXTRACT_DIR}/pixy2/build/python_demos/pixy.py" "${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/"
+install -m 755 ${EXTRACT_DIR}/pixy2/build/python_demos/_pixy.*.so "${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/"
+rm -rf "${EXTRACT_DIR}/pixy2/build"
 
 #
 # Finish up
