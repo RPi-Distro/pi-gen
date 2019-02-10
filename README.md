@@ -61,7 +61,7 @@ The following environment variables are supported:
    be built and cached.  Note, `WORK_DIR` stores a complete copy of the target
    system for each build stage, amounting to tens of gigabytes in the case of
    Raspbian.
-   
+
    **CAUTION**: If your working directory is on an NTFS partition you probably won't be able to build. Make sure this is a proper Linux filesystem.
 
  * `DEPLOY_DIR`  (Default: `"$BASE_DIR/deploy"`)
@@ -72,6 +72,10 @@ The following environment variables are supported:
 
    Setting to '1' enables the QEMU mode - creating an image that can be mounted via QEMU for an emulated
    environment. These images include "-qemu" in the image file name.
+
+ * `IMG_DATE` (Default:`"$(date +%Y-%m-%d)-"`)
+    Define a string that will be prepend on directory name and images names.  
+    Setting it to `""` or any static string. Will prevent to have to rebuild from stage0 every morning.
 
 
 A simple example for building Raspbian:
@@ -248,4 +252,3 @@ follows:
  * Rebuild just the last stage using ```sudo CLEAN=1 ./build.sh```
  * Once you're happy with the image you can remove the SKIP_IMAGES files and
    export your image to test
-

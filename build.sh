@@ -133,11 +133,11 @@ if [ -z "${IMG_NAME}" ]; then
 fi
 
 export USE_QEMU="${USE_QEMU:-0}"
-export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
+export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)-"}"
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
-export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"}"
+export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}${IMG_NAME}"}"
 export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
 export LOG_FILE="${WORK_DIR}/build.log"
 
