@@ -91,7 +91,7 @@ def readConfig():
 
     # parse file
     try:
-        with open(configFile, "rt") as f:
+        with open(configFile, "rt", encoding="utf-8") as f:
             j = json.load(f)
     except OSError as err:
         print("could not open '{}': {}".format(configFile, err), file=sys.stderr)
