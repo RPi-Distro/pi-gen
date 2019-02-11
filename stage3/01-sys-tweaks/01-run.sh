@@ -172,8 +172,8 @@ build_opencv () {
 }
 
 build_opencv build/opencv-build-debug Debug ON "" || exit 1
-build_opencv build/opencv-build RelWithDebugInfo ON "" || exit 1
-build_opencv build/opencv-static RelWithDebugInfo OFF "-static" || exit 1
+build_opencv build/opencv-build Release ON "" || exit 1
+build_opencv build/opencv-static Release OFF "-static" || exit 1
 
 # fix up java install
 cp -p ${ROOTFS_DIR}/usr/local/frc/share/OpenCV/java/libopencv_java344*.so "${ROOTFS_DIR}/usr/local/frc/lib/"
@@ -213,7 +213,7 @@ build_wpilib () {
 }
 
 build_wpilib build/allwpilib-build-debug Debug || exit 1
-build_wpilib build/allwpilib-build RelWithDebugInfo || exit 1
+build_wpilib build/allwpilib-build Release || exit 1
 
 # static (for tools)
 build_static_wpilib() {
@@ -221,7 +221,7 @@ build_static_wpilib() {
     mkdir -p $1
     pushd $1
     cmake "${EXTRACT_DIR}/allwpilib" \
-        -DCMAKE_BUILD_TYPE=RelWithDebugInfo \
+        -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_TOOLCHAIN_FILE=${SUB_STAGE_DIR}/files/arm-pi-gnueabihf.toolchain.cmake \
         -DCMAKE_MODULE_PATH=${SUB_STAGE_DIR}/files \
         -DOpenCV_DIR=${ROOTFS_DIR}/usr/local/frc/share/OpenCV \
