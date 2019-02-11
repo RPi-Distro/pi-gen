@@ -128,28 +128,10 @@ build_opencv () {
     mkdir -p $1
     pushd $1
     cmake "${EXTRACT_DIR}/opencv-3.4.4" \
-        -DWITH_CUDA=OFF \
-        -DWITH_IPP=OFF \
-        -DWITH_ITT=OFF \
-        -DWITH_OPENCL=OFF \
-        -DWITH_FFMPEG=OFF \
-        -DWITH_OPENEXR=OFF \
-        -DWITH_GSTREAMER=OFF \
-        -DWITH_LAPACK=ON \
-        -DWITH_GTK=ON \
-        -DWITH_1394=OFF \
-        -DWITH_JASPER=OFF \
-        -DWITH_TIFF=OFF \
         -DBUILD_JPEG=ON \
-        -DBUILD_PNG=ON \
-        -DBUILD_ZLIB=ON \
         -DBUILD_TESTS=OFF \
         -DPython_ADDITIONAL_VERSIONS=3.5 \
-        -DWITH_WEBP=OFF \
         -DBUILD_JAVA=$3 \
-        -DBUILD_WITH_STATIC_CRT=OFF \
-        -DWITH_PROTOBUF=OFF \
-        -DWITH_DIRECTX=OFF \
         -DENABLE_CXX11=ON \
         -DBUILD_SHARED_LIBS=$3 \
         -DCMAKE_BUILD_TYPE=$2 \
