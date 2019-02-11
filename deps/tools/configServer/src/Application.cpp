@@ -44,7 +44,7 @@ void Application::Set(wpi::StringRef appType,
   } else if (appType == "example-python") {
     appDir = "examples/python-multiCameraServer";
     appEnv = "export PYTHONUNBUFFERED=1";
-    appCommand = "./multiCameraServer.py";
+    appCommand = "/usr/bin/python3 multiCameraServer.py";
   } else if (appType == "upload-java") {
     appCommand =
         "env LD_LIBRARY_PATH=/usr/local/frc/lib java -jar uploaded.jar";
@@ -52,7 +52,7 @@ void Application::Set(wpi::StringRef appType,
     appCommand = "./uploaded";
   } else if (appType == "upload-python") {
     appEnv = "export PYTHONUNBUFFERED=1";
-    appCommand = "./uploaded.py";
+    appCommand = "/usr/bin/python3 uploaded.py";
   } else if (appType == "custom") {
     return;
   } else {
