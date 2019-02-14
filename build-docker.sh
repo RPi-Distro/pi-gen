@@ -1,11 +1,10 @@
 #!/bin/bash -e
 
-BUILD_OPTS="$@"
+BUILD_OPTS="$*"
 
 DOCKER="docker"
 set +e
-$DOCKER ps >/dev/null 2>&1
-if [ $? != 0 ]; then
+if ! $DOCKER ps >/dev/null 2>&1; then
 	DOCKER="sudo docker"
 fi
 if ! $DOCKER ps >/dev/null; then
@@ -23,7 +22,10 @@ while getopts "c:" flag
 do
 	case "$flag" in
 		c)
+			# shellcheck disable=SC1090
 			source "$OPTARG"
+			;;
+		*)
 			;;
 	esac
 done
@@ -53,7 +55,7 @@ fi
 
 $DOCKER build -t pi-gen .
 if [ "$CONTAINER_EXISTS" != "" ]; then
-	trap "echo 'got CTRL+C... please wait 5s'; $DOCKER stop -t 5 ${CONTAINER_NAME}_cont" SIGINT SIGTERM
+	trap 'echo "got CTRL+C... please wait 5s"; $DOCKER stop -t 5 ${CONTAINER_NAME}_cont' SIGINT SIGTERM
 	time $DOCKER run --rm --privileged \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		pi-gen \
@@ -62,7 +64,7 @@ if [ "$CONTAINER_EXISTS" != "" ]; then
 	rsync -av work/*/build.log deploy/" &
 	wait "$!"
 else
-	trap "echo 'got CTRL+C... please wait 5s'; $DOCKER stop -t 5 ${CONTAINER_NAME}" SIGINT SIGTERM
+	trap 'echo "got CTRL+C... please wait 5s"; $DOCKER stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
 	time $DOCKER run --name "${CONTAINER_NAME}" --privileged \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
@@ -76,7 +78,7 @@ ls -lah deploy
 
 # cleanup
 if [ "$PRESERVE_CONTAINER" != "1" ]; then
-	$DOCKER rm -v $CONTAINER_NAME
+	$DOCKER rm -v "$CONTAINER_NAME"
 fi
 
 echo "Done! Your image(s) should be in deploy/"
