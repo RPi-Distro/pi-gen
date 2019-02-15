@@ -4,21 +4,22 @@ log (){
 export -f log
 
 bootstrap(){
-	local ARCH
-	ARCH=$(dpkg --print-architecture)
+	local BOOTSTRAP_CMD=debootstrap
+	local BOOTSTRAP_ARGS=()
 
 	export http_proxy=${APT_PROXY}
 
-	if [ "$ARCH" !=  "armhf" ]; then
-		local BOOTSTRAP_CMD=qemu-debootstrap
-	else
-		local BOOTSTRAP_CMD=debootstrap
+	if [ "$(dpkg --print-architecture)" !=  "armhf" ]; then
+		BOOTSTRAP_CMD=qemu-debootstrap
 	fi
 
-	capsh --drop=cap_setfcap -- "${BOOTSTRAP_CMD}" --components=main,contrib,non-free \
-		--arch armhf \
-		--keyring "${STAGE_DIR}/files/raspberrypi.gpg" \
-		"$1" "$2" "$3" || true
+	BOOTSTRAP_ARGS+=(--arch armhf)
+	BOOTSTRAP_ARGS+=(--components "main,contrib,non-free")
+	BOOTSTRAP_ARGS+=(--keyring "${STAGE_DIR}/files/raspberrypi.gpg")
+	BOOTSTRAP_ARGS+=("$@")
+
+	capsh --drop=cap_setfcap -- "${BOOTSTRAP_CMD}" "${BOOTSTRAP_ARGS[@]}" || true
+
 	if [ -d "$2/debootstrap" ]; then
 		rmdir "$2/debootstrap"
 	fi
