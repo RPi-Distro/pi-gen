@@ -1,3 +1,4 @@
 libopenblas-dev liblapacke-dev
 libavcodec-dev libavformat-dev libswscale-dev libavresample-dev
 libgtk-3-dev
+libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
