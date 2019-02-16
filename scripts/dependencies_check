@@ -27,4 +27,13 @@ dependencies_check()
 		echo "$missing"
 		false
 	fi
+
+
+	if ! lsmod | grep binfmt_misc >/dev/null
+	then
+		echo "Module binfmt_misc not loaded in host"
+		echo "Please run:"
+		echo "  sudo modprobe binfmt_misc"
+		exit 1
+	fi
 }
