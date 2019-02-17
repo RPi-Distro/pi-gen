@@ -7,7 +7,8 @@ _Tool used to create the raspberrypi.org Raspbian images_
 
 pi-gen runs on Debian based operating systems. Currently it is only supported on
 either Debian Stretch or Ubuntu Xenial and is known to have issues building on
-earlier releases of these systems.
+earlier releases of these systems. On other Linux distributions it may be possible
+to use the Docker build described below.
 
 To install the required dependencies for pi-gen you should run:
 
@@ -158,6 +159,13 @@ It is recommended to examine build.sh for finer details.
 
 ## Docker Build
 
+Docker can be used to perform the build inside a container. This partially isolates
+the build from the host system, and allows using the script on non-debian based
+systems (e.g. Fedora Linux). The isolate is not complete due to the need to use
+some kernel level services for arm emulation (binfmt) and loop devices (losetup).
+
+To build:
+
 ```bash
 vi config         # Edit your config file. See above.
 ./build-docker.sh
@@ -171,6 +179,12 @@ continue:
 
 ```bash
 CONTINUE=1 ./build-docker.sh
+```
+
+To examine the container after a failure you can enter a shell within it using:
+
+```bash
+sudo docker run -it --privileged --volumes-from=pigen_work pi-gen /bin/bash
 ```
 
 After successful build, the build container is by default removed. This may be undesired when making incremental changes to a customized build. To prevent the build script from remove the container add
