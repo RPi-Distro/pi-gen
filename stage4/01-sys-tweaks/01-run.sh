@@ -59,11 +59,17 @@ export PKG_CONFIG_LIBDIR=${ROOTFS_DIR}/usr/lib/arm-linux-gnueabihf/pkgconfig:${R
 
 sh -c "cd ${BASE_DIR}/deps && tar cf - examples" | \
     sh -c "cd ${ROOTFS_DIR}/home/pi && tar xf -"
+for dir in ${ROOTFS_DIR}/home/pi/examples/*; do
+    cp "${BASE_DIR}/LICENSE.txt" "${dir}/"
+done
 chown -R 1000:1000 "${ROOTFS_DIR}/home/pi/examples"
 
 rm -rf "${STAGE_WORK_DIR}/examples"
 sh -c "cd ${BASE_DIR}/deps && tar cf - examples" | \
     sh -c "cd ${STAGE_WORK_DIR} && tar xf -"
+for dir in ${STAGE_WORK_DIR}/examples/*; do
+    cp "${BASE_DIR}/LICENSE.txt" "${dir}/"
+done
 
 # build zips
 pushd "${STAGE_WORK_DIR}/examples"
