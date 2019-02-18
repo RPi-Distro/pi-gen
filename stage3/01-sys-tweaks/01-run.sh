@@ -128,6 +128,7 @@ build_opencv () {
     mkdir -p $1
     pushd $1
     cmake "${EXTRACT_DIR}/opencv-3.4.4" \
+	-DWITH_FFMPEG=OFF \
         -DBUILD_JPEG=ON \
         -DBUILD_TESTS=OFF \
         -DPython_ADDITIONAL_VERSIONS=3.5 \
