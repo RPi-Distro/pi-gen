@@ -143,9 +143,12 @@ if [ -z "${IMG_NAME}" ]; then
 fi
 
 export USE_QEMU="${USE_QEMU:-0}"
+export IMG_VERSION=${IMG_VERSION:-$(git describe)}
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
-export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}"}"
-export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}"}"
+export IMG_FILENAME="${IMG_FILENAME:-"${IMG_NAME}-${IMG_VERSION}_${IMG_DATE}${IMG_SUFFIX}"}"
+export ZIP_FILENAME="${ZIP_FILENAME:-"${IMG_NAME}_image-${IMG_VERSION}_${IMG_DATE}${IMG_SUFFIX}"}"
+
+echo "IMG_VERSION=${IMG_VERSION}"
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"

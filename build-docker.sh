@@ -30,6 +30,7 @@ do
 	esac
 done
 
+IMG_VERSION=${IMG_VERSION:-$(git describe)}
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
 CONTINUE=${CONTINUE:-0}
 PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-0}
@@ -59,6 +60,7 @@ if [ "$CONTAINER_EXISTS" != "" ]; then
 	time $DOCKER run --rm --privileged \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		-e IMG_NAME="${IMG_NAME}"\
+		-e IMG_VERSION="${IMG_VERSION}"\
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh;
@@ -68,6 +70,7 @@ else
 	trap "echo 'got CTRL+C... please wait 5s'; $DOCKER stop -t 5 ${CONTAINER_NAME}" SIGINT SIGTERM
 	time $DOCKER run --name "${CONTAINER_NAME}" --privileged \
 		-e IMG_NAME="${IMG_NAME}"\
+		-e IMG_VERSION="${IMG_VERSION}"\
 		"${config_file[@]}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&

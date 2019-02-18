@@ -15,6 +15,10 @@ args = parser.parse_args()
 with open(args.inputFile, "rb") as f:
     data = f.read()
 
+version = os.getenv('IMG_VERSION')
+if version is not None and b'IMG_VERSION' in data:
+    data = data.replace(b'IMG_VERSION', version.encode('utf-8'))
+
 fileSize = len(data)
 
 inputBase = os.path.basename(args.inputFile)

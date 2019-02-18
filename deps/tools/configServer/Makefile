@@ -1,3 +1,4 @@
+IMG_VERSION?=$(shell git describe)
 DEPS_CFLAGS?=$(shell pkg-config --cflags cscore wpiutil)
 DEPS_LIBS?=$(shell pkg-config --libs --static cscore wpiutil)
 EXEC_HOME?=/home/pi
@@ -44,11 +45,11 @@ configServer: ${OBJS}
 	    $<
 
 %.html.cpp: %.html
-	./gen_resource.py $@ $<
+	env IMG_VERSION=${IMG_VERSION} ./gen_resource.py $@ $<
 
 %.css.cpp: %.css
-	./gen_resource.py $@ $<
+	env IMG_VERSION=${IMG_VERSION} ./gen_resource.py $@ $<
 
 %.js.cpp: %.js
-	./gen_resource.py $@ $<
+	env IMG_VERSION=${IMG_VERSION} ./gen_resource.py $@ $<
 
