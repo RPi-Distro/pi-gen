@@ -100,7 +100,7 @@ popd
 tar xzf "${DOWNLOAD_DIR}/pixy2.tar.gz"
 mv pixy2-* pixy2
 rm -rf pixy2/releases
-sed -i -e 's/python/python3/g;s/_pixy.so/_pixy.*.so/' pixy2/scripts/build_python_demos.sh
+sed -i -e 's/^python/python3/;s/_pixy.so/_pixy.*.so/' pixy2/scripts/build_python_demos.sh
 sed -i -e 's/print/#print/' pixy2/src/host/libpixyusb2_examples/python_demos/setup.py
 
 popd
