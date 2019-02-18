@@ -39,6 +39,14 @@ function displayStatus(message) {
   $('#status-content').html('<div id="status" class="alert alert-warning alert-dismissable fade show" role="alert"><span>' + escapeHtml(message) + '</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
 }
 
+function displaySuccess(message) {
+  $('#status-content').html('<div id="status" class="alert alert-success alert-dismissable fade show" role="alert"><span>' + escapeHtml(message) + '</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+}
+
+function dismissStatus() {
+  $('.alert').alert('close');
+}
+
 // Enable and disable buttons based on connection status
 var connectedButtonIds = ['systemRestart', 'networkApproach', 'networkAddress', 'networkMask', 'networkGateway', 'networkDNS', 'visionUp', 'visionDown', 'visionTerm', 'visionKill', 'systemReadOnly', 'systemWritable', 'visionClient', 'visionTeam', 'visionDiscard', 'addConnectedCamera', 'addCamera', 'applicationType'];
 var connectedButtonClasses = ['cameraName', 'cameraPath', 'cameraAlternatePaths', 'cameraPixelFormat', 'cameraWidth', 'cameraHeight', 'cameraFps', 'cameraBrightness', 'cameraWhiteBalance', 'cameraExposure', 'cameraProperties', 'streamWidth', 'streamHeight', 'streamFps', 'streamCompression', 'streamDefaultCompression', 'cameraRemove', 'cameraCopyConfig']
@@ -196,6 +204,7 @@ function connect() {
       case 'applicationSaveComplete':
         $('#applicationSave').button('reset');
         updateApplicationView();
+        displaySuccess('Application successfully uploaded!  See the Vision Status tab for status and console output');
         break;
       case 'systemReadOnly':
         displayReadOnly();
@@ -694,8 +703,10 @@ var applicationFiles = [];
 function updateApplicationView() {
   if ($('#applicationType').val().startsWith("upload")) {
     $('#applicationUpload').collapse('show');
+    $('#applicationSaveText').text('Upload and Save');
   } else {
     $('#applicationUpload').collapse('hide');
+    $('#applicationSaveText').text('Save');
   }
   $('#applicationFile').val(null);
   applicationFiles = [];
@@ -703,10 +714,12 @@ function updateApplicationView() {
 
 $('#applicationType').change(function() {
   updateApplicationView();
+  dismissStatus();
 });
 
 $('#applicationFile').change(function() {
   applicationFiles = this.files;
+  dismissStatus();
 });
 
 $('#applicationSave').click(function() {
