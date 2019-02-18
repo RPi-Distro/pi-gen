@@ -44,8 +44,8 @@ wget -nc -nv -O allwpilib.tar.gz \
     https://github.com/wpilibsuite/allwpilib/archive/v2019.3.2.tar.gz
 
 # pynetworktables
-wget -nc -nv -O pynetworktables.whl \
-    https://files.pythonhosted.org/packages/source/p/pynetworktables/pynetworktables-2019.0.0-py3-none-any.whl
+wget -nc -nv -O pynetworktables.tar.gz \
+    https://github.com/robotpy/pynetworktables/archive/8a4288452be26e26dccad32980f46000e8d97928.tar.gz
 
 # robotpy-cscore
 wget -nc -nv -O robotpy-cscore.tar.gz \
@@ -80,6 +80,11 @@ popd
 # allwpilib
 tar xzf "${DOWNLOAD_DIR}/allwpilib.tar.gz"
 mv allwpilib-* allwpilib
+
+# pynetworktables
+tar xzf "${DOWNLOAD_DIR}/pynetworktables.tar.gz"
+mv pynetworktables-* pynetworktables
+echo "__version__ = '2019.0.1'" > pynetworktables/ntcore/version.py
 
 # robotpy-cscore
 tar xzf "${DOWNLOAD_DIR}/robotpy-cscore.tar.gz"
@@ -270,7 +275,12 @@ popd
 
 #sh -c "cd ${EXTRACT_DIR}/pynetworktables && tar cf - networktables ntcore" | sh -c "cd ${ROOTFS_DIR}/usr/local/lib/python3.5/dist-packages/ && tar xf -"
 on_chroot << EOF
-pip3 install /usr/src/pynetworktables.whl
+pip3 install setuptools
+pushd /usr/src/pynetworktables
+python3 setup.py build
+python3 setup.py install
+python3 setup.py clean
+popd
 EOF
 
 #
