@@ -203,6 +203,11 @@ if [[ ! "$FIRST_USER_NAME" =~ ^[a-z][-a-z0-9_]*$ ]]; then
 	exit 1
 fi
 
+if [[ -n "${APT_PROXY}" ]] && ! curl --silent ${APT_PROXY} >/dev/null ; then
+	echo "Could not reach APT_PROXY server:" ${APT_PROXY}
+	exit 1
+fi
+
 dependencies_check "${BASE_DIR}/depends"
 
 mkdir -p "${WORK_DIR}"
