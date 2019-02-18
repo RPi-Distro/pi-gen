@@ -41,7 +41,7 @@ wget -nc -nv \
 
 # allwpilib
 wget -nc -nv -O allwpilib.tar.gz \
-    https://github.com/wpilibsuite/allwpilib/archive/05d6660a6be0d37064a9fab44232b8379884ccab.tar.gz
+    https://github.com/wpilibsuite/allwpilib/archive/v2019.3.2.tar.gz
 
 # pynetworktables
 wget -nc -nv -O pynetworktables.whl \
@@ -49,7 +49,7 @@ wget -nc -nv -O pynetworktables.whl \
 
 # robotpy-cscore
 wget -nc -nv -O robotpy-cscore.tar.gz \
-    https://github.com/robotpy/robotpy-cscore/archive/2590274ca4e9ef852093152be34bde4e56d027f3.tar.gz
+    https://github.com/robotpy/robotpy-cscore/archive/2019.1.0.tar.gz
 
 # pybind11 submodule of robotpy-cscore
 wget -nc -nv -O pybind11.tar.gz \
@@ -84,7 +84,7 @@ mv allwpilib-* allwpilib
 # robotpy-cscore
 tar xzf "${DOWNLOAD_DIR}/robotpy-cscore.tar.gz"
 mv robotpy-cscore-* robotpy-cscore
-echo "__version__ = '2019.0.3'" > robotpy-cscore/cscore/version.py
+echo "__version__ = '2019.1.0'" > robotpy-cscore/cscore/version.py
 pushd robotpy-cscore
 rm -rf pybind11
 tar xzf "${DOWNLOAD_DIR}/pybind11.tar.gz"
