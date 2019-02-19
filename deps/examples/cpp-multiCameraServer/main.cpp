@@ -52,6 +52,14 @@
                }
            }
        ]
+       "switched cameras": [
+           {
+               "name": <virtual camera name>
+               "key": <network table key used for selection>
+               // if NT value is a string, it's treated as a name
+               // if NT value is a double, it's treated as an integer index
+           }
+       ]
    }
  */
 
@@ -69,7 +77,14 @@ struct CameraConfig {
   wpi::json streamConfig;
 };
 
+struct SwitchedCameraConfig {
+  std::string name;
+  std::string key;
+};
+
 std::vector<CameraConfig> cameraConfigs;
+std::vector<SwitchedCameraConfig> switchedCameraConfigs;
+std::vector<cs::VideoSource> cameras;
 
 wpi::raw_ostream& ParseError() {
   return wpi::errs() << "config error in '" << configFile << "': ";
@@ -101,6 +116,30 @@ bool ReadCameraConfig(const wpi::json& config) {
   c.config = config;
 
   cameraConfigs.emplace_back(std::move(c));
+  return true;
+}
+
+bool ReadSwitchedCameraConfig(const wpi::json& config) {
+  SwitchedCameraConfig c;
+
+  // name
+  try {
+    c.name = config.at("name").get<std::string>();
+  } catch (const wpi::json::exception& e) {
+    ParseError() << "could not read switched camera name: " << e.what() << '\n';
+    return false;
+  }
+
+  // key
+  try {
+    c.key = config.at("key").get<std::string>();
+  } catch (const wpi::json::exception& e) {
+    ParseError() << "switched camera '" << c.name
+                 << "': could not read key: " << e.what() << '\n';
+    return false;
+  }
+
+  switchedCameraConfigs.emplace_back(std::move(c));
   return true;
 }
 
@@ -164,6 +203,18 @@ bool ReadConfig() {
     return false;
   }
 
+  // switched cameras (optional)
+  if (j.count("switched cameras") != 0) {
+    try {
+      for (auto&& camera : j.at("switched cameras")) {
+        if (!ReadSwitchedCameraConfig(camera)) return false;
+      }
+    } catch (const wpi::json::exception& e) {
+      ParseError() << "could not read switched cameras: " << e.what() << '\n';
+      return false;
+    }
+  }
+
   return true;
 }
 
@@ -181,6 +232,34 @@ cs::UsbCamera StartCamera(const CameraConfig& config) {
     server.SetConfigJson(config.streamConfig);
 
   return camera;
+}
+
+cs::MjpegServer StartSwitchedCamera(const SwitchedCameraConfig& config) {
+  wpi::outs() << "Starting switched camera '" << config.name << "' on "
+              << config.key << '\n';
+  auto server =
+      frc::CameraServer::GetInstance()->AddSwitchedCamera(config.name);
+
+  nt::NetworkTableInstance::GetDefault()
+      .GetEntry(config.key)
+      .AddListener(
+          [server](const auto& event) mutable {
+            if (event.value->IsDouble()) {
+              int i = event.value->GetDouble();
+              if (i >= 0 && i < cameras.size()) server.SetSource(cameras[i]);
+            } else if (event.value->IsString()) {
+              auto str = event.value->GetString();
+              for (int i = 0; i < cameraConfigs.size(); ++i) {
+                if (str == cameraConfigs[i].name) {
+                  server.SetSource(cameras[i]);
+                  break;
+                }
+              }
+            }
+          },
+          NT_NOTIFY_IMMEDIATE | NT_NOTIFY_NEW | NT_NOTIFY_UPDATE);
+
+  return server;
 }
 
 // example pipeline
@@ -211,9 +290,11 @@ int main(int argc, char* argv[]) {
   }
 
   // start cameras
-  std::vector<cs::VideoSource> cameras;
-  for (auto&& cameraConfig : cameraConfigs)
-    cameras.emplace_back(StartCamera(cameraConfig));
+  for (const auto& config : cameraConfigs)
+    cameras.emplace_back(StartCamera(config));
+
+  // start switched cameras
+  for (const auto& config : switchedCameraConfigs) StartSwitchedCamera(config);
 
   // start image processing on camera 0 if present
   if (cameras.size() >= 1) {

@@ -214,7 +214,7 @@
           <div class="tab-pane" id="vision-settings" role="tabpanel" aria-labelledby="vision-settings-tab">
             <div class="card">
               <div class="card-header">
-                <h6>Network Tables</h6>
+                <h5>Network Tables</h5>
               </div>
               <div class="card-body">
                 <form>
@@ -236,143 +236,196 @@
                 </form>
               </div>
             </div>
-            <div class="accordion" id="cameras">
-              <div class="card" style="display:none" id="cameraNEW">
-                <div class="card-header">
-                  <div class="row align-items-center">
-                    <div class="col-auto mr-auto">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#cameraBodyNEW">
-                        <h6 class="cameraTitle">Camera NEW</h6>
-                      </button>
-                      <span class="badge badge-secondary align-text-top cameraConnectionBadge">Disconnected</span>
-                    </div>
-                    <div class="col-auto">
-                      <a class="btn btn-sm btn-success cameraStream" href="" target="_blank" role="button">
-                        <span data-feather="play"></span>
-                        Open Stream
-                      </a>
-                      <button type="button" class="btn btn-sm btn-danger cameraRemove">
-                        <span data-feather="x"></span>
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="collapse" id="cameraBodyNEW" data-parent="#cameras">
-                  <div class="card-body">
-                    <form>
-                      <div class="form-row">
-                        <div class="form-group col col-4">
-                          <label for="cameraNameNEW">Name</label>
-                          <input type="text" class="form-control cameraName" id="cameraNameNEW">
+            <div class="card">
+              <div class="card-header">
+                <h5>USB Cameras</h5>
+              </div>
+              <div class="card-body">
+                <div class="accordion" id="cameras">
+                  <div class="card" style="display:none" id="cameraNEW">
+                    <div class="card-header">
+                      <div class="row align-items-center">
+                        <div class="col-auto mr-auto">
+                          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#cameraBodyNEW">
+                            <h6 class="cameraTitle">Camera NEW</h6>
+                          </button>
+                          <span class="badge badge-secondary align-text-top cameraConnectionBadge">Disconnected</span>
                         </div>
-                        <div class="form-group col">
-                          <label for="cameraPathNEW">Path</label>
-                          <div class="input-group">
-                            <input type="text" class="form-control cameraPath" id="cameraPathNEW">
-                            <div class="input-group-append">
-                              <button type="button" class="btn dropdown-toggle cameraAlternatePaths" id="cameraAlternatePathsNEW" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="true">
-                                Alternate Path
-                              </button>
-                              <div class="dropdown-menu cameraAlternatePathsList" aria-labelledby="cameraAlternatePathsNEW">
+                        <div class="col-auto">
+                          <a class="btn btn-sm btn-success cameraStream" href="" target="_blank" role="button">
+                            <span data-feather="play"></span>
+                            Open Stream
+                          </a>
+                          <button type="button" class="btn btn-sm btn-danger cameraRemove">
+                            <span data-feather="x"></span>
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="collapse" id="cameraBodyNEW" data-parent="#cameras">
+                      <div class="card-body">
+                        <form>
+                          <div class="form-row">
+                            <div class="form-group col col-4">
+                              <label for="cameraNameNEW">Name</label>
+                              <input type="text" class="form-control cameraName" id="cameraNameNEW">
+                            </div>
+                            <div class="form-group col">
+                              <label for="cameraPathNEW">Path</label>
+                              <div class="input-group">
+                                <input type="text" class="form-control cameraPath" id="cameraPathNEW">
+                                <div class="input-group-append">
+                                  <button type="button" class="btn dropdown-toggle cameraAlternatePaths" id="cameraAlternatePathsNEW" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="true">
+                                    Alternate Path
+                                  </button>
+                                  <div class="dropdown-menu cameraAlternatePathsList" aria-labelledby="cameraAlternatePathsNEW">
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
+                          <div class="card">
+                            <div class="card-header">
+                              Camera Settings
+                            </div>
+                            <div class="card-body">
+                              <div class="form-group">
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input cameraSettingsFile" accept=".json,text/json,application/json" id="cameraSettingsFileNEW">
+                                  <label class="custom-file-label" for="cameraSettingsFileNEW">Load Source Config From JSON File</label>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <button class="btn btn-sm cameraCopyConfig" type="button">
+                                  <span data-feather="copy"></span>
+                                  Copy Source Config From Camera
+                                </button>
+                              </div>
+                              <div class="form-row">
+                                <div class="form-group col-auto">
+                                  <label for="cameraPixelFormatNEW">Pixel Format</label>
+                                  <select class="form-control cameraPixelFormat" id="cameraPixelFormatNEW">
+                                    <option value="mjpeg">MJPEG</option>
+                                    <option value="yuyv">YUYV</option>
+                                    <option value="rgb565">RGB565</option>
+                                    <option value="bgr">BGR</option>
+                                    <option value="gray">Gray</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col-auto">
+                                  <label for="cameraWidthNEW">Width</label>
+                                  <input type="number" class="form-control cameraWidth" id="cameraWidthNEW" size="5">
+                                </div>
+                                <div class="form-group col-auto">
+                                  <label for="cameraHeightNEW">Height</label>
+                                  <input type="number" class="form-control cameraHeight" id="cameraHeightNEW" size="5">
+                                </div>
+                                <div class="form-group col-auto">
+                                  <label for="cameraFpsNEW">FPS</label>
+                                  <input type="number" class="form-control cameraFps" id="cameraFpsNEW" size="4">
+                                </div>
+                              </div>
+                              <div class="form-row">
+                                <div class="form-group col-auto">
+                                  <label for="cameraBrightnessNEW">Brightness</label>
+                                  <input type="text" class="form-control cameraBrightness" id="cameraBrightnessNEW" size="4">
+                                </div>
+                                <div class="form-group col-auto">
+                                  <label for="cameraWhiteBalanceNEW">White Balance</label>
+                                  <input type="text" class="form-control cameraWhiteBalance" id="cameraWhiteBalanceNEW" size="4">
+                                </div>
+                                <div class="form-group col-auto">
+                                  <label for="cameraExposureNEW">Exposure</label>
+                                  <input type="text" class="form-control cameraExposure" id="cameraExposureNEW" size="4">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label for="cameraPropertiesNEW">Custom Properties JSON</label>
+                                <textarea class="form-control cameraProperties" id="cameraPropertiesNEW" rows="3"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card">
+                            <div class="card-header">
+                              Video Stream Defaults
+                            </div>
+                            <div class="card-body">
+                              <div class="form-row">
+                                <div class="form-group col-auto">
+                                  <label for="streamWidthNEW">Width</label>
+                                  <input type="number" class="form-control streamWidth" id="streamWidthNEW" size="5">
+                                </div>
+                                <div class="form-group col-auto">
+                                  <label for="streamHeightNEW">Height</label>
+                                  <input type="number" class="form-control streamHeight" id="streamHeightNEW" size="5">
+                                </div>
+                                <div class="form-group col-auto">
+                                  <label for="streamFpsNEW">FPS</label>
+                                  <input type="number" class="form-control streamFps" id="streamFpsNEW" size="4">
+                                </div>
+                              </div>
+                              <div class="form-row">
+                                <div class="form-group col-auto">
+                                  <label for="streamCompressionNEW">Compression</label>
+                                  <input type="number" class="form-control streamCompression" id="streamWidthNEW" size="5">
+                                </div>
+                                <div class="form-group col-auto">
+                                  <label for="streamDefaultCompressionNEW">Default Compression</label>
+                                  <input type="number" class="form-control streamDefaultCompression" id="streamDefaultCompressionNEW" size="4">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h5>Switched Cameras</h5>
+              </div>
+              <div class="card-body">
+                <div class="accordion" id="switchedCameras">
+                  <div class="card" style="display:none" id="switchedCameraNEW">
+                    <div class="card-header">
+                      <div class="row align-items-center">
+                        <div class="col-auto mr-auto">
+                          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#switchedCameraBodyNEW">
+                            <h6 class="cameraTitle">Switched Camera NEW</h6>
+                          </button>
+                        </div>
+                        <div class="col-auto">
+                          <a class="btn btn-sm btn-success cameraStream" href="" target="_blank" role="button">
+                            <span data-feather="play"></span>
+                            Open Stream
+                          </a>
+                          <button type="button" class="btn btn-sm btn-danger cameraRemove">
+                            <span data-feather="x"></span>
+                            Remove
+                          </button>
                         </div>
                       </div>
-                      <div class="card">
-                        <div class="card-header">
-                          Camera Settings
-                        </div>
-                        <div class="card-body">
-                          <div class="form-group">
-                            <div class="custom-file">
-                              <input type="file" class="custom-file-input cameraSettingsFile" accept=".json,text/json,application/json" id="cameraSettingsFileNEW">
-                              <label class="custom-file-label" for="cameraSettingsFileNEW">Load Source Config From JSON File</label>
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <button class="btn btn-sm cameraCopyConfig" type="button">
-                              <span data-feather="copy"></span>
-                              Copy Source Config From Camera
-                            </button>
-                          </div>
+                    </div>
+                    <div class="collapse" id="switchedCameraBodyNEW" data-parent="#switchedCameras">
+                      <div class="card-body">
+                        <form>
                           <div class="form-row">
-                            <div class="form-group col-auto">
-                              <label for="cameraPixelFormatNEW">Pixel Format</label>
-                              <select class="form-control cameraPixelFormat" id="cameraPixelFormatNEW">
-                                <option value="mjpeg">MJPEG</option>
-                                <option value="yuyv">YUYV</option>
-                                <option value="rgb565">RGB565</option>
-                                <option value="bgr">BGR</option>
-                                <option value="gray">Gray</option>
-                              </select>
+                            <div class="form-group col col-4">
+                              <label for="switchedCameraNameNEW">Name</label>
+                              <input type="text" class="form-control cameraName" id="switchedCameraNameNEW">
                             </div>
-                            <div class="form-group col-auto">
-                              <label for="cameraWidthNEW">Width</label>
-                              <input type="number" class="form-control cameraWidth" id="cameraWidthNEW" size="5">
-                            </div>
-                            <div class="form-group col-auto">
-                              <label for="cameraHeightNEW">Height</label>
-                              <input type="number" class="form-control cameraHeight" id="cameraHeightNEW" size="5">
-                            </div>
-                            <div class="form-group col-auto">
-                              <label for="cameraFpsNEW">FPS</label>
-                              <input type="number" class="form-control cameraFps" id="cameraFpsNEW" size="4">
+                            <div class="form-group col">
+                              <label for="switchedCameraKeyNEW">NetworkTable Key</label>
+                              <input type="text" class="form-control cameraKey" id="switchedCameraKeyNEW">
                             </div>
                           </div>
-                          <div class="form-row">
-                            <div class="form-group col-auto">
-                              <label for="cameraBrightnessNEW">Brightness</label>
-                              <input type="text" class="form-control cameraBrightness" id="cameraBrightnessNEW" size="4">
-                            </div>
-                            <div class="form-group col-auto">
-                              <label for="cameraWhiteBalanceNEW">White Balance</label>
-                              <input type="text" class="form-control cameraWhiteBalance" id="cameraWhiteBalanceNEW" size="4">
-                            </div>
-                            <div class="form-group col-auto">
-                              <label for="cameraExposureNEW">Exposure</label>
-                              <input type="text" class="form-control cameraExposure" id="cameraExposureNEW" size="4">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label for="cameraPropertiesNEW">Custom Properties JSON</label>
-                            <textarea class="form-control cameraProperties" id="cameraPropertiesNEW" rows="3"></textarea>
-                          </div>
-                        </div>
+                        </form>
                       </div>
-                      <div class="card">
-                        <div class="card-header">
-                          Video Stream Defaults
-                        </div>
-                        <div class="card-body">
-                          <div class="form-row">
-                            <div class="form-group col-auto">
-                              <label for="streamWidthNEW">Width</label>
-                              <input type="number" class="form-control streamWidth" id="streamWidthNEW" size="5">
-                            </div>
-                            <div class="form-group col-auto">
-                              <label for="streamHeightNEW">Height</label>
-                              <input type="number" class="form-control streamHeight" id="streamHeightNEW" size="5">
-                            </div>
-                            <div class="form-group col-auto">
-                              <label for="streamFpsNEW">FPS</label>
-                              <input type="number" class="form-control streamFps" id="streamFpsNEW" size="4">
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-auto">
-                              <label for="streamCompressionNEW">Compression</label>
-                              <input type="number" class="form-control streamCompression" id="streamWidthNEW" size="5">
-                            </div>
-                            <div class="form-group col-auto">
-                              <label for="streamDefaultCompressionNEW">Default Compression</label>
-                              <input type="number" class="form-control streamDefaultCompression" id="streamDefaultCompressionNEW" size="4">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -400,10 +453,20 @@
                   </div>
                 </div>
                 <div class="col-auto">
-                  <button type="button" class="btn btn-success" id="addCamera">
-                    <span data-feather="plus"></span>
-                    Add Other Camera
-                  </button>
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-success dropdown-toggle" id="addCamera" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span data-feather="plus"></span>
+                      Add Other Camera
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="addCamera" id="addCameraList">
+                      <button type="button" class="dropdown-item" id="addUsbCamera">
+                        USB Camera
+                      </button>
+                      <button type="button" class="dropdown-item" id="addSwitchedCamera">
+                        Switched Camera
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

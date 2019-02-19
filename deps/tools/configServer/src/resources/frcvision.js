@@ -49,7 +49,7 @@ function dismissStatus() {
 
 // Enable and disable buttons based on connection status
 var connectedButtonIds = ['systemRestart', 'networkApproach', 'networkAddress', 'networkMask', 'networkGateway', 'networkDNS', 'visionUp', 'visionDown', 'visionTerm', 'visionKill', 'systemReadOnly', 'systemWritable', 'visionClient', 'visionTeam', 'visionDiscard', 'addConnectedCamera', 'addCamera', 'applicationType'];
-var connectedButtonClasses = ['cameraName', 'cameraPath', 'cameraAlternatePaths', 'cameraPixelFormat', 'cameraWidth', 'cameraHeight', 'cameraFps', 'cameraBrightness', 'cameraWhiteBalance', 'cameraExposure', 'cameraProperties', 'streamWidth', 'streamHeight', 'streamFps', 'streamCompression', 'streamDefaultCompression', 'cameraRemove', 'cameraCopyConfig']
+var connectedButtonClasses = ['cameraName', 'cameraPath', 'cameraAlternatePaths', 'cameraPixelFormat', 'cameraWidth', 'cameraHeight', 'cameraFps', 'cameraBrightness', 'cameraWhiteBalance', 'cameraExposure', 'cameraProperties', 'streamWidth', 'streamHeight', 'streamFps', 'streamCompression', 'streamDefaultCompression', 'cameraRemove', 'cameraCopyConfig', 'cameraKey']
 var writableButtonIds = ['networkSave', 'visionSave', 'applicationSave'];
 var systemStatusIds = ['systemMemoryFree1s', 'systemMemoryFree5s',
                        'systemMemoryAvail1s', 'systemMemoryAvail5s',
@@ -121,8 +121,8 @@ $('#systemWritable').click(function() {
 });
 
 // Vision settings
-var visionSettingsServer = {};
-var visionSettingsDisplay = {'cameras': []};
+var visionSettingsServer = {'cameras': [], 'switched cameras': []};
+var visionSettingsDisplay = {'cameras': [], 'switched cameras': []};
 var cameraList = [];
 
 function pushVisionLogEnabled() {
@@ -194,7 +194,7 @@ function connect() {
         break;
       case 'visionSettings':
         visionSettingsServer = msg.settings;
-        visionSettingsDisplay = $.extend(true, {}, visionSettingsServer);
+        visionSettingsDisplay = $.extend(true, {'cameras': [], 'switched cameras': []}, visionSettingsServer);
         updateVisionSettingsView();
         break;
       case 'applicationSettings':
@@ -507,6 +507,45 @@ function appendNewVisionCameraView(value, i) {
   $('#cameras').append(camera);
 }
 
+function updateVisionSwitchedCameraView(camera, value) {
+  if ('name' in value) {
+    camera.find('.cameraTitle').text('Switched Camera ' + value.name);
+    camera.find('.cameraName').val(value.name);
+  }
+  if ('key' in value) {
+    camera.find('.cameraKey').val(value.key);
+  }
+}
+
+function appendNewVisionSwitchedCameraView(value, i) {
+  var camera = $('#switchedCameraNEW').clone();
+  camera.attr('id', 'switchedCamera' + i);
+  camera.addClass('cameraSetting');
+  camera.removeAttr('style');
+
+  updateVisionSwitchedCameraView(camera, value);
+  camera.find('.cameraStream').attr('href', 'http://' + window.location.hostname + ':' + (1181 + visionSettingsDisplay.cameras.length + i) + '/');
+  camera.find('.cameraRemove').click(function() {
+    visionSettingsDisplay['switched cameras'].splice(i, 1);
+    camera.remove();
+  });
+
+  camera.find('[id]').each(function() {
+    $(this).attr('id', $(this).attr('id').replace('NEW', i));
+  });
+  camera.find('[for]').each(function() {
+    $(this).attr('for', $(this).attr('for').replace('NEW', i));
+  });
+  camera.find('[data-target]').each(function() {
+    $(this).attr('data-target', $(this).attr('data-target').replace('NEW', i));
+  });
+  camera.find('[aria-labelledby]').each(function() {
+    $(this).attr('aria-labelledby', $(this).attr('aria-labelledby').replace('NEW', i));
+  });
+
+  $('#switchedCameras').append(camera);
+}
+
 function updateVisionSettingsView() {
   var isClient = !visionSettingsDisplay.ntmode || visionSettingsDisplay.ntmode === 'client';
   $('#visionClient').prop('checked', isClient);
@@ -520,6 +559,9 @@ function updateVisionSettingsView() {
   $('.cameraSetting').remove();
   visionSettingsDisplay.cameras.forEach(function (value, i) {
     appendNewVisionCameraView(value, i);
+  });
+  visionSettingsDisplay['switched cameras'].forEach(function (value, i) {
+    appendNewVisionSwitchedCameraView(value, i);
   });
   updateCameraListView();
   feather.replace();
@@ -610,6 +652,11 @@ $('#visionSave').click(function() {
       value.stream.properties.push({'name': 'default_compression', 'value': streamDefaultCompression});
     }
   });
+  visionSettingsDisplay['switched cameras'].forEach(function (value, i) {
+    var camera = $('#switchedCamera' + i);
+    value.name = camera.find('.cameraName').val();
+    value.key = camera.find('.cameraKey').val();
+  });
   var msg = {
     type: 'visionSave',
     settings: visionSettingsDisplay
@@ -622,11 +669,19 @@ $('#visionDiscard').click(function() {
   updateVisionSettingsView();
 });
 
-$('#addCamera').click(function() {
+$('#addUsbCamera').click(function() {
   var i = visionSettingsDisplay.cameras.length;
   visionSettingsDisplay.cameras.push({});
   appendNewVisionCameraView({}, i);
   updateCameraListView();
+  $('#cameraBody' + i).collapse('show');
+});
+
+$('#addSwitchedCamera').click(function() {
+  var i = visionSettingsDisplay['switched cameras'].length;
+  visionSettingsDisplay['switched cameras'].push({});
+  appendNewVisionSwitchedCameraView({}, i);
+  $('#switchedCameraBody' + i).collapse('show');
 });
 
 function updateCameraListView() {
@@ -694,6 +749,7 @@ function updateCameraListView() {
     visionSettingsDisplay.cameras.push(camera);
     appendNewVisionCameraView(camera, i);
     updateCameraListView();
+    $('#cameraBody' + i).collapse('show');
   });
 }
 

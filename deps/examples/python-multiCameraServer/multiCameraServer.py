@@ -12,6 +12,7 @@ import sys
 
 from cscore import CameraServer, VideoSource, UsbCamera, MjpegServer
 from networktables import NetworkTablesInstance
+import ntcore
 
 #   JSON format:
 #   {
@@ -44,6 +45,14 @@ from networktables import NetworkTablesInstance
 #               }
 #           }
 #       ]
+#       "switched cameras": [
+#           {
+#               "name": <virtual camera name>
+#               "key": <network table key used for selection>
+#               // if NT value is a string, it's treated as a name
+#               // if NT value is a double, it's treated as an integer index
+#           }
+#       ]
 #   }
 
 configFile = "/boot/frc.json"
@@ -53,6 +62,8 @@ class CameraConfig: pass
 team = None
 server = False
 cameraConfigs = []
+switchedCameraConfigs = []
+cameras = []
 
 def parseError(str):
     """Report parse error."""
@@ -82,6 +93,27 @@ def readCameraConfig(config):
     cam.config = config
 
     cameraConfigs.append(cam)
+    return True
+
+def readSwitchedCameraConfig(config):
+    """Read single switched camera configuration."""
+    cam = CameraConfig()
+
+    # name
+    try:
+        cam.name = config["name"]
+    except KeyError:
+        parseError("could not read switched camera name")
+        return False
+
+    # path
+    try:
+        cam.key = config["key"]
+    except KeyError:
+        parseError("switched camera '{}': could not read key".format(cam.name))
+        return False
+
+    switchedCameraConfigs.append(cam)
     return True
 
 def readConfig():
@@ -129,6 +161,12 @@ def readConfig():
         if not readCameraConfig(camera):
             return False
 
+    # switched cameras
+    if "switched cameras" in j:
+        for camera in j["switched cameras"]:
+            if not readSwitchedCameraConfig(camera):
+                return False
+
     return True
 
 def startCamera(config):
@@ -145,6 +183,30 @@ def startCamera(config):
         server.setConfigJson(json.dumps(config.streamConfig))
 
     return camera
+
+def startSwitchedCamera(config):
+    """Start running the switched camera."""
+    print("Starting switched camera '{}' on {}".format(config.name, config.key))
+    server = CameraServer.getInstance().addSwitchedCamera(config.name)
+
+    def listener(fromobj, key, value, isNew):
+        if isinstance(value, float):
+            i = int(value)
+            if i >= 0 and i < len(cameras):
+              server.setSource(cameras[i])
+        elif isinstance(value, str):
+            for i in range(len(cameraConfigs)):
+                if value == cameraConfigs[i].name:
+                    server.setSource(cameras[i])
+                    break
+
+    NetworkTablesInstance.getDefault().getEntry(config.key).addListener(
+        listener,
+        ntcore.constants.NT_NOTIFY_IMMEDIATE |
+        ntcore.constants.NT_NOTIFY_NEW |
+        ntcore.constants.NT_NOTIFY_UPDATE)
+
+    return server
 
 if __name__ == "__main__":
     if len(sys.argv) >= 2:
@@ -164,9 +226,12 @@ if __name__ == "__main__":
         ntinst.startClientTeam(team)
 
     # start cameras
-    cameras = []
-    for cameraConfig in cameraConfigs:
-        cameras.append(startCamera(cameraConfig))
+    for config in cameraConfigs:
+        cameras.append(startCamera(config))
+
+    # start switched cameras
+    for config in switchedCameraConfigs:
+        startSwitchedCamera(config)
 
     # loop forever
     while True:
