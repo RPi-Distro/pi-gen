@@ -1,7 +1,23 @@
 # pi-gen
 
-Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
+_Tool used to create the balenafin Raspbian images_
 
+![balenaFin](https://raw.githubusercontent.com/balena-os/pi-gen/balenafin-master/balenafin-raspbian.png "balenaFin")
+
+This repository is a fork of [pi-gen](https://github.com/RPi-Distro/pi-gen) which is used to generate _raspberrypi.org_ `Raspbian` image. This fork adds support for [balenaFin](https://www.balena.io/fin/) board by hooking into the build process and injecting and configuring the required components.
+
+All these mentioned changes are implemented as a step in stage 1 (see below for more info) for more info): `04-balenafin`.
+
+## TL;DR
+
+The recommended way to build is using a docker container. This has the advantage that we can minimise the host dependencies. Before doing this make sure the host has `binfmt-support` correctly configured so an ARM container can run on a X86 host.
+
+```bash
+echo "IMG_NAME=Raspbian" > config
+./build-docker.sh
+```
+
+On a successful build the artefacts will be available in the `deploy` subdirectory copied from the docker container.
 
 ## Dependencies
 
@@ -334,7 +350,7 @@ follows:
  * Add SKIP files to the stages you don't want to build. For example, if you're
    basing your image on the lite image you would add these to stages 3, 4 and 5.
  * Run build.sh to build all stages
- * Add SKIP files to the earlier successfully built stages
+		 * Add SKIP files to the earlier successfully built stages
  * Modify the last stage
  * Rebuild just the last stage using ```sudo CLEAN=1 ./build.sh```
  * Once you're happy with the image you can remove the SKIP_IMAGES files and
