@@ -29,8 +29,7 @@ dependencies_check()
 	fi
 
 
-	if ! lsmod | grep binfmt_misc >/dev/null
-	then
+	if ! grep -q "/proc/sys/fs/binfmt_misc" /proc/mounts; then
 		echo "Module binfmt_misc not loaded in host"
 		echo "Please run:"
 		echo "  sudo modprobe binfmt_misc"
