@@ -1,5 +1,20 @@
 UNRELEASED:
-  *
+  * Chromium browser updated to version 72
+  * VLC media player updated to version 3.0.6
+  * RealVNC Server updated to version 6.4.0
+  * Flash player updated to version 32.0.0.156
+  * Performance improvements to SDL library
+  * Performance improvements to pixman library
+  * Option to set display underscan added to startup wizard
+  * Mounted external drives now displayed on desktop by default
+  * Network plugin modified for improved compatibility with wpa_passphrase
+  * SD Card Copier tweaks to reduce copy failures
+  * Various minor bug fixes and appearance tweaks
+  * Added ethtool
+  * Added rng-tools
+  * Add PINN restore support
+  * Linux kernel 4.14.98
+  * Raspberry Pi firmware f8939644f7bd3065068787f1f92b3f3c79cf3de9
 2018-11-13:
   * Two versions of image created - "base" image has no optional software packages included; "full" image has all optional packages
     - Removed from "base" image - LibreOffice, Thonny, Scratch, Scratch 2, Sonic Pi, Minecraft, Python Games, SmartSim, SenseHAT Emulator
