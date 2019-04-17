@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2019-04-08:
   * Chromium browser updated to version 72
   * VLC media player updated to version 3.0.6
   * RealVNC Server updated to version 6.4.0
