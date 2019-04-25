@@ -15,6 +15,7 @@ fi
 set -e
 
 if [ -f config ]; then
+	# shellcheck disable=SC1091
 	source config
 fi
 
