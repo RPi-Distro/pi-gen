@@ -50,17 +50,19 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 
 
 {
-	firmware=$(zgrep "firmware as of" \
-		"$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" | \
-		head -n1 | sed  -n 's|.* \([^ ]*\)$|\1|p')
-	printf "\nFirmware: https://github.com/raspberrypi/firmware/tree/%s\n" "$firmware"
+	if [ -f "$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" ]; then
+		firmware=$(zgrep "firmware as of" \
+			"$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" | \
+			head -n1 | sed  -n 's|.* \([^ ]*\)$|\1|p')
+		printf "\nFirmware: https://github.com/raspberrypi/firmware/tree/%s\n" "$firmware"
 
-	kernel="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/git_hash")"
-	printf "Kernel: https://github.com/raspberrypi/linux/tree/%s\n" "$kernel"
+		kernel="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/git_hash")"
+		printf "Kernel: https://github.com/raspberrypi/linux/tree/%s\n" "$kernel"
 
-	uname="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/uname_string7")"
+		uname="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/uname_string7")"
+		printf "Uname string: %s\n" "$uname"
+	fi
 
-	printf "Uname string: %s\n" "$uname"
 	printf "\nPackages:\n"
 	dpkg -l --root "$ROOTFS_DIR"
 } >> "$INFO_FILE"
