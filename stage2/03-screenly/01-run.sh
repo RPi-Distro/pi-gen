@@ -32,10 +32,9 @@ on_chroot << EOF
   HOME=/home/pi python /home/pi/screenly/server.py &
 
   # Wait for server to start
-  /tmp/wait-for-it.sh \
-    --host=127.0.0.1 \
-    --port=8080
+  /tmp/wait-for-it.sh --host=127.0.0.1 --port=8080
 
+  # Adds default assets
   /home/pi/screenly/bin/prepare_device_for_imaging.sh
 
   pkill -f server.py
