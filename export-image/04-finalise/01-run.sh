@@ -49,6 +49,8 @@ find "${ROOTFS_DIR}/var/log/" -type f -exec cp /dev/null {} \;
 rm -f "${ROOTFS_DIR}/root/.vnc/private.key"
 rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
 
+rm -f "${ROOTFS_DIR}/etc/network/interfaces.dpkg-old"
+
 update_issue "$(basename "${EXPORT_DIR}")"
 install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/issue.txt"
 
