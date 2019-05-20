@@ -56,3 +56,5 @@
 dtparam=audio=on
 
 max_usb_current=1
+dtoverlay=i2s-mmap
+dtoverlay=hifiberry-dac
