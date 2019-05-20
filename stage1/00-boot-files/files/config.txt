@@ -63,3 +63,7 @@ max_framebuffers=2
 
 [all]
 #dtoverlay=vc4-fkms-v3d
+
+max_usb_current=1
+dtoverlay=i2s-mmap
+dtoverlay=hifiberry-dac
