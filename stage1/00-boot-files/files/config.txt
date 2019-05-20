@@ -54,3 +54,5 @@
 
 # Enable audio (loads snd_bcm2835)
 dtparam=audio=on
+
+max_usb_current=1
