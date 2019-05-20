@@ -53,7 +53,7 @@
 # Additional overlays and parameters are documented /boot/overlays/README
 
 # Enable audio (loads snd_bcm2835)
-dtparam=audio=on
+# dtparam=audio=on
 
 max_usb_current=1
 dtoverlay=i2s-mmap
