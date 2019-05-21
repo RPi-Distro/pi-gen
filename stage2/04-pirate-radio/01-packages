@@ -1,1 +1,7 @@
 raspi-gpio
+python-rpi.gpio
+python3-rpi.gpio
+wiringpi
+python-phatbeat
+python3-phatbeat
+pulseaudio
