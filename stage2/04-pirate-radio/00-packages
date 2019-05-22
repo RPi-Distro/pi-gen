@@ -10,3 +10,4 @@ automake
 libtool
 libasound2-dev
 libfftw3-dev
+vlc-nox
