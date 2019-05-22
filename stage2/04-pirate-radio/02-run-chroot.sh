@@ -9,3 +9,4 @@ autoconf && automake --add-missing
 make install
 systemctl daemon-reload
 systemctl enable vlcd
+systemctl enable phatbeatd
