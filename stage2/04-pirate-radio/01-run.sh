@@ -6,3 +6,7 @@ install -v -m 644 files/default.pa		"${ROOTFS_DIR}/etc/pulse/"
 
 cp -rf	 files/pivumeter			"${ROOTFS_DIR}/root/"
 install -v -m 644 files/pivumeter/dependencies/etc/asound.conf	"${ROOTFS_DIR}/etc/"
+install -v -m 755 files/vlcd			"${ROOTFS_DIR}/etc/init.d/"
+install -v -m 755 files/bin/vlcd		"${ROOTFS_DIR}/usr/bin/"
+mkdir "${ROOTFS_DIR}/etc/vlcd"
+install -v -m 644 files/default.m3u		"${ROOTFS_DIR}/etc/vlcd/"

@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+sudo mkdir -p /var/run/vlcd
+
+if [ -n $(cat /etc/passwd | grep -w "pi:") ]; then
+    sudo chown pi:pi /var/run/vlcd
+    if [ -f /boot/playlist.m3u ]; then
+        mkdir -p /home/pi/.config/vlc
+        sudo mv -f /boot/playlist.m3u /home/pi/.config/vlc/
+        sudo chmod -R pi:pi /home/pi/.config/vlc/
+    fi
+    if [ -f /home/pi/.config/vlc/playlist.m3u ]; then
+        playlist="/home/pi/.config/vlc/playlist.m3u"
+    else
+        playlist="/etc/vlcd/default.m3u"
+    fi
+else
+    playlist="/etc/vlcd/default.m3u"
+fi
+
+volpref=$(grep "^alsa-gain" ~/.config/vlc/vlcrc)
+
+if [ -z $volpref ]; then
+    volpref="alsa-gain 0.065"
+fi
+
+/usr/bin/vlc \
+--verbose 1 \
+--file-logging \
+--logfile /var/run/vlcd/vlcd.log \
+--$volpref \
+--audio-filter compressor,volnorm \
+--norm-buff-size 10 \
+--norm-max-level 80.0 \
+--norm-max-level -3 \
+--compressor-attack 50.0 \
+--compressor-release 200.0 \
+--compressor-ratio 20.0 \
+--compressor-threshold 0.0 \
+--compressor-rms-peak 0.0 \
+--compressor-knee 1.0 \
+--compressor-makeup-gain 0.0 \
+--intf dummy \
+--extraintf rc:http \
+--rc-host 0.0.0.0:9294 --rc-fake-tty \
+--http-host 0.0.0.0 --http-port 8080 --http-password raspberry \
+--no-quiet \
+--daemon \
+--pidfile /var/run/vlcd/vlcd.pid \
+$playlist
+
