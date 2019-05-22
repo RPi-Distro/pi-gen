@@ -5,3 +5,8 @@ wiringpi
 python-phatbeat
 python3-phatbeat
 pulseaudio
+autoconf
+automake
+libtool
+libasound2-dev
+libfftw3-dev
