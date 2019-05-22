@@ -1,0 +1,13 @@
+# set the image name
+IMG_NAME="Piradio"
+
+# set to 1 to zip the image
+DEPLOY_ZIP="0"
+
+# set to 1 to enable SSH
+ENABLE_SSH="0"
+
+# wifi settings
+WPA_ESSID="your wifi name goes here"
+WPA_PASSWORD="your wifi password goes here"
+WPA_COUNTRY="your country goes here (eg: US, GB, DE, FR, ES...)"
