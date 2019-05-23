@@ -9,6 +9,10 @@ install -v -m 644 files/pivumeter/dependencies/etc/asound.conf	"${ROOTFS_DIR}/et
 install -v -m 755 files/vlcd			"${ROOTFS_DIR}/etc/init.d/"
 install -v -m 755 files/bin/vlcd		"${ROOTFS_DIR}/usr/bin/"
 mkdir "${ROOTFS_DIR}/etc/vlcd"
-install -v -m 644 files/default.m3u		"${ROOTFS_DIR}/etc/vlcd/"
+if [ -f ../../my-playlist.m3u ]; then
+	install -v -m 644 ../../my-playlist.m3u	"${ROOTFS_DIR}/etc/vlcd/default.m3u"
+else
+	install -v -m 644 files/default.m3u		"${ROOTFS_DIR}/etc/vlcd/"
+fi
 install -v -m 755 files/phatbeatd		"${ROOTFS_DIR}/etc/init.d/"
 install -v -m 755 files/bin/phatbeatd		"${ROOTFS_DIR}/usr/bin/"
