@@ -17,7 +17,8 @@ The image is built with the official RaspberryPi.org tool (https://github.com/RP
 Nothing has been changed or otherwise improved from the original scripts, so the image you get here is the same as if you would install it the official way.
 
 ## how to create the image
-- First clone this repository with `git clone --recursive git@github.com:pirateradiohack/PiRadio.git`.
+- First clone this repository with `git clone --recursive git@github.com:pirateradiohack/PiRadio.git`.  
+(Please note the `--recursive` here is important to get all the code, there is a submodule present)
 - Configure your radio stations: Pimoroni maintains a set of default internet radio streams. You can see them in the file `example.m3u`. This file will be installed if nothing else is supplied. If you create a file called `my-playlist.m3u` with your own list of internet radio streams, this file will be used instead.
 - Configure your wifi settings: copy the file called `config.example` to `config` and edit this last one. You will see where to enter your wifi name, password and country. All 3 settings are necessary.
 - Then build the image. (You can see the whole guide on the official RaspberryPi repo: https://github.com/RPi-Distro/pi-gen). I find it easier to use docker as there is nothing else to install, just run one command from this directory: `./build-docker.sh`. That's it. On my computer it takes between 15 and 30 minutes. And at the end you should see something like: `Done! Your image(s) should be in deploy/`  
