@@ -69,5 +69,8 @@ I personally find it more convenient when it comes to embedded devices to just b
 Also, the provided software in the examples works fine, but comes in a format that I find hard to tinker with.
 I tried to use an approach based on provisionning an image instead in order to make it a good ground for hacking.
 
+The first version of this project used the official scripts from Pimoroni. If you want that, you can find it here: https://github.com/pirateradiohack/PiRadio/tree/2019-05-25-PiRadio
+
+
 Issues and pull requests are welcome.
 
