@@ -2,6 +2,7 @@ UNRELEASED:
   * Epiphany/Web removed
   * ntfs-3g included
   * Scratch 3 added to full image
+  * pciutils added
 2019-07-10:
   * Clearer options for switching of Pi 4 video output in Raspberry Pi Configuration
   * Option added to Appearance Settings to move taskbar to second monitor
