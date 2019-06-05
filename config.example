@@ -4,6 +4,10 @@ IMG_NAME="Piradio"
 # set to 1 to zip the image
 DEPLOY_ZIP="0"
 
+# system user
+FIRST_USER_NAME="radio"
+FIRST_USER_PASS="radio"
+
 # set to 1 to enable SSH
 ENABLE_SSH="0"
 
