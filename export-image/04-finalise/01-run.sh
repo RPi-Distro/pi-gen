@@ -43,8 +43,6 @@ rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
 
 update_issue "$(basename "${EXPORT_DIR}")"
 install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/issue.txt"
-install files/LICENSE.oracle "${ROOTFS_DIR}/boot/"
-
 
 cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 
