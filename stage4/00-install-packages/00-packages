@@ -10,7 +10,7 @@ python3-numpy
 pypy
 alacarte rc-gui sense-hat
 tree
-libgl1-mesa-dri libgles1-mesa libgles2-mesa xcompmgr
+libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
 geany
 piclone
 wiringpi pigpio python-pigpio python3-pigpio raspi-gpio python-gpiozero python3-gpiozero python3-rpi.gpio
@@ -22,5 +22,5 @@ python-picraft python3-picraft
 pprompt
 piwiz
 rp-prefapps
-libav-tools
+ffmpeg
 vlc
