@@ -11,7 +11,8 @@
         "Pi 2",
         "Pi Zero",
         "Pi 3",
-        "Pi Compute Module 3"
+        "Pi Compute Module 3",
+        "Pi 4"
     ],
     "url": "http://www.raspbian.org/",
     "username": "pi",
