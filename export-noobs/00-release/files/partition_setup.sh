@@ -33,7 +33,12 @@ if [ -z "$restore" ]; then
   fi
 
   if ! grep -q resize /proc/cmdline; then
-    sed -i 's| init=/usr/lib/raspi-config/init_resize.sh||;s| quiet||2g' /tmp/1/cmdline.txt
+    if ! grep -q splash /tmp/1/cmdline.txt; then
+      sed -i "s| quiet||g" /tmp/1/cmdline.txt
+    fi
+    sed -i 's| init=/usr/lib/raspi-config/init_resize.sh||' /tmp/1/cmdline.txt
+  else
+    sed -i '1 s|.*|& sdhci.debug_quirks2=4|' /tmp/1/cmdline.txt
   fi
 fi
 
