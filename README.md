@@ -6,14 +6,14 @@ Features are the ones provided by [mpd](https://github.com/MusicPlayerDaemon/MPD
 - it retains the radio station that was playing after turning off / on the device and also the volume.
 - it has a number of interfaces, currently on this image there is a web interface and a console one.
 - managing your radio stations can be done from the interface (`add stream` and delete buttons).
-- physical buttons do what is expected of them
+- physical buttons on the Phat Beat do what is expected of them
 - LEDs are used as a vumeter
 
 ## how to create the image
 - First clone this repository with `git clone git@github.com:pirateradiohack/PiRadio.git`.  
-- Configure your radio stations: If you create a file called `my-playlist.m3u` with your own list of internet radio streams, it will be installed.
-If not, then you can always add stations in the web interface.
 - Configure your wifi settings: copy the file called `config.example` to `config` and edit this last one. You will see where to enter your wifi name, password and country. All 3 settings are necessary. Your changes to this file will be kept in future updates.
+- Optionally configure your radio stations: If you create a file called `my-playlist.m3u` with your own list of internet radio streams, it will be installed.
+If not, then you can always add stations in the web interface.
 - Then build the image. (You can see the whole guide on the official RaspberryPi repo: https://github.com/RPi-Distro/pi-gen). I find it easier to use docker (obviously you need to have docker installed on your system) as there is nothing else to install, just run one command from this directory: `./build-docker.sh`. That's it. On my computer it takes between 15 and 30 minutes. And at the end you should see something like: `Done! Your image(s) should be in deploy/`  
 If you don't see that, it's probably that the build failed. It happens to me sometimes for no reason and I find that just re-launching the build with `CONTINUE=1 ./build-docker.sh` finishes the build correctly.
 
@@ -31,16 +31,22 @@ Those settings are recommended by the RaspberryPi instructions.
 
 ## controlling your radio via web interface
 You can control your radio via web interface: try to open `http://radio.local` in a web browser. If that does not work then find its IP and in your browser enter `http://[IP of your radio]`.
+
+
 If you prefer the command line, you can ssh into your radio (you need to set that up in the `config` file before building the image) and then use `ncmpcpp` to get a nice terminal interface (see some screenshots here: https://rybczak.net/ncmpcpp/screenshots/).
 
 ## ready-to-flash image
-Out of security concerns I recommend you read the [code](https://github.com/RPi-Distro/pi-gen/compare/master...pirateradiohack:master) and build the image yourself.  
-But, if you prefer to trust a stranger on the Internet with your Pirate Radio, for your convenience you will find the latest image pre-compiled here: [2019-05-23-Piradio-lite.img](https://github.com/pirateradiohack/PiRadio/releases/download/2019-06-15-PiRadio/2019-06-14-Piradio-lite.img) . Just flash it
-and configure your wifi. You can also optionally configure your own radio streams playlist.
+Out of security concerns I recommend you read the [code](https://github.com/RPi-Distro/pi-gen/compare/master...pirateradiohack:master) and build the image yourself.
+
+
+But, if you prefer to trust a stranger on the Internet with your Pirate Radio, for your convenience you will find the latest image pre-compiled here: [2019-06-14-Piradio-lite.img](https://github.com/pirateradiohack/PiRadio/releases/download/2019-06-15-PiRadio/2019-06-14-Piradio-lite.img).
+
+
+Just flash it and configure your wifi. You can also optionally configure your own radio streams playlist.
 
 The files to edit are:
 - wifi: `/etc/wpa_supplicant/wpa_supplicant.conf` (edit this file)
-- playlist: `/home/pi/.config/vlc/playlist.m3u` (create this file)
+- (optionally) playlist: `/home/pi/.config/vlc/playlist.m3u` (create this file)
 
 You can edit them before or after flashing the image:
 - before flashing you can mount the `.img`.  
