@@ -1,0 +1,31 @@
+[Unit]
+
+# Human readable name of the unit
+Description=controller for the radio buttons and LEDs
+
+
+[Service]
+
+# Command to execute when the service is started
+ExecStart=/usr/bin/python3 /usr/local/lib/radio-interface/interface.py
+
+# Disable Python's buffering of STDOUT and STDERR, so that output from the
+# service shows up immediately in systemd's logs
+Environment=PYTHONUNBUFFERED=1
+
+# Automatically restart the service if it crashes
+Restart=on-failure
+
+# Our service will notify systemd once it is up and running
+Type=notify
+
+# Use a dedicated user to run our service
+# User=radio-interface
+
+
+[Install]
+
+# Tell systemd to automatically start this service when the system boots
+# (assuming the service is enabled)
+WantedBy=default.target
+
