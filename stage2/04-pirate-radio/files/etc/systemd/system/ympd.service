@@ -1,0 +1,14 @@
+[Unit]
+Description=ympd server daemon
+Requires=network.target local-fs.target
+
+[Service]
+Environment=MPD_HOST=localhost
+Environment=MPD_PORT=6600
+Environment=WEB_PORT=80
+Environment=YMPD_USER=nobody
+ExecStart=/usr/bin/ympd --user $YMPD_USER --webport $WEB_PORT --host $MPD_HOST --port $MPD_PORT
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

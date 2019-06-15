@@ -10,3 +10,11 @@ automake
 libtool
 libasound2-dev
 libfftw3-dev
+mpd
+mpc
+ncmpcpp
+python3-setuptools
+python3-systemd
+cmake
+libmpdclient-dev
+libssl-dev
