@@ -7,7 +7,7 @@ minecraft-pi python-minecraftpi
 python-sense-emu sense-emu-tools python-sense-emu-doc
 
 claws-mail
-greenfoot bluej
+greenfoot-unbundled bluej
 nodered
 realvnc-vnc-viewer
 
