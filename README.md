@@ -1,4 +1,4 @@
-# Piradio
+# Piradio [![Build Status](https://travis-ci.org/pirateradiohack/PiRadio.svg?branch=master)](https://travis-ci.org/pirateradiohack/PiRadio)
 Piradio powers a streaming internet radio client for the "Pirate Radio" hardware sold by Pimoroni: https://shop.pimoroni.com/products/pirate-radio-pi-zero-w-project-kit
 or any kit based on their Phat Beat DAC / Audio Amplifier and a Raspberry Pi.
 
