@@ -1,0 +1,19 @@
+language: bash
+services:
+  - docker
+before_script:
+  - cp config.example config
+script:
+  - "./build-docker.sh"
+deploy:
+  provider: releases
+  on:
+    all_branches: true
+    tags: true
+  api_key: "${GH_TOKEN}"
+  file: 'deploy/`date +"%Y-%m-%d"`-Piradio-lite.img'
+  skip_cleanup: true
+  draft: true
+env:
+  global:
+    secure: R0Xx6tY58asubqWMPVzWkmGAVSxsXom79PpcQO5JMsiHF5g2r15slUOnR+DbJy+mVB20drCTplqGGLLrGhsPbaBaOaHoggHI3W2VD1GjL/hsLdQtyikVcAyTMTzhbcPx93oMT2eScDgIFy54og4DSlErYDhY32afB3sZOmiFyCZMkiY/Qp1tYNqMPEa0sCeogea/j5Xtf5I6r7ocn5o5YacpNUubEx6OFHwuHLYL4Fl+At3+zT0Wh03BSrarj5r/h6ZEfYsnIDuDFJv4e1LbLJFWSQAMPkWdaa/5ANyC8+HQg+zeb8vmi+QPrz731aquhcTciHmwrbeVCWAgPdIwq2o44GjX7ImHAYAQTy8D2DK68bq+flHqv4Qvrsz1Ioth98+W6QSSTaMgCW3KZFxbQf3jT508WXz1q/mhwJ1O78M9yHHBzfrh/gKH6Z/m8Szg/bUnEFUpSPu8hUCPZo/JnNQniZ89rt5y1GUh/RHvEQIVL9IO+GpC+HAlfCHuHMPmjwwPcAxCZHg4aFO6+pNh95DHAkwWZsLkbkdjZgZHLoFPxxb9RP55VLNhzK7vswLcnH5oFhXuFy+jcUQKU8Ncl1N1eBwFtQ5ttyoO8MqeTRXDi6twZNz9Y+Lf6B40nEmJPd1wru9H7pRpQgOryTijRZxnlD6r39FYxvQC1UatoXg=
