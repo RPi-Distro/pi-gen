@@ -1,5 +1,33 @@
 UNRELEASED:
   *
+2019-06-20:
+  * Based on Debian Buster
+  * Support for Raspberry Pi 4 hardware
+  * FKMS OpenGL desktop graphics driver and xcompmgr compositing window manager used when running on Raspberry Pi 4
+  * Screen Configuration application added for use with FKMS driver
+  * Raspberry Pi 4 video output options added to Raspberry Pi Configuration
+  * Uses new PiXflat UI theme for GTK and Openbox
+  * CPU activity gauge plugin no longer shown on taskbar by default
+  * CPU temperature gauge plugin added (not shown by default)
+  * USB ejecter and Bluetooth taskbar icons hidden when not appropriate
+  * Version 74.0.3729.157 of Chromium web browser included
+  * Version 32.0.0.207 of Flash player included
+  * IDLE Python IDE removed
+  * Wolfram Mathematica removed temporarily due to incompatibility with Buster
+  * Display of package sizes removed from Recommended Software
+  * Appearance Settings modified to support independent settings for two monitors
+  * Oracle Java 7 and 8 replaced with OpenJDK 11
+  * Miscellaneous small bug fixes
+  * On-board 5GHz WiFi blocked by rfkill by default
+    The block is removed when taking one of the following actions:
+    - Selecting a locale in the first run wizard
+    - Setting the WiFi country in the Raspberry Pi Configuration tool or the Network Settings applet
+    - Setting the WiFi country in raspi-config
+    - Providing a wpa_supplicant.conf file through the boot partition
+    - Running 'rfkill unblock wifi'
+  * Boot partition size set to 256M
+  * Linux kernel 4.19.50
+  * Raspberry Pi firmware 88ca9081f5e51cdedd16d5dbc85ed12a25123201
 2019-04-08:
   * Chromium browser updated to version 72
   * VLC media player updated to version 3.0.6
