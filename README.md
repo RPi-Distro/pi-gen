@@ -295,6 +295,9 @@ follows:
 
 # Troubleshooting
 
+## `64 Bit Systems`
+Please note there is currently an issue when compiling with a 64 Bit OS. See https://github.com/RPi-Distro/pi-gen/issues/271
+
 ## `binfmt_misc`
 
 Linux is able execute binaries from other architectures, meaning that it should be
