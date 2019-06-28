@@ -1,5 +1,50 @@
 UNRELEASED:
   *
+2019-06-20:
+  * Based on Debian Buster
+  * Support for Raspberry Pi 4 hardware
+  * FKMS OpenGL desktop graphics driver and xcompmgr compositing window manager used when running on Raspberry Pi 4
+  * Screen Configuration application added for use with FKMS driver
+  * Raspberry Pi 4 video output options added to Raspberry Pi Configuration
+  * Uses new PiXflat UI theme for GTK and Openbox
+  * CPU activity gauge plugin no longer shown on taskbar by default
+  * CPU temperature gauge plugin added (not shown by default)
+  * USB ejecter and Bluetooth taskbar icons hidden when not appropriate
+  * Version 74.0.3729.157 of Chromium web browser included
+  * Version 32.0.0.207 of Flash player included
+  * IDLE Python IDE removed
+  * Wolfram Mathematica removed temporarily due to incompatibility with Buster
+  * Display of package sizes removed from Recommended Software
+  * Appearance Settings modified to support independent settings for two monitors
+  * Oracle Java 7 and 8 replaced with OpenJDK 11
+  * Miscellaneous small bug fixes
+  * On-board 5GHz WiFi blocked by rfkill by default
+    The block is removed when taking one of the following actions:
+    - Selecting a locale in the first run wizard
+    - Setting the WiFi country in the Raspberry Pi Configuration tool or the Network Settings applet
+    - Setting the WiFi country in raspi-config
+    - Providing a wpa_supplicant.conf file through the boot partition
+    - Running 'rfkill unblock wifi'
+  * Boot partition size set to 256M
+  * Linux kernel 4.19.50
+  * Raspberry Pi firmware 88ca9081f5e51cdedd16d5dbc85ed12a25123201
+2019-04-08:
+  * Chromium browser updated to version 72
+  * VLC media player updated to version 3.0.6
+  * RealVNC Server updated to version 6.4.0
+  * Flash player updated to version 32.0.0.156
+  * Performance improvements to SDL library
+  * Performance improvements to pixman library
+  * Option to set display underscan added to startup wizard
+  * Mounted external drives now displayed on desktop by default
+  * Network plugin modified for improved compatibility with wpa_passphrase
+  * SD Card Copier tweaks to reduce copy failures
+  * Various minor bug fixes and appearance tweaks
+  * Added ethtool
+  * Added rng-tools
+  * Add PINN restore support
+  * Linux kernel 4.14.98
+  * Raspberry Pi firmware f8939644f7bd3065068787f1f92b3f3c79cf3de9
 2018-11-13:
   * Two versions of image created - "base" image has no optional software packages included; "full" image has all optional packages
     - Removed from "base" image - LibreOffice, Thonny, Scratch, Scratch 2, Sonic Pi, Minecraft, Python Games, SmartSim, SenseHAT Emulator

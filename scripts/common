@@ -4,21 +4,22 @@ log (){
 export -f log
 
 bootstrap(){
-	local ARCH
-	ARCH=$(dpkg --print-architecture)
+	local BOOTSTRAP_CMD=debootstrap
+	local BOOTSTRAP_ARGS=()
 
 	export http_proxy=${APT_PROXY}
 
-	if [ "$ARCH" !=  "armhf" ]; then
-		local BOOTSTRAP_CMD=qemu-debootstrap
-	else
-		local BOOTSTRAP_CMD=debootstrap
+	if [ "$(dpkg --print-architecture)" !=  "armhf" ] && [ "$(dpkg --print-architecture)" !=  "aarch64" ]; then
+		BOOTSTRAP_CMD=qemu-debootstrap
 	fi
 
-	capsh --drop=cap_setfcap -- "${BOOTSTRAP_CMD}" --components=main,contrib,non-free \
-		--arch armhf \
-		--keyring "${STAGE_DIR}/files/raspberrypi.gpg" \
-		"$1" "$2" "$3" || true
+	BOOTSTRAP_ARGS+=(--arch armhf)
+	BOOTSTRAP_ARGS+=(--components "main,contrib,non-free")
+	BOOTSTRAP_ARGS+=(--keyring "${STAGE_DIR}/files/raspberrypi.gpg")
+	BOOTSTRAP_ARGS+=("$@")
+
+	setarch linux32 capsh --drop=cap_setfcap -- "${BOOTSTRAP_CMD}" "${BOOTSTRAP_ARGS[@]}" || true
+
 	if [ -d "$2/debootstrap" ]; then
 		rmdir "$2/debootstrap"
 	fi
@@ -56,7 +57,7 @@ unmount_image(){
 	sync
 	sleep 1
 	local LOOP_DEVICES
-	LOOP_DEVICES=$(losetup -j "${1}" | cut -f1 -d':')
+	LOOP_DEVICES=$(losetup --list | grep "$(basename "${1}")" | cut -f1 -d' ')
 	for LOOP_DEV in ${LOOP_DEVICES}; do
 		if [ -n "${LOOP_DEV}" ]; then
 			local MOUNTED_DIR
@@ -88,14 +89,14 @@ on_chroot() {
 		mount --bind /sys "${ROOTFS_DIR}/sys"
 	fi
 
-	capsh --drop=cap_setfcap "--chroot=${ROOTFS_DIR}/" -- -e "$@"
+	setarch linux32 capsh --drop=cap_setfcap "--chroot=${ROOTFS_DIR}/" -- -e "$@"
 }
 export -f on_chroot
 
 update_issue() {
 	local GIT_HASH
 	GIT_HASH=$(git rev-parse HEAD)
-	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using pi-gen, https://github.com/RPi-Distro/pi-gen, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
+	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }
 export -f update_issue
 

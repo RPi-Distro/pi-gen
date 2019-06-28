@@ -1,9 +1,0 @@
-Index: export-jessie/rootfs/etc/apt/sources.list.d/raspi.list
-===================================================================
---- export-jessie.orig/rootfs/etc/apt/sources.list.d/raspi.list
-+++ export-jessie/rootfs/etc/apt/sources.list.d/raspi.list
-@@ -1,3 +1,3 @@
--deb http://archive.raspberrypi.org/debian/ stretch main ui staging
-+deb http://archive.raspberrypi.org/debian/ stretch main ui
- # Uncomment line below then 'apt-get update' to enable 'apt-get source'
- #deb-src http://archive.raspberrypi.org/debian/ stretch main ui

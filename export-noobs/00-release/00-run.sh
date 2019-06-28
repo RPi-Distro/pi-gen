@@ -10,16 +10,22 @@ install -v		files/release_notes.txt		"${NOOBS_DIR}/"
 
 tar -v -c -C		files/marketing			-f "${NOOBS_DIR}/marketing.tar" .
 
+BOOT_SHASUM="$(sha256sum "${NOOBS_DIR}/boot.tar.xz" | cut -f1 -d' ')"
+ROOT_SHASUM="$(sha256sum "${NOOBS_DIR}/root.tar.xz" | cut -f1 -d' ')"
+
 BOOT_SIZE="$(xz --robot -l "${NOOBS_DIR}/boot.tar.xz"  | grep totals | cut -f 5)"
 ROOT_SIZE="$(xz --robot -l "${NOOBS_DIR}/root.tar.xz"  | grep totals | cut -f 5)"
 
 BOOT_SIZE="$(( BOOT_SIZE / 1024 / 1024 + 1))"
 ROOT_SIZE="$(( ROOT_SIZE / 1024 / 1024 + 1))"
 
-BOOT_NOM="$(( BOOT_SIZE * 3 ))"
+BOOT_NOM="256"
 ROOT_NOM="$(( ROOT_SIZE + 400 ))"
 
 mv "${NOOBS_DIR}/OS.png" "${NOOBS_DIR}/${NOOBS_NAME// /_}.png"
+
+sed "${NOOBS_DIR}/partitions.json" -i -e "s|BOOT_SHASUM|${BOOT_SHASUM}|"
+sed "${NOOBS_DIR}/partitions.json" -i -e "s|ROOT_SHASUM|${ROOT_SHASUM}|"
 
 sed "${NOOBS_DIR}/partitions.json" -i -e "s|BOOT_SIZE|${BOOT_SIZE}|"
 sed "${NOOBS_DIR}/partitions.json" -i -e "s|ROOT_SIZE|${ROOT_SIZE}|"

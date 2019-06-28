@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# shellcheck disable=SC2119,SC1091
+# shellcheck disable=SC2119
 run_sub_stage()
 {
 	log "Begin ${SUB_STAGE_DIR}"
@@ -46,11 +46,11 @@ EOF
 			SUB_STAGE_QUILT_PATCH_DIR="$(basename "$SUB_STAGE_DIR")-pc"
 			mkdir -p "$SUB_STAGE_QUILT_PATCH_DIR"
 			ln -snf "$SUB_STAGE_QUILT_PATCH_DIR" .pc
+			quilt upgrade
 			if [ -e "${SUB_STAGE_DIR}/${i}-patches/EDIT" ]; then
 				echo "Dropping into bash to edit patches..."
 				bash
 			fi
-			quilt upgrade
 			RC=0
 			quilt push -a || RC=$?
 			case "$RC" in
@@ -102,7 +102,7 @@ run_stage(){
 			./prerun.sh
 			log "End ${STAGE_DIR}/prerun.sh"
 		fi
-		for SUB_STAGE_DIR in ${STAGE_DIR}/*; do
+		for SUB_STAGE_DIR in "${STAGE_DIR}"/*; do
 			if [ -d "${SUB_STAGE_DIR}" ] &&
 			   [ ! -f "${SUB_STAGE_DIR}/SKIP" ]; then
 				run_sub_stage
@@ -124,6 +124,7 @@ fi
 
 
 if [ -f config ]; then
+	# shellcheck disable=SC1091
 	source config
 fi
 
@@ -132,10 +133,16 @@ do
 	case "$flag" in
 		c)
 			EXTRA_CONFIG="$OPTARG"
+			# shellcheck disable=SC1090
 			source "$EXTRA_CONFIG"
+			;;
+		*)
 			;;
 	esac
 done
+
+export PI_GEN=${PI_GEN:-pi-gen}
+export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
 
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set" 1>&2
@@ -144,13 +151,14 @@ fi
 
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
-export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}"}"
-export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}"}"
+export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
+export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
 export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"}"
 export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
+export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
@@ -189,6 +197,16 @@ source "${SCRIPT_DIR}/common"
 # shellcheck source=scripts/dependencies_check
 source "${SCRIPT_DIR}/dependencies_check"
 
+#check username is valid
+if [[ ! "$FIRST_USER_NAME" =~ ^[a-z][-a-z0-9_]*$ ]]; then
+	echo "Invalid FIRST_USER_NAME: $FIRST_USER_NAME"
+	exit 1
+fi
+
+if [[ -n "${APT_PROXY}" ]] && ! curl --silent "${APT_PROXY}" >/dev/null ; then
+	echo "Could not reach APT_PROXY server: ${APT_PROXY}"
+	exit 1
+fi
 
 dependencies_check "${BASE_DIR}/depends"
 
@@ -197,8 +215,8 @@ log "Begin ${BASE_DIR}"
 
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
 
-for STAGE_DIR_ in $STAGE_LIST; do
-	STAGE_DIR=`realpath "${STAGE_DIR_}"`
+for STAGE_DIR in $STAGE_LIST; do
+	STAGE_DIR=$(realpath "${STAGE_DIR}")
 	run_stage
 done
 
