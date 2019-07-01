@@ -13,24 +13,30 @@ if ! ${DOCKER} ps >/dev/null; then
 	exit 1
 fi
 
-CONFIG_FILE="${DIR}/config"
-if [ -f "${CONFIG_FILE}" ]; then
-	# shellcheck disable=SC1091
-	source "${CONFIG_FILE}"
+CONFIG_FILE=""
+if [ -f "${DIR}/config" ]; then
+	CONFIG_FILE="${DIR}/config"
 fi
 
 while getopts "c:" flag
 do
 	case "${flag}" in
 		c)
-			# shellcheck disable=SC1090
-			source "${OPTARG}"
 			CONFIG_FILE="${OPTARG}"
 			;;
 		*)
 			;;
 	esac
 done
+
+# Ensure that the confguration file is present
+if test -z "${CONFIG_FILE}"; then
+	echo "Configuration file need to be present in '${DIR}/config' or path passed as parameter"
+	exit 1
+else
+	# shellcheck disable=SC1090
+	source "${CONFIG_FILE}"
+fi
 
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
 CONTINUE=${CONTINUE:-0}
