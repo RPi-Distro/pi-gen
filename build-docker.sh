@@ -63,7 +63,7 @@ if [ "${CONTAINER_EXISTS}" != "" ] && [ "${CONTINUE}" != "1" ]; then
 fi
 
 # Modify original build-options to allow config file to be mounted in the docker container
-BUILD_OPTS="$(echo ${BUILD_OPTS:-} | sed -r 's@\-c\s?([^ ]+)@-c /config@')"
+BUILD_OPTS="$(echo ${BUILD_OPTS:-} | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 
 ${DOCKER} build -t pi-gen "${DIR}"
 if [ "${CONTAINER_EXISTS}" != "" ]; then
