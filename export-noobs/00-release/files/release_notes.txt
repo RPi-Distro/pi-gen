@@ -1,5 +1,20 @@
 UNRELEASED:
-  *
+  * Clearer options for switching of Pi 4 video output in Raspberry Pi Configuration
+  * Option added to Appearance Settings to move taskbar to second monitor
+  * Option added to Recommended Software to restrict package installs by architecture
+  * New version of Adobe Flash player (32.0.0.223)
+  * Selection of screen refresh rates added to Screen Configuration
+  * Fix for missing text insertion cursor in LibreOffice on Pi 4
+  * Fix for Wi-fi interruption when Wi-fi icon on taskbar is clicked
+  * FIx for incorrect desktop background behind desktop login prompt
+  * Fix for segmentation faults when launching obconf and lxapperarance
+  * Fix for unclosed file pointer in Screen Configuration
+  * Fix for Bluetooth plugin freeze when large numbers of devices detected
+  * Fix for opening URLs not working in lxterminal
+  * Fix for start menu opening on incorrect monitor when launched from keyboard
+  * Fix for taskbar item not having [] removed when un-minimising on second monitor
+  * Linux kernel 4.19.57
+  * Raspberry Pi firmware cb3a32adf39f45a49be454e30c7464920ad7c605
 2019-06-20:
   * Based on Debian Buster
   * Support for Raspberry Pi 4 hardware
