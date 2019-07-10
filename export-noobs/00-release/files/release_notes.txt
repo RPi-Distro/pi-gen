@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2019-07-10:
   * Clearer options for switching of Pi 4 video output in Raspberry Pi Configuration
   * Option added to Appearance Settings to move taskbar to second monitor
   * Option added to Recommended Software to restrict package installs by architecture
@@ -13,6 +15,9 @@ UNRELEASED:
   * Fix for opening URLs not working in lxterminal
   * Fix for start menu opening on incorrect monitor when launched from keyboard
   * Fix for taskbar item not having [] removed when un-minimising on second monitor
+  * Fix for Chromium video playback and WebGL performance on Pi 4
+  * Remove 4kp60 option from Raspberry Pi Configuration
+  * Rename hdmi_enable_4k to hdmi_enable_4kp60 in /boot/config.txt and raspi-config
   * Linux kernel 4.19.57
   * Raspberry Pi firmware cb3a32adf39f45a49be454e30c7464920ad7c605
 2019-06-20:
