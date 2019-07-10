@@ -1,5 +1,4 @@
 xserver-xorg-video-fbdev xserver-xorg xinit xserver-xorg-video-fbturbo
-epiphany-browser
 lxde lxtask menu-xdg
 zenity xdg-utils
 gvfs-backends gvfs-fuse
