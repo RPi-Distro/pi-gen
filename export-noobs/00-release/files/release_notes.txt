@@ -1,5 +1,6 @@
 UNRELEASED:
-  * Remove Epiphany
+  * Epiphany/Web removed
+  * ntfs-3g included
 2019-07-10:
   * Clearer options for switching of Pi 4 video output in Raspberry Pi Configuration
   * Option added to Appearance Settings to move taskbar to second monitor
@@ -19,7 +20,7 @@ UNRELEASED:
   * Remove 4kp60 option from Raspberry Pi Configuration
   * Rename hdmi_enable_4k to hdmi_enable_4kp60 in /boot/config.txt and raspi-config
   * Linux kernel 4.19.57
-  * Raspberry Pi firmware cb3a32adf39f45a49be454e30c7464920ad7c605
+  * Raspberry Pi firmware 356f5c2880a3c7e8774025aa6fc934a617553e7b
 2019-06-20:
   * Based on Debian Buster
   * Support for Raspberry Pi 4 hardware
