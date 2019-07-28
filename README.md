@@ -10,7 +10,7 @@ either Debian Buster or Ubuntu Xenial and is known to have issues building on
 earlier releases of these systems. On other Linux distributions it may be possible
 to use the Docker build described below.
 
-To install the required dependencies for pi-gen you should run:
+To install the required dependencies for pi-gen you should run (*):
 
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
@@ -20,6 +20,22 @@ dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl
 The file `depends` contains a list of tools needed.  The format of this
 package is `<tool>[:<debian-package>]`.
 
+**(*) Warning:** please note that there is currently an issue when building with the
+64-bits version of the `qemu-user-static` package. As a workaround, you can use the
+32-bits `qemu-user-static:i386` package instead.
+
+To do this, first add the `i386` architecture to your Debian-based system:
+
+```bash
+dpkg --add-architecture i386
+apt-get update
+```
+
+Then replace `qemu-user-static` with `qemu-user-static:i386` in the instructions above.
+
+Also note that the included Dockerfile in pi-gen already includes this workaround.
+
+For more info refer to: https://github.com/RPi-Distro/pi-gen/issues/271
 
 ## Config
 
@@ -294,9 +310,6 @@ follows:
    export your image to test
 
 # Troubleshooting
-
-## `64 Bit Systems`
-Please note there is currently an issue when compiling with a 64 Bit OS. See https://github.com/RPi-Distro/pi-gen/issues/271
 
 ## `binfmt_misc`
 
