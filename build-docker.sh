@@ -30,6 +30,9 @@ do
 	esac
 done
 
+# Ensure that the configuration file is an absolute path
+CONFIG_FILE=$(realpath -s "$CONFIG_FILE")
+
 # Ensure that the confguration file is present
 if test -z "${CONFIG_FILE}"; then
 	echo "Configuration file need to be present in '${DIR}/config' or path passed as parameter"
