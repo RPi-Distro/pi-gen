@@ -1,0 +1,11 @@
+[Unit]
+Description=FRC Vision Service
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/home/vision/visionProgram
+WorkingDirectory=/home/vision
+
+[Install]
+WantedBy=multi-user.target
