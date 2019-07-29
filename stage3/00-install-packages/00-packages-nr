@@ -1,5 +1,0 @@
-xserver-xorg-video-fbdev xserver-xorg xinit xserver-xorg-video-fbturbo
-lxde lxtask menu-xdg
-zenity xdg-utils
-gvfs-backends gvfs-fuse
-lightdm gnome-themes-standard-data gnome-icon-theme
