@@ -6,7 +6,7 @@ _Tool used to create the raspberrypi.org Raspbian images_
 ## Dependencies
 
 pi-gen runs on Debian based operating systems. Currently it is only supported on
-either Debian Stretch or Ubuntu Xenial and is known to have issues building on
+either Debian Buster or Ubuntu Xenial and is known to have issues building on
 earlier releases of these systems. On other Linux distributions it may be possible
 to use the Docker build described below.
 

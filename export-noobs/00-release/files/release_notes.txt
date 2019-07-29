@@ -1,5 +1,26 @@
 UNRELEASED:
-  *
+  * Epiphany/Web removed
+  * ntfs-3g included
+2019-07-10:
+  * Clearer options for switching of Pi 4 video output in Raspberry Pi Configuration
+  * Option added to Appearance Settings to move taskbar to second monitor
+  * Option added to Recommended Software to restrict package installs by architecture
+  * New version of Adobe Flash player (32.0.0.223)
+  * Selection of screen refresh rates added to Screen Configuration
+  * Fix for missing text insertion cursor in LibreOffice on Pi 4
+  * Fix for Wi-fi interruption when Wi-fi icon on taskbar is clicked
+  * FIx for incorrect desktop background behind desktop login prompt
+  * Fix for segmentation faults when launching obconf and lxapperarance
+  * Fix for unclosed file pointer in Screen Configuration
+  * Fix for Bluetooth plugin freeze when large numbers of devices detected
+  * Fix for opening URLs not working in lxterminal
+  * Fix for start menu opening on incorrect monitor when launched from keyboard
+  * Fix for taskbar item not having [] removed when un-minimising on second monitor
+  * Fix for Chromium video playback and WebGL performance on Pi 4
+  * Remove 4kp60 option from Raspberry Pi Configuration
+  * Rename hdmi_enable_4k to hdmi_enable_4kp60 in /boot/config.txt and raspi-config
+  * Linux kernel 4.19.57
+  * Raspberry Pi firmware 356f5c2880a3c7e8774025aa6fc934a617553e7b
 2019-06-20:
   * Based on Debian Buster
   * Support for Raspberry Pi 4 hardware
