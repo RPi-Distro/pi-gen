@@ -1,4 +1,5 @@
 #!/bin/bash -e
 
-ln -sf /etc/systemd/system/autologin@.service \
-	"${ROOTFS_DIR}/etc/systemd/system/getty.target.wants/getty@tty1.service"
+on_chroot << EOF
+	SUDO_USER="${FIRST_USER_NAME}" raspi-config nonint do_boot_behaviour B4
+EOF
