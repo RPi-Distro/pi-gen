@@ -1,6 +1,120 @@
 UNRELEASED:
-  * Add libav-tools
-  * Add English localisation packages
+  * Epiphany/Web removed
+  * ntfs-3g included
+2019-07-10:
+  * Clearer options for switching of Pi 4 video output in Raspberry Pi Configuration
+  * Option added to Appearance Settings to move taskbar to second monitor
+  * Option added to Recommended Software to restrict package installs by architecture
+  * New version of Adobe Flash player (32.0.0.223)
+  * Selection of screen refresh rates added to Screen Configuration
+  * Fix for missing text insertion cursor in LibreOffice on Pi 4
+  * Fix for Wi-fi interruption when Wi-fi icon on taskbar is clicked
+  * FIx for incorrect desktop background behind desktop login prompt
+  * Fix for segmentation faults when launching obconf and lxapperarance
+  * Fix for unclosed file pointer in Screen Configuration
+  * Fix for Bluetooth plugin freeze when large numbers of devices detected
+  * Fix for opening URLs not working in lxterminal
+  * Fix for start menu opening on incorrect monitor when launched from keyboard
+  * Fix for taskbar item not having [] removed when un-minimising on second monitor
+  * Fix for Chromium video playback and WebGL performance on Pi 4
+  * Remove 4kp60 option from Raspberry Pi Configuration
+  * Rename hdmi_enable_4k to hdmi_enable_4kp60 in /boot/config.txt and raspi-config
+  * Linux kernel 4.19.57
+  * Raspberry Pi firmware 356f5c2880a3c7e8774025aa6fc934a617553e7b
+2019-06-20:
+  * Based on Debian Buster
+  * Support for Raspberry Pi 4 hardware
+  * FKMS OpenGL desktop graphics driver and xcompmgr compositing window manager used when running on Raspberry Pi 4
+  * Screen Configuration application added for use with FKMS driver
+  * Raspberry Pi 4 video output options added to Raspberry Pi Configuration
+  * Uses new PiXflat UI theme for GTK and Openbox
+  * CPU activity gauge plugin no longer shown on taskbar by default
+  * CPU temperature gauge plugin added (not shown by default)
+  * USB ejecter and Bluetooth taskbar icons hidden when not appropriate
+  * Version 74.0.3729.157 of Chromium web browser included
+  * Version 32.0.0.207 of Flash player included
+  * IDLE Python IDE removed
+  * Wolfram Mathematica removed temporarily due to incompatibility with Buster
+  * Display of package sizes removed from Recommended Software
+  * Appearance Settings modified to support independent settings for two monitors
+  * Oracle Java 7 and 8 replaced with OpenJDK 11
+  * Miscellaneous small bug fixes
+  * On-board 5GHz WiFi blocked by rfkill by default
+    The block is removed when taking one of the following actions:
+    - Selecting a locale in the first run wizard
+    - Setting the WiFi country in the Raspberry Pi Configuration tool or the Network Settings applet
+    - Setting the WiFi country in raspi-config
+    - Providing a wpa_supplicant.conf file through the boot partition
+    - Running 'rfkill unblock wifi'
+  * Boot partition size set to 256M
+  * Linux kernel 4.19.50
+  * Raspberry Pi firmware 88ca9081f5e51cdedd16d5dbc85ed12a25123201
+2019-04-08:
+  * Chromium browser updated to version 72
+  * VLC media player updated to version 3.0.6
+  * RealVNC Server updated to version 6.4.0
+  * Flash player updated to version 32.0.0.156
+  * Performance improvements to SDL library
+  * Performance improvements to pixman library
+  * Option to set display underscan added to startup wizard
+  * Mounted external drives now displayed on desktop by default
+  * Network plugin modified for improved compatibility with wpa_passphrase
+  * SD Card Copier tweaks to reduce copy failures
+  * Various minor bug fixes and appearance tweaks
+  * Added ethtool
+  * Added rng-tools
+  * Add PINN restore support
+  * Linux kernel 4.14.98
+  * Raspberry Pi firmware f8939644f7bd3065068787f1f92b3f3c79cf3de9
+2018-11-13:
+  * Two versions of image created - "base" image has no optional software packages included; "full" image has all optional packages
+    - Removed from "base" image - LibreOffice, Thonny, Scratch, Scratch 2, Sonic Pi, Minecraft, Python Games, SmartSim, SenseHAT Emulator
+    - Added to "full" image - Mathematica, BlueJ, Greenfoot, Node-RED, Claws Mail, VNC Viewer
+  * Python Games and SmartSim added to Recommended Software
+  * VLC media player with VideoCore hardware acceleration included in image
+  * Version 3.0.5 of Thonny included
+  * Modifications to LXDE components to enable local configuration to override global configuration correctly
+  * Modifications to Appearance Settings to support above configuration changes
+  * Modifications to various initial config defaults and relevant package to support above configuration changes
+  * Selecting default option in Appearance Settings now deletes relevant local configuration files
+  * PiX theme modified so that all changes made in Appearance Settings are in override files rather than in theme files
+  * Design of scrollbar buttons changed
+  * Image Viewer moved into Graphics category on main menu
+  * Recommended Software now installs LibreOffice language support files if needed, and suggests reboot if needed
+  * Latest version of Pepper Flash plugin included
+  * Chromium h264ify plugin permissions set correctly by default
+  * Corrections to various MIME types so that files open in sensible default applications
+  * Set default timezone to 'Europe/London'
+  * Linux kernel 4.14.79
+  * Raspberry Pi firmware 12e0bf86e08d6067372bc0a45d7e8a10d3113210
+2018-10-09:
+  * Raspberry Pi 3A+ support
+  * In startup wizard, assign keyboard to country as per Debian installer recommendations
+  * In startup wizard, add option to use US keyboard in preference to country-specific option
+  * In startup wizard, show IP address on first page
+  * In startup wizard, check for existing wifi network connection and show it if there is one
+  * In startup wizard, install language support packages for LibreOffice and other applications
+  * In startup wizard, improve operation with keyboard only and no mouse
+  * Password change in Raspberry Pi Configuration and startup wizard now works properly if passwords contain shell characters
+  * Battery indicator plugin modified to cope with Pi-top hardware monitor crashing
+  * Networking plugin hides wifi password characters by default
+  * In Scratch 2 GPIO plugin, set pin from dropdown list rather than free text
+  * In Scratch 2 SenseHAT plugin, swap x and y axis values for LED array
+  * Include latest Adobe Flash player (31.0.0.108)
+  * Include latest RealVNC Server (6.3.1)
+  * Include libav-tools
+  * Include ssh-import-id
+  * Removed Mathematica
+  * Merge in latest third-party code for Bluetooth ALSA interface
+  * Add ability to prevent software update changing configuration files, by creating ~/.config/.lock file
+  * Various other small bug fixes, tweaks and changes to text
+  * Make dhcpcd work with 3G devices
+  * Add hw acceleration to ffmpeg
+  * Improved WiFi-BT coexistence parameters
+  * Run fake-hwclock before systemd-fsck-root
+  * Raspberry Pi PoE HAT support
+  * Linux kernel 4.14.71
+  * Raspberry Pi firmware 5b49caa17e91d0e64024380119ad739bb201c674
 2018-06-27:
   * New first-boot configuration wizard added
   * Recommended Software installer added
