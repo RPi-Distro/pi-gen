@@ -78,6 +78,22 @@ The following environment variables are supported:
    Setting to '1' enables the QEMU mode - creating an image that can be mounted via QEMU for an emulated
    environment. These images include "-qemu" in the image file name.
 
+ * `LOCALE_DEFAULT` (Default: "en_GB.UTF-8" )
+
+   Default system locale.
+
+ * `KEYBOARD_KEYMAP` (Default: "gb" )
+
+   Default keyboard keymap.
+
+ * `KEYBOARD_LAYOUT` (Default: "English (UK)" )
+
+   Default keyboard layout.
+
+ * `TIMEZONE_DEFAULT` (Default: "Europe/London" )
+
+   Default keyboard layout.
+
  * `FIRST_USER_NAME` (Default: "pi" )
 
    Username for the first user
