@@ -1,5 +1,7 @@
 #!/bin/bash -e
 # shellcheck disable=SC2119
+IMG_NAME="Raspbian-Fin"
+
 run_sub_stage()
 {
 	log "Begin ${SUB_STAGE_DIR}"
