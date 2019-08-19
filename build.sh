@@ -168,6 +168,15 @@ export WPA_PASSWORD
 export WPA_COUNTRY
 export ENABLE_SSH="${ENABLE_SSH:-0}"
 
+export LOCALE_DEFAULT="${LOCALE_DEFAULT:-en_GB.UTF-8}"
+
+export KEYBOARD_KEYMAP="${KEYBOARD_KEYMAP:-gb}"
+export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"
+
+export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
+
+export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
+
 export BASE_DIR
 
 export CLEAN
