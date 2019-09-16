@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd deploy
+
 # Rename images
 for f in *.zip; do
     mv -v ${f} $(echo ${f} | sed 's/image_//g' | sed 's/-lite//g')
