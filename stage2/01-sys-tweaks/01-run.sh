@@ -54,7 +54,9 @@ usermod --pass='*' root
 EOF
 
 on_chroot sh -e - <<EOF
-curl -sSL https://get.docker.com/ | sh
+curl -sSL https://get.docker.com/ > docker.sh
+chmod +x docker.sh
+./docker.sh
 usermod -aG docker pi
 # Add Step to get certificates from LAN
 # Update /lib/systemd/system/docker.service
