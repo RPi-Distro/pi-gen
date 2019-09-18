@@ -53,4 +53,16 @@ on_chroot << EOF
 usermod --pass='*' root
 EOF
 
+on_chroot sh -e - <<EOF
+curl -sSL https://get.docker.com/ | sh
+usermod -aG docker pi
+# Add Step to get certificates from LAN
+# Update /lib/systemd/system/docker.service
+# Add Certificates for docker host
+systemctl enable docker.service
+
+# Get .ssh/authorized_keys for help on login 
+# Update node name based on mac
+EOF
+
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*

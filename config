@@ -1,0 +1,4 @@
+IMG_NAME='RaspiDocker'
+LOCALE_DEFAULT="en_US.UTF-8"
+TIMEZONE_DEFAULT="America/New_York"
+ENABLE_SSH=1
