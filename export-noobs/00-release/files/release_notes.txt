@@ -1,4 +1,5 @@
 UNRELEASED:
+  * rpi-eeprom included
   * Epiphany/Web removed
   * ntfs-3g included
   * Scratch 3 added to full image

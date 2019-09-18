@@ -27,3 +27,4 @@ ethtool
 vl805fw
 ntfs-3g
 pciutils
+rpi-eeprom
