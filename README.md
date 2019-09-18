@@ -1,7 +1,7 @@
 # pi-gen
 
 _Tool used to create the raspberrypi.org Raspbian images_
-
+> Modified for setting up custom docker enabled `raspi buster`.
 
 ## Dependencies
 
