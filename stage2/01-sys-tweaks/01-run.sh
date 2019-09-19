@@ -58,11 +58,20 @@ EOF
 # Add Certificates for docker host
 # Get .ssh/authorized_keys for help on login 
 # Update node name based on mac
-
-on_chroot sh -e - <<EOF
-curl -sSL https://get.docker.com/ | sh
+# https://stackoverflow.com/questions/11735409/how-do-i-set-curl-to-always-use-the-k-option
+on_chroot <<EOF
+apt-get install -y apt-transport-https ca-certificates software-properties-common
+openssl version
+openssl version -d
+update-ca-certificates --fresh
+echo insecure >> $HOME/.curlrc
+ls /etc/ssl/certs
+echo insecure >> $HOME/.curlrc
+curl -O https://curl.haxx.se/ca/cacert.pem > /etc/ssl/certs/cacert.pem
+curl -sSL   https://get.docker.com/ | sh
 usermod -aG docker pi
 systemctl enable docker.service
 EOF
 
+touch ${ROOTFS_DIR}/home/pi/sample
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
