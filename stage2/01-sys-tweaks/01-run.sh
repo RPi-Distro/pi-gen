@@ -72,8 +72,10 @@ curl -sSL   https://get.docker.com/ | sh
 usermod -aG docker pi
 systemctl enable docker.service
 rm -f $HOME/.curlrc
+cp /etc/hosts /home/pi/hosts
+cat /home/pi/hosts | grep -v "raspi-manager" > /etc/hosts
 cat /home/pi/manager.host  >> /etc/hosts
-cp /etc/rc.local /home/pi/rc.local
+cp  /etc/rc.local /home/pi/rc.local
 cat /home/pi/rc.local | grep -v "exit 0" > /etc/rc.local
 echo "/home/pi/preparePi.sh" >> /home/pi/rc.local
 echo "exit 0" >> /home/pi/rc.local
