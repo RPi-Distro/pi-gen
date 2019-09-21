@@ -59,19 +59,22 @@ EOF
 # Get .ssh/authorized_keys for help on login 
 # Update node name based on mac
 # https://stackoverflow.com/questions/11735409/how-do-i-set-curl-to-always-use-the-k-option
+cp ../../on-boot/preparePi.sh ${ROOTFS_DIR}/home/pi/
+cp $HOME/manager.host ${ROOTFS_DIR}/home/pi/
 on_chroot <<EOF
+chmod +x /home/pi/preparePi.sh
 apt-get install -y apt-transport-https ca-certificates software-properties-common
-openssl version
-openssl version -d
 update-ca-certificates --fresh
-echo insecure >> $HOME/.curlrc
-ls /etc/ssl/certs
 echo insecure >> $HOME/.curlrc
 curl -O https://curl.haxx.se/ca/cacert.pem > /etc/ssl/certs/cacert.pem
 curl -sSL   https://get.docker.com/ | sh
 usermod -aG docker pi
 systemctl enable docker.service
+rm -f $HOME/.curlrc
+cat /home/pi/manager.host  >> /etc/hosts
+cp /etc/rc.local /home/pi/rc.local
+cat /home/pi/rc.local | grep -v "exit 0" > /etc/rc.local
+echo "/home/pi/preparePi.sh" >> /home/pi/rc.local
+echo "exit 0" >> /home/pi/rc.local
 EOF
-
-touch ${ROOTFS_DIR}/home/pi/sample
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
