@@ -8,3 +8,4 @@ curl -X PUT http://raspi-manager:5984/machines/$MACHINE_ID -d " { \
 } "
 
 cp /home/pi/rc.local /etc/rc.local
+
