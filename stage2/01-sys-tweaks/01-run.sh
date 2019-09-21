@@ -61,7 +61,7 @@ EOF
 # https://stackoverflow.com/questions/11735409/how-do-i-set-curl-to-always-use-the-k-option
 
 cp ../../on-boot/preparePi.sh ${ROOTFS_DIR}/home/pi/
-cp $HOME/manager.host ${ROOTFS_DIR}/home/pi/
+cp ../../manager.host ${ROOTFS_DIR}/home/pi/
 on_chroot <<EOF
 chmod +x /home/pi/preparePi.sh
 apt-get install -y apt-transport-https ca-certificates software-properties-common
