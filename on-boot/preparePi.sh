@@ -1,3 +1,13 @@
 #!/bin/bash 
 
-echo "Hi!"
+sleep 30
+echo "Setup Machine:" >> /home/pi/setup.log
+export MACHINE_ID=`ifconfig eth0 | grep 'inet ' | cut -d: -f2 | awk '{ print $2}' | cut -d. -f4`
+curl -v -X PUT http://raspi-manager:5984/machines/$MACHINE_ID -d " { \
+\"IP\": \"`ifconfig eth0 | grep 'inet ' | cut -d: -f2 | awk '{ print $2}'`\" , \
+\"MAC\": \"`ifconfig eth0 | grep 'ether ' | cut  -f2 | awk '{ print $2}'`\" \
+} " >> /home/pi/setup.log
+
+
+cp /home/pi/rc.local /etc/rc.local
+echo "End of setup" >> /home/pi/setup.log

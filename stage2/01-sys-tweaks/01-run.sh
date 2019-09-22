@@ -59,23 +59,25 @@ EOF
 # Get .ssh/authorized_keys for help on login 
 # Update node name based on mac
 # https://stackoverflow.com/questions/11735409/how-do-i-set-curl-to-always-use-the-k-option
-cp ../../on-boot/preparePi.sh ${ROOTFS_DIR}/etc/init.d/
+
+cp ../../on-boot/preparePi.sh ${ROOTFS_DIR}/home/pi/
+cp ../../manager.host ${ROOTFS_DIR}/home/pi/
 on_chroot <<EOF
-chmod +x /etc/init.d/preparePi.sh
-cat /etc/init.d/preparePi.sh
+chmod +x /home/pi/preparePi.sh
 apt-get install -y apt-transport-https ca-certificates software-properties-common
-openssl version
-openssl version -d
 update-ca-certificates --fresh
-echo insecure >> $HOME/.curlrc
-ls /etc/ssl/certs
 echo insecure >> $HOME/.curlrc
 curl -O https://curl.haxx.se/ca/cacert.pem > /etc/ssl/certs/cacert.pem
 curl -sSL   https://get.docker.com/ | sh
 usermod -aG docker pi
 systemctl enable docker.service
 rm -f $HOME/.curlrc
+cp /etc/hosts /home/pi/hosts
+cat /home/pi/hosts | grep -v "raspi-manager" > /etc/hosts
+cat /home/pi/manager.host  >> /etc/hosts
+cp  /etc/rc.local /home/pi/rc.local
+cat /home/pi/rc.local | grep -v "exit 0" > /etc/rc.local
+echo "/home/pi/preparePi.sh" >> /etc/rc.local
+echo "exit 0" >> /etc/rc.local
 EOF
-
-touch ${ROOTFS_DIR}/home/pi/sample
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
