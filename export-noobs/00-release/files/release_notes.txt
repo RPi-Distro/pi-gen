@@ -12,6 +12,7 @@ UNRELEASED:
   * Overscan support added for FKMS driver
   * New keyboard shortcuts added - Ctrl-Alt-End brings up shutdown menu; Ctrl-Alt-M moves taskbar between monitors
   * Latest changes to Bluez ALSA interface integrated to improve connection to Bluetooth audio devices
+  * Mousepad used as simple text editor instead of leafpad
   * Version 3.2 of Thonny added
   * Version 74 of Chromium added
   * Version 3.0.8 of VLC added
