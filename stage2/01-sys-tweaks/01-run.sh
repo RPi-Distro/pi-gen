@@ -21,6 +21,10 @@ else
 	systemctl disable ssh
 fi
 systemctl enable regenerate_ssh_host_keys
+if [ -n "${ROOT_PUBLIC_KEY}" ]; then
+	mkdir -p /root/.ssh
+	echo "${ROOT_PUBLIC_KEY}" >> /root/.ssh/authorized_keys
+fi
 EOF
 
 if [ "${USE_QEMU}" = "1" ]; then
