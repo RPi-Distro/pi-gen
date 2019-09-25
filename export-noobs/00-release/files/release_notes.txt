@@ -1,4 +1,7 @@
 UNRELEASED:
+  * rpi-eeprom included
+    - This will automatically update the SPI EEPROM on the Raspberry Pi 4 to the latest stable version.
+       See https://rpf.io/eeprom for more information.
   * New icon theme for file manager icons
   * Appearance Settings - option for identical desktop on both monitors
   * Appearance Settings - option to show different desktop icons on both monitors
@@ -33,10 +36,8 @@ UNRELEASED:
   * Bug fix - Screen Configuration tool not shown on x86 platforms and settings not being saved
   * Various translation updates
   * Various minor bug fixes
-  * rpi-eeprom included
   * Epiphany/Web removed
   * ntfs-3g included
-  * Scratch 3 added to full image
   * pciutils added
   * Linux kernel 4.19.71
   * Raspberry Pi firmware 04ddd4957d470528d7b26ea00a37d8fe2f1e2db7
