@@ -8,12 +8,12 @@
 # Documentation: http://cloudinit.readthedocs.io/en/0.7.9/index.html
 
 # Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
-hostname: raspberrypi
-manage_etc_hosts: true
+#hostname: raspberrypi
+#manage_etc_hosts: true
 
 # You could modify this for your own user information
-users:
-  - default
+#users:
+#  - default
 
 # # Set the locale of the system
 # locale: "en_US.UTF-8"
@@ -57,7 +57,7 @@ package_upgrade: false
 # These commands will be ran once on first boot only
 runcmd:
   # Pickup the hostname changes
-  - 'systemctl restart avahi-daemon'
+  #- 'systemctl restart avahi-daemon'
 
 #  # Activate WiFi interface
 #  - 'ifup wlan0'
