@@ -10,32 +10,27 @@ rm -rf "${ROOTFS_DIR}"
 mkdir -p "${ROOTFS_DIR}"
 
 BOOT_SIZE="$((256 * 1024 * 1024))"
-TOTAL_SIZE=$(du --apparent-size -s "${EXPORT_ROOTFS_DIR}" --exclude var/cache/apt/archives --block-size=1 | cut -f 1)
+ROOT_SIZE=$(du --apparent-size -s "${EXPORT_ROOTFS_DIR}" --exclude var/cache/apt/archives --exclude boot --block-size=1 | cut -f 1)
 
-ROUND_SIZE="$((4 * 1024 * 1024))"
-ROUNDED_ROOT_SECTOR=$(((BOOT_SIZE + ROUND_SIZE) / ROUND_SIZE * ROUND_SIZE / 512 + 8192))
-IMG_SIZE=$(((BOOT_SIZE + TOTAL_SIZE + (800 * 1024 * 1024) + ROUND_SIZE - 1) / ROUND_SIZE * ROUND_SIZE))
+# All partition sizes and starts will be aligned to this size
+ALIGN="$((4 * 1024 * 1024))"
+# Add this much space to the calculated file size. This allows for
+# some overhead (since actual space usage is usually rounded up to the
+# filesystem block size) and gives some free space on the resulting
+# image.
+ROOT_MARGIN=$((800*1024*1024))
+
+BOOT_PART_START=$((ALIGN))
+BOOT_PART_SIZE=$(((BOOT_SIZE + ALIGN - 1) / ALIGN * ALIGN))
+ROOT_PART_START=$((BOOT_PART_START + BOOT_PART_SIZE))
+ROOT_PART_SIZE=$(((ROOT_SIZE + ROOT_MARGIN + ALIGN  - 1) / ALIGN * ALIGN))
+IMG_SIZE=$((BOOT_PART_START + BOOT_PART_SIZE + ROOT_PART_SIZE))
 
 truncate -s "${IMG_SIZE}" "${IMG_FILE}"
-fdisk -H 255 -S 63 "${IMG_FILE}" <<EOF
-o
-n
 
-
-8192
-+$((BOOT_SIZE / 512))
-p
-t
-c
-n
-
-
-${ROUNDED_ROOT_SECTOR}
-
-
-p
-w
-EOF
+parted --script "${IMG_FILE}" mklabel msdos
+parted --script "${IMG_FILE}" unit B mkpart primary fat32 "${BOOT_PART_START}" "$((BOOT_PART_START + BOOT_PART_SIZE - 1))"
+parted --script "${IMG_FILE}" unit B mkpart primary ext4 "${ROOT_PART_START}" "$((ROOT_PART_START + ROOT_PART_SIZE - 1))"
 
 PARTED_OUT=$(parted -sm "${IMG_FILE}" unit b print)
 BOOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^1:' | cut -d':' -f 2 | tr -d B)

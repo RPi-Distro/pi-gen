@@ -1,8 +1,46 @@
 UNRELEASED:
+  * rpi-eeprom included
+    - This will automatically update the SPI EEPROM on the Raspberry Pi 4 to the latest stable version.
+       See https://rpf.io/eeprom for more information.
+  * New icon theme for file manager icons
+  * Appearance Settings - option for identical desktop on both monitors
+  * Appearance Settings - option to show different desktop icons on both monitors
+  * Taskbar automatically moved to monitor 0 if monitor 1 not found at boot
+  * Switching of audio output between two HDMI devices added to volume plugin
+  * Switching of audio input devices added to volume plugin
+  * .asoundrc (ALSA config file) now uses 'plug' values to support more devices
+  * Audio Settings tool modified to integrate more closely with volume plugin to reduce duplicated code
+  * Screen Configuration tool now shows separate menus for resolution and refresh rate
+  * Primary and active monitor settings removed from Screen Configuration tool
+  * Overscan support added for FKMS driver
+  * New keyboard shortcuts added - Ctrl-Alt-End brings up shutdown menu; Ctrl-Alt-M moves taskbar between monitors
+  * Latest changes to Bluez ALSA interface integrated to improve connection to Bluetooth audio devices
+  * Mousepad used as simple text editor instead of leafpad
+  * Version 3.2 of Thonny added
+  * Version 74 of Chromium added
+  * Version 3.0.8 of VLC added
+  * Version 32.0.0.255 of Flash player added
+  * Version 6.5.0 of RealVNC Server added
+  * Version 6.19.715 of RealVNC Viewer added (full image only)
+  * Version 12.0.1 of Mathematica added (full image only)
+  * Version 0.20.8 of NodeRED added (full image only)
+  * Version 3.1.0 of Sonic Pi added (full image only)
+  * Scratch 3 added (full image only)
+  * Bug fix - URL handling in Terminal
+  * Bug fix - octal values in SSIDs in network plugin
+  * Bug fix - remaining value in progress bar when transferring files
+  * Bug fix - integration of xarchiver tool with file manager
+  * Bug fix - start menu opening on incorrect monitor
+  * Bug fix - minimised applications wrongly displayed on taskbar on second monitor
+  * Bug fix - Bluetooth icon disappearing on x86 platforms when Bluetooth turned off
+  * Bug fix - Screen Configuration tool not shown on x86 platforms and settings not being saved
+  * Various translation updates
+  * Various minor bug fixes
   * Epiphany/Web removed
   * ntfs-3g included
-  * Scratch 3 added to full image
   * pciutils added
+  * Linux kernel 4.19.71
+  * Raspberry Pi firmware 04ddd4957d470528d7b26ea00a37d8fe2f1e2db7
 2019-07-10:
   * Clearer options for switching of Pi 4 video output in Raspberry Pi Configuration
   * Option added to Appearance Settings to move taskbar to second monitor
