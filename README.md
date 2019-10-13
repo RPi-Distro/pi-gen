@@ -86,13 +86,24 @@ The following environment variables are supported:
 
    Default keyboard keymap.
 
+   To get the current value from a running system, run `debconf-show
+   keyboard-configuration` and look at the
+   `keyboard-configuration/xkb-keymap` value.
+
  * `KEYBOARD_LAYOUT` (Default: "English (UK)" )
 
    Default keyboard layout.
 
+   To get the current value from a running system, run `debconf-show
+   keyboard-configuration` and look at the
+   `keyboard-configuration/variant` value.
+
  * `TIMEZONE_DEFAULT` (Default: "Europe/London" )
 
    Default keyboard layout.
+
+   To get the current value from a running system, look in
+   `/etc/timezone`.
 
  * `FIRST_USER_NAME` (Default: "pi" )
 
