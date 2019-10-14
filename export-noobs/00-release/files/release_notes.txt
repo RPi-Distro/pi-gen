@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2019-09-26:
   * rpi-eeprom included
     - This will automatically update the SPI EEPROM on the Raspberry Pi 4 to the latest stable version.
        See https://rpf.io/eeprom for more information.
