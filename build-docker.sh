@@ -3,7 +3,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 BUILD_OPTS="$*"
 
-DOCKER="docker"
+# Set DOCKER="sudo docker" if needed
+DOCKER=${DOCKER:-"docker"}
 
 if ! ${DOCKER} ps >/dev/null 2>&1; then
 	DOCKER="sudo docker"
@@ -31,7 +32,10 @@ do
 done
 
 # Ensure that the configuration file is an absolute path
-CONFIG_FILE=$(realpath -s "$CONFIG_FILE")
+# on OS X realpath is not available
+if [ -x /usr/bin/realpath ]; then
+	CONFIG_FILE=$(realpath -s "$CONFIG_FILE")
+fi
 
 # Ensure that the confguration file is present
 if test -z "${CONFIG_FILE}"; then
