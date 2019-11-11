@@ -33,7 +33,7 @@ done
 
 # Ensure that the configuration file is an absolute path
 # on OS X realpath is not available
-if [ -x /usr/bin/realpath ]; then
+if test -x /usr/bin/realpath; then
 	CONFIG_FILE=$(realpath -s "$CONFIG_FILE")
 fi
 
