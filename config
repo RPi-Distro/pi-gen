@@ -1,0 +1,5 @@
+IMG_NAME='Kolibri'
+FIRST_USER_NAME='kolibri'
+FIRST_USER_PASS='kolibrifly'
+ENABLE_SSH='1'
+HOSTNAME=kolibri
