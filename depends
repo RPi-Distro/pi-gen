@@ -16,3 +16,5 @@ xxd
 file
 git
 lsmod:kmod
+qemu-nbd:qemu-utils
+kpartx

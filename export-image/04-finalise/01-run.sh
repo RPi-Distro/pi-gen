@@ -95,7 +95,16 @@ if [ "${DEPLOY_ZIP}" == "1" ]; then
 		"$(basename "${IMG_FILE}")"
 	popd > /dev/null
 else
-	cp "$IMG_FILE" "$DEPLOY_DIR"
+	if [ "${USE_QCOW2}" = "1" ]; then
+	    mv "$IMG_FILE" "$DEPLOY_DIR/"
+	else
+	    cp "$IMG_FILE" "$DEPLOY_DIR"
+	fi
 fi
 
-cp "$INFO_FILE" "$DEPLOY_DIR"
+if [ "${USE_QCOW2}" = "1" ]; then
+    mv "$INFO_FILE" "$DEPLOY_DIR/"
+else
+    cp "$INFO_FILE" "$DEPLOY_DIR"
+fi
+

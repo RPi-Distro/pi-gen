@@ -1,11 +1,15 @@
 #!/bin/bash -e
 
-IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 NOOBS_DIR="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}"
-unmount_image "${IMG_FILE}"
-
 mkdir -p "${STAGE_WORK_DIR}"
-cp "${WORK_DIR}/export-image/${IMG_FILENAME}${IMG_SUFFIX}.img" "${STAGE_WORK_DIR}/"
+
+if [ "${USE_QCOW2}" = "1" ]; then
+    IMG_FILE="${WORK_DIR}/export-image/${IMG_FILENAME}${IMG_SUFFIX}.img"
+else
+    cp "${WORK_DIR}/export-image/${IMG_FILENAME}${IMG_SUFFIX}.img" "${STAGE_WORK_DIR}/"
+    IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
+fi
+unmount_image "${IMG_FILE}"
 
 rm -rf "${NOOBS_DIR}"
 

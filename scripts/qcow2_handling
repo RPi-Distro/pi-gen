@@ -1,0 +1,96 @@
+# QCOW2 Routines
+
+export CURRENT_IMAGE
+export CURRENT_MOUNTPOINT
+
+# set in build.sh
+# should be fairly enough for the beginning
+# overwrite here by uncommenting following lines
+# BASE_QCOW2_SIZE=12G
+
+init_nbd() {
+    modprobe nbd max_part=16
+    if [ -z "${NBD_DEV}" ]; then
+	for x in /sys/class/block/nbd* ; do
+	    S=`cat $x/size`
+	    if [ "$S" == "0" ] ; then
+		NBD_DEV=/dev/$(basename $x)
+		MAP_DEV=/dev/mapper/$(basename $x)p1
+		break
+	    fi
+	done
+    fi
+}
+
+# mount qcow2 image: mount_image <image file> <mountpoint>
+mount_qimage() {
+    init_nbd
+    qemu-nbd --discard=unmap -c $NBD_DEV "$1"
+    kpartx -a $NBD_DEV
+    mount $MAP_DEV "$2"
+    CURRENT_IMAGE="$1"
+    CURRENT_MOUNTPOINT="$2"
+}
+export -f mount_qimage
+
+# umount qcow2 image: umount_image <current mountpoint>
+umount_qimage() {
+    while mount | grep -q "$1"; do
+            local LOCS
+            LOCS=$(mount | grep "$1" | cut -f 3 -d ' ' | sort -r)
+            for loc in $LOCS; do
+		    echo "$loc"
+                    umount "$loc"
+            done
+    done
+    qemu-nbd -d $NBD_DEV
+    kpartx -d $NBD_DEV
+}
+export -f umount_qimage
+
+# create base image / backing image / mount image
+load_qimage() {
+    if [ -z "${CURRENT_MOUNTPOINT}" ]; then
+        if [ ! -d "${ROOTFS_DIR}" ]; then mkdir -p "${ROOTFS_DIR}"; fi
+
+        if [ "${CLEAN}" = "1" ] && [ -f "${WORK_DIR}/image-${STAGE}.qcow2" ]; then rm -f "${WORK_DIR}/image-${STAGE}.qcow2"; fi
+
+        if [ ! -f "${WORK_DIR}/image-${STAGE}.qcow2" ]; then
+            pushd ${WORK_DIR} > /dev/null
+	    init_nbd
+            if [ -z "${PREV_STAGE}" ]; then
+                qemu-img create -f qcow2 image-${STAGE}.qcow2 $BASE_QCOW2_SIZE
+                qemu-nbd --discard=unmap -c $NBD_DEV image-${STAGE}.qcow2
+		echo 'type=83' | sfdisk $NBD_DEV
+                kpartx -a $NBD_DEV
+                mkfs.ext4 $MAP_DEV
+    	    else
+		if [ ! -f "${WORK_DIR}/image-${PREV_STAGE}.qcow2" ]; then exit 1; fi
+                qemu-img create -f qcow2 \
+                    -o backing_file=${WORK_DIR}/image-${PREV_STAGE}.qcow2 \
+                    ${WORK_DIR}/image-${STAGE}.qcow2
+                qemu-nbd --discard=unmap -c $NBD_DEV image-${STAGE}.qcow2
+                kpartx -a $NBD_DEV
+            fi
+            mount $MAP_DEV "${ROOTFS_DIR}"
+	    CURRENT_IMAGE=${WORK_DIR}/image-${STAGE}.qcow2
+	    CURRENT_MOUNTPOINT=${ROOTFS_DIR}
+	    popd > /dev/null
+	else
+	    mount_qimage "${WORK_DIR}/image-${STAGE}.qcow2" "${ROOTFS_DIR}"
+	fi
+	echo "Current image in use: ${CURRENT_IMAGE} (MP: ${CURRENT_MOUNTPOINT})"
+    fi
+}
+export -f load_qimage
+
+# umount current image and refresh mount point env var
+unload_qimage() {
+    if [ ! -z "${CURRENT_MOUNTPOINT}" ]; then
+        fstrim -v "${CURRENT_MOUNTPOINT}" || true
+	umount_qimage "${CURRENT_MOUNTPOINT}"
+        CURRENT_IMAGE=""
+        CURRENT_MOUNTPOINT=""
+    fi
+}
+export -f unload_qimage
