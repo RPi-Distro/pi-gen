@@ -180,8 +180,6 @@ export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
 
 export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 
-export BASE_DIR
-
 export CLEAN
 export IMG_NAME
 export APT_PROXY
