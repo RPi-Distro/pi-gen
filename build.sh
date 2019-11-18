@@ -122,7 +122,8 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
-export BASE_DIR=${BASE_DIR:-"$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"}
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"}
+export BASE_DIR
 
 if [ -f config ]; then
 	# shellcheck disable=SC1091
