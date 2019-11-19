@@ -3,6 +3,9 @@
 export CURRENT_IMAGE
 export CURRENT_MOUNTPOINT
 
+export NBD_DEV
+export MAP_DEV
+
 # set in build.sh
 # should be fairly enough for the beginning
 # overwrite here by uncommenting following lines
