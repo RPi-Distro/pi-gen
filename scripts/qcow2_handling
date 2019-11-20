@@ -38,6 +38,7 @@ export -f mount_qimage
 
 # umount qcow2 image: umount_image <current mountpoint>
 umount_qimage() {
+    sync
     while mount | grep -q "$1"; do
             local LOCS
             LOCS=$(mount | grep "$1" | cut -f 3 -d ' ' | sort -r)
@@ -46,8 +47,8 @@ umount_qimage() {
                     umount "$loc"
             done
     done
-    qemu-nbd -d $NBD_DEV
     kpartx -d $NBD_DEV
+    qemu-nbd -d $NBD_DEV
 }
 export -f umount_qimage
 
