@@ -1,0 +1,3 @@
+kolibri	kolibri/init	boolean	false
+kolibri	kolibri/user	string	kolibri
+kolibri-server	kolibri-server/port	select	8080

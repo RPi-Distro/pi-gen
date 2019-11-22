@@ -1,0 +1,78 @@
+upstream kolibri {
+    server 127.0.0.1:8080;
+}
+
+proxy_cache_path /home/pi/.kolibri/nginxcache levels=1:2 keys_zone=my_cache:10m max_size=1g inactive=240h use_temp_path=off;
+
+server {
+
+    listen 80;
+
+    location /static {
+        alias /home/pi/.kolibri/static;
+        expires 365d;
+        add_header Cache-Control "public";
+    }
+
+    location /content {
+        alias /KOLIBRI_DATA/content;
+        expires 365d;
+        add_header Cache-Control "public";
+    }
+
+    location /favicon.ico {
+        empty_gif;
+        expires 365d;
+        add_header Cache-Control "public";
+    }
+
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Scheme $scheme;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_cache my_cache;
+
+    location /zipcontent {
+        proxy_pass http://kolibri;
+        proxy_hide_header Content-Security-Policy;
+        proxy_ignore_headers X-Accel-Expires Expires Cache-Control Vary;
+        proxy_cache_valid any 240h;
+        expires 365d;
+        add_header Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: http://${http_host}";
+        add_header X-Proxy-Cache $upstream_cache_status;
+    }
+
+    location /downloadcontent {
+        proxy_pass http://kolibri;
+        proxy_ignore_headers X-Accel-Expires Expires Cache-Control Vary;
+        proxy_cache_valid any 240h;
+        expires 365d;
+        add_header X-Proxy-Cache $upstream_cache_status;
+    }
+
+    location / {
+        proxy_pass http://kolibri;
+        add_header X-Proxy-Cache $upstream_cache_status;
+        proxy_ignore_headers Vary;
+        error_page 502 = @502;
+    }
+
+    location @502 {
+        types { }
+        default_type "text/html";
+        return 502 "
+        <html xmlns='http://www.w3.org/1999/xhtml'>    
+          <head>      
+            <meta http-equiv='refresh' content='5;URL='/'' />
+          </head>
+          <body>
+            <br/>
+            <h1>Kolibri may still be starting up - wait a few moments and then reload this page.</h1>
+            <br />
+            <h2>If Kolibri is still busy, get help from the system administrator.</h2>
+            <h3>Error code: nginx 502 Bad Gateway.</h3>
+          </body>";
+    }
+
+}
