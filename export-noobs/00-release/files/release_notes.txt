@@ -1,4 +1,3 @@
-UNRELEASED:
   *
 2019-09-26:
   * rpi-eeprom included
