@@ -291,7 +291,7 @@ If you wish to build up to a specified stage (such as building up to stage 2
 for a lite system), place an empty file named `SKIP` in each of the `./stage`
 directories you wish not to include.
 
-Then add an empty file named `SKIP_IMAGES` to `./stage4` (if building up to stage 2) or
+Then add an empty file named `SKIP_IMAGES` to `./stage4` and `./stage5` (if building up to stage 2) or
 to `./stage2` (if building a minimal system).
 
 ```bash
