@@ -1,0 +1,4 @@
+steps:
+  - label: Run Build Script
+    command:
+     - ./build-docker.sh
