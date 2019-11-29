@@ -55,14 +55,6 @@ The following environment variables are supported:
         increase the value because the virtual disk can run out of space like a normal
         hard drive would.
 
-    * `NBD_DEV` (Default: auto eval)
-
-        The virtual qcow2 disk has to be attached to a special network block device (NBD)
-        so that it can be accessed like any other disk. Normally a free device node will be
-        evaluated automatically. If you want to predefine a device node set this parameter
-        in your `config` file like so:
-        `ǸBD_DEV=/dev/nbd1`.
-
     **CAUTION:**  Although the qcow2 build mechanism will run fine inside Docker, it can happen
     that the network block device is not disconnected correctly after the Docker process has
     ended abnormally. In that case see [Disconnect an image if something went wrong](#Disconnect-an-image-if-something-went-wrong)
