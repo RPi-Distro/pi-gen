@@ -1,0 +1,18 @@
+
+- hosts: localhost
+
+  tasks:
+  - name: Gather the Debian package facts
+    package_facts:
+      manager: apt
+
+  - name: Apply tasks to build the whole RPi config
+    import_tasks: online.yml
+    when: "'kolibri-server' not in ansible_facts.packages"
+
+  - name: Apply tasks to be executed if kolibri-server is installed
+    import_tasks: offline.yml
+    when: "'kolibri-server' in ansible_facts.packages"
+
+  - name: Include common tasks
+    import_tasks: common.yml

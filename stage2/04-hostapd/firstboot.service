@@ -1,0 +1,14 @@
+[Unit]
+Description=FirstBoot
+After=network.target
+Before=rc-local.service
+ConditionFileNotEmpty=/boot/firstboot.sh
+
+[Service]
+ExecStart=/boot/firstboot.sh
+ExecStartPost=/bin/mv /boot/firstboot.sh /boot/firstboot.sh.done
+Type=oneshot
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target

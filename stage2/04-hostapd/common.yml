@@ -1,0 +1,101 @@
+---
+# list of tasks to be always executed
+# For this to work, previously these packages
+# must have been installed:
+#    kolibri-server
+#    dnsmasq
+#    hostapd
+
+
+- name: Insert/update dhcpcd.conf settings block
+  become: yes
+  blockinfile:
+    path: /etc/dhcpcd.conf
+    block: |
+      interface wlan0
+          static ip_address=10.10.10.10/24
+          nohook resolv.conf, wpa_supplicant
+
+- name: Copy in dnsmasq configuration
+  become: yes
+  copy:
+    src: files/dnsmasq_hotspot.conf
+    dest: /etc/dnsmasq.d/hotspot.conf
+
+- name: Set up custom hostapd conf file for 2.4GHz.
+  become: yes
+  copy:
+    src: files/hostapd.conf
+    dest: /etc/hostapd/hostapd.conf
+
+- name: Set up custom hostapd conf file for 5GHz.
+  become: yes
+  copy:
+    src: files/hostapd_5ghz.conf
+    dest: /etc/hostapd/hostapd_5ghz.conf
+
+- name: Insert/update hostapd settings block
+  become: yes
+  blockinfile:
+    path: /etc/default/hostapd
+    block: |
+      DAEMON_CONF="/etc/hostapd/hostapd.conf"
+
+- name: Ensure dnsmasq doesn't interfere with local DNS
+  become: yes
+  blockinfile:
+    path: /etc/default/dnsmasq
+    block: |
+      DNSMASQ_EXCEPT=lo
+
+- name: Remove the default nginx config file (so it won't conflict).
+  become: yes
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Copy in usb-mount.sh (script for automounting USB)
+  become: yes
+  copy:
+    src: files/usb-mount.sh
+    dest: /usr/local/bin/usb-mount.sh
+    mode: '755'
+
+- name: Copy in systemd unit file for USB automount/unmount
+  become: yes
+  copy:
+    src: files/usb-mount@.service
+    dest: /etc/systemd/system/usb-mount@.service
+
+- name: Create udev rule to start/stop usb-mount@.service on hotplug/unplug
+  become: yes
+  blockinfile:
+    path: /etc/udev/rules.d/99-local.rules
+    create: yes
+    block: |
+      KERNEL=="sd[a-z]*[0-9]", SUBSYSTEMS=="usb", ACTION=="add", RUN+="/bin/systemctl start usb-mount@%k.service"
+      KERNEL=="sd[a-z]*[0-9]", SUBSYSTEMS=="usb", ACTION=="remove", RUN+="/bin/systemctl stop usb-mount@%k.service"
+
+- name: Ensure services are unmasked, enabled, and restarted.
+  become: yes
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    masked: no
+    state: restarted
+    daemon_reload: yes
+  loop:
+    - dhcpcd
+    - hostapd
+    - dnsmasq
+    - nginx
+    - kolibri-server
+
+- name: Reload the udev rules
+  become: yes
+  shell:
+    udevadm control --reload-rules
+
+
+# TODO (stretch goal): get it working in both AP and client wifi modes at the same time!
+# https://blog.thewalr.us/2017/09/26/raspberry-pi-zero-w-simultaneous-ap-and-managed-mode-wifi/

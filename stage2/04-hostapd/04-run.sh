@@ -1,9 +1,12 @@
 #!/bin/bash -e
 install -d                         "${ROOTFS_DIR}/etc/kolibri/ansible/"
 
-install -m 644 install_offline.yml "${ROOTFS_DIR}/etc/kolibri/ansible/"
+install -m 644 *.yml               "${ROOTFS_DIR}/etc/kolibri/ansible/"
 
 cp -R files                        "${ROOTFS_DIR}/etc/kolibri/ansible/"
 
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.kolibri"
-install -m 644 -o 1000 -g 1000  options.ini "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.kolibri/"
+install -m 755 firstboot.sh        "${ROOTFS_DIR}/boot/"
+
+install -m 644 firstboot.service   "${ROOTFS_DIR}/lib/systemd/system/"
+
+ln -sf "${ROOTFS_DIR}/lib/systemd/system/firstboot.service" "${ROOTFS_DIR}/etc/systemd/system/multi-user.target.wants/firstboot.service"

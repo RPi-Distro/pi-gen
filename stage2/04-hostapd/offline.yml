@@ -1,0 +1,12 @@
+---
+# lists of tasks to be executed if kolibri-server is already installed
+
+- name: Remove file lock file left by package installation
+  file:
+    path: /tmp/kolibri_uwsgi.sock
+    state: absent
+
+- name: Remove directory lock dir left by package installation
+  file:
+    path: /var/run/kolibri-server
+    state: absent

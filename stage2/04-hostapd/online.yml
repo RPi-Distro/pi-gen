@@ -1,0 +1,69 @@
+---
+
+- name: Create the directory where Kolibri content will live.
+  become: yes
+  file:
+    path: /KOLIBRI_DATA/content
+    state: directory
+    owner: pi
+
+- name: Create the directory where Kolibri data will live.
+  file:
+    path: /home/pi/.kolibri
+    state: directory
+
+- name: Copy in the skeleton Kolibri options.ini file.
+  copy:
+    src: files/options.ini
+    dest: /home/pi/.kolibri/options.ini
+
+- name: Add the PPA signing key
+  become: yes
+  apt_key:
+    id: DC5BAA93F9E4AE4F0411F97C74F88ADB3194DD81
+    keyserver: keyserver.ubuntu.com
+
+- name: Add the Kolibri PPA
+  become: yes
+  apt_repository:
+    repo: deb http://ppa.launchpad.net/learningequality/kolibri/ubuntu bionic main
+    state: present
+    filename: learningequality-ubuntu-kolibri-bionic.list
+
+- name: Update repository cache, and upgrade everything
+  become: yes
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Do not init kolibri daemon on boot
+  debconf:
+    name: kolibri
+    question: kolibri/init
+    value: false
+    vtype: boolean
+
+- name: Kolibri to run under user pi
+  debconf:
+    name: kolibri
+    question: kolibri/user
+    value: pi
+    vtype: string
+
+- name: Kolibri will run on port 80
+  debconf:
+    name: kolibri-server
+    question: kolibri-server/port
+    value: '80'
+    vtype: select
+
+- name: Install necessary packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - kolibri-server
+    - dnsmasq
+    - hostapd
+
