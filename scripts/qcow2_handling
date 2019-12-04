@@ -94,21 +94,27 @@ load_qimage() {
                 echo "Creating base image: image-${STAGE}.qcow2"
                 #  -o preallocation=falloc
                 qemu-img create -f qcow2 image-${STAGE}.qcow2 $BASE_QCOW2_SIZE
+		sync
                 qemu-nbd --discard=unmap -c $NBD_DEV image-${STAGE}.qcow2
+		sync
                 sfdisk $NBD_DEV << EOF
 ,250MiB,b
 ,,83;
 EOF
+		sync
                 kpartx -a $NBD_DEV
                 mkdosfs -n boot -F 32 -v $MAP_BOOT_DEV
                 mkfs.ext4 -L rootfs -O "^huge_file,^metadata_csum,^64bit" $MAP_ROOT_DEV
+		sync
     	    else
                 if [ ! -f "${WORK_DIR}/image-${PREV_STAGE}.qcow2" ]; then exit 1; fi
                 echo "Creating backing image: image-${STAGE}.qcow2 <- ${WORK_DIR}/image-${PREV_STAGE}.qcow2"
                 qemu-img create -f qcow2 \
                     -o backing_file=${WORK_DIR}/image-${PREV_STAGE}.qcow2 \
                     ${WORK_DIR}/image-${STAGE}.qcow2
+		sync
                 qemu-nbd --discard=unmap -c $NBD_DEV image-${STAGE}.qcow2
+		sync
                 kpartx -a $NBD_DEV
             fi
             mount -v -t ext4 $MAP_ROOT_DEV "${ROOTFS_DIR}"
