@@ -35,7 +35,9 @@ export -f init_nbd
 connect_blkdev() {
     init_nbd
     qemu-nbd --discard=unmap -c $NBD_DEV "$1"
+    sync
     kpartx -a $NBD_DEV
+    sync
     CURRENT_IMAGE="$1"
 }
 export -f connect_blkdev
@@ -180,6 +182,7 @@ function make_bootable_image() {
     echo "Resize fs and partition"
     CALL_FROM_MBI=1
     resize_qcow2
+    sync
     CALL_FROM_MBI=
 
     echo "Disconnect block device"
@@ -192,9 +195,11 @@ function make_bootable_image() {
 
     echo "Shrinking qcow2 image"
     qemu-img resize --shrink "${EXPORT_QCOW2}" $NEW_IMG_SIZE
+    sync
 
     echo "Convert qcow2 to raw image"
     qemu-img convert -f qcow2 -O raw "${EXPORT_QCOW2}" "${EXPORT_IMAGE}"
+    sync
 
     echo "Get PARTUUIDs from image"
     IMGID="$(blkid -o value -s PTUUID "${EXPORT_IMAGE}")"
@@ -230,6 +235,7 @@ function make_bootable_image() {
     fi
 
     echo "Umount image"
+    sync
     umount "${MOUNTROOT}/boot" || exit 1
     umount "${MOUNTROOT}" || exit 1
 
