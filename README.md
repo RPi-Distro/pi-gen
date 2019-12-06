@@ -277,13 +277,13 @@ maintenance and allows for more easy customization.
    enhancements, etc.  This is a base desktop system, with some development
    tools installed.
 
- - **Stage 4** - Normal Raspbian image. System meant to fit on a 4GB card.  More development
-   tools, an email client, learning tools like Scratch, specialized packages
-   like sonic-pi, system documentation, office productivity, etc.  This is the
-   stage that installs all of the things that make Raspbian friendly to new
-   users.
+ - **Stage 4** - Normal Raspbian image. System meant to fit on a 4GB card. This is the
+   stage that installs most things that make Raspbian friendly to new
+   users like system documentation.
 
- - **Stage 5** - The Raspbian Full image.
+ - **Stage 5** - The Raspbian Full image. More development
+   tools, an email client, learning tools like Scratch, specialized packages
+   like sonic-pi, office productivity, etc.  
 
 ### Stage specification
 
