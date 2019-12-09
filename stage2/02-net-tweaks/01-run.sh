@@ -14,6 +14,14 @@ if [ -v WPA_ESSID ] && [ -v WPA_PASSWORD ]; then
 on_chroot <<EOF
 wpa_passphrase "${WPA_ESSID}" "${WPA_PASSWORD}" >> "/etc/wpa_supplicant/wpa_supplicant.conf"
 EOF
+elif [ -v WPA_ESSID ]; then
+cat >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf" << EOL
+
+network={
+	ssid="${WPA_ESSID}"
+	key_mgmt=NONE
+}
+EOL
 fi
 
 # Disable wifi on 5GHz models

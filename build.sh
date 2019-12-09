@@ -247,7 +247,7 @@ for EXPORT_DIR in ${EXPORT_DIRS}; do
 	fi
 done
 
-if [ -x postrun.sh ]; then
+if [ -x ${BASE_DIR}/postrun.sh ]; then
 	log "Begin postrun.sh"
 	cd "${BASE_DIR}"
 	./postrun.sh
