@@ -150,7 +150,7 @@ time ${DOCKER} run \
   $DOCKER_CMDLINE_POST \
   pi-gen \
   bash -e -o pipefail -c "
-    dpkg-reconfigure qemu-user-static &&
+    dpkg-reconfigure qemu-user-static || true &&
     # binfmt_misc is sometimes not mounted with debian bullseye image
     (mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true) &&
     cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
