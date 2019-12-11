@@ -5,7 +5,7 @@ if [[ $LE_TRIGGERED_FROM_BUILD_ID ]]
 then
   echo "--- Downloading debian package from Buildkite"
   buildkite-agent artifact download --build $LE_TRIGGERED_FROM_BUILD_ID 'dist/*.deb' .
-  export LOCAL_KOLIBRI_PACKAGE=$PWD/dist/*.deb
+  DOCKER_RUN_OPTS="-v $PWD/dist/:/dist:ro"
 else
   echo "Image will use Debian Package from Launchpad"
 fi
