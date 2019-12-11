@@ -11,4 +11,6 @@ else
 fi
 
 echo "--- Building Pi Image"
-PRESERVE_CONTAINER=1 CONTINUE=1 ./build-docker.sh
+PRESERVE_CONTAINER=1 
+CONTINUE=1 
+. ./build-docker.sh
