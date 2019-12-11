@@ -10,12 +10,5 @@ else
   echo "Image will use Debian Package from Launchpad"
 fi
 
-
-if [[ $(docker ps -a | grep pi-gen) ]]
-then
-  echo "--- Building Pi Image with cache :money:"
-  PRESERVE_CONTAINER=1 ./build-docker.sh
-else
-  echo "--- Building Pi Image"
-  ./build-docker.sh
-fi
+echo "--- Building Pi Image"
+PRESERVE_CONTAINER=1 CONTINUE=1 ./build-docker.sh
