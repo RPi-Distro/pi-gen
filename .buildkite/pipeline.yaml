@@ -1,4 +1,4 @@
 steps:
-  - label: Run Build Script
+  - label: Build Pi Image
     command:
-     - ./build-docker.sh
+     - .buildkite/build.sh
