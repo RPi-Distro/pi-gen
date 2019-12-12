@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
-if -a /dist/*.deb
+if [[ $(find /dist -maxdepth 1 -name '*.deb' -print -quit) ]]
 then
+  echo "--- Using Buildkite-provided Kolibri deb"
   dpkg -i /dist/*.deb
 fi
 
