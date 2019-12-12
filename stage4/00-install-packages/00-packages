@@ -18,7 +18,6 @@ python-spidev python3-spidev
 python-twython python3-twython
 python-smbus python3-smbus
 python-flask python3-flask
-python-picraft python3-picraft
 pprompt
 piwiz
 rp-prefapps
