@@ -3,7 +3,9 @@
 if [[ $(find /dist -maxdepth 1 -name '*.deb' -print -quit) ]]
 then
   echo "--- Using Buildkite-provided Kolibri deb"
-  dpkg -i /dist/*.deb
+  dpkg -l --root "$ROOTFS_DIR" -i /dist/*.deb
+
+  echo "--- Continuing Image Build "
 fi
 
 install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.kolibri"
