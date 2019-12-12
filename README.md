@@ -17,7 +17,7 @@ After following the above steps the Raspberry Pi will provide a wifi network nam
 
 After connecting a device to this wifi network provided by the Raspberry, you can open the url http://10.10.10.10 in a browser will allow you enjoy all the features of a working Kolibri server. 
 
-By default the server does not have Internet access, so an usb disk must be used to add content channels to Kolibri.
+By default the server does not have Internet access. To add content channels to Kolibri you can either connect an usb disk with content or plug and ethernet cable with Internet access.
 
 In case you want to login into the server, the user is `pi` and the password is `kolibrifly`
 
@@ -25,8 +25,9 @@ VERY IMPORTANT: After installing the image, a ssh server is installed with a kno
 **VERY IMPORTANT NOTICE**: After installing the image, a ssh server is installed with a known password. **CHANGE IT** in case you want to connect it to Internet or be used by people who could mess it up.
 
 
-
-The installed system contains a fully Raspbian image, with all the software included in the `lite` version from https://www.raspberrypi.org/downloads/raspbian/ . After login `sudo raspi-config` can be used to customize its environment, including localization, timezone, etc. if desired.
+### Good to know:
+- The installed system contains a fully Raspbian image, with all the software included in the `lite` version from https://www.raspberrypi.org/downloads/raspbian/ . After login `sudo raspi-config` can be used to customize its environment, including localization, timezone, etc. if desired.
+- If an ethernet cable with Internet access is connected to the Raspberry, it will have Internet connectivity but *won't* provide this connectivity to the devices that are connected to its `kolibri` essid. These devices will only be able to use the browser with the kolibri application at the http://10.10.10.10 url.
 
 
 
