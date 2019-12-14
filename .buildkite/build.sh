@@ -24,5 +24,5 @@ then
   buildkite-agent artifact upload dist/*.zip --job $LE_TRIGGERED_FROM_JOB_ID
 fi
 
-# Upload twice - once to pipeline, and once to this one
+# Upload twice - once to parent pipeline, and once to this one
 buildkite-agent artifact upload dist/*.zip
