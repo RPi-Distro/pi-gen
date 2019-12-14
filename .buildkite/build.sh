@@ -21,7 +21,8 @@ mv deploy dist
 
 if [[ $LE_TRIGGERED_FROM_JOB_ID ]]
 then
-  UPLOAD_BUILD_FLAGS="--job $LE_TRIGGERED_FROM_JOB_ID"
+  buildkite-agent artifact upload dist/*.zip --job $LE_TRIGGERED_FROM_JOB_ID
 fi
 
-buildkite-agent artifact upload dist/*.zip $UPLOAD_BUILD_FLAGS
+# Upload twice - once to pipeline, and once to this one
+buildkite-agent artifact upload dist/*.zip
