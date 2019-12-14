@@ -8,7 +8,7 @@ then
   
   # All files copied at build stage to /pi-gen
   mv /pi-gen/dist/*.deb $ROOTFS_DIR
-  on_chroot < dpkg -i *.deb
+  on_chroot < dpkg -i /*.deb
 
   echo "--- Continuing Image Build "
 fi
