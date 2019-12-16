@@ -10,14 +10,14 @@ else
 fi
 
 echo "--- Building Pi Image"
-PRESERVE_CONTAINER=1 
-CONTINUE=1 
+PRESERVE_CONTAINER=1
+CONTINUE=1
 . ./build-docker.sh
 
 echo "--- Uploading artifacts"
 
 # Moving to another folder to match convention of other installers
-mv deploy dist
+mv deploy/* dist/
 
 if [[ $LE_TRIGGERED_FROM_JOB_ID ]]
 then
