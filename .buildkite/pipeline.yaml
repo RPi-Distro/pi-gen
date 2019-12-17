@@ -1,7 +1,4 @@
 steps:
-  - block: "Build Pi Image?"
-    # If this commit has a tag, build a Pi image by default
-    if: build.tag == null
   - label: Build Pi Image
     command:
      - .buildkite/build.sh
