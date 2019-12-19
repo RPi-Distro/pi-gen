@@ -10,9 +10,7 @@ else
 fi
 
 echo "--- Building Pi Image"
-PRESERVE_CONTAINER=1
-CONTINUE=1
-. ./build-docker.sh
+CONTINUE=1 PRESERVE_CONTAINER=1 ./build-docker.sh
 
 echo "--- Uploading artifacts"
 

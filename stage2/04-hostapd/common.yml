@@ -86,10 +86,10 @@
     daemon_reload: yes
   loop:
     - dhcpcd
-    - hostapd
     - dnsmasq
     - nginx
     - kolibri-server
+    - hostapd
 
 - name: Reload the udev rules
   become: yes

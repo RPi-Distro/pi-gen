@@ -1,0 +1,7 @@
+nginx-full
+uwsgi
+uwsgi-plugin-python3
+redis-server
+dnsmasq
+hostapd
+ansible
