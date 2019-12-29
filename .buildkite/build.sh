@@ -16,18 +16,15 @@ CONTINUE=1 PRESERVE_CONTAINER=1 ./build-docker.sh
 
 echo "--- Uploading artifacts"
 
-# Moving to another folder to match convention of other installers
 rm -rf dist/*
 
-# Creates a bash array. Using ls because it sorts by name by default, and images are prefixed with date
-IMAGE=($(ls ./deploy/*.zip))
-
-mv deploy/$IMAGE dist/
+# Moving to another folder to match convention of other installers
+mv deploy/* dist/
 
 if [[ $LE_TRIGGERED_FROM_JOB_ID ]]
 then
-  buildkite-agent artifact upload dist/*.zip --job $LE_TRIGGERED_FROM_JOB_ID
+  buildkite-agent artifact upload "dist/*.zip" --job $LE_TRIGGERED_FROM_JOB_ID
 fi
 
 # Upload twice - once to pipeline, and once to this one
-buildkite-agent artifact upload dist/*.zip
+buildkite-agent artifact upload "dist/*.zip"
