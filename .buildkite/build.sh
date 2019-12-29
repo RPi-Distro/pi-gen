@@ -15,6 +15,7 @@ CONTINUE=1 PRESERVE_CONTAINER=1 ./build-docker.sh
 echo "--- Uploading artifacts"
 
 # Moving to another folder to match convention of other installers
+rm -rf dist/*
 mv deploy/* dist/
 
 if [[ $LE_TRIGGERED_FROM_JOB_ID ]]
