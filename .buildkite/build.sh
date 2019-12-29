@@ -18,7 +18,11 @@ echo "--- Uploading artifacts"
 
 # Moving to another folder to match convention of other installers
 rm -rf dist/*
-mv deploy/* dist/
+
+# Creates a bash array. Using ls because it sorts by name by default, and images are prefixed with date
+IMAGE=($(ls ./deploy/*.zip))
+
+mv deploy/$IMAGE dist/
 
 if [[ $LE_TRIGGERED_FROM_JOB_ID ]]
 then
