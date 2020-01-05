@@ -6,7 +6,7 @@ BUILD_OPTS="$*"
 DOCKER="docker"
 
 if ! ${DOCKER} ps >/dev/null 2>&1; then
-	DOCKER="sudo docker"
+	DOCKER="docker"
 fi
 if ! ${DOCKER} ps >/dev/null; then
 	echo "error connecting to docker:"
