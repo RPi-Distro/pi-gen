@@ -1,0 +1,5 @@
+IMG_NAME=pyxian-v1.0
+ENABLE_SSH=1
+STAGE_LIST='stage0 stage1 stage2'
+FIRST_USER_NAME=pi
+FIRST_USER_PASS=raspberry
