@@ -16,7 +16,24 @@ function install_binfmt_support {
     fi
 }
 
+function load_kernelmodule {
+    local kernelMod="$1"
+    if ! $SUDO modinfo $kernelMod &>/dev/null; then
+        echo "missing this kernel modul: $kernelMod"
+        exit 1
+    else
+        if $SUDO modprobe -n --first-time $kernelMod &>/dev/null; then
+            echo "loading kernel module $kernelMod"
+            $SUDO modprobe $kernelMod
+        fi
+    fi
+}
+
 install_binfmt_support
+
+load_kernelmodule loop
+load_kernelmodule binfmt_misc
+
 
 DOCKER="$SUDO docker"
 
