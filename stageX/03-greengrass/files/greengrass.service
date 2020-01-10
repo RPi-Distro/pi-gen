@@ -1,0 +1,13 @@
+[Unit]
+Description=Greengrass Daemon
+
+[Service]
+Type=forking
+PIDFile=/var/run/greengrassd.pid
+Restart=on-failure
+ExecStart=/etc/init.d/S02greengrass start
+ExecReload=/etc/init.d/S02greengrass restart
+ExecStop=/etc/init.d/S02greengrass stop
+
+[Install]
+WantedBy=multi-user.target

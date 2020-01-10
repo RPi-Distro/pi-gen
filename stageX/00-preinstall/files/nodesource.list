@@ -1,0 +1,2 @@
+deb https://deb.nodesource.com/node_12.x buster main
+deb-src https://deb.nodesource.com/node_12.x buster main

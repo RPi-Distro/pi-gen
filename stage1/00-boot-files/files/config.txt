@@ -18,8 +18,8 @@
 
 # uncomment to force a console size. By default it will be display's size minus
 # overscan.
-#framebuffer_width=1280
-#framebuffer_height=720
+#framebuffer_width=800
+#framebuffer_height=480
 
 # uncomment if hdmi display is not detected and composite is being output
 #hdmi_force_hotplug=1
@@ -47,9 +47,8 @@
 #dtparam=i2s=on
 #dtparam=spi=on
 
-# Uncomment this to enable infrared communication.
-#dtoverlay=gpio-ir,gpio_pin=17
-#dtoverlay=gpio-ir-tx,gpio_pin=18
+# Uncomment this to enable the lirc-rpi module
+#dtoverlay=lirc-rpi
 
 # Additional overlays and parameters are documented /boot/overlays/README
 
@@ -63,3 +62,5 @@ max_framebuffers=2
 
 [all]
 #dtoverlay=vc4-fkms-v3d
+start_x=1
+gpu_mem=16

@@ -1,0 +1,3 @@
+libffi-dev
+libssl-dev
+python-configparser

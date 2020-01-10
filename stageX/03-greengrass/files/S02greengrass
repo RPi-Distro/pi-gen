@@ -1,0 +1,7 @@
+#!/bin/sh
+mkdir -p /greengrass/certs
+mkdir -p /greengrass/config
+cp /boot/certs/* /greengrass/certs/
+cp /boot/config/* /greengrass/config/
+cd /greengrass/ggc/core
+./greengrassd \$@
