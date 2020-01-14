@@ -192,7 +192,7 @@ It is recommended to examine build.sh for finer details.
 
 Docker can be used to perform the build inside a container. This partially isolates
 the build from the host system, and allows using the script on non-debian based
-systems (e.g. Fedora Linux). The isolate is not complete due to the need to use
+systems (e.g. Fedora Linux). The isolation is not complete due to the need to use
 some kernel level services for arm emulation (binfmt) and loop devices (losetup).
 
 To build:
@@ -238,7 +238,7 @@ solution).
 
 The build of Raspbian is divided up into several stages for logical clarity
 and modularity.  This causes some initial complexity, but it simplifies
-maintenance and allows for more easy customization.
+maintenance and allows for easier customization.
 
  - **Stage 0** - bootstrap.  The primary purpose of this stage is to create a
    usable filesystem.  This is accomplished largely through the use of
