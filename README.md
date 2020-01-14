@@ -264,11 +264,11 @@ maintenance and allows for more easy customization.
    creates necessary groups and gives the pi user access to sudo and the
    standard console hardware permission groups.
 
-   There are a few tools that may not make a whole lot of sense here for
-   development purposes on a minimal system such as basic Python and Lua
+   There are a few development tools here that may not make a whole lot
+   of sense on a minimal system.  These tools include basic Python and Lua
    packages as well as the `build-essential` package.  They are lumped right
    in with more essential packages presently, though they need not be with
-   pi-gen.  These are understandable for Raspbian's target audience, but if
+   pi-gen.  They are understandable for Raspbian's target audience, but if
    you were looking for something between truly minimal and Raspbian-Lite,
    here's where you start trimming.
 
@@ -283,7 +283,7 @@ maintenance and allows for more easy customization.
 
  - **Stage 5** - The Raspbian Full image. More development
    tools, an email client, learning tools like Scratch, specialized packages
-   like sonic-pi, office productivity, etc.  
+   like sonic-pi, office productivity, etc.
 
 ### Stage specification
 
