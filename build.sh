@@ -172,6 +172,9 @@ export WPA_COUNTRY
 export ENABLE_SSH="${ENABLE_SSH:-0}"
 
 export LOCALE_DEFAULT="${LOCALE_DEFAULT:-en_GB.UTF-8}"
+# LOCALE_GEN_DEFAULT is a list of locales to generate separated by comma and
+# space)
+export LOCALE_GEN_DEFAULT="${LOCALE_GEN_DEFAULT:-en_GB.UTF-8 UTF-8}"
 
 export KEYBOARD_KEYMAP="${KEYBOARD_KEYMAP:-gb}"
 export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"

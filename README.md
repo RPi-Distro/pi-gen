@@ -82,6 +82,13 @@ The following environment variables are supported:
 
    Default system locale.
 
+ * `LOCALE_GEN_DEFAULT` (Default: "en_GB.UTF-8 UTF-8" )
+
+   List of locales to generate each separated by a comma and a space (in that
+   order).  Note a locale is typically of the form
+   `<lang>_<COUNTRY>.<encoding> <encoding>` (e.g. `en_GB.UTF-8 UTF-8`).
+   See `stage0/01-locale/00-debconf` for a list of available locales.
+
  * `HOSTNAME` (Default: "raspberrypi" )
 
    Setting the hostname to the specified value.
@@ -283,7 +290,7 @@ maintenance and allows for more easy customization.
 
  - **Stage 5** - The Raspbian Full image. More development
    tools, an email client, learning tools like Scratch, specialized packages
-   like sonic-pi, office productivity, etc.  
+   like sonic-pi, office productivity, etc.
 
 ### Stage specification
 
