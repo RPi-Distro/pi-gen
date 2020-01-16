@@ -87,8 +87,13 @@ run_stage(){
 	STAGE_WORK_DIR="${WORK_DIR}/${STAGE}"
 	ROOTFS_DIR="${STAGE_WORK_DIR}"/rootfs
 	if [ ! -f SKIP_IMAGES ]; then
-		if [ -f "${STAGE_DIR}/EXPORT_IMAGE" ]; then
-			EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
+		if [ -z "${EXPORT_LIST}" ]; then
+			get_stage_export "${STAGE_DIR}"
+			if [ -n "${EXPORT_LIST}" ]; then
+				EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
+			fi
+			unset EXPORT_LIST
+			export EXPORT_LIST
 		fi
 	fi
 	if [ ! -f SKIP ]; then
@@ -180,6 +185,15 @@ export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
 
 export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 
+if [ "${USE_QEMU}" = "1" ]; then
+	# shellcheck disable=SC2034
+	export stage2_EXPORT_LIST="${stage2_EXPORT_LIST:-export-image}"
+	# shellcheck disable=SC2034
+	export stage4_EXPORT_LIST="${stage4_EXPORT_LIST:-export-image}"
+	# shellcheck disable=SC2034
+	export stage5_EXPORT_LIST="${stage5_EXPORT_LIST:-export-image}"
+fi
+
 export CLEAN
 export IMG_NAME
 export APT_PROXY
@@ -236,20 +250,26 @@ for STAGE_DIR in $STAGE_LIST; do
 done
 
 CLEAN=1
+
 for EXPORT_DIR in ${EXPORT_DIRS}; do
-	STAGE_DIR=${BASE_DIR}/export-image
-	# shellcheck source=/dev/null
-	source "${EXPORT_DIR}/EXPORT_IMAGE"
-	EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename "${EXPORT_DIR}")/rootfs
-	run_stage
-	if [ "${USE_QEMU}" != "1" ]; then
-		if [ -e "${EXPORT_DIR}/EXPORT_NOOBS" ]; then
+	log "Begin export ${EXPORT_DIR}"
+	# e.g. stageX with default stage_dirs
+	get_stage_export "${EXPORT_DIR}"
+
+	for EXPORT_IMAGE in ${EXPORT_LIST}; do
+		IMAGE_SOURCE="$(echo "${EXPORT_IMAGE}" | tr '[:lower:]' '[:upper:]' | tr '\-' '_')"
+		if [ -f "${EXPORT_DIR}/${IMAGE_SOURCE}" ]; then
+			log "Begin ${EXPORT_IMAGE}"
+			STAGE_DIR="${BASE_DIR}/${EXPORT_IMAGE}"
 			# shellcheck source=/dev/null
-			source "${EXPORT_DIR}/EXPORT_NOOBS"
-			STAGE_DIR="${BASE_DIR}/export-noobs"
+			source "${EXPORT_DIR}/${IMAGE_SOURCE}"
+			# shellcheck disable=SC2153
+			EXPORT_ROOTFS_DIR="${WORK_DIR}/${EXPORT_STAGE}/rootfs"
 			run_stage
+			log "End ${EXPORT_IMAGE}"
 		fi
-	fi
+	done
+	log "End export ${EXPORT_DIR}"
 done
 
 if [ -x ${BASE_DIR}/postrun.sh ]; then

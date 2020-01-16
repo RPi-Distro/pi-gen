@@ -129,6 +129,24 @@ The following environment variables are supported:
 
     If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
 
+ * `stageX_EXPORT_LIST` (Default: based on presence for `EXPORT_IMAGE` and/or
+  `EXPORT_NOOBS` in stageX directory (currently stage2, stage4, and stage5) )
+
+    If set, then instead of determining images to export based on `EXPORT_IMAGE`
+    and/or `EXPORT_NOOBS` being present in a particular directory the images to
+    export for a particular stage is based on that stage's `stageX_EXPORT_LIST`.
+    Only stages with a `stageX_EXPORT_LIST` (e.g. `stage2_EXPORT_LIST`) are
+    determined this way.  All other stages use the default method (presence of
+    `EXPORT_IMAGE` and/or `EXPORT_NOOBS`).
+    For stages with a `stageX_EXPORT_LIST`, the contents of EXPORT_LIST are
+    expected to be directory names in the repo directory.  In addition, files
+    with each directory in EXPORT_LIST translated to upper case and dashes (-)
+    converted to underscores (\_) in the stage's directory are sourced before
+    generating the image.  (e.g. an 'export-image' in the stage2_EXPORT_LIST
+    first sources stage2/EXPORT_IMAGE and then generates an images using the
+    `export-image` directory, which is the same behaviour as the old default
+    behaviour.
+
 A simple example for building Raspbian:
 
 ```bash
