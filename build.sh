@@ -125,6 +125,10 @@ fi
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export BASE_DIR
 
+# Make sure HOSTNAME doesn't leak in from host
+unset HOSTNAME
+export HOSTNAME
+
 if [ -f config ]; then
 	# shellcheck disable=SC1091
 	source config
