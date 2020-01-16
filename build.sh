@@ -178,6 +178,16 @@ export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"
 
 export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
 
+export HEADLESS="${HEADLESS:-0}"
+
+if [ "${HEADLESS}" != "1" ]; then
+	export CONSOLE1="${CONSOLE1:-console=serial0,115200}"
+	export CONSOLE2="${CONSOLE2:-console=tty1}"
+else
+	export CONSOLE1="${CONSOLE1:-console=tty1}"
+	export CONSOLE2="${CONSOLE2:-console=serial0,115200}"
+fi
+
 export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 
 export CLEAN
