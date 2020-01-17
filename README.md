@@ -1,7 +1,8 @@
-# pi-gen
+# pi-gen 
 
 _Tool used to create the raspberrypi.org Raspbian images_
 
+This is a custom Raspbian version for Bitcoin Token.
 
 ## Dependencies
 
