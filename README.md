@@ -3,6 +3,7 @@
 _Tool used to create the raspberrypi.org Raspbian images_
 
 This is a custom Raspbian version for Bitcoin Token.
+Second test to ensure clean setup after using BFG to remove large files.
 
 ## Dependencies
 
