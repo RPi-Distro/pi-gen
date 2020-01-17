@@ -1,0 +1,7 @@
+[Desktop Entry]
+Comment=Bitcoin Token Wallet
+Terminal=false
+Name=Bitcoin Token
+Exec=/home/pi/btct/bin/btct-qt
+Type=Application
+Icon=/usr/share/pixmaps/btct-ico.xpm

@@ -1,4 +1,0 @@
-IMG_SUFFIX="-full"
-if [ "${USE_QEMU}" = "1" ]; then
-	export IMG_SUFFIX="${IMG_SUFFIX}-qemu"
-fi

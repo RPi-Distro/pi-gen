@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!DOCTYPE Menu
+  PUBLIC '-//freedesktop//DTD Menu 1.0//EN'
+  'http://standards.freedesktop.org/menu-spec/menu-1.0.dtd'>
+<Menu>
+	<Name>Applications</Name>
+	<MergeFile type="parent">/etc/xdg/menus/lxde-pi-applications.menu</MergeFile>
+	<Include>
+		<Filename>alacarte-made.desktop</Filename>
+	</Include>
+	<Layout>
+		<Merge type="menus"/>
+		<Menuname>Development</Menuname>
+		<Menuname>Education</Menuname>
+		<Menuname>Office</Menuname>
+		<Menuname>Internet</Menuname>
+		<Menuname>Multimedia</Menuname>
+		<Menuname>Graphics</Menuname>
+		<Menuname>Games</Menuname>
+		<Menuname>Other</Menuname>
+		<Menuname>System</Menuname>
+		<Menuname>Accessories</Menuname>
+		<Menuname>Universal Access</Menuname>
+		<Separator/>
+		<Filename>alacarte-made.desktop</Filename>
+		<Separator/>
+		<Menuname>Help</Menuname>
+		<Separator/>
+		<Menuname>DesktopSettings</Menuname>
+		<Merge type="files"/>
+	</Layout>
+</Menu>
