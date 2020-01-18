@@ -22,13 +22,13 @@ Anyone can run a Bitcoin Token BTCT RasPi Node. It is a simple way to have a 24/
 
 Recommended hardware:
 
-https://www.amazon.com/dp/B01N13X8V1/ - Raspberry Pi 3 Model B
-or
-https://www.amazon.com/dp/B07TD42S27/ Raspberry Pi 4 Model B
+https://www.amazon.com/dp/B01N13X8V1/ - Raspberry Pi 3 Model B<br>
+or<br>
+https://www.amazon.com/dp/B07TD42S27/ Raspberry Pi 4 Model B<br>
 
-https://amzn.to/2BNQHfm – Kingston Canvas React™ 32GB microSD card
-http://a.co/2c9FFaf – 8-Port Desktop USB Charger Charging Station
-http://a.co/8i5RHU3 – Short USB Cable, (the 10 pack is a good value) . (only if you are thinking to run multiple BTCT RasPi's)
+https://amzn.to/2BNQHfm – Kingston Canvas React™ 32GB microSD card<br>
+http://a.co/2c9FFaf – 8-Port Desktop USB Charger Charging Station<br>
+http://a.co/8i5RHU3 – Short USB Cable, (the 10 pack is a good value) . (only if you are thinking to run multiple BTCT RasPi's)<br>
 https://www.amazon.com/dp/B016A90URW/ - 1 foot ethernet (the 10 pack is a good value) (only if you are thinking to run multiple BTCT RasPi's)
 
 
