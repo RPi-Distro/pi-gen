@@ -16,14 +16,21 @@ NO ONE WILL NEVER DM YOU AND ASK YOU FOR YOUR PASSWORD OR PRIVATE KEYS OR ANY OT
 
 READ THE PARAGRAPH ABOVE AGAIN! NEVER GIVE OUT YOUR PASSWORD OR PRIVATE KEYS TO ANYONE UNLESS YOU LIKE HAVING ALL YOUR CRYPTO STOLEN FROM YOU.
 
-
-## Simple Install Instructions
+## Hardware Recommendations
 
 Anyone can run a Bitcoin Token BTCT RasPi Node. It is a simple way to have a 24/7 node on our network that not only helps the BTCT network to run but also can help you stake BTCT all the time and earn rewards.
 
-A full simple setup guide is here with recommended hardware: https://github.com/bitcointokenbtct/Raspberry-Pi-Node-Guide
+Recommended hardware:
 
-(Please note we will keep updating the RasPi node as well as guide as we go along).
+https://www.amazon.com/dp/B01N13X8V1/ - Raspberry Pi 3 Model B
+or
+https://www.amazon.com/dp/B07TD42S27/ Raspberry Pi 4 Model B
+
+https://amzn.to/2BNQHfm – Kingston Canvas React™ 32GB microSD card
+http://a.co/2c9FFaf – 8-Port Desktop USB Charger Charging Station
+http://a.co/8i5RHU3 – Short USB Cable, (the 10 pack is a good value) . (only if you are thinking to run multiple BTCT RasPi's)
+https://www.amazon.com/dp/B016A90URW/ - 1 foot ethernet (the 10 pack is a good value) (only if you are thinking to run multiple BTCT RasPi's)
+
 
 
 ## Instructions for etching
@@ -36,4 +43,8 @@ Use a 16GB SD Card minimum, but recommend you go for 32 or 64GB, the blockchain 
 
 AGAIN: BE SURE TO ENCRYPT AND BACKUP YOUR WALLET! SD Cards can and will go bad. Back up your wallet and make sure you know the password.
 
+
+## Next Steps
+
+Simply power up your RasPi with the SD card in it. For those who are not using a mouse or screen connected to the RasPi there are additional steps you can google to connect to the RasPi via terminal. We will be expanding this help guide in the near future with more detailed steps.
 
