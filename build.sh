@@ -165,6 +165,7 @@ export LOG_FILE="${WORK_DIR}/build.log"
 export HOSTNAME=${HOSTNAME:-raspberrypi}
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
+FIRST_USER_PASS="$(printf "%q" "$FIRST_USER_PASS")"
 export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
 export WPA_ESSID
 export WPA_PASSWORD
