@@ -1,5 +1,26 @@
 UNRELEASED:
-  *
+  * Version 3.2.6 of Thonny included - significant improvements in speed, particularly when debugging
+  * Version 1.0.4 of Scratch 3 included - adds new "display stage" and "display sprite" blocks to SenseHAT extension, and loading of files from command line
+  * Version 32.0.0.314 of Flash player included
+  * Version 1.0.3 of NodeRED included
+  * Version 6.6.0 of RealVNC Server and version 6.19.923 of RealVNC Viewer included - adds support for audio
+  * Version 78.0.3904.108 of Chromium included
+  * Mesa updated to 19.3.2 for OpenGL ES 3.1 conformance
+  * Orca screen reader added to Recommended Software
+  * Code The Classics Python games added to Recommended Software
+  * File manager - new "places" pane added at top of sidebar to show mounted drives in simplified view; "new folder" icon added to taskbar; expanders in directory browser now correctly show state of subfolders
+  * Multiple monitor support improved - alignment of icons on second desktop corrected, Appearance Settings opens on correct tab when launched from context menu
+  * Raspberry Pi Touchscreen correctly aligned with display
+  * System clock synchronised before installing new packages in startup wizard and Recommended Software
+  * Mixer dialogs added to taskbar volume plugin; separate Audio Preferences application removed
+  * Raspberry Pi Configuration - separate tab added for display options; screen blanking control added
+  * Volume taskbar plugin and raspi-config modified to support separate ALSA devices for internal audio outputs (analogue and HDMI 1 and 2)
+  * Robustness improvements in volume, ejecter and battery taskbar plugins
+  * Movement of mouse pointer to menu button on startup now controlled by point_at_menu parameter in Global section of lxpanel configuration file
+  * Ctrl-Alt-Del and Ctrl-Alt-End shortcuts added to open shutdown options box
+  * Ctrl-Shift-Esc shortcut added to open task manager
+  * Linux kernel 4.19.93
+  * Raspberry Pi firmware 67392a7a32bddad7f571047fccafca9eeb65d29c
 2019-09-26:
   * rpi-eeprom included
     - This will automatically update the SPI EEPROM on the Raspberry Pi 4 to the latest stable version.
