@@ -19,6 +19,7 @@ UNRELEASED:
   * Movement of mouse pointer to menu button on startup now controlled by point_at_menu parameter in Global section of lxpanel configuration file
   * Ctrl-Alt-Del and Ctrl-Alt-End shortcuts added to open shutdown options box
   * Ctrl-Shift-Esc shortcut added to open task manager
+  * Enabled NEON routines in OpenSSL
   * Linux kernel 4.19.93
   * Raspberry Pi firmware 67392a7a32bddad7f571047fccafca9eeb65d29c
 2019-09-26:
