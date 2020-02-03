@@ -1,0 +1,10 @@
+The bootstrap files are large can't be uploaded to github very easily, so this ia a placeholder.
+
+Get a recent bootstrap archive from the releases (whatever is latest) and extract to here:
+
+bootstrap/blocks
+bootstrap/chainstate
+bootstrap/index
+bootstrap/sporks
+
+Note: the contents of index go in bootstrap/blocks/index but you must separate them out like this for pi-gen to work and place files correctly.
