@@ -14,7 +14,8 @@ To install the required dependencies for pi-gen you should run:
 
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
-dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl qemu-utils kpartx
+dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl bc \
+qemu-utils kpartx
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -105,7 +106,7 @@ The following environment variables are supported:
 
    Default system locale.
 
- * `HOSTNAME` (Default: "raspberrypi" )
+ * `TARGET_HOSTNAME` (Default: "raspberrypi" )
 
    Setting the hostname to the specified value.
 
@@ -142,11 +143,11 @@ The following environment variables are supported:
 
  * `WPA_ESSID`, `WPA_PASSWORD` and `WPA_COUNTRY` (Default: unset)
 
-   If these are set, they are use to configure `wpa_supplicant.conf`, so that the raspberry pi can automatically connect to a wifi network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wifi network will be configured.
+   If these are set, they are use to configure `wpa_supplicant.conf`, so that the Raspberry Pi can automatically connect to a wifi network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wifi network will be configured.
 
  * `ENABLE_SSH` (Default: `0`)
 
-   Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you RaspberryPi.
+   Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you Raspberry Pi.
 
  * `STAGE_LIST` (Default: `stage*`)
 
