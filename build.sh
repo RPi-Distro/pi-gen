@@ -162,7 +162,7 @@ export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
 export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
 export LOG_FILE="${WORK_DIR}/build.log"
 
-export HOSTNAME=${HOSTNAME:-raspberrypi}
+export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
@@ -217,6 +217,11 @@ fi
 
 if [[ -n "${APT_PROXY}" ]] && ! curl --silent "${APT_PROXY}" >/dev/null ; then
 	echo "Could not reach APT_PROXY server: ${APT_PROXY}"
+	exit 1
+fi
+
+if [[ -n "${WPA_PASSWORD}" && ${#WPA_PASSWORD} -lt 8 || ${#WPA_PASSWORD} -gt 63  ]] ; then
+	echo "WPA_PASSWORD" must be between 8 and 63 characters
 	exit 1
 fi
 
