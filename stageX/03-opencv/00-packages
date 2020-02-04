@@ -1,0 +1,4 @@
+liblapack3
+libopenblas-dev
+liblapack-dev
+python3.7-dev

@@ -1,6 +1,7 @@
 FROM i386/debian:buster
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV XZ_DEFAULTS --memlimit=1024MiB
 
 RUN apt-get -y update && \
     apt-get -y install \
