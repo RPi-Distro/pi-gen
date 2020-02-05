@@ -6,6 +6,7 @@ UNRELEASED:
   * Version 6.6.0 of RealVNC Server and version 6.19.923 of RealVNC Viewer included - adds support for audio
   * Version 78.0.3904.108 of Chromium included
   * Mesa updated to 19.3.2 for OpenGL ES 3.1 conformance
+  * Pixel doubling option added in Raspberry Pi Configuration on platforms using FKMS display driver
   * Orca screen reader added to Recommended Software
   * Code The Classics Python games added to Recommended Software
   * File manager - new "places" pane added at top of sidebar to show mounted drives in simplified view; "new folder" icon added to taskbar; expanders in directory browser now correctly show state of subfolders
