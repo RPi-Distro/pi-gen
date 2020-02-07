@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2020-02-05:
   * Version 3.2.6 of Thonny included - significant improvements in speed, particularly when debugging
   * Version 1.0.4 of Scratch 3 included - adds new "display stage" and "display sprite" blocks to SenseHAT extension, and loading of files from command line
   * Version 32.0.0.314 of Flash player included
