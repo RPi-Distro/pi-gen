@@ -1,5 +1,6 @@
 #!/bin/sh
-mkdir -p /greengrass/certs
-mkdir -p /greengrass/config
-cd /greengrass/ggc/core
-./greengrassd \$@
+
+cd /greengrass/ggc/packages/1.10.0/
+./greengrassd $@
+
+

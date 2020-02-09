@@ -2,3 +2,7 @@ liblapack3
 libopenblas-dev
 liblapack-dev
 python3.7-dev
+python-pip python3-pip
+python-opencv
+python-scipy
+python-picamera python3-picamera

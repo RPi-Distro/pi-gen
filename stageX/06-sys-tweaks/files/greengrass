@@ -1,0 +1,13 @@
+/greengrass/ggc/var/log/system/*.log {
+  size 10M
+  weekly
+  rotate 3
+  compress
+}
+
+/greengrass/ggc/var/log/user/*/*/*.log {
+  size 10M
+  weekly
+  rotate 3
+  compress
+}

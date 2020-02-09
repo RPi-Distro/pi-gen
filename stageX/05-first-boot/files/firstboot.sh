@@ -18,22 +18,22 @@ set-hostname() {
 	return "${SERIAL}"
 }
 
-request-iot-package() {
-	SERIAL="$1"
-	curl -q -XGET http://frontend.hitachi.net/register?serial="$SERIAL"
-}
+# request-iot-package() {
+# 	SERIAL="$1"
+# 	curl -q -XGET http://frontend.hitachi.net/register?serial="$SERIAL"
+# }
 
-download-iot-package() {
-	DL_URL="$1"
-	ATTEMPT=0
-	RETRIES=10
+# download-iot-package() {
+# 	DL_URL="$1"
+# 	ATTEMPT=0
+# 	RETRIES=10
 
-	while [ ${ATTEMPT} -lt ${RETRIES} ]; do
-		curl -q -XGET "${DL_URL}" -o package.tgz && break
-		ATTEMPT=${ATTEMPT}+1
-		sleep 30
-	done
-}
+# 	while [ ${ATTEMPT} -lt ${RETRIES} ]; do
+# 		curl -q -XGET "${DL_URL}" -o package.tgz && break
+# 		ATTEMPT=${ATTEMPT}+1
+# 		sleep 30
+# 	done
+# }
 
 # Only runs if we are at first boot
 run-if-unlocked() {
@@ -48,8 +48,8 @@ set-lock-file() {
 # Default run
 run() {
 	SERIAL=$(set-hostname)
-	DL_URL=$(request-iot-package)
-	download-iot-package ${DL_URL} && {
+	# DL_URL=$(request-iot-package)
+	# download-iot-package ${DL_URL} && {
 		set-lock-file 
 		reboot now
 	} || {

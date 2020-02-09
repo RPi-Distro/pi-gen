@@ -1,5 +1,5 @@
 --- stage2.orig/rootfs/boot/cmdline.txt
 +++ stage2/rootfs/boot/cmdline.txt
 @@ -1 +1 @@
--dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=ROOTDEV rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait
-+dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=ROOTDEV rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait quiet init=/usr/lib/raspi-config/init_resize.sh
+-dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=ROOTDEV rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait splash plymouth.ignore-serial-consoles cgroup_enable=memory cgroup_memory=1
++dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=ROOTDEV rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait splash plymouth.ignore-serial-consoles cgroup_enable=memory cgroup_memory=1 quiet init=/usr/lib/raspi-config/init_resize.sh

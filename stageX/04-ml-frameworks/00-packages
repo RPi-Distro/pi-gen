@@ -2,3 +2,11 @@ python-dev
 python-nose
 python-pip
 zip
+gfortran
+python-setuptools
+python-pandas python3-pandas
+python-scipy python3-scipy
+libhdf5-dev
+build-essential cmake pkg-config libx11-dev
+libgtk-3-dev libboost-python-dev
+python-markdown python3-markdown

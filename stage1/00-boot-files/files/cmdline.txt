@@ -1,2 +1,2 @@
-dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=ROOTDEV rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait
+dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=ROOTDEV rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait splash plymouth.ignore-serial-consoles cgroup_enable=memory cgroup_memory=1
 

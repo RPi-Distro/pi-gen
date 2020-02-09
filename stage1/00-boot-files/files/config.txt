@@ -63,4 +63,4 @@ max_framebuffers=2
 [all]
 #dtoverlay=vc4-fkms-v3d
 start_x=1
-gpu_mem=16
+gpu_mem=256
