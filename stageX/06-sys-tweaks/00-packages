@@ -1,0 +1,6 @@
+usb-modeswitch
+ppp
+udhcpc
+libqmi-glib5 libqmi-proxy libqmi-utils
+modemmanager modem-manager-gui
+minicom

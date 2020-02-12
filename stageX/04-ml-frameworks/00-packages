@@ -3,10 +3,13 @@ python-nose
 python-pip
 zip
 gfortran
-python-setuptools
+python-setuptools python3-setuptools
 python-pandas python3-pandas
 python-scipy python3-scipy
 libhdf5-dev
 build-essential cmake pkg-config libx11-dev
 libgtk-3-dev libboost-python-dev
 python-markdown python3-markdown
+libatlas-base-dev
+libjasper-dev
+libqtgui4 python3-pyqt5 libqt4-test
