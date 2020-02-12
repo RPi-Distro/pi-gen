@@ -32,7 +32,7 @@ done
 
 # Ensure that the configuration file is an absolute path
 if test -x /usr/bin/realpath; then
-	CONFIG_FILE=$(realpath -s "$CONFIG_FILE")
+	CONFIG_FILE=$(realpath -s "$CONFIG_FILE" || realpath "$CONFIG_FILE")
 fi
 
 # Ensure that the confguration file is present
