@@ -3,10 +3,11 @@ UNRELEASED:
   * Bug fix - switch to turn off VNC server in Raspberry Pi Configuration has no effect
   * Bug fix - fix %20 characters in file names
   * Linux kernel 4.19.97
-  * Raspberry Pi firmware 2efcd0bb3848640e385c894b22551f0d32761bf8
+  * Raspberry Pi firmware 9a34efbf2fc6a27231607ce91a7cb6bf3bdbc0c5
     - gencmd: Fix measure_clock name for CLOCK_OUTPUT_108
     - mmal isp: Remote alignment requirements for RGB24 formats
     - Add missing flags for VC_IMAGE_PROP_YUVUV_4K_CHROMA_ALIGN
+    - platform: Compromise on gpu overclock settings
 2020-02-05:
   * Version 3.2.6 of Thonny included - significant improvements in speed, particularly when debugging
   * Version 1.0.4 of Scratch 3 included - adds new "display stage" and "display sprite" blocks to SenseHAT extension, and loading of files from command line
