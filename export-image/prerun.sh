@@ -55,6 +55,19 @@ for FEATURE in metadata_csum 64bit; do
 	    ROOT_FEATURES="^$FEATURE,$ROOT_FEATURES"
 	fi
 done
+
+#trying to address issue son build 
+echo mkdosfs -n boot -F 32 -v "$BOOT_DEV" > /dev/null
+echo mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" > /dev/null
+
+echo mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t ext4
+echo mkdir -p "${ROOTFS_DIR}/boot"
+echo mount -v "$BOOT_DEV" "${ROOTFS_DIR}/boot" -t vfat
+
+echo rsync -aHAXx --exclude /var/cache/apt/archives --exclude /boot "${EXPORT_ROOTFS_DIR}/" "${ROOTFS_DIR}/"
+echo rsync -rtx "${EXPORT_ROOTFS_DIR}/boot/" "${ROOTFS_DIR}/boot/"
+sleep 10 
+
 mkdosfs -n boot -F 32 -v "$BOOT_DEV" > /dev/null
 mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" > /dev/null
 
