@@ -10,6 +10,6 @@ curl -v -X PUT http://raspi-manager:5984/machines/$MACHINE_ID -d " { \
 
 
 cp /home/pi/rc.local /etc/rc.local
-curl http://raspi-manager/cluster-manager/scripts/setup-raspi.sh | bash >> /home/pi/setup.log
+curl http://raspi-manager/scripts/cluster-manager/scripts/setup-raspi.sh | bash >> /home/pi/setup.log
 
 echo "End of setup" >> /home/pi/setup.log
