@@ -14,6 +14,7 @@ fi
 
 on_chroot apt-key add - < files/raspberrypi.gpg.key
 on_chroot << EOF
+dpkg --add-architecture armhf
 apt-get update
 apt-get dist-upgrade -y
 EOF

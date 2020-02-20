@@ -2,7 +2,7 @@ python3-pygame
 python3-tk thonny
 python3-pgzero
 python3-serial
-python3-picamera
+#python3-picamera
 debian-reference-en dillo
 raspberrypi-net-mods raspberrypi-ui-mods
 python3-pip
@@ -22,4 +22,4 @@ pprompt
 piwiz
 rp-prefapps
 ffmpeg
-vlc
+#vlc
