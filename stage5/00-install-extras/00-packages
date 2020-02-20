@@ -1,15 +1,15 @@
 mu-editor
-sonic-pi
-scratch nuscratch scratch2 scratch3
+#sonic-pi
+#scratch nuscratch scratch2 scratch3
 smartsim
 
-minecraft-pi python-minecraftpi python-picraft python3-picraft
+#minecraft-pi python-minecraftpi python-picraft python3-picraft
 python-sense-emu sense-emu-tools python-sense-emu-doc
 
-wolfram-engine
+#wolfram-engine
 claws-mail
 greenfoot-unbundled bluej
-nodered
+#nodered
 realvnc-vnc-viewer
 
 python-games
