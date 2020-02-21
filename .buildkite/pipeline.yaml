@@ -1,4 +1,5 @@
 steps:
+  - block: Build Pi Image?
   - label: Build Pi Image
     command:
      - .buildkite/build.sh
