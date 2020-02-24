@@ -1,0 +1,471 @@
+#!/bin/sh
+
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 2 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 51
+# Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Copyright (C) 2012-2017 Aleksander Morgado <aleksander@aleksander.es>
+
+print_usage ()
+{
+    echo "usage: $0 [OPTIONS] [DEVICE] [COMMAND]"
+}
+
+help ()
+{
+    echo "Usage: qmi-network [OPTIONS] [DEVICE] [COMMAND]"
+    echo
+    echo "Simple network management of QMI devices"
+    echo
+    echo "Commands:"
+    echo "  start             Start network connection"
+    echo "  stop              Stop network connection"
+    echo "  status            Query network connection status"
+    echo
+    echo "Options:"
+    echo "  --profile=[PATH]  Use the profile in the specified path"
+    echo "  --help            Show help options"
+    echo "  --version         Show version"
+    echo
+    echo "Notes:"
+    echo
+    echo "   1) [DEVICE] is given as the full path to the cdc-wdm character"
+    echo "   device, e.g.:"
+    echo "      /dev/cdc-wdm0"
+    echo
+    echo "   2) The qmi-network script requires a profile to work. Unless"
+    echo "   explicitly specified with \`--profile', the file is assumed to"
+    echo "   be available in the following path:"
+    echo "      /etc/qmi-network.conf"
+    echo
+    echo "   3) The APN to use should be configured in the profile, in the"
+    echo "   following way (e.g. assuming APN is called 'internet'):"
+    echo "      APN=internet"
+    echo
+    echo "   4) Optional APN user/password strings may be given in the following"
+    echo "   way:"
+    echo "      APN_USER=user"
+    echo "      APN_PASS=password"
+    echo
+    echo "   5) If you want to instruct the qmi-network script to use the"
+    echo "   qmi-proxy setup, you can do so by configuring the following line"
+    echo "   in the profile:"
+    echo "      PROXY=yes"
+    echo
+    echo "   6) Once the qmi-network script reports a successful connection"
+    echo "   you still need to run a DHCP client on the associated WWAN network"
+    echo "   interface."
+    echo
+}
+
+version ()
+{
+    echo "qmi-network 1.22.0"
+    echo "Copyright (C) 2013-2018 Aleksander Morgado"
+    echo "License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl-2.0.html>"
+    echo "This is free software: you are free to change and redistribute it."
+    echo "There is NO WARRANTY, to the extent permitted by law."
+    echo
+}
+
+# Basic options
+if [ $# -lt 2 ]; then
+    if [ "$1" = "--help" ]; then
+        help
+        exit 0
+    elif [ "$1" = "--version" ]; then
+        version
+        exit 0
+    fi
+
+    echo "error: missing arguments" 1>&2
+    print_usage
+    exit 255
+fi
+
+# Defaults
+PROFILE_FILE=/etc/qmi-network.conf
+
+# Device + Command with options; options given first
+while [ $# -gt 2 ]; do
+    OPT="$1"
+    shift
+
+    case "$OPT" in
+        "--")
+            break 2;;
+        "--profile")
+            if [ $# -gt 2 ]; then
+                PROFILE_FILE="$1"
+                shift
+            else
+                PROFILE_FILE=""
+            fi
+            ;;
+        "--profile="*)
+            PROFILE_FILE="${OPT#*=}";;
+        *)
+            echo >&2 "Invalid option: $OPT"
+            print_usage
+            exit 255;;
+    esac
+done
+
+if [ -z "$PROFILE_FILE" ]; then
+    echo "error: empty profile path given" 1>&2
+    print_usage
+    exit 255
+fi
+
+if [ $# -ne 2 ] || [ "$1" = '--*' ] || [ "$2" = '--*' ]; then
+    echo "error: missing arguments" 1>&2
+    print_usage
+    exit 255
+fi
+
+DEVICE=$1
+COMMAND=$2
+
+STATE_FILE=/tmp/qmi-network-state-`basename $DEVICE`
+
+load_profile ()
+{
+    if [ -f "$PROFILE_FILE" ]; then
+        echo "Loading profile at ${PROFILE_FILE}..."
+        . $PROFILE_FILE
+
+        if [ -n "$APN" ]; then
+            echo "    APN: $APN"
+        else
+            echo "    APN: unset"
+        fi
+
+        if [ -n "$APN_USER" ]; then
+            echo "    APN user: $APN_USER"
+        else
+            echo "    APN user: unset"
+        fi
+
+        if [ -n "$APN_PASS" ]; then
+            echo "    APN password: $APN_PASS"
+        else
+            echo "    APN password: unset"
+        fi
+
+        if [ "$PROXY" = "yes" ]; then
+            echo "    qmi-proxy: $PROXY"
+            PROXY_OPT='--device-open-proxy'
+        else
+            echo "    qmi-proxy: no"
+        fi
+    else
+        echo "Profile at '$PROFILE_FILE' not found..."
+    fi
+}
+
+save_state ()
+{
+    KEY=$1
+    VAL=$2
+
+    echo "Saving state at ${STATE_FILE}... ($KEY: $VAL)"
+
+    if [ -f "$STATE_FILE" ]; then
+        PREVIOUS=`cat $STATE_FILE`
+        PREVIOUS=`echo "$PREVIOUS" | grep -v $KEY`
+        if [ -n "$PREVIOUS" ]; then
+            echo $PREVIOUS > $STATE_FILE
+        else
+            rm $STATE_FILE
+        fi
+    fi
+
+    if [ -n "$VAL" ]; then
+        echo "$KEY=\"$VAL\"" >> $STATE_FILE
+    fi
+}
+
+load_state ()
+{
+    if [ -f "$STATE_FILE" ]; then
+        echo "Loading previous state from ${STATE_FILE}..."
+        . $STATE_FILE
+
+        if [ -n "$CID" ]; then
+            echo "    Previous CID: $CID"
+        fi
+        if [ -n "$PDH" ]; then
+            echo "    Previous PDH: $PDH"
+        fi
+    fi
+}
+
+clear_state ()
+{
+    echo "Clearing state at ${STATE_FILE}..."
+    rm -f $STATE_FILE
+}
+
+setup_data_format ()
+{
+    RUN_WDA=0
+
+    # Read link layer protocol setup in the device
+
+    DEVICE_DATA_FORMAT_CMD="qmicli -d $DEVICE --wda-get-data-format $PROXY_OPT"
+    echo "Checking data format with '$DEVICE_DATA_FORMAT_CMD'..."
+    if [ -n "$QMIDEBUG" ]; then
+        DEVICE_DATA_FORMAT_OUT="\
+[/dev/cdc-wdm1] Successfully got data format
+                   QoS flow header: no
+               Link layer protocol: '802-3'
+  Uplink data aggregation protocol: 'disabled'
+Downlink data aggregation protocol: 'disabled'
+                     NDP signature: '0'
+  Uplink data aggregation max size: '0'
+Downlink data aggregation max size: '0'"
+    else
+        DEVICE_DATA_FORMAT_OUT=`$DEVICE_DATA_FORMAT_CMD`
+    fi
+    DEVICE_LLP=`echo "$DEVICE_DATA_FORMAT_OUT" | sed -n "s/.*Link layer protocol:.*'\(.*\)'.*/\1/p"`
+
+    if [ -z "$DEVICE_LLP" ]; then
+        echo "Device link layer protocol not retrieved: WDA unsupported" 1>&2
+        return
+    fi
+
+    if [ "$DEVICE_LLP" != "802-3" -a "$DEVICE_LLP" != "raw-ip" ]; then
+        echo "Device link layer protocol not retrieved: unexpected value reported: '$DEVICE_LLP'" 1>&2
+        return
+    fi
+    echo "Device link layer protocol retrieved: $DEVICE_LLP"
+
+    # Read link layer protocol setup in the kernel
+
+    EXPECTED_DATA_FORMAT_CMD="qmicli -d $DEVICE --get-expected-data-format"
+    echo "Getting expected data format with '$EXPECTED_DATA_FORMAT_CMD'..."
+    if [ -n "$QMIDEBUG" ]; then
+        EXPECTED_LLP="raw-ip"
+    else
+        EXPECTED_DATA_FORMAT_OUT=`$EXPECTED_DATA_FORMAT_CMD`
+        if [ $? -eq 0 ]; then
+            EXPECTED_LLP=$EXPECTED_DATA_FORMAT_OUT
+            echo "Expected link layer protocol retrieved: $EXPECTED_LLP"
+        else
+            echo "Expected link layer protocol not retrieved: kernel unsupported" 1>&2
+            EXPECTED_LLP="802-3"
+            # The kernel doesn't support expected data format, so we change the
+            # device data format instead
+            RUN_WDA=1
+        fi
+    fi
+
+    if [ "$EXPECTED_LLP" != "802-3" -a "$EXPECTED_LLP" != "raw-ip" ]; then
+        echo "Expected link layer protocol not retrieved: unexpected value reported: '$EXPECTED_LLP'" 1>&2
+        return
+    fi
+
+    if [ "$DEVICE_LLP" = "$EXPECTED_LLP" ]; then
+        echo "Device and kernel link layer protocol match: $DEVICE_LLP"
+        return
+    fi
+
+    if [ $RUN_WDA -eq 1 ]; then
+        DEVICE_DATA_FORMAT_SET_CMD="qmicli -d $DEVICE --wda-set-data-format=$EXPECTED_LLP $PROXY_OPT"
+        echo "Updating device link layer protocol with '$DEVICE_DATA_FORMAT_SET_CMD'..."
+        if [ -n "$QMIDEBUG" ]; then
+            DEVICE_DATA_FORMAT_SET_OUT="\
+[/dev/cdc-wdm1] Successfully set data format
+                        QoS flow header: no
+                    Link layer protocol: '802-3'
+       Uplink data aggregation protocol: 'disabled'
+     Downlink data aggregation protocol: 'disabled'
+                          NDP signature: '0'
+Downlink data aggregation max datagrams: '0'
+     Downlink data aggregation max size: '0'"
+        else
+            DEVICE_DATA_FORMAT_SET_OUT=`$DEVICE_DATA_FORMAT_SET_CMD`
+        fi
+
+        LLP=`echo "$DEVICE_DATA_FORMAT_SET_OUT" | sed -n "s/.*Link layer protocol:.*'\(.*\)'.*/\1/p"`
+        if [ -z "$LLP" ]; then
+            echo "Error updating Device link layer protocol" 1>&2
+        else
+            echo "New device link layer protocol retrieved: $LLP"
+        fi
+    else
+        EXPECTED_DATA_FORMAT_SET_CMD="qmicli -d $DEVICE --set-expected-data-format=$DEVICE_LLP"
+        echo "Updating kernel link layer protocol with '$EXPECTED_DATA_FORMAT_SET_CMD'..."
+        EXPECTED_DATA_FORMAT_SET_OUT=`$EXPECTED_DATA_FORMAT_SET_CMD`
+        if [ $? -eq 0 ]; then
+            echo "Kernel link layer protocol updated"
+        else
+            echo "Error updating kernel link layer protocol " 1>&2
+        fi
+    fi
+}
+
+# qmicli -d /dev/cdc-wdm0 --wds-start-network --client-no-release-cid
+# [/dev/cdc-wdm0] Network started
+#   Packet data handle: 3634026241
+# [/dev/cdc-wdm0] Client ID not released:
+#   Service: 'wds'
+#       CID: '80'
+start_network ()
+{
+    if [ -n "$CID" ]; then
+        USE_PREVIOUS_CID="--client-cid=$CID"
+    fi
+
+    if [ -n "$PDH" ]; then
+        echo "error: cannot re-start network, PDH already exists" 1>&2
+        exit 3
+    fi
+
+    setup_data_format
+
+    if [ -n "$APN" ]; then
+        START_NETWORK_ARGS="apn='$APN'"
+        if [ -n "$APN_USER" ]; then
+            START_NETWORK_ARGS="${START_NETWORK_ARGS},username='$APN_USER'"
+            if [ -n "$APN_PASS" ]; then
+                START_NETWORK_ARGS="${START_NETWORK_ARGS},password='$APN_PASS'"
+            fi
+        fi
+    fi
+
+    find /sys -name raw_ip -exec echo Y > {} \;
+
+    START_NETWORK_CMD="qmicli -d $DEVICE --wds-start-network=$START_NETWORK_ARGS $USE_PREVIOUS_CID --client-no-release-cid $PROXY_OPT"
+    echo "Starting network with '$START_NETWORK_CMD'..."
+
+    if [ -n "$QMIDEBUG" ]; then
+        START_NETWORK_OUT="\
+[/dev/cdc-wdm0] Network started
+        Packet data handle: '3634026241'
+[/dev/cdc-wdm0] Client ID not released:
+        Service: 'wds'
+        CID: '80'"
+    else
+        START_NETWORK_OUT=`$START_NETWORK_CMD`
+    fi
+
+    # Save the new CID if we didn't use any before
+    if [ -z "$CID" ]; then
+        CID=`echo "$START_NETWORK_OUT" | sed -n "s/.*CID.*'\(.*\)'.*/\1/p"`
+        if [ -z "$CID" ]; then
+            echo "error: network start failed, client not allocated" 1>&2
+            exit 1
+        else
+            save_state "CID" $CID
+        fi
+    fi
+
+    PDH=`echo "$START_NETWORK_OUT" | sed -n "s/.*handle.*'\(.*\)'.*/\1/p"`
+    if [ -z "$PDH" ]; then
+        echo "error: network start failed, no packet data handle" 1>&2
+        # Cleanup the client
+        qmicli -d "$DEVICE" --wds-noop --client-cid="$CID" $PROXY_OPT
+        clear_state
+        exit 2
+    else
+        save_state "PDH" $PDH
+    fi
+
+    echo "Network started successfully"
+}
+
+# qmicli -d /dev/cdc-wdm0 --wds-stop-network
+stop_network ()
+{
+    if [ -z "$CID" ]; then
+        echo "Network already stopped"
+    elif [ -z "$PDH" ]; then
+        echo "Network already stopped; need to cleanup CID $CID"
+        # Cleanup the client
+        qmicli -d "$DEVICE" --wds-noop --client-cid="$CID" $PROXY_OPT
+    else
+        STOP_NETWORK_CMD="qmicli -d $DEVICE --wds-stop-network=$PDH --client-cid=$CID $PROXY_OPT"
+        echo "Stopping network with '$STOP_NETWORK_CMD'..."
+
+        if [ -n "$QMIDEBUG" ]; then
+            STOP_NETWORK_OUT="\
+[/dev/cdc-wdm0] Network stopped
+"
+        else
+            STOP_NETWORK_OUT=`$STOP_NETWORK_CMD`
+        fi
+
+        echo "Network stopped successfully"
+    fi
+
+    clear_state
+}
+
+# qmicli -d /dev/cdc-wdm0 --wds-get-packet-service-status
+packet_service_status ()
+{
+    if [ -n "$CID" ]; then
+        USE_PREVIOUS_CID="--client-cid=$CID --client-no-release-cid"
+    fi
+
+    STATUS_CMD="qmicli -d $DEVICE --wds-get-packet-service-status $USE_PREVIOUS_CID $PROXY_OPT"
+    echo "Getting status with '$STATUS_CMD'..."
+
+    if [ -n "$QMIDEBUG" ]; then
+        STATUS_OUT="\
+[/dev/cdc-wdm0] Connection status: 'disconnected'
+"
+    else
+        STATUS_OUT=`$STATUS_CMD`
+    fi
+
+    CONN=`echo "$STATUS_OUT" | sed -n "s/.*Connection status:.*'\(.*\)'.*/\1/p"`
+    if [ -z "$CONN" ]; then
+        echo "error: couldn't get packet service status" 1>&2
+        exit 2
+    else
+        echo "Status: $CONN"
+        if [ "$CONN" != "connected" ]; then
+            exit 64
+        fi
+    fi
+}
+
+# Main
+
+# Load profile, if any
+load_profile
+
+# Load previous state, if any
+load_state
+
+# Process commands
+case $COMMAND in
+    "start")
+        start_network
+        ;;
+    "stop")
+        stop_network
+        ;;
+    "status")
+        packet_service_status
+        ;;
+    *)
+        echo "error: unexpected command '$COMMAND'" 1>&2
+        print_usage
+        exit 255
+        ;;
+esac
+
+exit 0

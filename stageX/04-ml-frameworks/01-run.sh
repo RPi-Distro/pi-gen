@@ -6,10 +6,14 @@ tar xvzf mxnet.tar.gz -C "${ROOTFS_DIR}/opt"
 rm -f mxnet.tar.gz
 
 on_chroot << EOF
-pip -vv install imutils h5py dlib pandas scipy cython scikit-image
+pip -vv install imutils h5py dlib pandas scipy 
+pip install cython>=0.23.4
+pip install scikit-image
 pip install markdown==3.1.1
 pip install numpy>=1.16.2
-pip3 -vv install imutils h5py dlib pandas scipy cython scikit-image
+pip3 -vv install imutils h5py dlib pandas scipy
+pip3 install cython>=0.23.4
+pip3 install scikit-image
 pip3 install markdown>=3.1.1
 pip3 install numpy>=1.16.2
 EOF
@@ -31,9 +35,9 @@ wget -c https://github.com/lhelontra/tensorflow-on-arm/releases/download/v1.14.0
 pip install -vv tensorflow-1.14.0-cp27-none-linux_armv7l.whl
 rm -f tensorflow-1.14.0-cp27-none-linux_armv7l.whl
 
-wget -c https://github.com/lhelontra/tensorflow-on-arm/releases/download/v1.14.0/tensorflow-1.14.0-cp35-none-linux_armv7l.whl
-pip3 install -vv tensorflow-1.14.0-cp35-none-linux_armv7l.whl
-rm -f tensorflow-1.14.0-cp35-none-linux_armv7l.whl
+wget -c https://github.com/lhelontra/tensorflow-on-arm/releases/download/v1.14.0-buster/tensorflow-1.14.0-cp37-none-linux_armv7l.whl
+pip3 install -vv tensorflow-1.14.0-cp37-none-linux_armv7l.whl
+rm -f tensorflow-1.14.0-cp37-none-linux_armv7l.whl
 EOF
 
 # Install DL Framework
