@@ -36,6 +36,11 @@ The following environment variables are supported:
    but you should use something else for a customized version.  Export files
    in stages may add suffixes to `IMG_NAME`.
 
+ * `RELEASE` (Default: buster)
+
+   The release version to build images against. Valid values are jessie, stretch
+   buster, bullseye, and testing.
+
  * `APT_PROXY` (Default: unset)
 
    If you require the use of an apt proxy, set it here.  This proxy setting
