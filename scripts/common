@@ -98,3 +98,29 @@ update_issue() {
 	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }
 export -f update_issue
+
+get_stage_export() {
+	local stage_dir="$1"
+	local stage_var
+	stage_var="$(echo "$(basename "$1")"|tr '\- :/' '_')"
+	local export_list_var
+
+	export_list_var="\$${stage_var}"_EXPORT_LIST
+
+	eval EXPORT_LIST="$export_list_var"
+
+	if [ -z "${EXPORT_LIST}" ]; then
+		if [ -e "$stage_dir"/EXPORT_IMAGE ]; then
+			EXPORT_LIST="export-image"
+		fi
+		if [ -e "$stage_dir"/EXPORT_NOOBS ]; then
+			EXPORT_LIST="${EXPORT_LIST} export-noobs"
+		fi
+	fi
+
+  EXPORT_STAGE="$(basename "$1")"
+	export EXPORT_STAGE
+	export EXPORT_LIST
+}
+
+export -f get_stage_export

@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+export IMG_NAME="swapport-test"
+export stage2_EXPORT_LIST="export-swappart-image export-image export-noobs"
+export stage4_EXPORT_LIST="export-swappart-image export-image export-noobs"
+export stage5_EXPORT_LIST="export-swappart-image export-image export-noobs"
+# 2GB Swap
+export SWAP_SIZE=$(( 2048 * 1024 * 1024))
