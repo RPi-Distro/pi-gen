@@ -12,10 +12,11 @@ else
 fi
 
 echo "--- Building Pi Image"
-CONTINUE=1 PRESERVE_CONTAINER=1 ./build-docker.sh
+CONTINUE=1 ./build-docker.sh
 
 echo "--- Uploading artifacts"
 
+# Empty dist dir just to be sure we don't move more things than necessary
 rm -rf dist/*
 
 # Moving to another folder to match convention of other installers
