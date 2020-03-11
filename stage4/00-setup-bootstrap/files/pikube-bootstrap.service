@@ -1,0 +1,14 @@
+[Unit]
+Description=pikube bootstrap
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/bash bootstrap.sh
+WorkingDirectory=/opt/pikube
+StandardOutput=file:/var/log/pikube.log
+StandardError=file:/var/log/pikube.log
+Restart=no
+User=root
+
+[Install]
+WantedBy=multi-user.target

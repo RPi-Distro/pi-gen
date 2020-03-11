@@ -54,3 +54,11 @@ usermod --pass='*' root
 EOF
 
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
+
+install -m 440 files/010_user-nopasswd "${ROOTFS_DIR}/etc/sudoers.d/010_${FIRST_USER_NAME}-nopasswd"
+sed -i "s/USER_NAME/${FIRST_USER_NAME}/g" "${ROOTFS_DIR}/etc/sudoers.d/010_${FIRST_USER_NAME}-nopasswd"
+
+if [ -n "${SSH_AUTHORIZED_KEY}" ]; then
+	mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh
+	echo $SSH_AUTHORIZED_KEY > ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/authorized_keys
+fi
