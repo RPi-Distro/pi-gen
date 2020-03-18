@@ -1,4 +1,7 @@
-FROM debian:buster
+# Workaround: Use 32-bit base image because building buster images
+# on 64-bit hosts is currently broken
+# https://github.com/RPi-Distro/pi-gen/issues/271#issuecomment-556812205
+FROM i386/debian:buster
 
 ENV DEBIAN_FRONTEND noninteractive
 
