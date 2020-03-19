@@ -1,8 +1,24 @@
-export IMG_NAME=moab_fw
-export TARGET_HOSTNAME=moab
-export LOCALE_DEFAULT=en_US.UTF-8
-export TIMEZONE_DEFAULT="America/Los_Angeles"
-export DEFAULT_TIMEZONE=America/Los_Angeles
-export FIRST_USER_NAME=pi
-export FIRST_USER_PASS="raspberry"
+# Override these values by setting FWVERSION, SERIAL, ROOTUSER 
+# and ROOTUSERPASS before invoking build(-docker).sh like so: 
+# FWVERSION=3 SERIAL=0001 ./build-docker.sh
+
+export IMG_NAME="moab-fw-${FWVERSION:=dev}"
+echo "IMG_NAME is $IMG_NAME"
+
+export TARGET_HOSTNAME="moab-${SERIAL:=dev}"
+echo "TARGET_HOSTNAME is $TARGET_HOSTNAME"
+
+TIMEZONE=$(cat /etc/timezone)
+export TIMEZONE_DEFAULT=$TIMEZONE
+echo "TIMEZONE_DEFAULT is $TIMEZONE_DEFAULT"
+
+export LOCALE_DEFAULT=$(cat /etc/default/locale)
+echo "LOCALE_DEFAULT is $LOCALE_DEFAULT"
+
+export FIRST_USER_NAME=${ROOTUSER:="pi"}
+echo "ROOTUSER is $FIRST_USER_NAME"
+
+export FIRST_USER_PASS=${ROOTUSERPASS:="raspberry"}
+echo "FIRST_USER_PASS is $ROOTUSERPASS"
+
 export ENABLE_SSH=1
