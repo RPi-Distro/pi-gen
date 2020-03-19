@@ -6,4 +6,3 @@ export DEFAULT_TIMEZONE=America/Los_Angeles
 export FIRST_USER_NAME=pi
 export FIRST_USER_PASS="raspberry"
 export ENABLE_SSH=1
-export STAGE_LIST="stage0 stage1 stage2"
