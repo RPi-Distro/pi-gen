@@ -1,6 +1,6 @@
-# Override these values by setting FWVERSION, SERIAL, ROOTUSER 
-# and ROOTUSERPASS before invoking build(-docker).sh like so: 
-# FWVERSION=3 SERIAL=0001 ./build-docker.sh
+# Override these values by optionally setting FWVERSION, SERIAL, 
+# ROOTUSER and ROOTUSERPASS before invoking build(-docker).sh like so: 
+# FWVERSION="XX.YY.ZZZ" SERIAL="XXXXXXXXXXXX" ./build-docker.sh
 
 export IMG_NAME="moab-fw-${FWVERSION:=dev}"
 echo "IMG_NAME is $IMG_NAME"
@@ -12,7 +12,7 @@ TIMEZONE=$(cat /etc/timezone)
 export TIMEZONE_DEFAULT=$TIMEZONE
 echo "TIMEZONE_DEFAULT is $TIMEZONE_DEFAULT"
 
-export LOCALE_DEFAULT=$(cat /etc/default/locale)
+export LOCALE_DEFAULT=${LANG:="en_US.UTF-8"}
 echo "LOCALE_DEFAULT is $LOCALE_DEFAULT"
 
 export FIRST_USER_NAME=${ROOTUSER:="pi"}

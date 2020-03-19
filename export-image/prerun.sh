@@ -39,10 +39,6 @@ BOOT_LENGTH=$(echo "$PARTED_OUT" | grep -e '^1:' | cut -d':' -f 4 | tr -d B)
 ROOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^2:' | cut -d':' -f 2 | tr -d B)
 ROOT_LENGTH=$(echo "$PARTED_OUT" | grep -e '^2:' | cut -d':' -f 4 | tr -d B)
 
-# Ensures that freshly created loop devices are available to mount
-# https://github.com/RPi-Distro/pi-gen/issues/320#issuecomment-518484064
-sleep 5
-
 BOOT_DEV=$(losetup --show -f -o "${BOOT_OFFSET}" --sizelimit "${BOOT_LENGTH}" "${IMG_FILE}")
 ROOT_DEV=$(losetup --show -f -o "${ROOT_OFFSET}" --sizelimit "${ROOT_LENGTH}" "${IMG_FILE}")
 echo "/boot: offset $BOOT_OFFSET, length $BOOT_LENGTH"
@@ -56,6 +52,10 @@ for FEATURE in metadata_csum 64bit; do
 done
 mkdosfs -n boot -F 32 -v "$BOOT_DEV" > /dev/null
 mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" > /dev/null
+
+# Ensures that freshly created loop devices are available to mount
+# https://github.com/RPi-Distro/pi-gen/issues/320#issuecomment-518484064
+sleep 5
 
 mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t ext4
 mkdir -p "${ROOTFS_DIR}/boot"
