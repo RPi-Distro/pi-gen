@@ -8,7 +8,7 @@ DOCKER="docker"
 # Ensure that any config variables we passed in are written to an env_file
 # so invocations in subsquent shells preserve these values
 # Add || true so passing no custom vars doesn't bork up execution
-printenv | grep 'FWVERSION=\|SERIAL=\|ROOTUSER\|ROOTUSERPASS' || true > "$DIR/.customvars"
+printenv | grep -e FWVERSION -e SERIAL -e ROOTUSER -e ROOTUSERPASS || true > "$DIR/.customvars"
 
 if ! ${DOCKER} ps >/dev/null 2>&1; then
 	DOCKER="sudo docker"
