@@ -1,4 +1,4 @@
-# pi-gen
+# PiBot Distro | pi-gen
 
 _Tool used to create the raspberrypi.org Raspbian images_
 
