@@ -1,0 +1,2 @@
+# We need to set the image name
+echo "IMG_NAME=PiBot_Distro" > config
