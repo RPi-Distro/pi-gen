@@ -60,6 +60,11 @@ The following environment variables are supported:
     that the network block device is not disconnected correctly after the Docker process has
     ended abnormally. In that case see [Disconnect an image if something went wrong](#Disconnect-an-image-if-something-went-wrong)
 
+* `RELEASE` (Default: buster)
+
+   The release version to build images against. Valid values are jessie, stretch
+   buster, bullseye, and testing.
+
  * `APT_PROXY` (Default: unset)
 
    If you require the use of an apt proxy, set it here.  This proxy setting
