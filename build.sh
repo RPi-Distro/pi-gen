@@ -20,7 +20,7 @@ EOF
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages-nr")"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
-apt-get install --no-install-recommends -y $PACKAGES
+apt-get -o APT::Acquire::Retries=3 install --no-install-recommends -y $PACKAGES
 EOF
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages-nr"
@@ -30,7 +30,7 @@ EOF
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages")"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
-apt-get install -y $PACKAGES
+apt-get -o APT::Acquire::Retries=3 install -y $PACKAGES
 EOF
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages"
@@ -166,6 +166,7 @@ export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
+export RELEASE=${RELEASE:-buster}
 export WPA_ESSID
 export WPA_PASSWORD
 export WPA_COUNTRY
