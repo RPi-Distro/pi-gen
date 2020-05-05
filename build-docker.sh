@@ -44,6 +44,12 @@ else
 	source ${CONFIG_FILE}
 fi
 
+# Convert paths to DOS format under Cygwin/MSYS2
+if test -x /usr/bin/cygpath; then
+	DIR=$(cygpath -da "$DIR")
+	CONFIG_FILE=$(cygpath -da "$CONFIG_FILE")
+fi
+
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
 CONTINUE=${CONTINUE:-0}
 PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-0}
