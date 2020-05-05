@@ -1,15 +1,24 @@
-gstreamer1.0-x gstreamer1.0-omx gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-alsa gstreamer1.0-libav
-qpdfview gtk2-engines alsa-utils
+alsa-utils
+arandr
+chromium-browser
 desktop-base
-git
-omxplayer
-raspberrypi-artwork
-policykit-1
-gvfs
-rfkill
-chromium-browser rpi-chromium-mods
-gldriver-test
 fonts-droid-fallback
 fonts-liberation2
+git
+gldriver-test
+gstreamer1.0-alsa
+gstreamer1.0-libav
+gstreamer1.0-omx
+gstreamer1.0-plugins-bad
+gstreamer1.0-plugins-base
+gstreamer1.0-plugins-good
+gstreamer1.0-x
+gtk2-engines
+gvfs
 obconf
-arandr
+omxplayer
+policykit-1
+qpdfview
+raspberrypi-artwork
+rfkill
+rpi-chromium-mods
