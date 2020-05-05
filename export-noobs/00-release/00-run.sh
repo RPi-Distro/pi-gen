@@ -41,7 +41,7 @@ sed "${NOOBS_DIR}/os.json" -i -e "s|RELEASE|${RELEASE}|"
 sed "${NOOBS_DIR}/release_notes.txt" -i -e "s|UNRELEASED|${IMG_DATE}|"
 
 if [ "${USE_QCOW2}" = "1" ]; then
-    mv "${NOOBS_DIR}" "${DEPLOY_DIR}/"
+	mv "${NOOBS_DIR}" "${DEPLOY_DIR}/"
 else
-    cp -a "${NOOBS_DIR}" "${DEPLOY_DIR}/"
+	cp -a "${NOOBS_DIR}" "${DEPLOY_DIR}/"
 fi
