@@ -1,4 +1,38 @@
 UNRELEASED:
+  * Added Bookshelf application
+  * Added Raspberry Pi Diagnostics application
+  * Added magnifier plugin to taskbar - needs magnifier application installed from Recommended Software to enable
+  * Added Magnifier application to Recommended Software
+  * Added marketing questionnaire as initial Chromium tab
+  * Version 0.25 of Scratch 2 included - uses external application to access IMU on SenseHAT
+  * Version 1.0.5 of Scratch 3 included - uses external application to access IMU on SenseHAT
+  * Version 32.0.0.371 of Flash player included
+  * Version 1.0.6 of Node-RED included
+  * Version 6.7.1 of VNC Server included
+  * Version 6.20.113 of VNC Client included
+  * Internal audio outputs enabled as separate ALSA devices
+  * MagPi preinstall removed and replaced with Beginner’s Guide
+  * MagPi weblink removed from main menu
+  * Chromium made default application for PDF files
+  * Common icon loading code for lxpanel plugins used
+  * Italian translations added
+  * Initial move of mouse pointer to menu button disabled
+  * Padding at left of menu button removed
+  * Focus behaviour changed so that focus moves to desktop if no windows are opened - improves reliability of Orca screen reader
+  * Bug fix - focus bug in volume plugin
+  * Bug fix - keyboard repeat interval bug in Mouse & Keyboard Settings
+  * Bug fix - battery detection bug in battery plugin
+  * Bug fix - spurious active areas on taskbar when plugins are hidden
+  * Bug fix - occasional crash in file manager on file selection
+  * Disk ID is now regenerated on first boot
+  * Updated udev rules
+    - Remove unused argon rule
+    - Add vcsm-cma to video group
+    - Add pwm to gpio group
+  * i2cprobe: More flexible I2C/SPI alias mapping
+  * Raspberry Pi firmware 21e1fe3477ffb708a5736ed61a924fd650031136
+  * Linux kernel 4.19.118
+2020-02-13:
   * Raspberry Pi Configuration - screen blanking setting disabled if Xscreensaver is installed
   * Bug fix - switch to turn off VNC server in Raspberry Pi Configuration has no effect
   * Bug fix - fix %20 characters in file names
