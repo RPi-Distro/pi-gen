@@ -2,6 +2,8 @@
 
 set -exo pipefail
 
+mkdir -p dist
+
 # Could move this type of setup to hooks
 if [[ $LE_TRIGGERED_FROM_BUILD_ID ]]
 then
