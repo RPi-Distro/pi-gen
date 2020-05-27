@@ -2,5 +2,7 @@ steps:
   - block: Build Pi Image?
     if: build.source == "trigger_job"
   - label: Build Pi Image
+    agents:
+      docker: "true" 
     command:
      - .buildkite/build.sh
