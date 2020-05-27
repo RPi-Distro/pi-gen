@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-set -x
+set -exo pipefail
 
 # Could move this type of setup to hooks
 if [[ $LE_TRIGGERED_FROM_BUILD_ID ]]
