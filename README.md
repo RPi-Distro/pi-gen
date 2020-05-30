@@ -1,6 +1,8 @@
 # pi-gen
 
-_Tool used to create the raspberrypi.org Raspbian images_
+_Tool used to create the PlantoScop images for the Raspberry Pi_
+
+This tool is derived from the work of the Raspbery Pi Foundation. Their repository is found on [Github](https://www.github.com/RPI-Distro/pi-gen).
 
 
 ## Dependencies
@@ -288,7 +290,7 @@ maintenance and allows for more easy customization.
 
  - **Stage 5** - The Raspbian Full image. More development
    tools, an email client, learning tools like Scratch, specialized packages
-   like sonic-pi, office productivity, etc.  
+   like sonic-pi, office productivity, etc.
 
 ### Stage specification
 
