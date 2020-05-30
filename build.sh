@@ -229,7 +229,10 @@ fi
 mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
-STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+
+STAGE_LIST=${STAGE_LIST:-"${BASE_DIR}"/stage*}
 
 for STAGE_DIR in $STAGE_LIST; do
 	STAGE_DIR=$(realpath "${STAGE_DIR}")
@@ -261,3 +264,5 @@ if [ -x ${BASE_DIR}/postrun.sh ]; then
 fi
 
 log "End ${BASE_DIR}"
+
+IFS=$SAVEIFS
