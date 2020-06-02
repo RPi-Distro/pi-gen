@@ -73,6 +73,7 @@ fi
 # Modify original build-options to allow config file to be mounted in the docker container
 BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 
+# Check the arch of the machine we're running on. If it's 64-bit, use a 32-bit base image instead
 ARCH=$(uname -m)
 [[ $ARCH == "x86_64" || $ARCH == "aarch64" ]] && BASE_IMAGE=i386/debian:buster || BASE_IMAGE=debian:buster
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
