@@ -84,12 +84,20 @@ case "$(uname -m)" in
 esac
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
 
+MOUNTS=""
+for mount in ${ADDL_MOUNTS:=""}
+do
+    echo $mount
+	MOUNTS="${MOUNTS} --volume ${mount}"
+done
+echo ${MOUNTS}
+
 if [ "${CONTAINER_EXISTS}" != "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}_cont' SIGINT SIGTERM
 	time ${DOCKER} run --rm --privileged \
 		--volume "${CONFIG_FILE}":/config:ro \
 		-e "GIT_HASH=${GIT_HASH}" \
-		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
+		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" ${MOUNTS} \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
