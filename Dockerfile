@@ -1,4 +1,5 @@
-FROM debian:buster-20190910
+FROM debian:buster
+#FROM debian:buster-20190910
 
 ENV DEBIAN_FRONTEND noninteractive
 
