@@ -31,7 +31,9 @@ do
 done
 
 # Ensure that the configuration file is an absolute path
-CONFIG_FILE=$(realpath -s "$CONFIG_FILE")
+if test -x /usr/bin/realpath; then
+	CONFIG_FILE=$(realpath -s "$CONFIG_FILE" || realpath "$CONFIG_FILE")
+fi
 
 # Ensure that the confguration file is present
 if test -z "${CONFIG_FILE}"; then
@@ -39,7 +41,7 @@ if test -z "${CONFIG_FILE}"; then
 	exit 1
 else
 	# shellcheck disable=SC1090
-	source "${CONFIG_FILE}"
+	source ${CONFIG_FILE}
 fi
 
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
