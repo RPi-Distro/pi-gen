@@ -1,12 +1,12 @@
 #!/bin/sh -e
 
 magpi_regex="MagPi[[:digit:]]*.pdf"
-magpi_loc="https://www.raspberrypi.org/magpi-issues"
-magpi_latest="$(curl "$magpi_loc/?C=M;O=D" -s | grep "$magpi_regex" -m 1 -o | head -n 1)"
+magpi_loc="$(curl -s https://magpi.raspberrypi.org/latest-pdf)"
+magpi_latest="$(echo "$magpi_loc" | grep "$magpi_regex" -m 1 -o)"
 
 if [ ! -f "files/$magpi_latest" ]; then
 	find files/ -regextype grep -regex "files/$magpi_regex" -delete
-	wget "$magpi_loc/$magpi_latest" -O "files/$magpi_latest"
+	wget "$magpi_loc" -O "files/$magpi_latest"
 fi
 
 file "files/$magpi_latest" | grep -q "PDF document"

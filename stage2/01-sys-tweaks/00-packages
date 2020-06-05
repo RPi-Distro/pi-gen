@@ -27,4 +27,5 @@ ethtool
 vl805fw
 ntfs-3g
 pciutils
+rpi-eeprom
 apt-transport-https ca-certificates software-properties-common
