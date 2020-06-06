@@ -41,7 +41,7 @@ if test -z "${CONFIG_FILE}"; then
 	exit 1
 else
 	# shellcheck disable=SC1090
-	source ${CONFIG_FILE}
+	source "${CONFIG_FILE}"
 fi
 
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
