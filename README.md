@@ -114,14 +114,6 @@ The following environment variables are supported:
    To get the current value from a running system, look in
    `/etc/timezone`.
 
- * `FIRST_USER_NAME` (Default: "pi" )
-
-   Username for the first user
-
- * `FIRST_USER_PASS` (Default: "raspberry")
-
-   Password for the first user
-
  * `WPA_ESSID`, `WPA_PASSWORD` and `WPA_COUNTRY` (Default: unset)
 
    If these are set, they are use to configure `wpa_supplicant.conf`, so that the Raspberry Pi can automatically connect to a wifi network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wifi network will be configured. If set, `WPA_PASSWORD` must be between 8 and 63 characters.

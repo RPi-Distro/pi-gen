@@ -40,9 +40,6 @@ on_chroot <<EOF
 for GRP in input spi i2c gpio; do
 	groupadd -f -r "\$GRP"
 done
-for GRP in adm dialout cdrom audio users sudo video games plugdev input gpio spi i2c netdev; do
-  adduser $FIRST_USER_NAME \$GRP
-done
 EOF
 
 on_chroot << EOF
