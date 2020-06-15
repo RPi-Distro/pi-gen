@@ -45,6 +45,12 @@ for GRP in adm dialout cdrom audio users sudo video games plugdev input gpio spi
 done
 EOF
 
+# Add line to replace the username for pi in sudoers.d/010_pi-nopasswd
+on_chroot <<EOF
+sed "s/pi/$FIRST_USER_NAME/" -i /etc/sudoers.d/010_pi-nopasswd
+EOF
+# End replace username 
+
 on_chroot << EOF
 setupcon --force --save-only -v
 EOF
