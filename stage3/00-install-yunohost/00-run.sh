@@ -15,6 +15,12 @@ rm -f /etc/systemd/network/99-default.link
 ln -s /dev/null /etc/systemd/network/99-default.link
 EOF
 
+# For some reason curl doesnt recognize CA in any cert
+# and this is fixed by regerating links in /etc/ssl/certs/ ...
+on_chroot << EOF
+update-ca-certificates -f -v
+EOF
+
 # Run the actual install
 on_chroot << EOF
 apt-get install insserv resolvconf -y
