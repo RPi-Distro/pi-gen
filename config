@@ -1,0 +1,7 @@
+IMG_NAME="yunohost"
+RELEASE="stretch"
+USE_QEMU="1"
+LOCALE_DEFAULT="en_US.UTF-8"
+TARGET_HOSTNAME="yunohost"
+KEYBOARD_KEYMAP="us"
+ENABLE_SSH="1"
