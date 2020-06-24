@@ -1,6 +1,8 @@
 steps:
   - block: Build Pi Image?
-    if: build.source == "trigger_job"
+    # The block step will only exist if the conditions below are true
+    # Block only when triggered from kolibri pipeline and is not a release
+    if: build.env("LE_KOLIBRI_RELEASE") == "false"
   - label: Build Pi Image
     agents:
       docker: "true" 
