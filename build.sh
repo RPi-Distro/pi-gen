@@ -105,7 +105,19 @@ run_stage(){
 		for SUB_STAGE_DIR in "${STAGE_DIR}"/*; do
 			if [ -d "${SUB_STAGE_DIR}" ] &&
 			   [ ! -f "${SUB_STAGE_DIR}/SKIP" ]; then
-				run_sub_stage
+			   	if [[ ${SUB_STAGE_DIR} == *arm64 ]]; then
+				   	if  [ "$ENABLE_ARM64"="1" ]; then
+						run_sub_stage
+					fi
+				elif [[ ${SUB_STAGE_DIR} == *armhf ]]; then
+					echo "elif"
+					if  [[ ${ENABLE_ARM64} == 0 ]]; then
+						echo "here"
+						run_sub_stage
+					fi
+				else
+					run_sub_stage
+				fi
 			fi
 		done
 	fi
@@ -202,6 +214,8 @@ export QUILT_PATCHES
 export QUILT_NO_DIFF_INDEX=1
 export QUILT_NO_DIFF_TIMESTAMPS=1
 export QUILT_REFRESH_ARGS="-p ab"
+
+export ENABLE_ARM64="${ENABLE_ARM64:-0}"
 
 # shellcheck source=scripts/common
 source "${SCRIPT_DIR}/common"

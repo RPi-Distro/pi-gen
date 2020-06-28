@@ -12,7 +12,12 @@ else
 	rm -f "${ROOTFS_DIR}/etc/apt/apt.conf.d/51cache"
 fi
 
+on_chroot << EOF
+apt-get update -o Acquire::AllowInsecureRepositories=true
+apt install gnupg -y
+EOF
 on_chroot apt-key add - < files/raspberrypi.gpg.key
+
 on_chroot << EOF
 apt-get update
 apt-get dist-upgrade -y

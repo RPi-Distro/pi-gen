@@ -134,6 +134,10 @@ The following environment variables are supported:
 
     If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
 
+ * `ENABLE_ARM64` (Default: `0`)
+
+   If set, the image uses arm64 instead of armhf. Arm64 is not fully stable yet, some programs may be not available or broken.
+   
 A simple example for building Raspbian:
 
 ```bash
