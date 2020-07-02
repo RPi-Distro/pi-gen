@@ -1,2 +1,5 @@
+#!/bin/bash
+
+# shellcheck disable=SC2034
 NOOBS_NAME="Raspbian Lite"
 NOOBS_DESCRIPTION="A port of Debian with no desktop environment"
