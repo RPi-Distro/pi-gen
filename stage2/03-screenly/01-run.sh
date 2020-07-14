@@ -5,10 +5,6 @@ on_chroot << EOF
 
   curl -s https://bootstrap.pypa.io/get-pip.py | python
 
-  # Fetch wait-for-it
-  curl -s -o /tmp/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
-  chmod +x /tmp/wait-for-it.sh
-
   rm -rf /home/pi/screenly
   git clone $REPOSITORY /home/pi/screenly
   cd /home/pi/screenly
