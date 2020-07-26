@@ -1,0 +1,4 @@
+IMG_NAME=mixxx-pi
+
+# From https://github.com/BlokasLabs/rpi-kernel-rt/releases
+RT_KERNEL_VERSION=v4.14.91-rt49
