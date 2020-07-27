@@ -1,7 +1,14 @@
-# pi-gen
+# mixxx-pi-gen
 
-_Tool used to create the raspberrypi.org Raspbian images_
+_Tool used to create the Mixxx Raspbian image_
 
+This repo is for the generation of a raspbian image for Mixxx.
+Included:
+- Realtime Kernel
+- i3 window manager as standard
+- Mixxx 2.2.0 from the standard raspbian repos
+
+Original instructions of forked repo remain below.
 
 ## Dependencies
 
@@ -288,7 +295,7 @@ maintenance and allows for more easy customization.
 
  - **Stage 5** - The Raspbian Full image. More development
    tools, an email client, learning tools like Scratch, specialized packages
-   like sonic-pi, office productivity, etc.  
+   like sonic-pi, office productivity, etc.
 
 ### Stage specification
 
