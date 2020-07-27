@@ -12,6 +12,6 @@ git
 xserver-xorg-video-fbdev xserver-xorg xinit xserver-xorg-video-fbturbo xserver-xorg-legacy xscreensaver
 lxde lxtask menu-xdg # gksu
 xdg-utils gvfs-backends gvfs-fuse
-lightdm gnome-themes-standard-data gnome-icon-theme i3 i3status
+lightdm gnome-themes-standard-data gnome-icon-theme
 liblo7 liblo-dev libasound-dev libjack-jackd2-dev
 >>>>>>> 9ca0333 (Try and enable autologin to the desktop)
