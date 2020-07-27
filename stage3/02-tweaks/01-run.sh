@@ -5,10 +5,10 @@ touch ${ROOTFS_DIR}/boot/ssh
 on_chroot << EOF
 	systemctl set-default graphical.target
 	ln -fs /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
+	sed /etc/lightdm/lightdm.conf -i -e "s/^\(#\|\)autologin-user=.*/autologin-user=pi/"
 EOF
 
 install -m 644 files/autologin.conf ${ROOTFS_DIR}/etc/systemd/system/getty@tty1.service.d/autologin.conf
-
 
 # Set up sudoers.d for user patch
 rm -f ${ROOTFS_DIR}/etc/sudoers.d/010_pi-nopasswd
