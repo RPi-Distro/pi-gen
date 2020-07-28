@@ -17,7 +17,6 @@ libraspberrypi-dev libraspberrypi-doc libfreetype6-dev
 dosfstools
 dphys-swapfile
 raspberrypi-sys-mods
-pi-bluetooth
 apt-listchanges
 usb-modeswitch
 libpam-chksshpwd
