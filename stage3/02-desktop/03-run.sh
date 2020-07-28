@@ -1,10 +1,12 @@
 # Do mixxx stuff like copy the udev rules and config file
-mkdir -p -m 644 ${ROOTFS_DIR}/home/pi/.mixxx
-install -m 644 files/mixxx.cfg ${ROOTFS_DIR}/home/pi/.mixxx/mixxx.cfg
-install -m 440 files/udev.mixxx ${ROOTFS_DIR}/etc/udev/rules.d/69-mixxx-usb-uaccess.rules
+mkdir -p -m 755 ${ROOTFS_DIR}/home/pi/.mixxx
+install -m 755 files/mixxx.cfg ${ROOTFS_DIR}/home/pi/.mixxx/mixxx.cfg
 on_chroot << EOF
     chown -R pi:root /home/pi/.mixxx
+    chmod -R 755 /home/pi/.mixxx/
 EOF
+
+install -m 644 files/udev.mixxx ${ROOTFS_DIR}/etc/udev/rules.d/69-mixxx-usb-uaccess.rules
 
 
 # USB Mount
