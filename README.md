@@ -48,7 +48,7 @@ If you prefer the command line, you can ssh into your radio (you need to set tha
 Out of security concerns I recommend you read the [code](https://github.com/RPi-Distro/pi-gen/compare/master...pirateradiohack:master) and build the image yourself.
 
 
-But, if you prefer to trust a stranger on the Internet with your Pirate Radio, for your convenience you will find the latest image pre-compiled here: [2019-06-14-Piradio-lite.img](https://github.com/pirateradiohack/PiRadio/releases/download/2019-06-15-PiRadio/2019-06-14-Piradio-lite.img).
+But, if you prefer to trust a stranger on the Internet with your Pirate Radio, for your convenience you will find the latest image pre-compiled here: [2020-07-28-Piradio-image.zip](https://github.com/pirateradiohack/PiRadio/releases/download/2020-07-28-PiRadio/image.zip).
 
 
 Just flash it and configure your wifi. You can also optionally configure your own radio streams playlist.
