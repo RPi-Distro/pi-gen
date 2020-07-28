@@ -16,4 +16,4 @@ rm -f ${ROOTFS_DIR}/etc/sudoers.d/010_pi-nopasswd
 install -m 440 files/010_pi-nopasswd ${ROOTFS_DIR}/etc/sudoers.d/
 
 echo pi - memlock 256000 >> ${ROOTFS_DIR}/etc/security/limits.conf
-echo pi - rtprio 75 >> ${ROOTFS_DIR}/etc/security/limits.conf
+echo pi - rtprio 99 >> ${ROOTFS_DIR}/etc/security/limits.conf
