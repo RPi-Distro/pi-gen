@@ -1,3 +1,2 @@
-xdg-utils gvfs-backends gvfs-fuse
 lightdm xterm i3 i3status
-liblo7 liblo-dev libasound-dev libjack-jackd2-dev
+libasound-dev
