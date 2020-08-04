@@ -1,4 +1,3 @@
-xserver-xorg-video-fbdev xserver-xorg xinit xserver-xorg-video-fbturbo xserver-xorg-legacy xscreensaver
 xdg-utils gvfs-backends gvfs-fuse
 lightdm xterm i3 i3status
 liblo7 liblo-dev libasound-dev libjack-jackd2-dev
