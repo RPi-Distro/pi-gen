@@ -32,4 +32,10 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: images
-        path: deploy/
+        path: deploy/*.zip
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: packages-info
+        path: deploy/*.info
+    
