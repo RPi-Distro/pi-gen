@@ -1,6 +1,8 @@
 # mixxx-pi-gen
 
-_Tool used to create the Mixxx Raspbian image_
+_Mixxx image for the raspberry pi_
+
+ [![Get the latest release](https://img.shields.io/github/release-date/fayaaz/mixxx-pi-gen)](https://github.com/fayaaz/mixxx-pi-gen/releases/latest)
 
 This repo is for the generation of a raspbian image for Mixxx.
 Included:
