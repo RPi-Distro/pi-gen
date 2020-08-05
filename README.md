@@ -4,9 +4,11 @@ _Tool used to create the Mixxx Raspbian image_
 
 This repo is for the generation of a raspbian image for Mixxx.
 Included:
-- Realtime Kernel
+- 64 bit raspbian
+- irqthreads enabled on standard kernel
 - i3 window manager as standard
 - Mixxx 2.2.0 from the standard raspbian repos
+- Working OpenGL waveforms
 
 Original instructions of forked repo remain below.
 
