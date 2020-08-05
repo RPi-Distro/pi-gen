@@ -10,4 +10,4 @@ Included:
 - Mixxx 2.2.0 from the standard raspbian repos
 - Working OpenGL waveforms
 
-Original instructions of forked repo are in [pi-gen-readme.md]
+Original instructions of forked repo are in [pi-gen-readme](pi-gen-readme.md)
