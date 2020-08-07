@@ -1,2 +1,5 @@
-NOOBS_NAME="Raspbian Lite"
-NOOBS_DESCRIPTION="A port of Debian with no desktop environment"
+NAME_SUFFIX=" Lite"
+NOOBS_NAME="${NOOBS_BASENAME}${NAME_SUFFIX}"
+
+NOOBS_DESCRIPTION="${NOOBS_DESCRIPTION_ALL:-A port of $PORT_OF with no desktop environment}"
+NOOBS_DESCRIPTION="${NOOBS_DESCRIPTION_2:-$NOOBS_DESCRIPTION}"

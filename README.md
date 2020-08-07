@@ -148,6 +148,36 @@ The config file can also be specified on the command line as an argument the `bu
 
 This is parsed after `config` so can be used to override values set there.
 
+### Customizing the OS name and description displayed in NOOBS
+
+By default, pi-gen builds NOOBS bundles during Stages 2, 4, and 5.  You can customize the OS name and description displayed by the NOOBS interface.  Names and descriptions for those three stages can be dynamically generated depending on the variables set in `config`:
+
+ * `NOOBS_NAME` (Default: Raspbian)
+
+    The base name of the OS.  The actual OS names of the bundles generated in Stages 2, 4, and 5 are based on this:  
+    Stage 2: `$NOOBS_NAME Lite`  
+    Stage 4: `$NOOBS_NAME`  
+    Stage 5: `$NOOBS_NAME Full`
+
+ * `PORT_OF` (Default: Debian)
+
+    Specifies the OS from which your OS is ported.  This is used in the dynamically generated default OS descriptions.
+
+ * `NOOBS_DESCRIPTION_ALL` (Default: unset)
+
+    Sets the default OS descriptions of all three stages to this.  When left unset, the descriptions are generated as follows:  
+    Stage 2: `A port of $PORT_OF with no desktop environment`  
+    Stage 4: `A port of $PORT_OF with the Raspberry Pi Desktop`  
+    Stage 5: `A port of $PORT_OF with desktop and recommended applications`
+
+ * `NOOBS_DESCRIPTION_2`, `NOOBS_DESCRIPTION_4`, and `NOOBS_DESCRIPTION_5` (Default: unset)
+
+    In addition, any of the stages' descriptions can be manually overriden and set by using these variables.
+
+    Basically, when none of the `NOOBS_DESCRIPTION_*` variables are set, the descriptions will default to the various *"A port of..."* strings.  When `NOOBS_DESCRIPTION_ALL` is set, it will override all the *"A port of..."* strings.  Finally, any of the `NOOBS_DESCRIPTION_#` variables will take precedence as the description for that stage if set.
+
+    See build.sh and `stage*/EXPORT_NOOBS` for more details.
+
 ## How the build process works
 
 The following process is followed to build images:

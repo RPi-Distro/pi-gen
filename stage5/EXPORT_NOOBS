@@ -1,2 +1,5 @@
-NOOBS_NAME="Raspbian Full"
-NOOBS_DESCRIPTION="A port of Debian with desktop and recommended applications"
+NAME_SUFFIX=" Full"
+NOOBS_NAME="${NOOBS_BASENAME}${NAME_SUFFIX}"
+
+NOOBS_DESCRIPTION="${NOOBS_DESCRIPTION_ALL:-A port of $PORT_OF with desktop and recommended applications}"
+NOOBS_DESCRIPTION="${NOOBS_DESCRIPTION_5:-$NOOBS_DESCRIPTION}"
