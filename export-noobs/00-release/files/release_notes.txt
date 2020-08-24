@@ -1,6 +1,21 @@
 UNRELEASED:
   *
-2020-05-27
+2020-08-20:
+  * raspi-config - added selection of boot device order
+  * raspi-config - added selection of boot EEPROM version
+  * SD Card Copier - copy is now immediately aborted if drives are connected or disconnected while copying
+  * Version 32.0.0.414 of Flash player included
+  * User feedback survey removed from first run of Chromium
+  * Recommended Software - now allows multiple install and reinstall operations without having to close between each one
+  * Bug fix - misleading file browser from panel menu icon selection dialog - icons must now be in icon theme rather than arbitrary files
+  * Bug fix - items in main menu not being translated
+  * Bug fix - raspi-config not detecting audio devices in non-English locales
+  * Bug fix - Bookshelf claiming no disk space in non-English locales
+  * Bug fix - failed installation of both 32 and 64 bit versions of packages by Recommended Software on 64-bit images
+  * Italian translations added (thanks to Emanuele Goldoni and the Italian translation team)
+  * Raspberry Pi firmware ef72c17bcaaeb89093d87bcf71f3228e1b5e1fff
+  * Linux kernel 5.4.51
+2020-05-27:
   * Added Bookshelf application
   * Added Raspberry Pi Diagnostics application
   * Added magnifier plugin to taskbar - needs magnifier application installed from Recommended Software to enable
