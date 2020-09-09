@@ -185,6 +185,9 @@ export CLEAN
 export IMG_NAME
 export APT_PROXY
 
+export HOSTNAME
+export RT_KERNEL_VERSION
+
 export STAGE
 export STAGE_DIR
 export STAGE_WORK_DIR
@@ -193,8 +196,6 @@ export PREV_STAGE_DIR
 export ROOTFS_DIR
 export PREV_ROOTFS_DIR
 export IMG_SUFFIX
-export NOOBS_NAME
-export NOOBS_DESCRIPTION
 export EXPORT_DIR
 export EXPORT_ROOTFS_DIR
 
