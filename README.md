@@ -130,6 +130,18 @@ The following environment variables are supported:
 
    Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you Raspberry Pi.
 
+  * `PUBKEY_SSH_FIRST_USER` (Default: unset)
+
+   Setting this to a value will make that value the contents of the FIRST_USER_NAME's ~/.ssh/authorized_keys.  Obviously the value should
+   therefore be a valid authorized_keys file.  Note that this does not
+   automatically enable SSH.
+
+  * `PUBKEY_ONLY_SSH` (Default: `0`)
+
+   * Setting to `1` will disable password authentication for SSH and enable
+   public key authentication.  Note that if SSH is not enabled this will take
+   effect when SSH becomes enabled.
+
  * `STAGE_LIST` (Default: `stage*`)
 
     If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
