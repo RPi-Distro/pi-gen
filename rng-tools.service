@@ -11,7 +11,7 @@
 Description=Start rng-tools
 DefaultDependencies=no
 Conflicts=shutdown.target
-Before=fake-hwclock.service
+Before=fake-hwclock.service systemd-journald.service
 Before=sysinit.target shutdown.target
 ConditionVirtualization=!container
 
