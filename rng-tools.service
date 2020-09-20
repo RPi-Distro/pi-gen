@@ -23,4 +23,4 @@ ExecStart=/etc/init.d/rng-tools start
 ExecStop=/etc/init.d/rng-tools stop
 
 [Install]
-RequiredBy=systemd-random-seed.service
+WantedBy=systemd-random-seed.service
