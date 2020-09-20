@@ -1,0 +1,26 @@
+#  SPDX-License-Identifier: LGPL-2.1+
+#
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+
+[Unit]
+Description=Start rng-tools
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=fake-hwclock.service
+Before=sysinit.target shutdown.target
+ConditionVirtualization=!container
+
+[Service]
+EnvironmentFile=-/etc/default/rng-tools
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/etc/init.d/rng-tools start
+ExecStop=/etc/init.d/rng-tools stop
+
+[Install]
+RequiredBy=systemd-random-seed.service

@@ -1,0 +1,21 @@
+Sep 20 20:18:53 box.lan systemd[1]: Detected architecture arm.
+Sep 20 20:18:53 box.lan systemd[1]: Set hostname to <box.lan>.
+Sep 20 20:18:53 box.lan kernel: random: systemd: uninitialized urandom read (16 bytes read)
+Sep 20 20:18:53 box.lan kernel: random: systemd: uninitialized urandom read (16 bytes read)
+Sep 20 20:18:53 box.lan systemd[1]: Reached target Swap.
+Sep 20 20:18:53 box.lan kernel: random: systemd: uninitialized urandom read (16 bytes read)
+Sep 20 20:18:53 box.lan systemd[1]: Listening on Journal Socket (/dev/log).
+Sep 20 20:18:53 box.lan systemd[1]: Condition check resulted in Journal Audit Socket being skipped.
+Sep 20 20:18:53 box.lan systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+Sep 20 20:18:53 box.lan kernel: random: crng init done
+Sep 20 20:18:53 box.lan kernel: random: 7 urandom warning(s) missed due to ratelimiting
+Sep 20 20:18:53 box.lan systemd-journald[140]: Journal started
+Sep 20 20:18:53 box.lan systemd-journald[140]: Runtime journal (/run/log/journal/adf551f779b3429594630e1f56c98394) is 8.0M, max 191.3M, 
+Sep 20 20:18:53 box.lan rngd[119]: rngd 2-unofficial-mt.14 starting up...
+Sep 20 20:18:53 box.lan rngd[119]: entropy feed to the kernel ready
+Sep 20 20:18:53 box.lan rng-tools[114]: Starting Hardware RNG entropy gatherer daemon: rngd.
+Sep 20 20:18:53 box.lan fake-hwclock[136]: Sun 20 Sep 19:18:53 UTC 2020
+Sep 20 20:18:53 box.lan systemd-fsck[145]: e2fsck 1.44.5 (15-Dec-2018)
+Sep 20 20:18:53 box.lan systemd[1]: Started udev Coldplug all Devices.
+Sep 20 20:18:53 box.lan systemd[1]: Starting Helper to synchronize boot up for ifupdown...
+Sep 20 20:18:53 box.lan systemd[1]: Started Helper to synchronize boot up for ifupdown.
