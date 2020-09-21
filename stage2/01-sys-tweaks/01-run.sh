@@ -2,8 +2,6 @@
 
 install -m 755 files/resize2fs_once	"${ROOTFS_DIR}/etc/init.d/"
 
-install -m 644 files/rng-tools.service	"${ROOTFS_DIR}/etc/systemd/system/"
-
 install -d				"${ROOTFS_DIR}/etc/systemd/system/rc-local.service.d"
 install -m 644 files/ttyoutput.conf	"${ROOTFS_DIR}/etc/systemd/system/rc-local.service.d/"
 
@@ -29,7 +27,7 @@ on_chroot << EOF
 systemctl disable hwclock.sh
 systemctl disable nfs-common
 systemctl disable rpcbind
-systemctl enable rng-tools
+systemctl disable rng-tools
 if [ "${ENABLE_SSH}" == "1" ]; then
 	systemctl enable ssh
 else
