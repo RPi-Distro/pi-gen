@@ -1,12 +1,12 @@
---- rng-tools.orig	2020-09-20 17:48:03.967820377 +0100
-+++ rng-tools	2020-09-20 18:48:01.060123787 +0100
-@@ -6,11 +6,15 @@
+--- stage2.orig/rootfs/etc/init.d/rng-tools	2020-09-20 17:48:03.967820377 +0100
++++ stage2/rootfs/etc/init.d/rng-tools	2020-09-21 04:30:07.379806813 +0100
+@@ -6,9 +6,11 @@
  #
  ### BEGIN INIT INFO
  # Provides:		rng-tools
 -# Required-Start:	$remote_fs $syslog
 -# Required-Stop:	$remote_fs $syslog
--# Default-Start:	1 2 3 4 5
+-# Default-Start:	2 3 4 5
 +# Required-Start:
 +# Required-Stop:	unmoutroot
 +# Should-Stop:
@@ -14,12 +14,8 @@
 +# Default-Start:     	S
  # Default-Stop:		0 1 6
  ### END INIT INFO
-+
-+
  #
- #
- # $Id: rng-tools.init,v 1.6.2.10 2008-06-10 19:51:37 hmh Exp $
-@@ -19,7 +23,7 @@
+@@ -19,7 +21,7 @@
  DAEMON=/usr/sbin/rngd
  NAME=rngd
  DESC="Hardware RNG entropy gatherer daemon"
