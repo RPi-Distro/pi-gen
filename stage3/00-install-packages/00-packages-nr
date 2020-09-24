@@ -1,6 +1,6 @@
 xserver-xorg xinit
 mousepad
-lxde lxtask menu-xdg
+task-mate-desktop
 zenity xdg-utils
 gvfs-backends gvfs-fuse
-lightdm gnome-themes-standard gnome-icon-theme
+lightdm
