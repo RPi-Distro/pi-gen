@@ -7,3 +7,11 @@ SKIP_IMAGES
 .pc
 *-pc
 apt-cacher-ng/
+stage5/EXPORT_IMAGE
+stage5/DONTSKIP
+stage4/EXPORT_IMAGE
+stage4/DONTSKIP
+stage4/EXPORT_IMAGE
+stage3/DONTSKIP
+stage2/EXPORT_IMAGE
+stage2/DONTEXPORT_IMAGE
