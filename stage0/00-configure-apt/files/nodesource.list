@@ -1,0 +1,2 @@
+deb https://deb.nodesource.com/node_current.x RELEASE main
+deb-src https://deb.nodesource.com/node_current.x RELEASE main
