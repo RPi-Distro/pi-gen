@@ -73,11 +73,26 @@ fi
 # Modify original build-options to allow config file to be mounted in the docker container
 BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 
+STAGE_LIST_VOLUMES=""
+STAGE_LIST_DOCKER=""
+for STAGE in $STAGE_LIST
+do
+echo stage: $STAGE
+	if [[ $STAGE = /* || $STAGE = ../* ]] ; then
+		STAGE_LIST_VOLUMES="${STAGE_LIST_VOLUMES} --volume `realpath $STAGE`:/ext-stages/`basename $STAGE`:ro"
+		STAGE_LIST_DOCKER="${STAGE_LIST_DOCKER} /ext-stages/`basename $STAGE`"
+	else
+		STAGE_LIST_DOCKER="${STAGE_LIST_DOCKER} $STAGE"
+	fi
+done
+
 ${DOCKER} build -t pi-gen "${DIR}"
 if [ "${CONTAINER_EXISTS}" != "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}_cont' SIGINT SIGTERM
 	time ${DOCKER} run --rm --privileged \
 		--volume "${CONFIG_FILE}":/config:ro \
+		${STAGE_LIST_VOLUMES} \
+		-e "STAGE_LIST_DOCKER=${STAGE_LIST_DOCKER}" \
 		-e "GIT_HASH=${GIT_HASH}" \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		pi-gen \
@@ -89,6 +104,8 @@ else
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
 	time ${DOCKER} run --name "${CONTAINER_NAME}" --privileged \
 		--volume "${CONFIG_FILE}":/config:ro \
+		${STAGE_LIST_VOLUMES} \
+		-e "STAGE_LIST_DOCKER=${STAGE_LIST_DOCKER}" \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&

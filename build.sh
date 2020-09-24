@@ -237,6 +237,10 @@ fi
 mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
+if [ -v STAGE_LIST_DOCKER ]; then
+	STAGE_LIST=${STAGE_LIST_DOCKER}
+fi
+
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
 
 for STAGE_DIR in $STAGE_LIST; do
