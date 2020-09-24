@@ -10,6 +10,7 @@ if ! id -u ${FIRST_USER_NAME} >/dev/null 2>&1; then
 fi
 echo "${FIRST_USER_NAME}:${FIRST_USER_PASS}" | chpasswd
 echo "root:root" | chpasswd
+passwd --expire ${FIRST_USER_NAME}
 EOF
 
-
+install -m 644 files/.bash_aliases "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.bash_aliases"
