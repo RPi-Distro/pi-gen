@@ -5,7 +5,7 @@ python-rpi.gpio v4l-utils
 avahi-daemon
 lua5.1
 luajit
-hardlink ca-certificates curl
+hardlink curl
 fake-hwclock nfs-common usbutils
 libraspberrypi-dev libraspberrypi-doc libfreetype6-dev
 dosfstools
