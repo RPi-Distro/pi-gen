@@ -29,3 +29,5 @@ ntfs-3g
 pciutils
 rpi-eeprom
 raspinfo
+quilt qemu-user-static debootstrap zerofree zip bsdtar bc
+eject
