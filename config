@@ -1,0 +1,9 @@
+IMG_NAME="RPiOS-buster-arm64"
+RELEASE="buster"
+TARGET_HOSTNAME="rp4b-1"
+FIRST_USER_NAME="carl"
+FIRST_USER_PASS="letmein123"
+ENABLE_SSH=1
+ENABLE_ARM64=1
+DEPLOY_ZIP=0
+REPOSITORY_URL=http://deb.debian.org/debian/

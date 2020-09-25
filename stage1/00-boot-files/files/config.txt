@@ -43,7 +43,7 @@ hdmi_mode:1=16
 
 #uncomment to overclock the arm. 700 MHz is the default.
 over_voltage=8
-arm_freq=2250
+arm_freq=2200
 
 # Uncomment some or all of these to enable the optional hardware interfaces
 #dtparam=i2c_arm=on
