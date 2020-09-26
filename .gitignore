@@ -4,3 +4,5 @@ work/*
 *-pc
 apt-cacher-ng/
 pi-gen.out
+stage0/SKIP
+stage1/SKIP
