@@ -74,3 +74,5 @@ ssh-keygen -q -t rsa -N '' -f "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/id_rsa
 chown -R 1000:1000 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/"
 
 on_chroot update-command-not-found
+echo "fs.inotify.max_user_watches=524288" >> "${ROOTFS_DIR}/etc/sysctl.conf"
+on_chroot sysctl -p
