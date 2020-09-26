@@ -78,5 +78,5 @@ sed -i "s/root@/${FIRST_USER_NAME}@/g" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.s
 echo "fs.inotify.max_user_watches=524288" >> "${ROOTFS_DIR}/etc/sysctl.conf"
 on_chroot << EOF
 update-command-not-found
-on_chroot sysctl -p
+sysctl -p
 EOF
