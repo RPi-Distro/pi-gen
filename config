@@ -44,4 +44,5 @@ ENABLE_SSH=1
 
 REPOSITORY_URL=http://deb.debian.org/debian/
 
+#STAGE_LIST="${BASE_DIR}/stage*"
 ENABLE_ARM64=1
