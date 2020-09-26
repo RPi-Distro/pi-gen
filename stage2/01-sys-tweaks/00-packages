@@ -31,3 +31,4 @@ rpi-eeprom
 raspinfo
 quilt qemu-user-static debootstrap zerofree zip bsdtar bc
 eject
+coreutils libcap2-bin grep xz-utils xxd file kmod
