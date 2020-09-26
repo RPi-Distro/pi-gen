@@ -71,7 +71,7 @@ EOF
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
 
 mkdir -p "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/"
-ssh-keygen -q -t rsa -N '' -f "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/id_rsa" <<<y
+ssh-keygen -q -t rsa -C carl@1stcall.uk -N '' -f "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/id_rsa" <<<y
 chown -R 1000:1000 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/"
 sed -i "s/root@/${FIRST_USER_NAME}@/g" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/id_rsa.pub"
 
