@@ -1,3 +1,9 @@
+python python3-pygame python-pygame python-tk
+python3 python3-tk thonny
+python3-pgzero
+python-serial python3-serial
+#python-picamera python3-picamera
+command-not-found
 ssh less fbset sudo psmisc strace ed ncdu crda
 console-setup keyboard-configuration debconf-utils parted unzip
 build-essential manpages-dev python bash-completion gdb pkg-config

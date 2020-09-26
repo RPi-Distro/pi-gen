@@ -12,7 +12,6 @@ fonts-droid-fallback
 fonts-liberation2
 obconf
 arandr
-command-not-found
 git
 #nodejs
 #npm
