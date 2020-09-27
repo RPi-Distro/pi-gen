@@ -86,11 +86,11 @@ run_stage(){
 	unmount "${WORK_DIR}/${STAGE}"
 	STAGE_WORK_DIR="${WORK_DIR}/${STAGE}"
 	ROOTFS_DIR="${STAGE_WORK_DIR}"/rootfs
-	if [ ! -f SKIP_IMAGES ]; then
-		if [ -f "${STAGE_DIR}/EXPORT_IMAGE" ]; then
+#	if [ ! -f SKIP_IMAGES ]; then
+#		if [ -f "${STAGE_DIR}/EXPORT_IMAGE" ]; then
 #			EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
-		fi
-	fi
+#		fi
+#	fi
 	if [ ! -f SKIP ]; then
 		if [ "${CLEAN}" = "1" ]; then
 			if [ -d "${ROOTFS_DIR}" ]; then
@@ -207,8 +207,8 @@ export QUILT_NO_DIFF_TIMESTAMPS=1
 export QUILT_REFRESH_ARGS="-p ab"
 
 export REPOSITORY_URL="${REPOSITORY_URL:-http://deb.debian.org/debian/}"
-export ARCH="${ARCH}-armhf"
-export EXPORT_DIRS="${EXPORT_DIRS}:-${BASE_DIR}/stage2 ${BASE_DIR}/stage5"
+export ARCH="${ARCH:-armhf}"
+export EXPORT_DIRS="${EXPORT_DIRS:-${BASE_DIR}/stage2 ${BASE_DIR}/stage5}"
 
 # shellcheck source=scripts/common
 source "${SCRIPT_DIR}/common"
