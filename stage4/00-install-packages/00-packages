@@ -1,20 +1,18 @@
-debian-reference-en dillo
-raspberrypi-net-mods
-python-pip python3-pip
-python3-numpy
-pypy
-alacarte rc-gui sense-hat
-tree
-libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
-geany
-piclone
-wiringpi pigpio python-pigpio python3-pigpio raspi-gpio python-gpiozero python3-gpiozero python3-rpi.gpio
-python-spidev python3-spidev
-python-twython python3-twython
-python-smbus python3-smbus
-python-flask python3-flask
-pprompt
-piwiz
-rp-prefapps
-ffmpeg
-vlc
+task-mate-desktop
+gstreamer1.0-x gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-alsa gstreamer1.0-libav
+qpdfview gtk2-engines alsa-utils
+desktop-base
+#omxplayer
+raspberrypi-artwork
+policykit-1
+gvfs
+rfkill
+chromium rpi-chromium-mods
+gldriver-test
+fonts-droid-fallback
+fonts-liberation2
+obconf
+arandr
+git
+#nodejs
+#npm
