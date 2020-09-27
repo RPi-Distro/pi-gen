@@ -1,6 +1,7 @@
+ARCH="arm64"
 #PI_GEN="-pi-gen"
 #PI_GEN_REPO="https://github.com/RPi-Distro/pi-gen"
-IMG_NAME="RPiOS-buster-arm64"
+IMG_NAME="RPiOS-buster-${ARCH}"
 #USE_QEMU=0
 #IMG_DATE="$(date +%Y-%m-%d)"
 #IMG_FILENAME="${IMG_DATE}-${IMG_NAME}"
@@ -42,7 +43,6 @@ ENABLE_SSH=1
 #NOOBS_NAME=""
 #NOOBS_DESCRIPTION=""
 
-REPOSITORY_URL=http://deb.debian.org/debian/
+REPOSITORY_URL="http://deb.debian.org/debian/"
 
-#STAGE_LIST="${BASE_DIR}/stage*"
-ENABLE_ARM64=1
+STAGE_LIST="${BASE_DIR}/stage*"

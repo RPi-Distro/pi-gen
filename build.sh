@@ -207,6 +207,7 @@ export QUILT_NO_DIFF_TIMESTAMPS=1
 export QUILT_REFRESH_ARGS="-p ab"
 
 export REPOSITORY_URL="${REPOSITORY_URL:-http://deb.debian.org/debian/}"
+export ARCH="${ARCH}-armhf"
 
 # shellcheck source=scripts/common
 source "${SCRIPT_DIR}/common"
