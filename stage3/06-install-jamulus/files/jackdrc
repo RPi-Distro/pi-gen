@@ -1,0 +1,5 @@
+#!/bin/bash
+# exec is used to 'morph' the shell interpreter process into jackd process, saving some system resources.
+[[ -f /etc/jackdrc.conf ]] && source /etc/jackdrc.conf
+JACK_COMMAND="/usr/bin/jackd -t 2000 -R -P 95 -d alsa -d ${DEVICE:-hw:1,0} -r 48000 -p ${PERIOD:-64} -n ${NPERIODS:-5} -X seq -s -S"
+exec $JACK_COMMAND

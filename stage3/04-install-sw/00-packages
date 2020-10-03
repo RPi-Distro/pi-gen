@@ -1,0 +1,6 @@
+chromium-browser rpi-chromium-mods
+# exclude xserver-xorg-video-fbturbo package recommended by raspberrypi-ui-mods
+raspberrypi-ui-mods xserver-xorg-video-fbturbo-
+gnome-themes-standard-data gtk2-engines
+network-manager-gnome blueman vim
+retext

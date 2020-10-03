@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=README
+Comment=Display README file
+Icon=/usr/share/icons/gnome/256x256/mimetypes/gnome-mime-text.png
+Exec=/usr/bin/retext --preview /home/pi/README.md
+Type=Application
+Encoding=UTF-8
+Terminal=false
+Categories=None;

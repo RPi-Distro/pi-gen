@@ -1,0 +1,9 @@
+[Unit]
+Description=CPU scaling governor initializer to `performance`
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"
+
+[Install]
+WantedBy=multi-user.target

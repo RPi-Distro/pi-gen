@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Jamulus Start
+Type=Application
+Comment=Online Jamming
+Categories=Application
+Path=/home/pi
+Exec=/usr/local/bin/jamulus_start.sh
+Terminal=true
+Icon=jamulus
+GenericName=Jamulus

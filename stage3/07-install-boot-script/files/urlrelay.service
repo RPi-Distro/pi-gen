@@ -1,0 +1,14 @@
+[Unit]
+Description=urlrelay registration
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root
+ExecStart=/usr/local/bin/urlrelay.sh
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,11 @@
+[Unit]
+Description = start noVNC service
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart = /usr/local/noVNC/utils/launch.sh
+
+[Install]
+WantedBy=multi-user.target

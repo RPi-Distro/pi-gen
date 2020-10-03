@@ -1,0 +1,20 @@
+git
+audacity
+patchage
+#aconnectgui
+realvnc-vnc-server
+xserver-xorg-video-fbdev xserver-xorg xinit xserver-xorg-legacy
+# don't install xserver-xorg-video-fbturbo, it causes Jamulus jitter with default SwapbuffersWait=true,
+# also causes Qt5 apps to issue warning: "libEGL warning: DRI2: failed to authenticate" 
+# xserver-xorg-video-fbturbo
+# xscreensaver
+lxde lxtask menu-xdg # gksu
+lxrandr
+xdg-utils gvfs-backends gvfs-fuse
+lightdm gnome-themes-standard-data gnome-icon-theme
+liblo7 liblo-dev libasound-dev libjack-jackd2-dev
+hostapd
+python-numpy
+libqt5xml5
+libqt5concurrent5
+qjackctl
