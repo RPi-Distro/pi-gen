@@ -44,6 +44,6 @@ ENABLE_SSH=1
 #NOOBS_DESCRIPTION=""
 
 REPOSITORY_URL="http://deb.debian.org/debian/"
-
+#REPOSITORY_URL="http://192.168.0.110/debian/"
 #STAGE_LIST="${BASE_DIR}/stage*"
 #EXPORT_DIRS="${BASE_DIR}/stage2 ${BASE_DIR}/stage5"

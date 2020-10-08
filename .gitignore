@@ -8,3 +8,4 @@ SKIP
 EXPORT_IMAGE
 DONTSKIP
 stage3/DONTSKIP
+stage4/03-bookshelf/files/*
