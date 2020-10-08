@@ -2,6 +2,12 @@
 
 Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
 
+## TODO
+
+* Update `README.md`.
+* Impliment `postrun.sh`.
+* Move building of images to `postrun.sh`.
+* Fork building of imaged to background.
 
 ## Dependencies
 
