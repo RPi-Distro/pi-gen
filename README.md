@@ -6,7 +6,7 @@ Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
 
 * Update `README.md`.
 * Impliment `postrun.sh`.
-* Move building of images to `postrun.sh`.
+* Move building of images to imitiately after stage has been built.
 * Fork building of imaged to background.
 
 ## Dependencies
