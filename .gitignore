@@ -5,7 +5,4 @@ work/*
 apt-cacher-ng/
 pi-gen.out
 SKIP
-EXPORT_IMAGE
-DONTSKIP
-stage3/DONTSKIP
 stage4/03-bookshelf/files/*

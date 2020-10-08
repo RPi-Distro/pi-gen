@@ -8,6 +8,7 @@ Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
 * Impliment `postrun.sh`.
 * Move building of images to imitiately after stage has been built.
 * Fork building of imaged to background.
+* Resolve locale not set messages in stage0.
 
 ## Dependencies
 
