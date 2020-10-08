@@ -254,15 +254,16 @@ for STAGE_DIR in $STAGE_LIST; do
 	if [[ " ${EXPORT_DIRS[@]} " =~ " ${STAGE_DIR} " ]]; then
 		EXPORT_DIR="${STAGE_DIR}"
 		if [[ -e "${EXPORT_DIR}/EXPORT_IMAGE" ]]; then
-		source "${EXPORT_DIR}/EXPORT_IMAGE"
-		EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename "${EXPORT_DIR}")/rootfs
-		run_stage
-		if [ "${USE_QEMU}" != "1" ]; then
-			if [ -e "${EXPORT_DIR}/EXPORT_NOOBS" ]; then
-				# shellcheck source=/dev/null
-				source "${EXPORT_DIR}/EXPORT_NOOBS"
-				STAGE_DIR="${BASE_DIR}/export-noobs"
-				run_stage
+			source "${EXPORT_DIR}/EXPORT_IMAGE"
+			EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename "${EXPORT_DIR}")/rootfs
+			run_stage
+			if [ "${USE_QEMU}" != "1" ]; then
+				if [ -e "${EXPORT_DIR}/EXPORT_NOOBS" ]; then
+					# shellcheck source=/dev/null
+					source "${EXPORT_DIR}/EXPORT_NOOBS"
+					STAGE_DIR="${BASE_DIR}/export-noobs"
+					run_stage
+				fi
 			fi
 		fi
 	fi
