@@ -247,15 +247,19 @@ mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
+log "STAGE_LIST = ${STAGE_LIST[@]}"
 
-for STAGE_DIR in $STAGE_LIST; do
-	STAGE_DIR=$(realpath "${STAGE_DIR}")
+for WSTAGE_DIR in "${STAGE_LIST[@]}"; do
+	STAGE_DIR=$(realpath "${WSTAGE_DIR}")
 	run_stage
-	if [[ " ${EXPORT_DIRS[@]} " =~ " ${STAGE_DIR} " ]]; then
+	if [[ " ${EXPORT_DIRS[@]} " =~ " ${WSTAGE_DIR} " ]]; then
 		EXPORT_DIR="${STAGE_DIR}"
 		if [[ -e "${EXPORT_DIR}/EXPORT_IMAGE" ]]; then
+			log "Begin export ${EXPORT_DIR}"
+			STAGE_DIR=${BASE_DIR}/export-image
 			source "${EXPORT_DIR}/EXPORT_IMAGE"
 			EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename "${EXPORT_DIR}")/rootfs
+			TMP_PREV_ROOTFS_DIR="${PREV_ROOTFS_DIR}"
 			run_stage
 			if [ "${USE_QEMU}" != "1" ]; then
 				if [ -e "${EXPORT_DIR}/EXPORT_NOOBS" ]; then
@@ -265,7 +269,13 @@ for STAGE_DIR in $STAGE_LIST; do
 					run_stage
 				fi
 			fi
+			PREV_ROOTFS_DIR="${TMP_PREV_ROOTFS_DIR}"
+		else
+			log "Skipping export ${EXPORT_DIR}"
 		fi
+	else 
+		EXPORT_DIR="${STAGE_DIR}"
+		log "** not running export ${EXPORT_DIR} because not in ${EXPORT_DIRS[@]}"
 	fi
 done
 
