@@ -108,6 +108,11 @@ run_stage(){
 				run_sub_stage
 			fi
 		done
+		if [ -x postrun.sh ]; then
+			log "Begin ${STAGE_DIR}/postrun.sh"
+			./postrun.sh
+			log "End ${STAGE_DIR}/postrun.sh"
+		fi
 	fi
 	unmount "${WORK_DIR}/${STAGE}"
 	PREV_STAGE="${STAGE}"
@@ -252,15 +257,17 @@ CLEAN=1
 for EXPORT_DIR in ${EXPORT_DIRS}; do
 	STAGE_DIR=${BASE_DIR}/export-image
 	# shellcheck source=/dev/null
-	source "${EXPORT_DIR}/EXPORT_IMAGE"
-	EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename "${EXPORT_DIR}")/rootfs
-	run_stage
-	if [ "${USE_QEMU}" != "1" ]; then
-		if [ -e "${EXPORT_DIR}/EXPORT_NOOBS" ]; then
-			# shellcheck source=/dev/null
-			source "${EXPORT_DIR}/EXPORT_NOOBS"
-			STAGE_DIR="${BASE_DIR}/export-noobs"
-			run_stage
+	if [[ -e "${EXPORT_DIR}/EXPORT_IMAGE" ]]; then
+		source "${EXPORT_DIR}/EXPORT_IMAGE"
+		EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename "${EXPORT_DIR}")/rootfs
+		run_stage
+		if [ "${USE_QEMU}" != "1" ]; then
+			if [ -e "${EXPORT_DIR}/EXPORT_NOOBS" ]; then
+				# shellcheck source=/dev/null
+				source "${EXPORT_DIR}/EXPORT_NOOBS"
+				STAGE_DIR="${BASE_DIR}/export-noobs"
+				run_stage
+			fi
 		fi
 	fi
 done

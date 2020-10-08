@@ -52,7 +52,7 @@ EOF
 fi
 
 on_chroot <<EOF
-for GRP in input spi i2c gpio; do
+for GRP in input spi i2c gpio docker; do
 	groupadd -f -r "\$GRP"
 done
 for GRP in adm dialout cdrom audio users sudo video games plugdev input gpio spi i2c netdev docker; do
@@ -74,9 +74,3 @@ mkdir -p "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/"
 ssh-keygen -q -t rsa -C carl@1stcall.uk -N '' -f "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/id_rsa" <<<y
 chown -R 1000:1000 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/"
 sed -i "s/root@/${FIRST_USER_NAME}@/g" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.ssh/id_rsa.pub"
-
-echo "fs.inotify.max_user_watches=524288" >> "${ROOTFS_DIR}/etc/sysctl.conf"
-on_chroot << EOF
-update-command-not-found
-sysctl -p
-EOF
