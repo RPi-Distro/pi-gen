@@ -1,3 +1,5 @@
+#!/bin/bash -e
+
 log (){
 	date +"[%T] $*" | tee -a "${LOG_FILE}"
 }

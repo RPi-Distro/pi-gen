@@ -215,8 +215,8 @@ export REPOSITORY_URL="${REPOSITORY_URL:-http://deb.debian.org/debian/}"
 export ARCH="${ARCH:-armhf}"
 export EXPORT_DIRS="${EXPORT_DIRS:-${BASE_DIR}/stage2 ${BASE_DIR}/stage5}"
 
-# shellcheck source=scripts/common
-source "${SCRIPT_DIR}/common"
+# shellcheck source=scripts/common.sh
+source "${SCRIPT_DIR}/common.sh"
 # shellcheck source=scripts/dependencies_check
 source "${SCRIPT_DIR}/dependencies_check"
 
@@ -270,6 +270,7 @@ for WSTAGE_DIR in "${STAGE_LIST[@]}"; do
 				fi
 			fi
 			PREV_ROOTFS_DIR="${TMP_PREV_ROOTFS_DIR}"
+			log "End export ${EXPORT_DIR}"
 		else
 			log "Skipping export ${EXPORT_DIR}"
 		fi
