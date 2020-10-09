@@ -22,7 +22,7 @@ while [ ! "$(ping -c 1 google.com)" ]; do
 done
 
 # MY_IP=`ip -o -4 a | awk '$2 == "eth0" { gsub(/\/.*/, "", $4); print $4 }'`
-MY_IP=`ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n 1`
+MY_IP=`ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | grep -v 169.254. | awk '{ print $2 }' | cut -f2 -d: | head -n 1`
 MACADDR=`cat /sys/class/net/eth0/address`
 
 if [ -f /etc/urlrelay/urlrelay.conf ]; then
