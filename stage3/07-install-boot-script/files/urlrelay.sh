@@ -21,7 +21,8 @@ while [ ! "$(ping -c 1 google.com)" ]; do
     sleep 10
 done
 
-MY_IP=`ip -o -4 a | awk '$2 == "eth0" { gsub(/\/.*/, "", $4); print $4 }'`
+# MY_IP=`ip -o -4 a | awk '$2 == "eth0" { gsub(/\/.*/, "", $4); print $4 }'`
+MY_IP=`ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n 1`
 MACADDR=`cat /sys/class/net/eth0/address`
 
 if [ -f /etc/urlrelay/urlrelay.conf ]; then
@@ -32,8 +33,18 @@ fi
 [[ -z "$REQUIRE_ID" ]] && REQUIRE_ID=0
 [[ -z "$URL" ]] && URL="http://${MY_IP}:6080${URL_ARGS}"
 
-# python2:
-#ENC_URL=$(python -c "import urllib, sys; print urllib.quote(sys.argv[1])" "$URL")
-# python3
-ENC_URL=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "$URL")
-curl -s "https://urlrelay.com/set?id=${NODE_ID}&url=${ENC_URL}&requireId=${REQUIRE_ID}&macaddr=${MACADDR}"
+PYTHON_VERSION=`python --version 2>&1`
+
+while [ 1 ]
+do
+  if [[ "$PYTHON_VERSION" =~ ^Python.2.*$ ]]; then
+    # python2:
+    ENC_URL=$(python -c "import urllib, sys; print urllib.quote(sys.argv[1])" "$URL")
+  else
+    # python3
+    ENC_URL=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "$URL")
+  fi
+  curl -s "https://urlrelay.com/set?id=${NODE_ID}&url=${ENC_URL}&requireId=${REQUIRE_ID}&macaddr=${MACADDR}"
+  # re-register once per day
+  sleep 1d
+done
