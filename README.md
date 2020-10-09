@@ -6,14 +6,14 @@ Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
 
 * Update `README.md`.
 * Impliment `postrun.sh`.
-* Move building of images to imitiately after stage has been built.
+* Move building of images to imitiately after stage has been built. (DONE)
 * Fork building of imaged to background.
 * Resolve locale not set messages in stage0.
 * Make desktop environment configurable
 * Make arch configurable
 * Make OS configurable
 * Enable SBCs other than PIs
-* Add log verbosity option.
+* Add log verbosity option. Maybe a ```debug_log(DEBUG_LEVEL, MESSAGE)``` function
 
 ## Dependencies
 

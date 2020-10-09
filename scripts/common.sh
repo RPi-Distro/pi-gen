@@ -1,9 +1,19 @@
 #!/bin/bash -e
 
 log (){
-	date +"[%T] $*" | tee -a "${LOG_FILE}"
+	date +"[%T] (${STAGE:-init}) $*" | tee -a "${LOG_FILE}"
 }
 export -f log
+
+debug_log(){
+	set -e
+	local LOG_LEVEL=${1:-0}
+	local MSG="${*:-debugging}"
+#	echo ¨LOG_LEVEL = ${LOG_LEVEL} DEBUG_LEVEL = ${DEBUG_LEVEL}¨
+	if [ ${LOG_LEVEL} -le ${DEBUG_LEVEL} ]; then
+		log "*DEBUG* ${MSG}"
+	fi
+}
 
 bootstrap(){
 	local BOOTSTRAP_CMD=debootstrap
@@ -31,7 +41,7 @@ bootstrap(){
 export -f bootstrap
 
 copy_previous(){
-	log "PREV_ROOTFS - ${PREV_ROOTFS_DIR}"
+	debug_log 5 "PREV_ROOTFS - ${PREV_ROOTFS_DIR}"
 	if [ ! -d "${PREV_ROOTFS_DIR}" ]; then
 		echo "Previous stage rootfs not found"
 		false

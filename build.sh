@@ -1,5 +1,8 @@
 #!/bin/bash -e
 # shellcheck disable=SC2119
+
+export START_TIME=$( date +"[%T]" )
+
 run_sub_stage()
 {
 	log "Begin ${SUB_STAGE_DIR}"
@@ -193,7 +196,7 @@ export CLEAN
 export IMG_NAME
 export APT_PROXY
 
-export STAGE
+export STAGE="INIT"
 export STAGE_DIR
 export STAGE_WORK_DIR
 export PREV_STAGE
@@ -214,6 +217,8 @@ export QUILT_REFRESH_ARGS="-p ab"
 export REPOSITORY_URL="${REPOSITORY_URL:-http://deb.debian.org/debian/}"
 export ARCH="${ARCH:-armhf}"
 export EXPORT_DIRS="${EXPORT_DIRS:-${BASE_DIR}/stage2 ${BASE_DIR}/stage5}"
+export DEBUG_LEVEL=${DEBUG_LEVEL:-5}
+
 
 # shellcheck source=scripts/common.sh
 source "${SCRIPT_DIR}/common.sh"
@@ -247,7 +252,8 @@ mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
-log "STAGE_LIST = ${STAGE_LIST[@]}"
+debug_log 6 "STAGE_LIST = ${STAGE_LIST[@]}"
+debug_log 6 "EXPORT_DIRS = ${EXPORT_DIRS[@]}"
 
 for WSTAGE_DIR in "${STAGE_LIST[@]}"; do
 	STAGE_DIR=$(realpath "${WSTAGE_DIR}")
@@ -255,7 +261,7 @@ for WSTAGE_DIR in "${STAGE_LIST[@]}"; do
 	if [[ " ${EXPORT_DIRS[@]} " =~ " ${WSTAGE_DIR} " ]]; then
 		EXPORT_DIR="${STAGE_DIR}"
 		if [[ -e "${EXPORT_DIR}/EXPORT_IMAGE" ]]; then
-			log "Begin export ${EXPORT_DIR}"
+			debug_log 2 "Begin export ${EXPORT_DIR}"
 			STAGE_DIR=${BASE_DIR}/export-image
 			source "${EXPORT_DIR}/EXPORT_IMAGE"
 			EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename "${EXPORT_DIR}")/rootfs
@@ -270,13 +276,13 @@ for WSTAGE_DIR in "${STAGE_LIST[@]}"; do
 				fi
 			fi
 			PREV_ROOTFS_DIR="${TMP_PREV_ROOTFS_DIR}"
-			log "End export ${EXPORT_DIR}"
+			debug_log 2 "End export ${EXPORT_DIR}"
 		else
-			log "Skipping export ${EXPORT_DIR}"
+			debug_log 4 "Skipping export ${EXPORT_DIR}"
 		fi
 	else 
 		EXPORT_DIR="${STAGE_DIR}"
-		log "** not running export ${EXPORT_DIR} because not in ${EXPORT_DIRS[@]}"
+		debug_log 3 "Not running export ${EXPORT_DIR} because not in \${EXPORT_DIRS[@]}"
 	fi
 done
 
@@ -305,5 +311,5 @@ if [ -x ${BASE_DIR}/postrun.sh ]; then
 	./postrun.sh
 	log "End postrun.sh"
 fi
-
-log "End ${BASE_DIR}"
+END_TIME=$ ( date +"[%T] )
+log "End ${BASE_DIR}. Started at ${START_TIME}. ended at ${END_TIME}.¨
