@@ -9,7 +9,7 @@ debug_log(){
 	set -e
 	local LOG_LEVEL=${1:-0}
 	local MSG="${*:-debugging}"
-#	echo ¨LOG_LEVEL = ${LOG_LEVEL} DEBUG_LEVEL = ${DEBUG_LEVEL}¨
+#	echo "LOG_LEVEL = ${LOG_LEVEL} DEBUG_LEVEL = ${DEBUG_LEVEL}"
 	if [ ${LOG_LEVEL} -le ${DEBUG_LEVEL} ]; then
 		log "*DEBUG* ${MSG}"
 	fi

@@ -252,17 +252,18 @@ mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
-debug_log 6 "STAGE_LIST = ${STAGE_LIST[@]}"
-debug_log 6 "EXPORT_DIRS = ${EXPORT_DIRS[@]}"
+debug_log 6 "STAGE_LIST = ${STAGE_LIST[*]}"
+debug_log 6 "EXPORT_DIRS = ${EXPORT_DIRS[*]}"
 
 for WSTAGE_DIR in "${STAGE_LIST[@]}"; do
 	STAGE_DIR=$(realpath "${WSTAGE_DIR}")
 	run_stage
-	if [[ " ${EXPORT_DIRS[@]} " =~ " ${WSTAGE_DIR} " ]]; then
+	if [[ " ${EXPORT_DIRS[*]} " =~ ${WSTAGE_DIR} ]]; then
 		EXPORT_DIR="${STAGE_DIR}"
 		if [[ -e "${EXPORT_DIR}/EXPORT_IMAGE" ]]; then
 			debug_log 2 "Begin export ${EXPORT_DIR}"
 			STAGE_DIR=${BASE_DIR}/export-image
+			# shellcheck source "./EXPORT_IMAGE"
 			source "${EXPORT_DIR}/EXPORT_IMAGE"
 			EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename "${EXPORT_DIR}")/rootfs
 			TMP_PREV_ROOTFS_DIR="${PREV_ROOTFS_DIR}"
@@ -312,4 +313,4 @@ if [ -x ${BASE_DIR}/postrun.sh ]; then
 	log "End postrun.sh"
 fi
 END_TIME=$ ( date +"[%T] )
-log "End ${BASE_DIR}. Started at ${START_TIME}. ended at ${END_TIME}.¨
+log "End ${BASE_DIR}. Started at ${START_TIME}. ended at ${END_TIME}."
