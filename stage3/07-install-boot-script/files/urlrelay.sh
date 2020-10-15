@@ -21,8 +21,16 @@ while [ ! "$(ping -c 1 google.com)" ]; do
     sleep 10
 done
 
-# MY_IP=`ip -o -4 a | awk '$2 == "eth0" { gsub(/\/.*/, "", $4); print $4 }'`
-MY_IP=`ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | grep -v 169.254. | awk '{ print $2 }' | cut -f2 -d: | head -n 1`
+# get the local routable IP address
+# filter for private IP ranges 10.0.0.0/8, 192.168.0.0/24, and 172.16.0.0/12
+# this will exclude link-local IPs (169.254.x.x)
+# also exclude any hypervisor interfaces
+
+MY_IP=`ls /sys/class/net \
+| egrep -v "^(lo[0-9]?|docker[0-9]?|vboxnet[0-9]?|vmnet[0-9]?)$" \
+| xargs --max-args=1 /sbin/ifconfig \
+| grep -P "(10\.\d{1,3}\.|192\.168\.|172\.[1-3]\d\.)\d{1,3}\.\d{1,3}" \
+| awk '{ print $2 }' | cut -f2 -d: | head -n 1`
 MACADDR=`cat /sys/class/net/eth0/address`
 
 if [ -f /etc/urlrelay/urlrelay.conf ]; then
