@@ -3,11 +3,8 @@ if [ -f ~/.config/Jamulus/jamulus_start.conf ]; then
   source ~/.config/Jamulus/jamulus_start.conf
 fi
 
-#[[ -z "$MASTER_LEVEL" ]] && MASTER_LEVEL="75%"
-#[[ -z "$CAPTURE_LEVEL" ]] && CAPTURE_LEVEL="50%"
 [[ -z "$AJ_SNAPSHOT" ]] && AJ_SNAPSHOT="ajs-um2-stereo.xml"
 [[ -z "$JAMULUS_TIMEOUT" ]] && JAMULUS_TIMEOUT="120m"
-
 
 ALSA_READY=no
 until [[ $ALSA_READY == "yes" ]]; do
@@ -52,7 +49,7 @@ if [[ -f ~/.config/aj-snapshot/$AJ_SNAPSHOT ]]; then
   JACKARG="--nojackconnect"
 fi
 
-# start Jamulus with --nojackconnect option if as-snapshot is controlling the connections.
+# start Jamulus with --nojackconnect option if aj-snapshot is controlling the connections.
 if [ -n "$JAMULUS_SERVER" ]; then
   timeout $JAMULUS_TIMEOUT Jamulus $JACKARG -c $JAMULUS_SERVER
   RESULT=$?
