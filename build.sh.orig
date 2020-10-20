@@ -12,6 +12,26 @@ $(cat "${i}-debconf")
 SELEOF
 EOF
 
+<<<<<<< HEAD
+      log "End ${SUB_STAGE_DIR}/${i}-debconf"
+    fi
+    if [ -f "${i}-packages-nr" ]; then
+      log "Begin ${SUB_STAGE_DIR}/${i}-packages-nr"
+      PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" <"${i}-packages-nr")"
+      if [ -n "$PACKAGES" ]; then
+        on_chroot <<EOF
+apt-get install --no-install-recommends -y $PACKAGES
+EOF
+      fi
+      log "End ${SUB_STAGE_DIR}/${i}-packages-nr"
+    fi
+    if [ -f "${i}-packages" ]; then
+      log "Begin ${SUB_STAGE_DIR}/${i}-packages"
+      PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" <"${i}-packages")"
+      if [ -n "$PACKAGES" ]; then
+        on_chroot <<EOF
+apt-get install -y $PACKAGES
+=======
 		log "End ${SUB_STAGE_DIR}/${i}-debconf"
 		fi
 		if [ -f "${i}-packages-nr" ]; then
@@ -30,6 +50,7 @@ EOF
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
 apt-get -o APT::Acquire::Retries=3 install -y $PACKAGES
+>>>>>>> upstream/master
 EOF
       fi
       log "End ${SUB_STAGE_DIR}/${i}-packages"
@@ -120,9 +141,12 @@ if [ "$(id -u)" != "0" ]; then
   exit 1
 fi
 
+<<<<<<< HEAD
+=======
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export BASE_DIR
 
+>>>>>>> upstream/master
 if [ -f config ]; then
   # shellcheck disable=SC1091
   source config
@@ -141,7 +165,7 @@ while getopts "c:" flag; do
 done
 
 export PI_GEN=${PI_GEN:-pi-gen}
-export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/Screenly/pi-gen}
+export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
 
 if [ -z "${IMG_NAME}" ]; then
   echo "IMG_NAME not set" 1>&2
@@ -180,10 +204,10 @@ export WPA_COUNTRY
 export ENABLE_SSH="${ENABLE_SSH:-0}"
 export PUBKEY_ONLY_SSH="${PUBKEY_ONLY_SSH:-0}"
 
-export LOCALE_DEFAULT="${LOCALE_DEFAULT:-en_US.UTF-8}"
+export LOCALE_DEFAULT="${LOCALE_DEFAULT:-en_GB.UTF-8}"
 
-export KEYBOARD_KEYMAP="${KEYBOARD_KEYMAP:-us}"
-export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (US)}"
+export KEYBOARD_KEYMAP="${KEYBOARD_KEYMAP:-gb}"
+export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"
 
 export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
 
@@ -270,11 +294,19 @@ for EXPORT_DIR in ${EXPORT_DIRS}; do
   fi
 done
 
+<<<<<<< HEAD
+if [ -x postrun.sh ]; then
+  log "Begin postrun.sh"
+  cd "${BASE_DIR}"
+  ./postrun.sh
+  log "End postrun.sh"
+=======
 if [ -x ${BASE_DIR}/postrun.sh ]; then
 	log "Begin postrun.sh"
 	cd "${BASE_DIR}"
 	./postrun.sh
 	log "End postrun.sh"
+>>>>>>> upstream/master
 fi
 
 log "End ${BASE_DIR}"

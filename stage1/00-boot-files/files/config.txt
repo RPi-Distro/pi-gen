@@ -47,8 +47,9 @@
 #dtparam=i2s=on
 #dtparam=spi=on
 
-# Uncomment this to enable the lirc-rpi module
-#dtoverlay=lirc-rpi
+# Uncomment this to enable infrared communication.
+#dtoverlay=gpio-ir,gpio_pin=17
+#dtoverlay=gpio-ir-tx,gpio_pin=18
 
 # Additional overlays and parameters are documented /boot/overlays/README
 
