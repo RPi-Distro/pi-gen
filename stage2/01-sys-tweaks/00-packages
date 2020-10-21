@@ -1,31 +1,55 @@
-ssh less fbset sudo psmisc strace ed ncdu crda
-console-setup keyboard-configuration debconf-utils parted unzip
-build-essential manpages-dev python bash-completion gdb pkg-config
-python-rpi.gpio v4l-utils
+apt-listchanges
 avahi-daemon
-lua5.1
-luajit
-hardlink ca-certificates curl
-fake-hwclock nfs-common usbutils
-libraspberrypi-dev libraspberrypi-doc libfreetype6-dev
+bash-completion
+build-essential
+ca-certificates
+console-setup
+crda
+curl
+debconf-utils
 dosfstools
 dphys-swapfile
-raspberrypi-sys-mods
-pi-bluetooth
-apt-listchanges
-usb-modeswitch
-libpam-chksshpwd
-rpi-update
-libmtp-runtime
-rsync
-htop
-man-db
-policykit-1
-ssh-import-id
-rng-tools
+ed
 ethtool
-vl805fw
+fake-hwclock
+fbset
+gdb
+hardlink
+htop
+keyboard-configuration
+less
+libfreetype6-dev
+libmtp-runtime
+libpam-chksshpwd
+libraspberrypi-dev
+libraspberrypi-doc
+lua5.1
+luajit
+man-db
+manpages-dev
+ncdu
+nfs-common
 ntfs-3g
+parted
 pciutils
-rpi-eeprom
+pi-bluetooth
+pkg-config
+policykit-1
+psmisc
+python
+python-rpi.gpio
+raspberrypi-sys-mods
 raspinfo
+rng-tools
+rpi-eeprom
+rpi-update
+rsync
+ssh
+ssh-import-id
+strace
+sudo
+unzip
+usb-modeswitch
+usbutils
+v4l-utils
+vl805fw
