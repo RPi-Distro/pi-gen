@@ -1,14 +1,16 @@
 #!/bin/bash
 
-# The VNC interface on this device can be accessed from any web browser on same local network.
+# The web UI on this device can be accessed from any web browser on same local network.
 # However the IP address may not be known, it is assigned by DHCP.
 # Solution is to save the url with the urlrelay.com service, which uses source IP and nodeId as keys.
-# Then the url can be retrieved from any web browser on same local network.
+# Then the url can be easily retrieved from any web browser on same local network.
 #
-# When user goes to https://urlrelay.com/go?<node-id> , urlrelay service will redirect to the saved URL.
+# When user goes to urlrelay.com/go, urlrelay service will redirect to the saved URL.
+# 
+# Node ID is required if there are multiple device on same local network registered with urlrelay.com
+# In that case use:   urlrelay.com/go?id=<node-id>
 #
-# Source IP is the external IP address of your router, so the saved URL is only
-# accessible from behind the same router.
+# Source IP is the external IP address of your router, so the saved URL is only accessible from behind the same router.
 # nodeId can be anything, it is required when multiple devices are behind the same router.
 #
 # The default URL is for use with noVNC running on the same device.
@@ -16,25 +18,33 @@
 # If HTTPS is used, the browser will require a secure websocket (wss://),
 # which requires a CA certificate to be installed on the device running the browser.
 #
+# Parameters will be sourced from /etc/urlrelay/urlrelay.conf it it exists:
+#
+#  NODE_ID                Node ID of this device (default: 1)
+#
+#  URL                    Full url, may contain shell variable ${MY_IP} for local IP
+#                         default:  http://${MY_IP}:6080${URL_ARGS}
+#
+#  URL_ARGS               query string, i.e. "/?password=xyz123"  (default: "")
+#
+#  REQUIRE_ID             0: (default) don't require node ID if this is the only device on this local network
+#                         1: require node ID even if this is the only device on this local network
 
+# wait until we have a network connection
 while [ ! "$(ping -c 1 google.com)" ]; do
-    sleep 10
+  sleep 10
 done
 
-# get the local routable IP address
-# filter for private IP ranges 10.0.0.0/8, 192.168.0.0/24, and 172.16.0.0/12
-# this will exclude link-local IPs (169.254.x.x)
-# also exclude any hypervisor interfaces
-
-MY_IP=`ls /sys/class/net \
-| egrep -v "^(lo[0-9]?|docker[0-9]?|vboxnet[0-9]?|vmnet[0-9]?)$" \
-| xargs --max-args=1 /sbin/ifconfig \
-| grep -P "(10\.\d{1,3}\.|192\.168\.|172\.[1-3]\d\.)\d{1,3}\.\d{1,3}" \
-| awk '{ print $2 }' | cut -f2 -d: | head -n 1`
-MACADDR=`cat /sys/class/net/eth0/address`
+# get route info for interface used to get to internet
+IP_ROUTE=`ip -o route get to 8.8.8.8`
+# extract the source IP and device name
+MY_IP=`echo "$IP_ROUTE" | sed -n 's/.*src \([0-9.]\+\).*/\1/p'`
+MY_INTF=`echo "$IP_ROUTE" | sed -n 's/.*dev \([a-zA-Z0-9:-]\+\).*/\1/p'`
+# lookup the MAC address
+MACADDR=`cat /sys/class/net/$MY_INTF/address`
 
 if [ -f /etc/urlrelay/urlrelay.conf ]; then
-    source /etc/urlrelay/urlrelay.conf
+  source /etc/urlrelay/urlrelay.conf
 fi
 
 [[ -z "$NODE_ID" ]] && NODE_ID=1
