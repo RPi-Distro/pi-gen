@@ -1,3 +1,28 @@
+# Sentire's fork of pi-gen
+
+To build you only need to follow the instructions running with Docker:
+
+```bash
+./build-docker.sh
+```
+
+The resulting image should be in the `deploy/` directory.
+
+After having the image ready, copy it to the sdcard with `dd` and if you want
+to have wifi connection mount the contents of the sdcard and edit 
+`<mount-point>/boot/wpa-supplicant.conf` with the contents:
+
+```
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=DE
+
+network={
+ ssid="<Name of your wireless LAN>"
+ psk="<Password for your wireless LAN>"
+}
+```
+
 # pi-gen
 
 Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
