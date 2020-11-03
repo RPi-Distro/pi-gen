@@ -1,0 +1,8 @@
+IMG_NAME=Sentire
+RELESE=buster
+TARGET_HOSTNAME="sentire"
+TIMEZONE_DEFAULT="Europe/Berlin"
+FIRST_USER_NAME="sentire"
+FIRST_USER_PASS="sentire"
+ENABLE_SSH=1
+STAGE_LIST="stage0 stage1 stage2"
