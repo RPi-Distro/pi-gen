@@ -23,6 +23,10 @@ if [ "${PUBKEY_ONLY_SSH}" = "1" ]; then
 s/^#?[[:blank:]]*PasswordAuthentication[[:blank:]]*yes[[:blank:]]*$/PasswordAuthentication no/' "${ROOTFS_DIR}"/etc/ssh/sshd_config
 fi
 
+if [ -n "${SSH_PORT}" ]; then
+  sed -i "s/#Port 22/Port ${SSH_PORT}/" "${ROOTFS_DIR}/etc/ssh/sshd_config"
+fi
+
 on_chroot << EOF
 systemctl disable hwclock.sh
 systemctl disable nfs-common
