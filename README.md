@@ -10,7 +10,7 @@ Included:
 - 64 bit raspbian
 - irqthreads enabled on standard kernel
 - i3 window manager with autostart to Mixxx
-- Mixxx 2.2.0 from the standard raspbian repos
+- Mixxx 2.3-beta built from the Mixxx repo 
 - Working OpenGL waveforms
 
 Original instructions of forked repo are in [pi-gen-readme](pi-gen-readme.md)
