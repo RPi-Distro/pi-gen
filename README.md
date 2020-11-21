@@ -19,8 +19,8 @@ Included:
 
 The instructions below use Balena Etcher:
 
-1. Get Balena Etcher: https://www.balena.io/etcher/
-2. Download the latest release mixxx-pi zip: https://github.com/fayaaz/mixxx-pi-gen/releases/latest
+1. Get Balena Etcher: [https://www.balena.io/etcher/](https://www.balena.io/etcher/)
+2. Download the [latest release mixxx-pi zip](https://github.com/fayaaz/mixxx-pi-gen/releases/latest)
 3. Make sure your SD card is connected to the computer
 4. Open Balena Etcher
 5. Select 'Flash from File' and pick the zip you downloaded earlier
