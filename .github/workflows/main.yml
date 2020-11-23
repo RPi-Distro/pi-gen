@@ -33,8 +33,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: images
-        path: deploy/*.zip
-
+        path: deploy/*.img
     - uses: actions/upload-artifact@v2
       with:
         name: packages-info
