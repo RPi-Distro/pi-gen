@@ -10,7 +10,45 @@ Included:
 - 64 bit raspbian
 - irqthreads enabled on standard kernel
 - i3 window manager with autostart to Mixxx
-- Mixxx 2.2.0 from the standard raspbian repos
+- Mixxx 2.3-beta built from the Mixxx repo 
 - Working OpenGL waveforms
+
+## How to install on your Raspberry Pi 4
+
+- If you're familiar with flashing an SD card for the Pi, please follow whatever method you normally use. 
+
+The instructions below use Balena Etcher:
+
+1. Get Balena Etcher: [https://www.balena.io/etcher/](https://www.balena.io/etcher/)
+2. Download the [latest release mixxx-pi zip](https://github.com/fayaaz/mixxx-pi-gen/releases/latest)
+3. Make sure your SD card is connected to the computer
+4. Open Balena Etcher
+5. Select 'Flash from File' and pick the zip you downloaded earlier
+6. Select the SD card to flash to (check here that you're not overwriting something important!)
+7. Hit 'Flash!'
+8. Once this is done and verified, remove the SD card and transfer it to your raspberry pi
+9. Turn on the raspberry pi (make sure it's plugged into a screen) and wait until mixxx shows up
+
+### Optional steps:
+
+1. Set the waveforms to OpenGL - not set as default
+2. Use scp to copy music to the RPI after plugging in ethernet (username: `pi`, password: `raspberry`, home dir: `/home/pi/`) or plug in a usb stick
+3. WARNING do this at your own risk - this can corrupt your SD card or worse!! 
+Overclock the raspberry pi. I found that as long as it has some sort
+of cooling solution an overclock to 2GHz on the Pi4 was completely stable. 
+I found adding this to your `/boot/config.txt` was stable:
+
+```
+over_voltage=6
+arm_freq=2000
+gpu_freq=750
+```
+
+Make sure you restart to see its effects. You will need a good power supply to ensure undervolting does not happen.
+
+Extra debugging:
+
+Plugging in a keyboard and hitting `win+enter` will give you a terminal.
+Logs for mixxx are available at: /home/pi/.mixxx/mixxx.log
 
 Original instructions of forked repo are in [pi-gen-readme](pi-gen-readme.md)
