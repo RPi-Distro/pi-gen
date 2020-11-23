@@ -27,9 +27,21 @@ jobs:
     - name: Install deps
       run: sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl bc
     # Runs a single command using the runners shell
+    - name: "Set up ccache cache"
+      uses: actions/cache@v2
+      with:
+        path: .ccache
+        key: ccache-${{ github.head_ref }}-${{ github.run_number }}
+        restore-keys: |
+          ccache-${{ github.head_ref }}
+          ccache
+    - run: ls -lah .ccache
     - name: Build
       run: sudo ./build.sh
-
+    - uses: actions/upload-artifact@v2
+      with:
+        name: debs
+        path: deploy/*.deb
     - uses: actions/upload-artifact@v2
       with:
         name: images
