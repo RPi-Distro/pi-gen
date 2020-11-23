@@ -27,6 +27,7 @@ jobs:
     - name: Install deps
       run: sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl bc
     # Runs a single command using the runners shell
+    - run: mkdir .ccache
     - name: "Set up ccache cache"
       uses: actions/cache@v2
       with:
