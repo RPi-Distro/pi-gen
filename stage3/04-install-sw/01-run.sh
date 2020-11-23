@@ -20,8 +20,5 @@ sed -i 's/^NoDisplay/#NoDisplay/' ${ROOTFS_DIR}/usr/share/raspi-ui-overrides/app
 cp files/.vimrc ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/
 cp files/.vimrc ${ROOTFS_DIR}/root/
 
-# Copy JNS logo
-cp files/wp_jns_logo_small_5_260x.gif ${ROOTFS_DIR}/usr/local/share/
-
 # Copy README file
 cp files/README.md ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/

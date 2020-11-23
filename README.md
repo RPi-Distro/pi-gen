@@ -1,3 +1,98 @@
+# jambox-pi-gen
+
+**A Raspberry Pi distribution pre-configured to run Jamulus on Raspberry Pi 4, with web browser UI.**.
+
+ * Makes it easy for non-technical musicians to play together online, with a high-quality, high-performnace, low-cost system.
+ * Suitable for a musical group or school to supply a pre-configured Jamulus appliance.
+
+### Features
+ * Runs on a **headless Raspberry Pi 4**
+ * **easy UI access via web browser** on same local network
+ * Wired ethernet connection required
+ * USB audio interface required (i.e. Behringer UM2)
+ * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours)
+ * realtime kernel and default settings for minimal Jamulus delay
+ * Requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
+
+### Simple hardware platform
+Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with velcro and pre-wired.
+
+**Suggested Bill of Materials**, prices in USD as of Nov 16, 2020:
+
+|Price (USD)|Item|URL|
+|-----:|--|--|
+|$ 64|Raspberry Pi 4-2GB with case & PSU|https://www.amazon.com/gp/product/B07XTR97NT|
+|||https://www.newegg.com/p/1HD-005N-00057|
+|7|SanDisk Utra 16GB micro SD card|https://www.amazon.com/gp/product/B073K14CVB|
+|49|Behringer UM2 USB Audio Interface|https://www.americanmusical.com/behringer-u-phoria-um2-usb-audio-interface/p/BEH-UM2|
+|||https://www.amazon.com/gp/product/B00EK1OTZC|
+|15|Pyle PDMIC78 Microphone|https://www.amazon.com/gp/product/B005BSOVRY|
+|9|XLR Microphone Cable, 10 ft|https://www.amazon.com/gp/product/B07D5CPNWY|
+|22|Microphone Stand w/clip|https://www.amazon.com/gp/product/B00OZ9C9LK|
+|30|Rockville RHPA4 Headphone Amp|https://www.amazon.com/gp/product/B084CTSC8X|
+|8|1/4 Inch TRS Cable, 8 Inch|https://www.amazon.com/gp/product/B00DIGCS0S|
+|?|Over-ear Headphones|Use decent ones (likely $40 or more)|
+
+### Easy to Setup
+ 1. Download the image file (or build your own).  No need to unzip.
+ 2. Flash micro SD card using balenaEtcher.
+ 3. (optional) customize settings after burning by editing/adding files in boot partition.
+ 4. Tested primarily with Behringer UM-2 USB interface.  Verified to work with Focusrite Scarlett 2i2, Behringer UCA222.  Other interfaces may require changes to settings files, or may not work.
+ 5. Connect wires: ethernet, USB audio interface, mic/instrument, headphones and power.
+ 6. Headphone amp recommended (i.e. Rockville RHPA-4)
+
+### Easy to Use
+ 1. Power on, boot up.
+ 2. (Raspberry Pi will acquire a local IP address and register its access URL with urlrelay.com)
+ 3. From any web browser on same local network (i.e. laptop or tablet), access Raspberry Pi UI via urlrelay.com/go
+ 4. Web browser will show Raspberry Pi desktop.
+ 5. Jamulus will automatically launch at startup.
+ 6. If JAMULUS_SERVER was configured, Jamulus will automatically connect (and shutdown after JAMULUS_TIMEOUT minutes)
+ 7. Otherwise Double-click on desktop icon "Jamulus Start" to  launch jamulus.
+ 8. Double-click on desktop icon "Stop Sign" to shut down Raspberry Pi.
+
+### Customizable Settings
+* Can be set immediately after flashing, on micro SD card "boot" partition /payload directory
+* Or set later after booting
+* if JAMULUS_SERVER is defined, Jambox will automatically connect on boot, then power off after 2 hours.
+* AJ_SNAPSHOT files are stored in /home/pi/.config/aj_snapshot/
+
+| Name | Value | Default | File |
+|----------|----------------------------------------|--------------------------------------|---------|
+| NODE_ID | *id unique for your local network* | 1 | /etc/urlrelay/urlrelay.conf |
+| JAMULUS_SERVER | *DNS name or IP of Jamulus server* | | /home/pi/.config/Jamulus/jamulus_start.conf |
+| JAMULUS_TIMEOUT | *shutdown timer if auto-connecting* | 120m | /home/pi/.config/Jamulus/jamulus_start.conf |
+| AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-um2-stereo.xml | /home/pi/.config/Jamulus/jamulus_start.conf |
+| MASTER_LEVEL | *master output level for USB interface* | 75% | /home/pi/.config/Jamulus/jamulus_start.conf |
+| CAPTURE_LEVEL | *capture level for USB interface* | 50% | /home/pi/.config/Jamulus/jamulus_start.conf |
+| DEVICE | *alsa device ID of USB interface* | hw:1,0 | /etc/jackdrc.conf
+| PERIOD | *Jack Audio samples per period* | 64 | /etc/jackdrc.conf |
+| NPERIODS | *Jack Audio number of periods per buffer* | 5 | /etc/jackdrc.conf |
+
+### Web Browser access to Raspberry Pi Desktop - How it works
+**urlrelay + noVNC = easy web browser access to Raspberry Pi desktop, without installing anything or knowing its IP address**
+
+##### urlrelay
+ 1. Raspberry PI on wired ethernet gets private IP address on local network assigned by router (DHCP), but we don't know what it is.
+ 2. urlrelay service running on Raspberry Pi registers its private IP access URL with urlrelay.com (web service in AWS)
+ 3. urlrelay.com stores this URL using source IP (public IP of router) as primary key
+ 4. urlrelay.com uses NODE_ID (default: "1") as secondary key
+ 5. If only a single device is registered for a local network (source IP), NODE_ID doesn't matter.  From web browser on same local network (same source IP), urlrelay.com/go will redirect to Raspberry Pi.
+ 6. If >1 device exists on same local network, NODE_ID of each device should be different, then access via urlrelay.com/go?id=<NODE_ID>
+ 7. Recommended practice is to assign a different id to each micro SD card after flashing (i.e. NODE_ID=11), and place a label on each box with full URL "urlrelay.com/go?id=11"
+ 8. urlrelay.com deletes stale registrations after a set time (currently 15 days)
+
+##### noVNC
+ 1. Web browser on same local network gets URL as a redirect from urlrelay.com
+ 2. noVNC is a VNC client written in Javascript which runs in web browser
+ 3. noVNC js code is served to browser from Raspberry Pi by a mini-http server on port 6080
+ 4. noVNC running in browser makes websocket connection to Rasbpberry Pi 
+ 5. websockify (companion to noVNC) bridges websocket to VNC server
+ 6. Raspberry Pi runs VNC server presenting linux desktop
+ 7. Linux Firewall blocks incoming traffic except from same local network.
+
+
+**Original pi-gen README.md follows:**
 # pi-gen
 
 Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
