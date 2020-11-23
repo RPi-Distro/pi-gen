@@ -88,6 +88,6 @@ mkdir -p "${DEPLOY_DIR}"
 rm -f "${DEPLOY_DIR}/${ZIP_FILENAME}${IMG_SUFFIX}.zip"
 rm -f "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 
-cp "$IMG_FILE" "$DEPLOY_DIR"
 
+cp "$IMG_FILE" "$DEPLOY_DIR"
 cp "$INFO_FILE" "$DEPLOY_DIR"
