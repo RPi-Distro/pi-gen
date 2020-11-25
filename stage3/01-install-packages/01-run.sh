@@ -26,4 +26,5 @@ on_chroot << EOF
 EOF
 
 unmount "${BASE_DIR}/.ccache"
-cp ${ROOTFS_DIR}/code/cmake_build/*.deb "$DEPLOY_DIR"
+mkdir -p "$DEPLOY_DIR"
+cp ${ROOTFS_DIR}/code/cmake_build/*.deb "$DEPLOY_DIR/"
