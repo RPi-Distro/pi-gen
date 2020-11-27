@@ -1,3 +1,9 @@
-echo /usr/bin/jackd -P75 -dalsa -dhw:1 -r44100 -p64 -n3 > "${ROOTFS_DIR}/home/sentire/.jackdrc"
+echo /usr/bin/jackd -P75 -dalsa -dhw:1 -r48000 -p64 -n3 > "${ROOTFS_DIR}/home/sentire/.jackdrc"
 
-tar zxvf files/supercollider3.11-1-sc3_plugins-headless-rpi4.tgz -C "${ROOTFS_DIR}/usr/local/"
+install -m 644 files/*deb "${ROOTFS_DIR}/tmp/"
+
+on_chroot <<EOF
+    dpkg -i /tmp/*.deb
+EOF
+
+

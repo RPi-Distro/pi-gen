@@ -1,0 +1,12 @@
+[Unit]
+Description=Sentire
+
+[Service]
+LimitRTPRIO=90
+LimitMEMLOCK=infinity
+User=sentire
+Environment="JACK_NO_AUDIO_RESERVATION=1"
+ExecStart=/usr/local/bin/sentire
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+SENTIRE_DIR=/home/sentire/sentire/
+
+cd "${SENTIRE_DIR}"
+
+sclang "${SENTIRE_DIR}/main-headless.scd" &
+SCLANG_PID=$!
+
+${SENTIRE_DIR}/Helper_Scripts/start-frontend.sh &
+FRONTEND_PID=$!
+
+function cleanup() {
+    pkill scsynth
+    kill ${SCLANG_PID}
+    kill ${FRONTEND_PID}
+    wait_children
+}
+
+function wait_children {
+    wait ${SCLANG_PID}
+    wait ${FRONTEND_PID}
+}
+
+trap cleanup EXIT
+wait_children
