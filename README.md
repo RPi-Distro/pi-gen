@@ -23,7 +23,7 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 |-----:|--|--|
 |$ 64|Raspberry Pi 4-2GB with case & PSU|https://www.amazon.com/gp/product/B07XTR97NT|
 |||https://www.newegg.com/p/1HD-005N-00057|
-|7|SanDisk Utra 16GB micro SD card|https://www.amazon.com/gp/product/B073K14CVB|
+|7|SanDisk Ultra 16GB micro SD card|https://www.amazon.com/gp/product/B073K14CVB|
 |49|Behringer UM2 USB Audio Interface|https://www.americanmusical.com/behringer-u-phoria-um2-usb-audio-interface/p/BEH-UM2|
 |||https://www.amazon.com/gp/product/B00EK1OTZC|
 |15|Pyle PDMIC78 Microphone|https://www.amazon.com/gp/product/B005BSOVRY|
@@ -34,9 +34,9 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 |?|Over-ear Headphones|Use decent ones (likely $40 or more)|
 
 ### Easy to Setup
- 1. Download the image file (or build your own).  No need to unzip.
+ 1. Download the latest image file from "Releases" (https://github.com/kdoren/jambox-pi-gen/releases).  No need to unzip.
  2. Flash micro SD card using balenaEtcher.
- 3. (optional) customize settings after burning by editing/adding files in boot partition.
+ 3. (optional) customize settings after burning by editing/adding files in /boot/payload directory.
  4. Tested primarily with Behringer UM-2 USB interface.  Verified to work with Focusrite Scarlett 2i2, Behringer UCA222.  Other interfaces may require changes to settings files, or may not work.
  5. Connect wires: ethernet, USB audio interface, mic/instrument, headphones and power.
  6. Headphone amp recommended (i.e. Rockville RHPA-4)
@@ -80,7 +80,7 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
  5. If only a single device is registered for a local network (source IP), NODE_ID doesn't matter.  From web browser on same local network (same source IP), urlrelay.com/go will redirect to Raspberry Pi.
  6. If >1 device exists on same local network, NODE_ID of each device should be different, then access via urlrelay.com/go?id=<NODE_ID>
  7. Recommended practice is to assign a different id to each micro SD card after flashing (i.e. NODE_ID=11), and place a label on each box with full URL "urlrelay.com/go?id=11"
- 8. urlrelay.com deletes stale registrations after a set time (currently 15 days)
+ 8. urlrelay.com deletes stale registrations after a set time (currently 30 days)
 
 ##### noVNC
  1. Web browser on same local network gets URL as a redirect from urlrelay.com
