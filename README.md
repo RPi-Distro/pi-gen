@@ -41,6 +41,28 @@ The following environment variables are supported:
    The release version to build images against. Valid values are jessie, stretch
    buster, bullseye, and testing.
 
+ * `BOOTSTRAP_URL` (Default: http://raspbian.raspberrypi.org/raspbian/)
+
+   The apt source to use as the source for the stage0 Debian bootstrap process.
+
+   Public mirrors may be found at https://www.raspbian.org/RaspbianMirrors
+
+ * `CUSTOM_LIST` (Default: unset)
+
+   Set this variable to a path to a file to install as the
+   `/etc/apt/sources.list` file.
+
+   If this variable is set, the standard list files as provided with `pi-gen`
+   are ignored.
+
+ * `CUSTOM_LIST_DIR` (Default: unset)
+
+   Set this variable to a path to a directory holding list files to be
+   installed to the `/etc/apt/sources.list.d` directory.
+
+   If this variable is set, the standard list files as provided with `pi-gen`
+   are ignored.
+
  * `APT_PROXY` (Default: unset)
 
    If you require the use of an apt proxy, set it here.  This proxy setting

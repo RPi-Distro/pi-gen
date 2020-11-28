@@ -164,6 +164,10 @@ export LOG_FILE="${WORK_DIR}/build.log"
 
 export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
 
+export BOOTSTRAP_URL=${BOOTSTRAP_URL:-"http://raspbian.raspberrypi.org/raspbian/"}
+export CUSTOM_LIST=${CUSTOM_LIST:-}
+export CUSTOM_LIST_DIR=${CUSTOM_LIST_DIR:-}
+
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
 export RELEASE=${RELEASE:-buster}
