@@ -16,7 +16,7 @@ if [ -d "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config" ]; then
 	chmod 700 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config"
 fi
 
-rm -f "${ROOTFS_DIR}/usr/bin/qemu-arm-static"
+rm -f "${ROOTFS_DIR}/usr/bin/qemu-aarch64-static"
 
 if [ "${USE_QEMU}" != "1" ]; then
 	if [ -e "${ROOTFS_DIR}/etc/ld.so.preload.disabled" ]; then
