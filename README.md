@@ -1,16 +1,16 @@
 # pi-gen
 
-_Tool used to create the raspberrypi.org Raspbian images_
+Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
 
 
 ## Dependencies
 
-pi-gen runs on Debian based operating systems. Currently it is only supported on
+pi-gen runs on Debian-based operating systems. Currently it is only supported on
 either Debian Buster or Ubuntu Xenial and is known to have issues building on
 earlier releases of these systems. On other Linux distributions it may be possible
 to use the Docker build described below.
 
-To install the required dependencies for pi-gen you should run:
+To install the required dependencies for `pi-gen` you should run:
 
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
@@ -68,7 +68,7 @@ The following environment variables are supported:
    system for each build stage, amounting to tens of gigabytes in the case of
    Raspbian.
 
-   **CAUTION**: If your working directory is on an NTFS partition you probably won't be able to build. Make sure this is a proper Linux filesystem.
+   **CAUTION**: If your working directory is on an NTFS partition you probably won't be able to build: make sure this is a proper Linux filesystem.
 
  * `DEPLOY_DIR`  (Default: `"$BASE_DIR/deploy"`)
 
@@ -124,11 +124,23 @@ The following environment variables are supported:
 
  * `WPA_ESSID`, `WPA_PASSWORD` and `WPA_COUNTRY` (Default: unset)
 
-   If these are set, they are use to configure `wpa_supplicant.conf`, so that the Raspberry Pi can automatically connect to a wifi network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wifi network will be configured. If set, `WPA_PASSWORD` must be between 8 and 63 characters.
+   If these are set, they are use to configure `wpa_supplicant.conf`, so that the Raspberry Pi can automatically connect to a wireless network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wireless network will be configured. If set, `WPA_PASSWORD` must be between 8 and 63 characters.
 
  * `ENABLE_SSH` (Default: `0`)
 
    Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you Raspberry Pi.
+
+  * `PUBKEY_SSH_FIRST_USER` (Default: unset)
+
+   Setting this to a value will make that value the contents of the FIRST_USER_NAME's ~/.ssh/authorized_keys.  Obviously the value should
+   therefore be a valid authorized_keys file.  Note that this does not
+   automatically enable SSH.
+
+  * `PUBKEY_ONLY_SSH` (Default: `0`)
+
+   * Setting to `1` will disable password authentication for SSH and enable
+   public key authentication.  Note that if SSH is not enabled this will take
+   effect when SSH becomes enabled.
 
  * `STAGE_LIST` (Default: `stage*`)
 
@@ -264,7 +276,7 @@ maintenance and allows for more easy customization.
 
  - **Stage 2** - lite system.  This stage produces the Raspbian-Lite image.  It
    installs some optimized memory functions, sets timezone and charmap
-   defaults, installs fake-hwclock and ntp, wifi and bluetooth support,
+   defaults, installs fake-hwclock and ntp, wireless LAN and bluetooth support,
    dphys-swapfile, and other basics for managing the hardware.  It also
    creates necessary groups and gives the pi user access to sudo and the
    standard console hardware permission groups.
