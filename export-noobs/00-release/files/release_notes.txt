@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2020-12-02:
   * PulseAudio now included and running by default
   * Bluealsa Bluetooth interface removed - Bluetooth audio is now handled by PulseAudio
   * LXPanel volume control plugin replaced with PulseAudio version
