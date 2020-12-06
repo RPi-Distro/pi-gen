@@ -109,7 +109,7 @@ The following environment variables are supported:
 
  * `TIMEZONE_DEFAULT` (Default: "Europe/London" )
 
-   Default keyboard layout.
+   Default timezone.
 
    To get the current value from a running system, look in
    `/etc/timezone`.
