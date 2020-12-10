@@ -1,6 +1,6 @@
 # jambox-pi-gen
 
-**A Raspberry Pi distribution pre-configured to run Jamulus on Raspberry Pi 4, with web browser UI.**.
+**A Raspberry Pi distribution pre-configured to run Jamulus on Raspberry Pi 4, with web browser UI.**
 
  * Makes it easy for non-technical musicians to play together online, with a high-quality, high-performnace, low-cost system.
  * Suitable for a musical group or school to supply a pre-configured Jamulus appliance.
@@ -34,7 +34,7 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 |?|Over-ear Headphones|Use decent ones (likely $40 or more)|
 
 ### Easy to Setup
- 1. Download the latest image file from "Releases" (https://github.com/kdoren/jambox-pi-gen/releases).  No need to unzip.
+ 1. Download image file from "Releases" (https://github.com/kdoren/jambox-pi-gen/releases).  No need to unzip.
  2. Flash micro SD card using balenaEtcher.
  3. (optional) customize settings after burning by editing/adding files in /boot/payload directory.
  4. Tested primarily with Behringer UM-2 USB interface.  Verified to work with Focusrite Scarlett 2i2, Behringer UCA222.  Other interfaces may require changes to settings files, or may not work.
@@ -43,7 +43,7 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 
 ### Easy to Use
  1. Power on, boot up.
- 2. (Raspberry Pi will acquire a local IP address and register its access URL with urlrelay.com)
+ 2. Raspberry Pi will acquire a local IP address and register its access URL with urlrelay.com
  3. From any web browser on same local network (i.e. laptop or tablet), access Raspberry Pi UI via urlrelay.com/go
  4. Web browser will show Raspberry Pi desktop.
  5. Jamulus will automatically launch at startup.
