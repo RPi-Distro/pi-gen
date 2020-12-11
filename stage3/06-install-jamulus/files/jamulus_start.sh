@@ -3,19 +3,32 @@ if [ -f ~/.config/Jamulus/jamulus_start.conf ]; then
   source ~/.config/Jamulus/jamulus_start.conf
 fi
 
+# if $JAMULUS_ALSA_DEVICE is not set, set a default.
+# newer kernel uses card 1 for bcm2835 Headphones,
+# in that case use card 2 for default USB audio device
+if [ -z "$JAMULUS_ALSA_DEVICE" ]; then
+  aplay -l | grep -qP "^card 1:.*Headphones"
+  if [ $? -eq 0 ]; then
+    JAMULUS_ALSA_DEVICE="card 2"
+  else
+    JAMULUS_ALSA_DEVICE="card 1"
+  fi
+fi	
+
 [[ -z "$AJ_SNAPSHOT" ]] && AJ_SNAPSHOT="ajs-um2-stereo.xml"
 [[ -z "$JAMULUS_TIMEOUT" ]] && JAMULUS_TIMEOUT="120m"
 
 ALSA_READY=no
 until [[ $ALSA_READY == "yes" ]]; do
-  aplay -l | grep -q "card 1"
+  aplay -l | grep -q "$JAMULUS_ALSA_DEVICE"
   PLAY_RESULT=$?
-  arecord -l | grep -q "card 1"
+  arecord -l | grep -q "$JAMULUS_ALSA_DEVICE"
   RECORD_RESULT=$?
   if [[ "$PLAY_RESULT" == "0" ]] && [[ "$RECORD_RESULT" == "0" ]]; then
     ALSA_READY=yes
   else
-    echo "ALSA Device not available: PLAY_RESULT: $PLAY_RESULT, RECORD_RESULT: $RECORD_RESULT"
+    echo "ALSA Device not available: PLAY_RESULT for $ALSA_PLAY_DEVICE: $PLAY_RESULT, RECORD_RESULT for $ALSA_RECORD_DEVICE: $RECORD_RESULT"
+    sleep 5
   fi
 done
 

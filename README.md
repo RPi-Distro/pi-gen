@@ -11,7 +11,7 @@
  * Wired ethernet connection required
  * USB audio interface required (i.e. Behringer UM2)
  * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours)
- * realtime kernel and default settings for minimal Jamulus delay
+ * Default settings for minimal Jamulus delay
  * Requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
 
 ### Simple hardware platform
@@ -64,8 +64,9 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 | JAMULUS_TIMEOUT | *shutdown timer if auto-connecting* | 120m | /home/pi/.config/Jamulus/jamulus_start.conf |
 | AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-um2-stereo.xml | /home/pi/.config/Jamulus/jamulus_start.conf |
 | MASTER_LEVEL | *master output level for USB interface* | 75% | /home/pi/.config/Jamulus/jamulus_start.conf |
-| CAPTURE_LEVEL | *capture level for USB interface* | 50% | /home/pi/.config/Jamulus/jamulus_start.conf |
-| DEVICE | *alsa device ID of USB interface* | hw:1,0 | /etc/jackdrc.conf
+| CAPTURE_LEVEL | *capture level for USB interface* | 75% | /home/pi/.config/Jamulus/jamulus_start.conf |
+| JAMULUS_ALSA_DEVICE | *alsa device of USB interface* | card 2 | /home/pi/.config/Jamulus/jamulus_start.conf |
+| DEVICE | *alsa device ID of USB interface* | hw:2,0 | /etc/jackdrc.conf
 | PERIOD | *Jack Audio samples per period* | 64 | /etc/jackdrc.conf |
 | NPERIODS | *Jack Audio number of periods per buffer* | 5 | /etc/jackdrc.conf |
 
