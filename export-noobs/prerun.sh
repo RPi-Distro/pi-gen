@@ -56,8 +56,8 @@ ln -sv "/lib/systemd/system/apply_noobs_os_config.service" "$ROOTFS_DIR/etc/syst
 KERNEL_VER="$(zgrep -oPm 1 "Linux version \K(.*)$" "${STAGE_WORK_DIR}/rootfs/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" | cut -f-2 -d.)"
 echo "$KERNEL_VER" > "${STAGE_WORK_DIR}/kernel_version"
 
-bsdtar --numeric-owner --format gnutar -C "${STAGE_WORK_DIR}/rootfs/boot" -cpf - . | xz -T0 > "${NOOBS_DIR}/boot.tar.xz"
+bsdtar --numeric-owner --format gnutar -C "${STAGE_WORK_DIR}/rootfs/boot" -cpf - . | xz -T${XZ_THREADS:-0} --memlimit ${XZ_MEMLIMIT:-0} > "${NOOBS_DIR}/boot.tar.xz"
 umount "${STAGE_WORK_DIR}/rootfs/boot"
-bsdtar --numeric-owner --format gnutar -C "${STAGE_WORK_DIR}/rootfs" --one-file-system -cpf - . | xz -T0 > "${NOOBS_DIR}/root.tar.xz"
+bsdtar --numeric-owner --format gnutar -C "${STAGE_WORK_DIR}/rootfs" --one-file-system -cpf - . | xz -T${XZ_THREADS:-0} --memlimit ${XZ_MEMLIMIT:-0} > "${NOOBS_DIR}/root.tar.xz"
 
 unmount_image "${IMG_FILE}"
