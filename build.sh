@@ -125,9 +125,12 @@ fi
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export BASE_DIR
 
+CONFIG_FILE_DIR="$(realpath ".")"
+
 if [ -f config ]; then
 	# shellcheck disable=SC1091
 	source config
+	CONFIG_FILE_DIR="$(realpath "$(dirname config)")"
 fi
 
 while getopts "c:" flag
@@ -137,6 +140,7 @@ do
 			EXTRA_CONFIG="$OPTARG"
 			# shellcheck disable=SC1090
 			source "$EXTRA_CONFIG"
+			CONFIG_FILE_DIR="$(realpath "$(dirname "$EXTRA_CONFIG")")"
 			;;
 		*)
 			;;
@@ -156,6 +160,7 @@ export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
 export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
 export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
 
+export CONFIG_FILE_DIR
 export SCRIPT_DIR="${BASE_DIR}/scripts"
 export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"}"
 export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
@@ -163,6 +168,21 @@ export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
+
+export BOOTSTRAP_URL=${BOOTSTRAP_URL:-"http://raspbian.raspberrypi.org/raspbian/"}
+
+pushd "${CONFIG_FILE_DIR}" >/dev/null # allow relative paths to config file
+CUSTOM_LIST=${CUSTOM_LIST:-}
+CUSTOM_LIST_DIR=${CUSTOM_LIST_DIR:-}
+if [ -n "$CUSTOM_LIST" ]; then
+	CUSTOM_LIST="$(realpath "$CUSTOM_LIST")"
+fi
+if [ -n "$CUSTOM_LIST_DIR" ]; then
+	CUSTOM_LIST_DIR="$(realpath "$CUSTOM_LIST_DIR")"
+fi
+export CUSTOM_LIST
+export CUSTOM_LIST_DIR
+popd >/dev/null
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
