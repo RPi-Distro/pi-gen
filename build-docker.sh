@@ -3,7 +3,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 BUILD_OPTS="$*"
 
-DOCKER="docker"
+DOCKER=${DOCKER:-docker}
 
 if ! ${DOCKER} ps >/dev/null 2>&1; then
 	DOCKER="sudo docker"
@@ -15,10 +15,8 @@ if ! ${DOCKER} ps >/dev/null; then
 fi
 
 CONFIG_FILE=""
-if [ -f "${DIR}/config" ]; then
-	CONFIG_FILE="${DIR}/config"
-fi
 
+# Arguments passed on command line have highest priority (others are fallbacks)
 while getopts "c:" flag
 do
 	case "${flag}" in
@@ -30,19 +28,20 @@ do
 	esac
 done
 
-# Ensure that the configuration file is an absolute path
-if test -x /usr/bin/realpath; then
-	CONFIG_FILE=$(realpath -s "$CONFIG_FILE" || realpath "$CONFIG_FILE")
+if [ -z "${CONFIG_FILE}" ]; then # config file not yet defined
+	if [ -f "${DIR}/config" ]; then # guess location relative to this script
+		CONFIG_FILE="${DIR}/config"
+	fi
 fi
 
-# Ensure that the confguration file is present
+# Ensure that the configuration file is present
 if test -z "${CONFIG_FILE}"; then
 	echo "Configuration file need to be present in '${DIR}/config' or path passed as parameter"
 	exit 1
-else
-	# shellcheck disable=SC1090
-	source ${CONFIG_FILE}
 fi
+CONFIG_FILE_ORG_DIR="$(dirname "${CONFIG_FILE}")"
+
+source "${CONFIG_FILE}"
 
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
 CONTINUE=${CONTINUE:-0}
@@ -51,7 +50,7 @@ PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-0}
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set in 'config'" 1>&2
 	echo 1>&2
-exit 1
+	exit 1
 fi
 
 # Ensure the Git Hash is recorded before entering the docker container
@@ -66,46 +65,101 @@ fi
 if [ "${CONTAINER_EXISTS}" != "" ] && [ "${CONTINUE}" != "1" ]; then
 	echo "Container ${CONTAINER_NAME} already exists and you did not specify CONTINUE=1. Aborting."
 	echo "You can delete the existing container like this:"
-	echo "  ${DOCKER} rm -v ${CONTAINER_NAME}"
+	echo "	${DOCKER} rm -v ${CONTAINER_NAME}"
 	exit 1
 fi
 
 # Modify original build-options to allow config file to be mounted in the docker container
-BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
+BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s+?([^ ]+)@@')"
 
 # Check the arch of the machine we're running on. If it's 64-bit, use a 32-bit base image instead
 case "$(uname -m)" in
-  x86_64|aarch64)
-    BASE_IMAGE=i386/debian:buster
-    ;;
-  *)
-    BASE_IMAGE=debian:buster
-    ;;
+	x86_64|aarch64)
+		BASE_IMAGE=i386/debian:buster
+		;;
+	*)
+		BASE_IMAGE=debian:buster
+		;;
 esac
+
+# Build the pi-gen image
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
 
+# Create the pi-gen container
 if [ "${CONTAINER_EXISTS}" != "" ]; then
-	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}_cont' SIGINT SIGTERM
-	time ${DOCKER} run --rm --privileged \
-		--volume "${CONFIG_FILE}":/config:ro \
-		-e "GIT_HASH=${GIT_HASH}" \
-		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
-		pi-gen \
-		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
-	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
-	rsync -av work/*/build.log deploy/" &
-	wait "$!"
+	CONTAINER_ID=$(
+		${DOCKER} create \
+			--rm \
+			--name "${CONTAINER_NAME}_cont" \
+			--privileged \
+			-e "GIT_HASH=${GIT_HASH}" \
+			--volumes-from="${CONTAINER_NAME}" \
+			pi-gen \
+			bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
+		cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
+		rsync -av work/*/build.log deploy/"
+	)
 else
-	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
-	time ${DOCKER} run --name "${CONTAINER_NAME}" --privileged \
-		--volume "${CONFIG_FILE}":/config:ro \
-		-e "GIT_HASH=${GIT_HASH}" \
-		pi-gen \
-		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
-	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
-	rsync -av work/*/build.log deploy/" &
-	wait "$!"
+	CONTAINER_ID=$(
+		${DOCKER} create \
+			--name "${CONTAINER_NAME}" \
+			--privileged \
+			-e "GIT_HASH=${GIT_HASH}" \
+			pi-gen \
+			bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
+		cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
+		rsync -av work/*/build.log deploy/"
+	)
 fi
+
+# Create a temporary working dir for file tweaks prior to copying into container
+PIGEN_TMP_DIR="$(mktemp -d -p "" pi-gen.XXXXXX)" || { echo "Failed to create temp dir"; exit 1; }
+
+finish() {
+	rm -rf "$PIGEN_TMP_DIR"
+}
+
+trap finish EXIT
+
+cp "${CONFIG_FILE}" "${PIGEN_TMP_DIR}"/config
+
+OPTIONAL_EXT_CONFIGS=(
+CUSTOM_LIST
+CUSTOM_LIST_DIR
+)
+
+# Add optional config files to target area
+pushd "${CONFIG_FILE_ORG_DIR}" >/dev/null || { echo "Unable to cd to ${CONFIG_FILE_ORG_DIR}" 1>&2; exit 1; }
+for ext_config_item in ${OPTIONAL_EXT_CONFIGS[@]}; do
+	# Skip undefined ext configs
+	if [ -z ${!ext_config_item+x} ]; then
+		continue
+	fi
+
+	declare "${ext_config_item}"="${!ext_config_item//$'\r'}" # remove any trailing carriage returns
+
+	if [ ! -e ${!ext_config_item} ]; then
+		echo "The target of config item $ext_config_item (${!ext_config_item}) does not exist" 1>&2
+		exit 1
+	fi
+
+	target_config_path=/pi-gen/"${ext_config_item,,}"
+
+	# Tweak config file path to ext config
+	sed -i -E 's@('"$ext_config_item"=').*@\1'"$target_config_path"'@' "${PIGEN_TMP_DIR}"/config
+
+	# Copy file into container
+	${DOCKER} cp "${!ext_config_item}" "$CONTAINER_ID":"${target_config_path}"
+done
+popd >/dev/null
+
+${DOCKER} cp "${PIGEN_TMP_DIR}"/config "$CONTAINER_ID":/pi-gen/config
+
+# Start a pi-gen container
+trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_ID}' SIGINT SIGTERM
+time ${DOCKER} start -a "$CONTAINER_ID" &
+wait "$!"
+
 echo "copying results from deploy/"
 ${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy .
 ls -lah deploy
