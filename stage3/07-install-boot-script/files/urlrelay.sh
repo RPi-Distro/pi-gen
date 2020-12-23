@@ -34,7 +34,7 @@
 while [ ! "$(ping -c 1 google.com)" ]; do
   sleep 10
 done
-
+sleep 5
 # get route info for interface used to get to internet
 IP_ROUTE=`ip -o route get to 8.8.8.8`
 # extract the source IP and device name
