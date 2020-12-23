@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aj-snapshot>
+<alsa>
+  <client name="System">
+    <port id="0" />
+    <port id="1" />
+  </client>
+  <client name="Midi Through">
+    <port id="0" />
+  </client>
+  <client name="jack_midi" />
+  <client name="aj-snapshot" />
+  <client name="Patchage" />
+</alsa>
+<jack>
+  <client name="system">
+    <port name="capture_1">
+      <connection port="SonoBus:in_1" />
+    </port>
+    <port name="capture_2">
+      <connection port="SonoBus:in_2" />
+    </port>
+    <port name="midi_capture_1" />
+  </client>
+  <client name="SonoBus">
+    <port name="out_1">
+      <connection port="system:playback_1" />
+    </port>
+    <port name="out_2">
+      <connection port="system:playback_2" />
+    </port>
+    <port name="out_3" />
+  </client>
+</jack>
+</aj-snapshot>

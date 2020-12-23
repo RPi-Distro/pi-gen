@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=SonoBus Start
+Comment=High Quality Network Audio Streaming 
+GenericName=Network Audio Streaming Software
+Path=/home/pi
+Exec=/usr/local/bin/sonobus_start.sh
+Icon=sonobus
+Terminal=true
+Type=Application
+Categories=AudioVideo;Audio;Mixer;
+Keywords=live;online;music;conference;
