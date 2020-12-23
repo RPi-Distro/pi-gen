@@ -7,7 +7,7 @@ mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop
 cp files/Desktop/*.desktop ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop/
 
 # copy patchage initial window settings
-cp files/patchagerc ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/patchagerc
+cp files/patchagerc ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/
 
 # make QjackCtl visible in start menu
 cp files/qjackctl.svg ${ROOTFS_DIR}/usr/share/icons/scalable/apps/
