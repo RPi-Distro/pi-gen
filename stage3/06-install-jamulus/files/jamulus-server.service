@@ -1,0 +1,38 @@
+[Unit]
+Description=Jamulus-Server
+After=network.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/pi/.Xauthority
+Environment=NUMCHANNELS=8
+Environment=PORT=22124
+Environment=WELCOMEMESSAGE=""
+Environment=SERVERINFO=""
+# Use dummy "--server" string for CENTRALSERVER vars, to make default private server
+# but provide a way to override in jamulus-server.conf to make it public
+Environment=CENTRALSERVER_OPTION="--server"
+Environment=CENTRALSERVER="--server"
+Environment=RECORDING=""
+EnvironmentFile=-/home/pi/.config/Jamulus/jamulus-server.conf
+User=pi
+NoNewPrivileges=true
+ProtectSystem=true
+ProtectHome=true
+Nice=-19
+IOSchedulingClass=realtime
+IOSchedulingPriority=0
+
+#### Change this to set genre, location and other parameters.
+#### See https://github.com/corrados/jamulus/wiki/Command-Line-Options ####
+ExecStart=/usr/bin/jamulus --server --multithreading --htmlstatus /tmp/jamulus-server-status.html --fastupdate --port ${PORT} --numchannels ${NUMCHANNELS} --recording ${RECORDING} --welcomemessage ${WELCOMEMESSAGE} --serverinfo ${SERVERINFO} ${CENTRALSERVER_OPTION} ${CENTRALSERVER}
+
+Restart=on-failure
+RestartSec=60
+StandardOutput=journal
+StandardError=inherit
+SyslogIdentifier=jamulus-server
+
+[Install]
+WantedBy=multi-user.target
