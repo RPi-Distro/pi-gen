@@ -10,6 +10,9 @@ cp files/Desktop/*.desktop ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop/
 cp files/jamulus_start.sh ${ROOTFS_DIR}/usr/local/bin/
 chmod +x ${ROOTFS_DIR}/usr/local/bin/jamulus_start.sh
 
+cp files/jambox_start.sh ${ROOTFS_DIR}/usr/local/bin/
+chmod +x ${ROOTFS_DIR}/usr/local/bin/jambox_start.sh
+
 mkdir -p ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/Jamulus
 mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/Jamulus
 
