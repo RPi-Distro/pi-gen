@@ -1,18 +1,20 @@
 # jambox-pi-gen
 
-**A Raspberry Pi distribution pre-configured to run Jamulus on Raspberry Pi 4, with web browser UI.**
+**A Raspberry Pi distribution pre-configured for online jamming; runs Jamulus (client-server) or SonoBus (peer-to-peer) on Raspberry Pi, with web browser UI.**
 
  * Makes it easy for non-technical musicians to play together online, with a high-quality, high-performnace, low-cost system.
- * Suitable for a musical group or school to supply a pre-configured Jamulus appliance.
+ * Suitable for a musical group or school to supply a pre-configured jamming appliance.
 
 ### Features
- * Runs on a **headless Raspberry Pi 4**
+ * Runs on a **headless Raspberry Pi**.  Tested primarily on Pi4 but seems to work well on Pi3B.
  * **easy UI access via web browser** on same local network
- * Wired ethernet connection required
+ * Wired ethernet connection required (wireless adds jitter)
  * USB audio interface required (i.e. Behringer UM2)
  * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours)
- * Default settings for minimal Jamulus delay
- * Requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
+ * Real-time 64-bit kernel and default settings for minimal delay
+ * Jamulus requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
+ * Can run as a Jamulus Server
+ * Also includes SonoBus for peer-to-peer jamming
 
 ### Simple hardware platform
 Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with velcro and pre-wired.
@@ -48,7 +50,8 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
  4. Web browser will show Raspberry Pi desktop.
  5. Jamulus will automatically launch at startup.
  6. If JAMULUS_SERVER was configured, Jamulus will automatically connect (and shutdown after JAMULUS_TIMEOUT minutes)
- 7. Otherwise Double-click on desktop icon "Jamulus Start" to  launch jamulus.
+ 7. Double-click on desktop icon "Jamulus Start" to  launch Jamulus.
+ 8. Double-click on desktop icon "SonoBus Start" to  launch SonoBus.
  8. Double-click on desktop icon "Stop Sign" to shut down Raspberry Pi.
 
 ### Customizable Settings
@@ -59,16 +62,27 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 
 | Name | Value | Default | File |
 |----------|----------------------------------------|--------------------------------------|---------|
+| **urlrelay settings** ||||
 | NODE_ID | *id unique for your local network* | 1 | /etc/urlrelay/urlrelay.conf |
+| **Jamulus Settings** ||||
+| JAMULUS_AUTOSTART | *set to 1 to launch on boot* | 0 | /home/pi/.config/Jamulus/jamulus_start.conf |
 | JAMULUS_SERVER | *DNS name or IP of Jamulus server* | | /home/pi/.config/Jamulus/jamulus_start.conf |
 | JAMULUS_TIMEOUT | *shutdown timer if auto-connecting* | 120m | /home/pi/.config/Jamulus/jamulus_start.conf |
 | AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-um2-stereo.xml | /home/pi/.config/Jamulus/jamulus_start.conf |
 | MASTER_LEVEL | *master output level for USB interface* | 75% | /home/pi/.config/Jamulus/jamulus_start.conf |
-| CAPTURE_LEVEL | *capture level for USB interface* | 75% | /home/pi/.config/Jamulus/jamulus_start.conf |
+| CAPTURE_LEVEL | *capture level for USB interface* | 50% | /home/pi/.config/Jamulus/jamulus_start.conf |
 | JAMULUS_ALSA_DEVICE | *alsa device of USB interface* | card 2 | /home/pi/.config/Jamulus/jamulus_start.conf |
+| **SonoBus Settings** ||||
+| SONOBUS_AUTOSTART | *set to 1 to launch on boot* | 0 | /home/pi/.config/sonobus_start.conf |
+| AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-stereo-sonobus.xml | /home/pi/.config/sonobus_start.conf |
+| MASTER_LEVEL | *master output level for USB interface* | 75% | /home/pi/.config/sonobus_start.conf |
+| CAPTURE_LEVEL | *capture level for USB interface* | 50% | /home/pi/.config/sonobus_start.conf |
+| SONOBUS_ALSA_DEVICE | *alsa device of USB interface* | card 2 | /home/pi/.config/sonobus_start.conf |
+| **Jack Settings** ||||
 | DEVICE | *alsa device ID of USB interface* | hw:2,0 | /etc/jackdrc.conf
 | PERIOD | *Jack Audio samples per period* | 64 | /etc/jackdrc.conf |
 | NPERIODS | *Jack Audio number of periods per buffer* | 5 | /etc/jackdrc.conf |
+| **Jamulus Server Settings** | *see file* || /home/pi/.config/Jamulus/jamulus-server.conf |
 
 ### Web Browser access to Raspberry Pi Desktop - How it works
 **urlrelay + noVNC = easy web browser access to Raspberry Pi desktop, without installing anything or knowing its IP address**
