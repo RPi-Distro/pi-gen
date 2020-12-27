@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Shutdown
 Comment=Shutdown System
-Icon=/usr/share/icons/gnome/256x256/actions/stop.png
+Icon=/usr/share/lxsession/images/system-shutdown.png
 Exec=lxterminal -t "Shutting down" -e "echo 'shutting down in 5 seconds'; sleep 5; sudo shutdown -h now"
 Type=Application
 Encoding=UTF-8

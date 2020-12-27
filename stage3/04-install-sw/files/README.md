@@ -1,4 +1,5 @@
 # Jambox: Jamming on Raspberry Pi
+Release 1.2.0
 
 ## Quickstart:
 
@@ -74,7 +75,7 @@
 ### Wrap Up
 - Jamulus and Sonobus each have a "Disconnect" button which will kill your connection.
 - Closing the program ("x" in upper right) will exit the startup script.
-- To shut the system down, double-click the "Stop Sign" button on the desktop, then wait 1 min for full shutdown.
+- To shut the system down, double-click the "Power Off" button on the desktop, then wait 1 min for full shutdown.
 - Try to avoid shutting down by simply killing power, it can corrupt the SD card and make system unbootable.
 
 ### Advanced Topics
