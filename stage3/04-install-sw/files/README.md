@@ -1,4 +1,4 @@
-# Jambox: Jamming on Raspberry Pi
+# Jambox: Jamming with Raspberry Pi
 Release 1.2.0
 
 ## Quickstart:
@@ -12,7 +12,7 @@ Release 1.2.0
     - Behringer UM2 is a good choice
     - verified to work with Behringer UCA222
     - verified to work with Focusrite 2i2
-    - other 2-channel interfaces are likely to work
+    - other 2-channel recording interfaces are likely to work
     - other interfaces may require editing parameters in /etc/jackrdc.conf
 - **Microphone and/or instrument** to USB Audio Interface
     - Microphone preamp requires XLR cable (don't connect microphone to 1/4" jack)
@@ -80,9 +80,8 @@ Release 1.2.0
 
 ### Advanced Topics
 + **Updating Jamulus or SonoBus**
-    - Jamulus and SonoBus are installed as apt packages from repo.jambox-project.com, so can be easily updated from a terminal window.
-    - To update Jamulus: "sudo apt-get update && sudo apt-get install jamulus"
-    - To update SonoBos: "sudo apt-get update && sudo apt-get install sonobus" 
+    - Jamulus and SonoBus are installed as apt packages from repo.jambox-project.com, so can be easily updated.
+    - To update, double-click the "Update" desktop icon.
 + **Customizable Settings**
     - See file README.md on github: [https://github.com/kdoren/jambox-pi-gen](https://github.com/kdoren/jambox-pi-gen)
 + **Running a Jamulus Server**

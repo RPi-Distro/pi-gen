@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Update
+Comment=Update Jamulus & SonoBus
+Icon=/usr/share/hplip/data/images/32x32/download.png
+Exec=lxterminal -t "Update" -e "echo 'Updating Jamulus & SonoBus in 5 seconds'; sleep 5; sudo apt-get update && sudo apt-get install jamulus && sudo apt-get install sonobus; sleep 20"
+Type=Application
+Encoding=UTF-8
+Terminal=false
+Categories=None;
