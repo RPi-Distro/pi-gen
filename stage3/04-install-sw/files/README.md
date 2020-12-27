@@ -71,9 +71,22 @@
 - **Make sure that "Direct Monitor" on your USB Audio Interface is "off" (pushbutton out for Behringer UM2).**
 - If you run a simultaneous video call to see each other, don't use it for audio - all call participants should mute their mics.
 
-
 ### Wrap Up
 - Jamulus and Sonobus each have a "Disconnect" button which will kill your connection.
 - Closing the program ("x" in upper right) will exit the startup script.
 - To shut the system down, double-click the "Stop Sign" button on the desktop, then wait 1 min for full shutdown.
 - Try to avoid shutting down by simply killing power, it can corrupt the SD card and make system unbootable.
+
+### Advanced Topics
++ **Updating Jamulus or SonoBus**
+    - Jamulus and SonoBus are installed as apt packages from repo.jambox-project.com, so can be easily updated from a terminal window.
+    - To update Jamulus: "sudo apt-get update && sudo apt-get install jamulus"
+    - To update SonoBos: "sudo apt-get update && sudo apt-get install sonobus" 
++ **Customizable Settings**
+    - See file README.md on github: [https://github.com/kdoren/jambox-pi-gen](https://github.com/kdoren/jambox-pi-gen)
++ **Running a Jamulus Server**
+    - Jamulus server can run on Raspberry Pi, either on a separate box, or on the same Raspberry Pi that runs a Jamulus Client.
+    - Your internet connection needs to be able to handle the upstream bandwidth of sending streams to multiple clients.
+    - You router will likely require port forwarding to be set up.
+    - Customizable Settings are described in file /home/pi/.config/Jamulus/jamulus-server.conf
+    - To start:  "sudo systemctl start jamulus-server"   
