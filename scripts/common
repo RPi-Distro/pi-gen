@@ -9,7 +9,7 @@ bootstrap(){
 
 	export http_proxy=${APT_PROXY}
 
-	if [ "$(dpkg --print-architecture)" !=  "armhf" ]; then
+	if [ "$(dpkg --print-architecture)" !=  "armhf" ] && [ "$(dpkg --print-architecture)" !=  "aarch64" ]; then
 		BOOTSTRAP_CMD=qemu-debootstrap
 	fi
 
@@ -17,8 +17,9 @@ bootstrap(){
 	BOOTSTRAP_ARGS+=(--components "main,contrib,non-free")
 	BOOTSTRAP_ARGS+=(--keyring "${STAGE_DIR}/files/raspberrypi.gpg")
 	BOOTSTRAP_ARGS+=("$@")
+	printf -v BOOTSTRAP_STR '%q ' "${BOOTSTRAP_ARGS[@]}"
 
-	capsh --drop=cap_setfcap -- "${BOOTSTRAP_CMD}" "${BOOTSTRAP_ARGS[@]}" || true
+	setarch linux32 capsh --drop=cap_setfcap -- -c "'${BOOTSTRAP_CMD}' $BOOTSTRAP_STR" || true
 
 	if [ -d "$2/debootstrap" ]; then
 		rmdir "$2/debootstrap"
@@ -89,14 +90,11 @@ on_chroot() {
 		mount --bind /sys "${ROOTFS_DIR}/sys"
 	fi
 
-	capsh --drop=cap_setfcap "--chroot=${ROOTFS_DIR}/" -- -e "$@"
+	setarch linux32 capsh --drop=cap_setfcap "--chroot=${ROOTFS_DIR}/" -- -e "$@"
 }
 export -f on_chroot
 
 update_issue() {
-	local GIT_HASH
-	GIT_HASH=$(git rev-parse HEAD)
 	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }
 export -f update_issue
-

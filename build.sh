@@ -20,7 +20,7 @@ EOF
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages-nr")"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
-apt-get install --no-install-recommends -y $PACKAGES
+apt-get -o APT::Acquire::Retries=3 install --no-install-recommends -y $PACKAGES
 EOF
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages-nr"
@@ -30,7 +30,7 @@ EOF
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages")"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
-apt-get install -y $PACKAGES
+apt-get -o APT::Acquire::Retries=3 install -y $PACKAGES
 EOF
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages"
@@ -46,11 +46,11 @@ EOF
 			SUB_STAGE_QUILT_PATCH_DIR="$(basename "$SUB_STAGE_DIR")-pc"
 			mkdir -p "$SUB_STAGE_QUILT_PATCH_DIR"
 			ln -snf "$SUB_STAGE_QUILT_PATCH_DIR" .pc
+			quilt upgrade
 			if [ -e "${SUB_STAGE_DIR}/${i}-patches/EDIT" ]; then
 				echo "Dropping into bash to edit patches..."
 				bash
 			fi
-			quilt upgrade
 			RC=0
 			quilt push -a || RC=$?
 			case "$RC" in
@@ -122,6 +122,8 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export BASE_DIR
 
 if [ -f config ]; then
 	# shellcheck disable=SC1091
@@ -154,21 +156,33 @@ export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
 export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
 export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
 
-BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
 export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"}"
 export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
 export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
 export LOG_FILE="${WORK_DIR}/build.log"
 
+export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
+
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
+export RELEASE=${RELEASE:-buster}
 export WPA_ESSID
 export WPA_PASSWORD
 export WPA_COUNTRY
 export ENABLE_SSH="${ENABLE_SSH:-0}"
+export PUBKEY_ONLY_SSH="${PUBKEY_ONLY_SSH:-0}"
 
-export BASE_DIR
+export LOCALE_DEFAULT="${LOCALE_DEFAULT:-en_GB.UTF-8}"
+
+export KEYBOARD_KEYMAP="${KEYBOARD_KEYMAP:-gb}"
+export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"
+
+export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
+
+export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
+
+export PUBKEY_SSH_FIRST_USER
 
 export CLEAN
 export IMG_NAME
@@ -197,18 +211,28 @@ source "${SCRIPT_DIR}/common"
 # shellcheck source=scripts/dependencies_check
 source "${SCRIPT_DIR}/dependencies_check"
 
+dependencies_check "${BASE_DIR}/depends"
+
 #check username is valid
 if [[ ! "$FIRST_USER_NAME" =~ ^[a-z][-a-z0-9_]*$ ]]; then
 	echo "Invalid FIRST_USER_NAME: $FIRST_USER_NAME"
 	exit 1
 fi
 
-if [[ -n "${APT_PROXY}" ]] && ! curl --silent ${APT_PROXY} >/dev/null ; then
-	echo "Could not reach APT_PROXY server:" ${APT_PROXY}
+if [[ -n "${APT_PROXY}" ]] && ! curl --silent "${APT_PROXY}" >/dev/null ; then
+	echo "Could not reach APT_PROXY server: ${APT_PROXY}"
 	exit 1
 fi
 
-dependencies_check "${BASE_DIR}/depends"
+if [[ -n "${WPA_PASSWORD}" && ${#WPA_PASSWORD} -lt 8 || ${#WPA_PASSWORD} -gt 63  ]] ; then
+	echo "WPA_PASSWORD" must be between 8 and 63 characters
+	exit 1
+fi
+
+if [[ "${PUBKEY_ONLY_SSH}" = "1" && -z "${PUBKEY_SSH_FIRST_USER}" ]]; then
+	echo "Must set 'PUBKEY_SSH_FIRST_USER' to a valid SSH public key if using PUBKEY_ONLY_SSH"
+	exit 1
+fi
 
 mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
@@ -237,7 +261,7 @@ for EXPORT_DIR in ${EXPORT_DIRS}; do
 	fi
 done
 
-if [ -x postrun.sh ]; then
+if [ -x ${BASE_DIR}/postrun.sh ]; then
 	log "Begin postrun.sh"
 	cd "${BASE_DIR}"
 	./postrun.sh

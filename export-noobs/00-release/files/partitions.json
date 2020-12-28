@@ -6,7 +6,8 @@
             "mkfs_options": "-F 32",
             "partition_size_nominal": BOOT_NOM,
             "uncompressed_tarball_size": BOOT_SIZE,
-            "want_maximised": false
+            "want_maximised": false,
+            "sha256sum": "BOOT_SHASUM"
         },
         {
             "filesystem_type": "ext4",
@@ -14,7 +15,8 @@
             "mkfs_options": "-O ^huge_file",
             "partition_size_nominal": ROOT_NOM,
             "uncompressed_tarball_size": ROOT_SIZE,
-            "want_maximised": true
+            "want_maximised": true,
+            "sha256sum": "ROOT_SHASUM"
         }
     ]
 }

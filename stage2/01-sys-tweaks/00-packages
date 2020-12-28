@@ -14,7 +14,6 @@ raspberrypi-sys-mods
 pi-bluetooth
 apt-listchanges
 usb-modeswitch
-apt-transport-https
 libpam-chksshpwd
 rpi-update
 libmtp-runtime
@@ -23,3 +22,10 @@ htop
 man-db
 policykit-1
 ssh-import-id
+rng-tools
+ethtool
+vl805fw
+ntfs-3g
+pciutils
+rpi-eeprom
+raspinfo
