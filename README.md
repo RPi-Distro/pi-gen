@@ -11,7 +11,7 @@
  * Wired ethernet connection required (wireless adds jitter)
  * USB audio interface required (i.e. Behringer UM2)
  * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours)
- * Real-time 64-bit kernel and default settings for minimal delay
+ * Real-time kernel and default settings for minimal delay
  * Jamulus requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
  * Can run as a Jamulus Server
  * Also includes SonoBus for peer-to-peer jamming
@@ -52,7 +52,7 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
  6. If JAMULUS_SERVER was configured, Jamulus will automatically connect (and shutdown after JAMULUS_TIMEOUT minutes)
  7. Double-click on desktop icon "Jamulus Start" to  launch Jamulus.
  8. Double-click on desktop icon "SonoBus Start" to  launch SonoBus.
- 8. Double-click on desktop icon "Stop Sign" to shut down Raspberry Pi.
+ 8. Double-click on desktop icon "Off Switch" to shut down Raspberry Pi.
 
 ### Customizable Settings
 * Can be set immediately after flashing, on micro SD card "boot" partition /payload directory
@@ -104,7 +104,6 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
  4. noVNC running in browser makes websocket connection to Rasbpberry Pi 
  5. websockify (companion to noVNC) bridges websocket to VNC server
  6. Raspberry Pi runs VNC server presenting linux desktop
- 7. Linux Firewall blocks incoming traffic except from same local network.
 
 
 **Original pi-gen README.md follows:**

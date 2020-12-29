@@ -46,7 +46,6 @@ Release 1.2.0
 + **Jamulus Features:**
     - Input level meters:  This is the audio you are sending; keep it out of the red.
     - Level and Pan controls for each musician (your own Personal Mix!)
-    - **Listen to the mix coming from the server.**  Your brain will quickly adapt to any delay, up to a point.
 + **Jamulus Settings:**
     - Jitter Buffer: Start with *Auto*, wait a min or 2 to settle, then increase each jitter buffer by 2 for less breakup. 
     - Enable Small Network Buffers: Recommended.  Lowers delay, but uses more bandwidth.
@@ -70,6 +69,7 @@ Release 1.2.0
 
 ### Play!
 - **Make sure that "Direct Monitor" on your USB Audio Interface is "off" (pushbutton out for Behringer UM2).**
+- For Jamulus, **listen and play to the mix coming from the server.**  Your brain will quickly adapt to any delay, up to a point.
 - If you run a simultaneous video call to see each other, don't use it for audio - all call participants should mute their mics.
 
 ### Wrap Up
@@ -77,11 +77,18 @@ Release 1.2.0
 - Closing the program ("x" in upper right) will exit the startup script.
 - To shut the system down, double-click the "Power Off" button on the desktop, then wait 1 min for full shutdown.
 - Try to avoid shutting down by simply killing power, it can corrupt the SD card and make system unbootable.
-
-### Advanced Topics
+---
+### Other Topics
++ **Getting & Giving Help**
+    - Questions: Start a Discussion or answer a question on github: [https://github.com/kdoren/jambox-pi-gen/discussions](https://github.com/kdoren/jambox-pi-gen/discussions)
+    - Bugs/Problems: Open an issue on GitHub: [https://github.com/kdoren/jambox-pi-gen/issues](https://github.com/kdoren/jambox-pi-gen/issues)
 + **Updating Jamulus or SonoBus**
     - Jamulus and SonoBus are installed as apt packages from repo.jambox-project.com, so can be easily updated.
     - To update, double-click the "Update" desktop icon.
++ **Updating Jambox**
+    - Updating other jambox scripts, etc., currently requires flashing a new image to a micro SD card.
+    - Check GitHub for new releases: [https://github.com/kdoren/jambox-pi-gen/releases](https://github.com/kdoren/jambox-pi-gen/releases)
+    - It should be safe to run "sudo apt-get update && sudo apt-get upgrade" to update other packages.  But probably unnecessary unless you have a specific reason.
 + **Customizable Settings**
     - See file README.md on github: [https://github.com/kdoren/jambox-pi-gen](https://github.com/kdoren/jambox-pi-gen)
 + **Running a Jamulus Server**
@@ -89,4 +96,8 @@ Release 1.2.0
     - Your internet connection needs to be able to handle the upstream bandwidth of sending streams to multiple clients.
     - You router will likely require port forwarding to be set up.
     - Customizable Settings are described in file /home/pi/.config/Jamulus/jamulus-server.conf
-    - To start:  "sudo systemctl start jamulus-server"   
+    - To start:  "sudo systemctl start jamulus-server"
++ **Patch Changes**
+    - Please see the topic "How do I change patches" on GitHub: [https://github.com/kdoren/jambox-pi-gen/discussions](https://github.com/kdoren/jambox-pi-gen/discussions)
++ **JackTrip"**
+    - There is another peer-to-peer jamming app called JackTrip which is also installed.  It's untested and unsupported. You can report your experiences in the JackTrip discussion category on jambox-pi-gen GitHub.
