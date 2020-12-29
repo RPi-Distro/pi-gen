@@ -1,9 +1,9 @@
 [Desktop Entry]
 Name=Update
-Comment=Update Jamulus & SonoBus
+Comment=Update Jambox Apps
 Icon=/usr/share/hplip/data/images/32x32/download.png
-Exec=lxterminal -t "Update" -e "echo 'Updating Jamulus & SonoBus in 5 seconds'; sleep 5; sudo apt-get update && sudo apt-get install jamulus && sudo apt-get install sonobus; sleep 20"
+Exec=/usr/local/bin/jambox_update.sh
 Type=Application
 Encoding=UTF-8
-Terminal=false
+Terminal=true
 Categories=None;

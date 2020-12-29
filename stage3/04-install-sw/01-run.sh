@@ -22,3 +22,7 @@ cp files/.vimrc ${ROOTFS_DIR}/root/
 
 # Copy README file
 cp files/README.md ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/
+
+# Copy jambox update script
+cp files/jambox_update.sh ${ROOTFS_DIR}/usr/local/bin/
+chmod +x ${ROOTFS_DIR}/usr/local/bin/jambox_update.sh
