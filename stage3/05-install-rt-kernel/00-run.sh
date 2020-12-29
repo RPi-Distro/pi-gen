@@ -10,6 +10,7 @@ cp -d ${ROOTFS_DIR}/tmp/rt/broadcom/bcm* ${ROOTFS_DIR}/boot/rt/
 cp ${ROOTFS_DIR}/tmp/rt/boot/kernel8_rt.img ${ROOTFS_DIR}/boot//rt/
 cp -dr ${ROOTFS_DIR}/tmp/rt/lib/* ${ROOTFS_DIR}/lib/
 rm -rf ${ROOTFS_DIR}/tmp/rt
+touch ${ROOTFS_DIR}/boot/rt/overlays/README
 
 # append rt kernel options to /boot/config.txt
 cat >> ${ROOTFS_DIR}/boot/config.txt << EOF
