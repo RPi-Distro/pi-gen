@@ -4,6 +4,8 @@ cp files/autostart ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/lxsession/LXDE-
 cp files/jackdrc ${ROOTFS_DIR}/etc/jackdrc
 chmod +x ${ROOTFS_DIR}/etc/jackdrc
 
+cp files/jackdrc.conf ${ROOTFS_DIR}/etc/jackdrc.conf
+
 mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop
 cp files/Desktop/*.desktop ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop/
 

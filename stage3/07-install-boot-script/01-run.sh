@@ -4,6 +4,7 @@ cp files/urlrelay.sh ${ROOTFS_DIR}/usr/local/bin/
 chmod +x ${ROOTFS_DIR}/usr/local/bin/urlrelay.sh
 
 mkdir -p ${ROOTFS_DIR}/etc/urlrelay
+cp files/urlrelay.conf ${ROOTFS_DIR}/etc/urlrelay/
 
 # install urlrelay service file
 install -m 644 files/urlrelay.service ${ROOTFS_DIR}/lib/systemd/system
@@ -23,7 +24,8 @@ rm -f ${ROOTFS_DIR}/etc/profile.d/raspi-config.sh
 
 # Copy payload files to boot partition and edit
 mkdir -p ${ROOTFS_DIR}/boot/payload/etc/urlrelay
-cp -r files/payload/* ${ROOTFS_DIR}/boot/payload/
+cp files/urlrelay.conf ${ROOTFS_DIR}/boot/payload/etc/urlrelay/
+cp ${ROOTFS_DIR}/etc/jackdrc.conf ${ROOTFS_DIR}/boot/payload/etc/
 
 # Copy pi-boot-script files
 cp files/unattended ${ROOTFS_DIR}/boot/
