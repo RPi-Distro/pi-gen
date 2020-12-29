@@ -1,5 +1,5 @@
 install -m 644 files/cpu_performance_scaling_governor.service ${ROOTFS_DIR}/lib/systemd/system
-install -m 644 files/rules.v4 ${ROOTFS_DIR}/etc/iptables
+# install -m 644 files/rules.v4 ${ROOTFS_DIR}/etc/iptables
 
 on_chroot << EOF
 	systemctl disable wifi-hotspot

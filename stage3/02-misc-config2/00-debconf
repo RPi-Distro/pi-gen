@@ -1,2 +1,2 @@
-iptables-persistent iptables-persistent/autosave_v4 boolean false
-iptables-persistent iptables-persistent/autosave_v6 boolean false
+# iptables-persistent iptables-persistent/autosave_v4 boolean false
+# iptables-persistent iptables-persistent/autosave_v6 boolean false
