@@ -14,11 +14,13 @@ rm -rf ${ROOTFS_DIR}/tmp/rt
 # append rt kernel options to /boot/config.txt
 cat >> ${ROOTFS_DIR}/boot/config.txt << EOF
 
-# boot with 64-bit realtime kernel
+# boot pi4 with 64-bit 5.4 realtime kernel
+[pi4]
 arm_64bit=1
-kernel=rt/kernel8_rt.img
-#os_prefix=rt/
-overlay_prefix=rt/overlays/
+kernel=kernel8_rt.img
+os_prefix=rt/
+overlay_prefix=overlays/
+[all]
 EOF
 
 sed -i "s/.*audio.*nice.*$/@audio   -  nice      -19/g" ${ROOTFS_DIR}/etc/security/limits.d/audio.conf
