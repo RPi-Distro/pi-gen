@@ -140,17 +140,6 @@ Plugin {
   }
 }
 Plugin {
-  type=volumealsabt
-  Config {
-  }
-}
-Plugin {
-  type=space
-  Config {
-    Size=2
-  }
-}
-Plugin {
   type=dclock
   Config {
     ClockFmt=%R
