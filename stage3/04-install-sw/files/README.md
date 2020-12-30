@@ -1,17 +1,20 @@
 # Jambox: Jamming with Raspberry Pi
 Release 1.2.0
 
+If you don't want to read the "Quickstart" section, scroll to the bottom to read "Other Topics".
+
 ## Quickstart:
 
 ### Get Wired:
-- **Ethernet cable** between Raspberry Pi and your router (can't use wireless with Jamulus)
+- **Raspberry Pi** Jambox has been tested primarily with Pi4B, but has also been verified to work on Pi3B.
+- **Ethernet cable** between Raspberry Pi and your router (can't use wireless for jamming, too much jitter).
 - **Headphones** to Headphone Amplifier (Rockville HPA-4 recommended) or headphone out of audio interface.
 - **Headphone Amp power supply**
 - **Raspberry Pi power supply** to USB-C port on Raspberry Pi 4, or micro USB port on Raspberry Pi 3B
 - **USB Audio Interface** to a USB port on Raspberry Pi
-    - Behringer UM2 is a good choice
+    - Behringer UM2 is a good choice if you are buying an interface only for jamming.
     - verified to work with Behringer UCA222
-    - verified to work with Focusrite 2i2
+    - verified to work with Focusrite 2i2.
     - other 2-channel recording interfaces are likely to work
     - other interfaces may require editing parameters in /etc/jackrdc.conf
 - **Microphone and/or instrument** to USB Audio Interface
@@ -35,11 +38,10 @@ Release 1.2.0
 ###Jamulus
 + **Connect to a Jamulus Server:**
     - Jamulus may be set to automatically launch on boot.  It may also be set to auto-connect to a server.
-    - Otherwise, double-click on the "Jamulus Start" icon on the desktop. 
-    - After 2 hours of Jamulus, system will automatically shut down
+    - Otherwise, double-click on the "Jamulus Start" icon on the desktop. Then click "Connect" and choose a server.
+    - If you have auto-connected to a server, then after 2 hours of Jamulus, system will automatically shut down
     - If it shuts down and you need more time, power off & back on)
     - If you close Jamulus before the 2 hour timeout, it won't automatically shut down.
-    - If Jamulus isn't running, double-click "Jamulus Start" to launch Jamulus startup script.
 + **Personalize It:**
     - View -> My Profile, then set your Name, Instrument, City, and Skill.
     - View -> Chat to see the chat window to message other musicians.
@@ -47,11 +49,11 @@ Release 1.2.0
     - Input level meters:  This is the audio you are sending; keep it out of the red.
     - Level and Pan controls for each musician (your own Personal Mix!)
 + **Jamulus Settings:**
-    - Jitter Buffer: Start with *Auto*, wait a min or 2 to settle, then increase each jitter buffer by 2 for less breakup. 
+    - Jitter Buffer: Start with *Auto*, wait a min or two to settle, then increase each jitter buffer by 1 or 2 for better audio quality.. 
     - Enable Small Network Buffers: Recommended.  Lowers delay, but uses more bandwidth.
     - Audio Channels: *Mono-in/Stereo-out* - recommended for most users.  It will mix both channels from USB Audio Interface into one (for mic or mono instrument)
     - Audio Channels: *Stereo* is for stereo sources like stereo keyboard or multiple microphones.
-    - Audio Quality: *High*: Recommended.  Uses more bandwidth than *Normal* but sounds somewhat better.
+    - Audio Quality: *High*: Recommended.  Uses more bandwidth than *Normal* but sounds better.
     - Skin: *Fancy* looks nice, but *Normal* and especially *Compact* fit more musicians on the screen.
     - Overall Delay: Useful number to watch.    30 ms = Fun; 50 ms = Not so much
 + **Jamulus Software Manual:** [https://jamulus.io/wiki/Software-Manual](https://jamulus.io/wiki/Software-Manual)
@@ -84,20 +86,21 @@ Release 1.2.0
     - Bugs/Problems: Open an issue on GitHub: [https://github.com/kdoren/jambox-pi-gen/issues](https://github.com/kdoren/jambox-pi-gen/issues)
 + **Updating Jamulus or SonoBus**
     - Jamulus and SonoBus are installed as apt packages from repo.jambox-project.com, so can be easily updated.
-    - To update, double-click the "Update" desktop icon.
+    - To update, double-click the "Update Apps" desktop icon.
 + **Updating Jambox**
     - Updating other jambox scripts, etc., currently requires flashing a new image to a micro SD card.
     - Check GitHub for new releases: [https://github.com/kdoren/jambox-pi-gen/releases](https://github.com/kdoren/jambox-pi-gen/releases)
-    - It should be safe to run "sudo apt-get update && sudo apt-get upgrade" to update other packages.  But probably unnecessary unless you have a specific reason.
+    - It's not recommended to run  "sudo apt update && sudo apt-get upgrade" to blanket update other packages.  Probably safe but risks breaking something.  Better to update only specific packages if you have a reason.
 + **Customizable Settings**
     - See file README.md on github: [https://github.com/kdoren/jambox-pi-gen](https://github.com/kdoren/jambox-pi-gen)
 + **Running a Jamulus Server**
-    - Jamulus server can run on Raspberry Pi, either on a separate box, or on the same Raspberry Pi that runs a Jamulus Client.
-    - Your internet connection needs to be able to handle the upstream bandwidth of sending streams to multiple clients.
-    - You router will likely require port forwarding to be set up.
+    - Jamulus server can run on Raspberry Pi.  It's best run on its own separate box.  Running on the same Raspberry Pi that runs a Jamulus Client will increase jitter.
+    - Your internet connection needs enough upstream bandwidth to send streams to multiple clients.  DSL and Cable internet typically don't have very much.
+    - You router will likely require port forwarding set up.
     - Customizable Settings are described in file /home/pi/.config/Jamulus/jamulus-server.conf
+    - jamulus-server doesn't need the "jack" service, so stop it unless you're running a client:  "sudo systemctl stop jack"
     - To start:  "sudo systemctl start jamulus-server"
 + **Patch Changes**
     - Please see the topic "How do I change patches" on GitHub: [https://github.com/kdoren/jambox-pi-gen/discussions](https://github.com/kdoren/jambox-pi-gen/discussions)
-+ **JackTrip"**
-    - There is another peer-to-peer jamming app called JackTrip which is also installed.  It's untested and unsupported. You can report your experiences in the JackTrip discussion category on jambox-pi-gen GitHub.
++ **JackTrip**
+    - There is another jamming app called JackTrip which is also installed.  It's untested on jambox. You can report your experiences in the JackTrip discussion category on jambox-pi-gen GitHub.

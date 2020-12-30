@@ -6,15 +6,17 @@
  * Suitable for a musical group or school to supply a pre-configured jamming appliance.
 
 ### Features
- * Runs on a **headless Raspberry Pi**.  Tested primarily on Pi4 but seems to work well on Pi3B.
+ * Runs on a **headless Raspberry Pi**.  Tested primarily on Pi4 but has been verified to work on Pi3B.
  * **easy UI access via web browser** on same local network
  * Wired ethernet connection required (wireless adds jitter)
  * USB audio interface required (i.e. Behringer UM2)
  * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours)
- * Real-time kernel and default settings for minimal delay
+ * Real-time kernel (on Pi4) and default settings for low delay
  * Jamulus requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
  * Can run as a Jamulus Server
  * Also includes SonoBus for peer-to-peer jamming
+ * The JackTrip app is installed but untested.
+ * Jamming apps are installed from packages in repo, can be updated via desktop "Update Apps" button.
 
 ### Simple hardware platform
 Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with velcro and pre-wired.
