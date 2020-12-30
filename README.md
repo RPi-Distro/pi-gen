@@ -1,6 +1,7 @@
 # jambox-pi-gen
 
-**A Raspberry Pi distribution pre-configured for online jamming; runs Jamulus (client-server) or SonoBus (peer-to-peer) on Raspberry Pi, with web browser UI.**
+**A Raspberry Pi distribution pre-configured for online jamming.  
+Runs Jamulus (client-server) or SonoBus (peer-to-peer) on Raspberry Pi, with web browser UI.**
 
  * Makes it easy for non-technical musicians to play together online, with a high-quality, high-performnace, low-cost system.
  * Suitable for a musical group or school to supply a pre-configured jamming appliance.
@@ -70,13 +71,13 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 | JAMULUS_AUTOSTART | *set to 1 to launch on boot* | 0 | /home/pi/.config/Jamulus/jamulus_start.conf |
 | JAMULUS_SERVER | *DNS name or IP of Jamulus server* | | /home/pi/.config/Jamulus/jamulus_start.conf |
 | JAMULUS_TIMEOUT | *shutdown timer if auto-connecting* | 120m | /home/pi/.config/Jamulus/jamulus_start.conf |
-| AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-um2-stereo.xml | /home/pi/.config/Jamulus/jamulus_start.conf |
+| AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-jamulus-stereo.xml | /home/pi/.config/Jamulus/jamulus_start.conf |
 | MASTER_LEVEL | *master output level for USB interface* | 75% | /home/pi/.config/Jamulus/jamulus_start.conf |
 | CAPTURE_LEVEL | *capture level for USB interface* | 50% | /home/pi/.config/Jamulus/jamulus_start.conf |
 | JAMULUS_ALSA_DEVICE | *alsa device of USB interface* | card 2 | /home/pi/.config/Jamulus/jamulus_start.conf |
 | **SonoBus Settings** ||||
 | SONOBUS_AUTOSTART | *set to 1 to launch on boot* | 0 | /home/pi/.config/sonobus_start.conf |
-| AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-stereo-sonobus.xml | /home/pi/.config/sonobus_start.conf |
+| AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-sonobus-stereo.xml | /home/pi/.config/sonobus_start.conf |
 | MASTER_LEVEL | *master output level for USB interface* | 75% | /home/pi/.config/sonobus_start.conf |
 | CAPTURE_LEVEL | *capture level for USB interface* | 50% | /home/pi/.config/sonobus_start.conf |
 | SONOBUS_ALSA_DEVICE | *alsa device of USB interface* | card 2 | /home/pi/.config/sonobus_start.conf |

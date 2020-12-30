@@ -26,7 +26,7 @@ if [ -z "$SONOBUS_ALSA_DEVICE" ]; then
   fi
 fi	
 
-[[ -z "$AJ_SNAPSHOT" ]] && AJ_SNAPSHOT="ajs-stereo-sonobus.xml"
+[[ -z "$AJ_SNAPSHOT" ]] && AJ_SNAPSHOT="ajs-sonobus-stereo.xml"
 
 ALSA_READY=no
 until [[ $ALSA_READY == "yes" ]]; do

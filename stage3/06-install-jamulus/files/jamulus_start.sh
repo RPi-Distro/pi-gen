@@ -26,7 +26,7 @@ if [ -z "$JAMULUS_ALSA_DEVICE" ]; then
   fi
 fi	
 
-[[ -z "$AJ_SNAPSHOT" ]] && AJ_SNAPSHOT="ajs-um2-stereo.xml"
+[[ -z "$AJ_SNAPSHOT" ]] && AJ_SNAPSHOT="ajs-jamulus-stereo.xml"
 [[ -z "$JAMULUS_TIMEOUT" ]] && JAMULUS_TIMEOUT="120m"
 
 ALSA_READY=no
