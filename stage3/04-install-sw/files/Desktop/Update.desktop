@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Update
+Name=Update Apps
 Comment=Update Jambox Apps
 Icon=/usr/share/hplip/data/images/32x32/download.png
 Exec=/usr/local/bin/jambox_update.sh
