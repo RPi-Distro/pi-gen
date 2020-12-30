@@ -1,4 +1,15 @@
 #!/bin/bash
+
+# try to use same device as Jack by looking at jackdrc.conf
+# This can be overridden by setting SONOBUS_ALSA_DEVICE in jamulus_start.conf
+if [ -f /etc/jackdrc.conf ]; then
+  source /etc/jackdrc.conf
+  regex="^hw:([0-9]),.*"
+  if [[ "$DEVICE"  =~ $regex ]]; then
+    SONOBUS_ALSA_DEVICE="card ${BASH_REMATCH[1]}"
+  fi
+fi
+
 if [ -f ~/.config/sonobus_start.conf ]; then
   source ~/.config/sonobus_start.conf
 fi
@@ -26,7 +37,7 @@ until [[ $ALSA_READY == "yes" ]]; do
   if [[ "$PLAY_RESULT" == "0" ]] && [[ "$RECORD_RESULT" == "0" ]]; then
     ALSA_READY=yes
   else
-    echo "ALSA Device not available: PLAY_RESULT for $ALSA_PLAY_DEVICE: $PLAY_RESULT, RECORD_RESULT for $ALSA_RECORD_DEVICE: $RECORD_RESULT"
+    echo "ALSA Device $SONOBUS_ALSA_DEVICE is not available: PLAY_RESULT: $PLAY_RESULT, RECORD_RESULT: $RECORD_RESULT"
     sleep 5
   fi
 done

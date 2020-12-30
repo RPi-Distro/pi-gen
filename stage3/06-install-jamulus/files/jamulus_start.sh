@@ -1,9 +1,20 @@
 #!/bin/bash
+
+# try to use same device as Jack by looking at jackdrc.conf
+# This can be overridden by setting JAMULUS_ALSA_DEVICE in jamulus_start.conf
+if [ -f /etc/jackdrc.conf ]; then
+  source /etc/jackdrc.conf
+  regex="^hw:([0-9]),.*"
+  if [[ "$DEVICE"  =~ $regex ]]; then
+    JAMULUS_ALSA_DEVICE="card ${BASH_REMATCH[1]}"
+  fi
+fi
+
 if [ -f ~/.config/Jamulus/jamulus_start.conf ]; then
   source ~/.config/Jamulus/jamulus_start.conf
 fi
 
-# if $JAMULUS_ALSA_DEVICE is not set, set a default.
+# if $JAMULUS_ALSA_DEVICE is still not set, set a default.
 # newer kernel uses card 1 for bcm2835 Headphones,
 # in that case use card 2 for default USB audio device
 if [ -z "$JAMULUS_ALSA_DEVICE" ]; then
@@ -27,7 +38,7 @@ until [[ $ALSA_READY == "yes" ]]; do
   if [[ "$PLAY_RESULT" == "0" ]] && [[ "$RECORD_RESULT" == "0" ]]; then
     ALSA_READY=yes
   else
-    echo "ALSA Device not available: PLAY_RESULT for $ALSA_PLAY_DEVICE: $PLAY_RESULT, RECORD_RESULT for $ALSA_RECORD_DEVICE: $RECORD_RESULT"
+    echo "ALSA Device $JAMULUS_ALSA_DEVICE not available: PLAY_RESULT: $PLAY_RESULT, RECORD_RESULT: $RECORD_RESULT"
     sleep 5
   fi
 done
