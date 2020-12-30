@@ -1,2 +1,2 @@
 # install 4.19 rt kernel for pi3 (pi4 needs 5.4 rt kernel)
-raspberrypi-kernel-rt
+# raspberrypi-kernel-rt
