@@ -72,19 +72,19 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 | JAMULUS_SERVER | *DNS name or IP of Jamulus server* | | /home/pi/.config/Jamulus/jamulus_start.conf |
 | JAMULUS_TIMEOUT | *shutdown timer if auto-connecting* | 120m | /home/pi/.config/Jamulus/jamulus_start.conf |
 | AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-jamulus-stereo.xml | /home/pi/.config/Jamulus/jamulus_start.conf |
-| MASTER_LEVEL | *master output level for USB interface* | 75% | /home/pi/.config/Jamulus/jamulus_start.conf |
-| CAPTURE_LEVEL | *capture level for USB interface* | 50% | /home/pi/.config/Jamulus/jamulus_start.conf |
-| JAMULUS_ALSA_DEVICE | *alsa device of USB interface* | card 2 | /home/pi/.config/Jamulus/jamulus_start.conf |
+| MASTER_LEVEL | *master output level for USB interface* | 80% | /home/pi/.config/Jamulus/jamulus_start.conf |
+| CAPTURE_LEVEL | *capture level for USB interface* | 80% | /home/pi/.config/Jamulus/jamulus_start.conf |
+| JAMULUS_ALSA_DEVICE | *alsa device of USB interface* | from jackdrc.conf | /home/pi/.config/Jamulus/jamulus_start.conf |
 | **SonoBus Settings** ||||
 | SONOBUS_AUTOSTART | *set to 1 to launch on boot* | 0 | /home/pi/.config/sonobus_start.conf |
 | AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-sonobus-stereo.xml | /home/pi/.config/sonobus_start.conf |
-| MASTER_LEVEL | *master output level for USB interface* | 75% | /home/pi/.config/sonobus_start.conf |
-| CAPTURE_LEVEL | *capture level for USB interface* | 50% | /home/pi/.config/sonobus_start.conf |
-| SONOBUS_ALSA_DEVICE | *alsa device of USB interface* | card 2 | /home/pi/.config/sonobus_start.conf |
+| MASTER_LEVEL | *master output level for USB interface* | 80% | /home/pi/.config/sonobus_start.conf |
+| CAPTURE_LEVEL | *capture level for USB interface* | 80% | /home/pi/.config/sonobus_start.conf |
+| SONOBUS_ALSA_DEVICE | *alsa device of USB interface* | from jackdrc.conf | /home/pi/.config/sonobus_start.conf |
 | **Jack Settings** ||||
-| DEVICE | *alsa device ID of USB interface* | hw:2,0 | /etc/jackdrc.conf
+| DEVICE | *alsa device ID of USB interface* | last capture device | /etc/jackdrc.conf
 | PERIOD | *Jack Audio samples per period* | 64 | /etc/jackdrc.conf |
-| NPERIODS | *Jack Audio number of periods per buffer* | 5 | /etc/jackdrc.conf |
+| NPERIODS | *Jack Audio number of periods per buffer* | 8 | /etc/jackdrc.conf |
 | **Jamulus Server Settings** | *see file* || /home/pi/.config/Jamulus/jamulus-server.conf |
 
 ### Web Browser access to Raspberry Pi Desktop - How it works
