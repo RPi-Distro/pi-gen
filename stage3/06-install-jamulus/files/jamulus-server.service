@@ -6,6 +6,11 @@ After=network.target
 Type=simple
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
+#
+# Environment settings here are intended as defaults which can be overridden by
+# the EnvironmentFile /home/pi/.config/Jamulus/jamulus-server.conf
+# Make Enviroment changes in that file, not here.
+#
 Environment=NUMCHANNELS=8
 Environment=PORT=22124
 Environment=WELCOMEMESSAGE=""
