@@ -18,5 +18,5 @@ sed -i -E "s/^dtoverlay=vc4-fkms-v3d/#dtoverlay=vc4-fkms-v3d/" ${ROOTFS_DIR}/boo
 echo "dtoverlay=disable-wifi" >> ${ROOTFS_DIR}/boot/config.txt
 
 # disable bcm2835 built-in-sound
-#sed -i "s/^dtparam=audio=.*/dtparam=audio=off/" ${ROOTFS_DIR}/boot/config.txt
+sed -i "s/^dtparam=audio=.*/dtparam=audio=off/" ${ROOTFS_DIR}/boot/config.txt
 
