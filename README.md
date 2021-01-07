@@ -1,7 +1,7 @@
 # jambox-pi-gen
 
 **A Raspberry Pi micro-SD card image for online jamming.  
-Runs Jamulus (client-server) or SonoBus (peer-to-peer) on Raspberry Pi, with web browser UI.
+Runs Jamulus (client-server) or SonoBus (peer-to-peer) on Raspberry Pi, with web browser UI.  
 Pre-built image file is available under "Releases" to download and burn with balenaEtcher**
 
  * Makes it easy for non-technical musicians to play together online, with a high-quality, high-performnace, low-cost system.
