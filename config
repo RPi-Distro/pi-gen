@@ -1,0 +1,39 @@
+#Config file for pi-gen build system to make a custom Raspbian Image based on Debian.
+
+#Image Name set. By default is unset.
+IMG_NAME=Raspbian
+#Release Channel for Raspbian. Default is buster (stable).
+RELEASE=buster
+#Proxy setver for network. Default is unset.
+APT_PROXY=
+#Location of build.sh. (Leave as is or it can break)
+BASE_DIR=
+#Builds the target system for deployment. Default is pi-gen base folder.
+WORK_DIR=
+#Output directoy for the target system images and NOOBS bundle. Default is deploy.
+DEPLOY_DIR=
+#Settings for actual image or a zip file. 0 = .img 1 = .zip (Default: 1)
+DEPLOY_ZIP=1
+#Settings to eanble QEMU mode. Default is 0.
+USE_QEMU=0
+#Default System Locale. Default is en_GB.UTF-8
+LOCALE_DEFAULT=en_GB.UTF-8
+#Hostname for Raspbian. Default is raspberrypi.
+TARGET_HOSTNAME=raspberrypi
+#Keyboard Keymap default. Default is gb.
+KEYBOARD_KEYMAP=gb
+#Keyboard Layout Setup. Default English (UK).
+KEYBOARD_LAYOUT=
+#Timezone default for time setup. Default Europe/London
+TIMEZONE_DEFAULT=
+#Default username on build. Default is pi. Best to change for security.
+FIRST_USER_NAME=pi
+#Default Password on build. Default is raspberry. Best to change for security.
+FIRST_USER_PASS=raspberry
+#Wifi settings to configure wpa_supplicant.conf
+WPA_ESSID=
+WPA_PASSWORD=
+WPA_COUNTRY=
+#Enables SSH deamond of first boot. Default is 0 (disable). 1 to eanble. 
+ENABLE_SSH=0
+
