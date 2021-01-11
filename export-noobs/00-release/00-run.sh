@@ -20,7 +20,7 @@ BOOT_SIZE="$(( BOOT_SIZE / 1024 / 1024 + 1))"
 ROOT_SIZE="$(( ROOT_SIZE / 1024 / 1024 + 1))"
 
 BOOT_NOM="256"
-ROOT_NOM="$(( ROOT_SIZE + 400 ))"
+ROOT_NOM="$(echo "$ROOT_SIZE" | awk '{printf "%.0f", (($1 + 400) * 1.2) + 0.5 }')"
 
 mv "${NOOBS_DIR}/OS.png" "${NOOBS_DIR}/${NOOBS_NAME// /_}.png"
 
