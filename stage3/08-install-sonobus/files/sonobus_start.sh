@@ -65,7 +65,7 @@ if [[ -f ~/.config/aj-snapshot/$AJ_SNAPSHOT ]]; then
 fi
 
 # Start SonoBus in background, set priority if PREEMPT_RT kernel
-nice -18 SonoBus &
+SonoBus &
 SONOBUS_PID=$!
 if echo `uname -a` | grep -q "PREEMPT_RT"; then
   echo SONOBUS_PID: $SONOBUS_PID
