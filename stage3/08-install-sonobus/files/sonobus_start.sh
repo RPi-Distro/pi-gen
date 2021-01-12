@@ -61,8 +61,17 @@ done
 if [[ -f ~/.config/aj-snapshot/$AJ_SNAPSHOT ]]; then
   echo "Starting aj-snapshot daemon"
   aj-snapshot --remove --daemon ~/.config/aj-snapshot/$AJ_SNAPSHOT &
+  AJ_SNAPSHOT_PID=$!
 fi
 
-nice -18 SonoBus
-kill $!   # kill aj-snapshot background process
+# Start SonoBus in background, set priority if PREEMPT_RT kernel
+nice -18 SonoBus &
+SONOBUS_PID=$!
+if echo `uname -a` | grep -q "PREEMPT_RT"; then
+  echo SONOBUS_PID: $SONOBUS_PID
+  [[ -n "$SONOBUS_PID" ]] && sudo chrt -r -p ${SONOBUS_PRIORITY:-60} $SONOBUS_PID
+fi
+wait $SONOBUS_PID
+
+[[ -n "$AJ_SNAPSHOT_PID" ]] && kill $AJ_SNAPSHOT_PID   # kill aj-snapshot background process
 exit 0
