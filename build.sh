@@ -35,6 +35,27 @@ EOF
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages"
 		fi
+		if [ -f "${i}-packages-rm" ]; then
+			log "Begin ${SUB_STAGE_DIR}/${i}-packages-rm"
+			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages-rm")"
+			if [ -n "$PACKAGES" ]; then
+				on_chroot << EOF
+apt-get -o APT::Acquire::Retries=3 remove -y $PACKAGES
+EOF
+			fi
+			log "End ${SUB_STAGE_DIR}/${i}-packages-rm"
+		fi
+		if [ -f "${i}-packages-pr" ]; then
+Docker can be used to perform the build inside a container. This partially isolates
+			log "Begin ${SUB_STAGE_DIR}/${i}-packages-pr"
+			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages-pr")"
+			if [ -n "$PACKAGES" ]; then
+				on_chroot << EOF
+apt-get -o APT::Acquire::Retries=3 purge -y $PACKAGES
+EOF
+			fi
+			log "End ${SUB_STAGE_DIR}/${i}-packages-pr"
+		fi
 		if [ -d "${i}-patches" ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-patches"
 			pushd "${STAGE_WORK_DIR}" > /dev/null

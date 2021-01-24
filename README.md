@@ -192,6 +192,12 @@ The following process is followed to build images:
      - **00-packages-nr** - As 00-packages, except these will be installed using
        the ```--no-install-recommends -y``` parameters to apt-get.
 
+     - **00-packages-rm** - As 00-packages, except these will be removed using
+       the ```remove -y``` parameters to apt-get.
+
+     - **00-packages-pr** - As 00-packages, except these will be purged using
+       the ```purge -y``` parameters to apt-get.
+
      - **00-patches** - A directory containing patch files to be applied, using quilt.
        If a file named 'EDIT' is present in the directory, the build process will
        be interrupted with a bash session, allowing an opportunity to create/revise
