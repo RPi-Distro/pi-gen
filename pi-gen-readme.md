@@ -82,7 +82,7 @@ The following environment variables are supported:
 
    Default system locale.
 
- * `TARGET_HOSTNAME` (Default: "raspberrypi" )
+ * `TARGET_HOSTNAME` (Default: "mixxxpi" )
 
    Setting the hostname to the specified value.
 
