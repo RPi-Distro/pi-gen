@@ -1,0 +1,14 @@
+# Miscelaneous (editors, build, libraries, etc)
+tmux 
+mg 
+vim 
+lshw 
+build-essential 
+libboost-filesystem-dev 
+libboost-program-options-dev 
+libboost-system-dev 
+libboost-thread-dev 
+libffi-dev 
+libcurl4-openssl-dev 
+libssl-dev 
+libjpeg-dev
