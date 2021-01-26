@@ -1,0 +1,2 @@
+# Server and management packages
+nginx-light php7.3-fpm cockpit cockpit-packagekit cockpit-storaged gnupg1 dirmngr apt-transport-https tftpd-hpa tftp
