@@ -1,0 +1,2 @@
+# Network packages
+tcpdump traceroute nmap tshark wireshark aircrack-ng isc-dhcp-server ser2net ufw nftables iperf avahi-daemon ifplugd
