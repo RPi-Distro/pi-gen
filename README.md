@@ -429,6 +429,18 @@ If that happens go through the following steps:
 
 Now you should be able to start a new build without running into troubles again. Most of the time, especially when using Docker build, you will only need no. 3 to get everything up and running again. 
 
+# Regarding DKMS support
+
+pi-gen support DKMS compilation in packages, provided the package postinst script is properly configured.  Pi-gen captures the kernel versions when they are first included in the pi-gen build.  These are stored in the environment variable `DKMS_VERSIONS` prefixed by '-k'.  Fore example if pi-gen is building kernels 5.10.11+, 5.10.11-v7+, and 5.10.11.-v7l+ the DKMS_VERSIONS value will be "-k 5.10.11+ -k 5.10.11-v7+ -k 5.10.11.-v7l+"
+
+The debian postinst script for the DKMS based package should be modified so that the dkms calls include the ${DKMS_VERSIONS} property.  for example:
+        
+        dkms build ${DKMS_VERSIONS} hd44780-i2c/1.0
+or
+        dkms autoinstall ${DKMS_VERSIONS}  hd44780-i2c/1.0
+
+This the DKSM_VERSIONS value tells dkms to use the versions specified with the -k option rather than asking the system what kernel it is building on.
+
 # Troubleshooting
 
 ## `64 Bit Systems`

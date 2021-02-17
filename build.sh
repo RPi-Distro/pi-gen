@@ -1,6 +1,21 @@
 #!/bin/bash -e
 
 # shellcheck disable=SC2119
+check_kernel_version()
+{
+	if [ -z "${DKMS_VERSIONS}" ]
+	then
+		if [ 0 -lt `find ${ROOTFS_DIR}/usr/src -name linux-headers\* -type d | wc -l` ]
+		then
+			for fn in `cat ${ROOTFS_DIR}/usr/src/linux-headers*/include/config/kernel.release`
+			do
+				export DKMS_VERSIONS="${DKMS_VERSIONS} -k ${fn}"
+			done
+		fi
+		log "====> Kernel Version: '${DKMS_VERSIONS}'"
+	fi
+}
+
 run_sub_stage()
 {
 	log "Begin ${SUB_STAGE_DIR}"
@@ -29,6 +44,7 @@ apt-get clean
 EOF
 				fi
 			fi
+			check_kernel_version
 			log "End ${SUB_STAGE_DIR}/${i}-packages-nr"
 		fi
 		if [ -f "${i}-packages" ]; then
@@ -44,6 +60,7 @@ apt-get clean
 EOF
 				fi
 			fi
+			check_kernel_version
 			log "End ${SUB_STAGE_DIR}/${i}-packages"
 		fi
 		if [ -d "${i}-patches" ]; then
