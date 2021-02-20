@@ -233,7 +233,7 @@ It is recommended to examine build.sh for finer details.
 
 Docker can be used to perform the build inside a container. This partially isolates
 the build from the host system, and allows using the script on non-debian based
-systems (e.g. Fedora Linux). The isolate is not complete due to the need to use
+systems (e.g. Fedora Linux). The isolation is not complete due to the need to use
 some kernel level services for arm emulation (binfmt) and loop devices (losetup).
 
 To build:
@@ -279,7 +279,7 @@ solution).
 
 The build of Raspbian is divided up into several stages for logical clarity
 and modularity.  This causes some initial complexity, but it simplifies
-maintenance and allows for more easy customization.
+maintenance and allows for easier customization.
 
  - **Stage 0** - bootstrap.  The primary purpose of this stage is to create a
    usable filesystem.  This is accomplished largely through the use of
@@ -305,11 +305,11 @@ maintenance and allows for more easy customization.
    creates necessary groups and gives the pi user access to sudo and the
    standard console hardware permission groups.
 
-   There are a few tools that may not make a whole lot of sense here for
-   development purposes on a minimal system such as basic Python and Lua
+   There are a few development tools here that may not make a whole lot
+   of sense on a minimal system.  These tools include basic Python and Lua
    packages as well as the `build-essential` package.  They are lumped right
    in with more essential packages presently, though they need not be with
-   pi-gen.  These are understandable for Raspbian's target audience, but if
+   pi-gen.  They are understandable for Raspbian's target audience, but if
    you were looking for something between truly minimal and Raspbian-Lite,
    here's where you start trimming.
 
@@ -324,7 +324,7 @@ maintenance and allows for more easy customization.
 
  - **Stage 5** - The Raspbian Full image. More development
    tools, an email client, learning tools like Scratch, specialized packages
-   like sonic-pi, office productivity, etc.  
+   like sonic-pi, office productivity, etc.
 
 ### Stage specification
 
