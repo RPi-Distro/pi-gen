@@ -1,0 +1,1 @@
+wireshark-common wireshark-common/install-setuid boolean true
