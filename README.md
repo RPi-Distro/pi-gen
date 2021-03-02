@@ -1,7 +1,7 @@
 # jambox-pi-gen
 
 **A Raspberry Pi micro-SD card image for online jamming.  
-Runs Jamulus (client-server) or SonoBus (peer-to-peer) on Raspberry Pi, with web browser UI.  
+Runs Jamulus (client-server) or SonoBus (peer-to-peer) or JamTaba (NINJAM) or QJackTrip on Raspberry Pi, with web browser UI.  
 Pre-built image file is available under "Releases" to download and burn with balenaEtcher**
 
  * Makes it easy for non-technical musicians to play together online, with a high-quality, high-performnace, low-cost system.
@@ -15,29 +15,28 @@ Pre-built image file is available under "Releases" to download and burn with bal
  * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours)
  * Real-time kernel (on Pi4, otherwise low-latency kernel) and default settings for low delay.
  * Jamulus requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
- * Jambox can run as a Jamulus Server .
- * Also includes SonoBus for peer-to-peer jamming.
- * Also includes JamTaba for long-distance jamming using NINJAM servers.
- * Also includes QJackTrip for multi-machine network jamming.
+ * Jambox can run as a Jamulus Server.
+ * SonoBus for peer-to-peer jamming.
+ * JamTaba for long-distance jamming using NINJAM servers.
+ * QJackTrip for multi-machine network jamming.
  * Jamming apps are installed from packages in repo, can be updated via desktop "Update Apps" button.
+ * HDMI monitor can be used if you don't want headless (use HDMI port next to USB-C port, and reboot)
 
 ### Simple hardware platform
-Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with velcro and pre-wired.
+Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-wired.
 
-**Suggested Bill of Materials**, prices in USD as of Nov 16, 2020:
+**Suggested Bill of Materials**, prices in USD as of Mar 2, 2021:
 
 |Price (USD)|Item|URL|
 |-----:|--|--|
-|$ 64|Raspberry Pi 4-2GB with case & PSU|https://www.amazon.com/gp/product/B07XTR97NT|
-|||https://www.newegg.com/p/1HD-005N-00057|
-|7|SanDisk Ultra 16GB micro SD card|https://www.amazon.com/gp/product/B073K14CVB|
-|49|Behringer UM2 USB Audio Interface|https://www.americanmusical.com/behringer-u-phoria-um2-usb-audio-interface/p/BEH-UM2|
-|||https://www.amazon.com/gp/product/B00EK1OTZC|
+|$ 35|Raspberry Pi 4-2GB|https://vilros.com/products/raspberry-pi-4-2gb-ram|
+|14|Vilros Self Cooling Heavy Duty Case|https://vilros.com/products/vilros-raspberry-pi-4-compatible-self-cooling-heavy-duty-aluminum-case|
+|11|Vilros Power Supply with Switch|https://vilros.com/products/vilros-usb-c-5v-3a-power-supply-with-switch-designed-for-pi-4|
+|7|SanDisk Ultra 16GB micro SD card|https://www.amazon.com/gp/product/9966573445|
+|45|Behringer UM2 USB Audio Interface|https://www.americanmusical.com/behringer-u-phoria-um2-usb-audio-interface/p/BEH-UM2|
 |15|Pyle PDMIC78 Microphone|https://www.amazon.com/gp/product/B005BSOVRY|
-|9|XLR Microphone Cable, 10 ft|https://www.amazon.com/gp/product/B07D5CPNWY|
+|8|XLR Microphone Cable, 10 ft|https://www.amazon.com/gp/product/B07D5CPNWY|
 |22|Microphone Stand w/clip|https://www.amazon.com/gp/product/B00OZ9C9LK|
-|30|Rockville RHPA4 Headphone Amp|https://www.amazon.com/gp/product/B084CTSC8X|
-|8|1/4 Inch TRS Cable, 8 Inch|https://www.amazon.com/gp/product/B00DIGCS0S|
 |?|Over-ear Headphones|Use decent ones (likely $40 or more)|
 
 ### Easy to Setup
@@ -62,6 +61,7 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 ### Customizable Settings
 * Can be set immediately after flashing, on micro SD card "boot" partition /payload directory
 * Or set later after booting
+* Depending on your interface, you may be able to lower delay by reducing NPERIODS in /etc/jackdrc.conf.
 * if JAMULUS_SERVER is defined, Jambox will automatically connect on boot, then power off after 2 hours.
 * AJ_SNAPSHOT files are stored in /home/pi/.config/aj_snapshot/
 
@@ -84,8 +84,8 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 | CAPTURE_LEVEL | *capture level for USB interface* | 80% | /home/pi/.config/sonobus_start.conf |
 | **Jack Settings** ||||
 | DEVICE | *alsa device ID of USB interface* | last capture device | /etc/jackdrc.conf |
-| PERIOD | *Jack Audio samples per period* | 64 | /etc/jackdrc.conf |
-| NPERIODS | *Jack Audio number of periods per buffer* | 8 | /etc/jackdrc.conf |
+| PERIOD | *Jack Audio samples per period* | 64 [pi4] or 128 [pi3]| /etc/jackdrc.conf |
+| NPERIODS | *Jack Audio number of periods per buffer* | 8 [pi4] or 4 [pi3]| /etc/jackdrc.conf |
 | **Jamulus Server Settings** | *see file* || /home/pi/.config/Jamulus/jamulus-server.conf |
 
 ### Web Browser access to Raspberry Pi Desktop - How it works
