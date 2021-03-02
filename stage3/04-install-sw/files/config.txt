@@ -1,0 +1,90 @@
+# For more options and information see
+# http://rpf.io/configtxt
+# Some settings may impact device functionality. See link above for details
+
+# uncomment if you get no picture on HDMI for a default "safe" mode
+#hdmi_safe=1
+
+# uncomment this if your display has a black border of unused pixels visible
+# and your display can output without overscan
+#disable_overscan=1
+
+# uncomment the following to adjust overscan. Use positive numbers if console
+# goes off screen, and negative if there is too much border
+#overscan_left=16
+#overscan_right=16
+#overscan_top=16
+#overscan_bottom=16
+
+# uncomment to force a console size. By default it will be display's size minus
+# overscan.
+#framebuffer_width=1280
+#framebuffer_height=720
+
+# uncomment if hdmi display is not detected and composite is being output
+hdmi_force_hotplug=1
+
+# set HDMI mode to 16 (1024x768) for tablet compatibility
+# change hdmi_mode to 35 (1280x1024) or 85 (1280x720) for larger area
+# see https://www.raspberrypi.org/documentation/configuration/config-txt/video.md
+hdmi_group=2
+hdmi_mode=16
+
+[pi400]
+hdmi_mode=35
+[all]
+
+# uncomment to force a HDMI mode rather than DVI. This can make audio work in
+# DMT (computer monitor) modes
+#hdmi_drive=2
+
+# uncomment to increase signal to HDMI, if you have interference, blanking, or
+# no display
+#config_hdmi_boost=4
+
+# uncomment for composite PAL
+#sdtv_mode=2
+
+#uncomment to overclock the arm. 700 MHz is the default.
+#arm_freq=800
+
+# Uncomment some or all of these to enable the optional hardware interfaces
+#dtparam=i2c_arm=on
+#dtparam=i2s=on
+#dtparam=spi=on
+
+# Uncomment this to enable infrared communication.
+#dtoverlay=gpio-ir,gpio_pin=17
+#dtoverlay=gpio-ir-tx,gpio_pin=18
+
+# Additional overlays and parameters are documented /boot/overlays/README
+
+# Disable built-in audio (loads snd_bcm2835 if =on).  It's useless for jamming.
+dtparam=audio=off
+
+[pi400]
+# Enable DRM VC4 V3D driver on top of the dispmanx display stack
+# Required for pi400, disabled for pi4 to minimize overhead
+# It allows change of display resolution from control panel,
+# but introduces overhead and bugs.
+# Change filter [pi400] above to [pi4] to enable on pi4
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
+[all]
+
+#dtoverlay=vc4-fkms-v3d
+
+# wireless interfaces add overhead that can impact jitter & xruns even if they are not in use.
+# leave wifi diabled, use it for jamming (too much delay & jitter)
+dtoverlay=disable-wifi
+
+# leave bluetooth disabled unless you have a specific need for it.
+dtoverlay=disable-bt
+
+# following 2 lines are for hifiberry dacplusadcpro
+# These are enabled because this card is commonly used for jamming
+# Comment these out if you use a different HAT card
+dtoverlay=hifiberry-dacplusadcpro
+force_eeprom_read=0
+
+
