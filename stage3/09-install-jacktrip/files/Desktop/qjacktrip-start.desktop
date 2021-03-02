@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=QJackTrip Start
+Comment=GUI wrapper for JackTrip
+GenericName=Network Audio Streaming Software
+Path=/home/pi
+Exec=/usr/local/bin/qjacktrip_start.sh
+Icon=qjacktrip
+Terminal=true
+Type=Application
+Categories=AudioVideo;Audio;Mixer;
+Keywords=live;online;music;conference;
