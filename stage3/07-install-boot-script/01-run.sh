@@ -21,11 +21,11 @@ sed ${ROOTFS_DIR}/etc/lightdm/lightdm.conf -i -e "s/^\(#\|\)autologin-user=.*/au
 rm -f ${ROOTFS_DIR}/etc/profile.d/raspi-config.sh
 #rm -r ${ROOTFS_DIR}/etc/systemd/system/getty@tty1.service.d/raspi-config-override.conf
 
-
 # Copy payload files to boot partition and edit
 mkdir -p ${ROOTFS_DIR}/boot/payload/etc/urlrelay
 cp files/urlrelay.conf ${ROOTFS_DIR}/boot/payload/etc/urlrelay/
 cp ${ROOTFS_DIR}/etc/jackdrc.conf ${ROOTFS_DIR}/boot/payload/etc/
+cp ${ROOTFS_DIR}/etc/timezone ${ROOTFS_DIR}/boot/payload/etc/
 
 # Copy pi-boot-script files
 cp files/unattended ${ROOTFS_DIR}/boot/
