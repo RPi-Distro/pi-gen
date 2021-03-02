@@ -13,11 +13,12 @@ Pre-built image file is available under "Releases" to download and burn with bal
  * Wired ethernet connection required (wireless adds jitter)
  * USB audio interface required (i.e. Behringer UM2)
  * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours)
- * Real-time kernel (on Pi4) and default settings for low delay
+ * Real-time kernel (on Pi4, otherwise low-latency kernel) and default settings for low delay.
  * Jamulus requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
- * Can run as a Jamulus Server
- * Also includes SonoBus for peer-to-peer jamming
- * The JackTrip app is installed but untested.
+ * Jambox can run as a Jamulus Server .
+ * Also includes SonoBus for peer-to-peer jamming.
+ * Also includes JamTaba for long-distance jamming using NINJAM servers.
+ * Also includes QJackTrip for multi-machine network jamming.
  * Jamming apps are installed from packages in repo, can be updated via desktop "Update Apps" button.
 
 ### Simple hardware platform
@@ -68,6 +69,7 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 |----------|----------------------------------------|--------------------------------------|---------|
 | **urlrelay settings** ||||
 | NODE_ID | *id unique for your local network* | 1 | /etc/urlrelay/urlrelay.conf |
+| URL_ARGS | *url arguments sent to noVNC* | /?password=jambox | /etc/urlrelay/urlrelay.conf |
 | **Jamulus Settings** ||||
 | JAMULUS_AUTOSTART | *set to 1 to launch on boot* | 0 | /home/pi/.config/Jamulus/jamulus_start.conf |
 | JAMULUS_SERVER | *DNS name or IP of Jamulus server* | | /home/pi/.config/Jamulus/jamulus_start.conf |
@@ -75,15 +77,13 @@ Raspberry Pi + Audio Interface + Headphone Amp.  Can be attached to a board with
 | AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-jamulus-stereo.xml | /home/pi/.config/Jamulus/jamulus_start.conf |
 | MASTER_LEVEL | *master output level for USB interface* | 80% | /home/pi/.config/Jamulus/jamulus_start.conf |
 | CAPTURE_LEVEL | *capture level for USB interface* | 80% | /home/pi/.config/Jamulus/jamulus_start.conf |
-| JAMULUS_ALSA_DEVICE | *alsa device of USB interface* | from jackdrc.conf | /home/pi/.config/Jamulus/jamulus_start.conf |
 | **SonoBus Settings** ||||
 | SONOBUS_AUTOSTART | *set to 1 to launch on boot* | 0 | /home/pi/.config/sonobus_start.conf |
 | AJ_SNAPSHOT | *filename of alsa-jack patch configuration* | ajs-sonobus-stereo.xml | /home/pi/.config/sonobus_start.conf |
 | MASTER_LEVEL | *master output level for USB interface* | 80% | /home/pi/.config/sonobus_start.conf |
 | CAPTURE_LEVEL | *capture level for USB interface* | 80% | /home/pi/.config/sonobus_start.conf |
-| SONOBUS_ALSA_DEVICE | *alsa device of USB interface* | from jackdrc.conf | /home/pi/.config/sonobus_start.conf |
 | **Jack Settings** ||||
-| DEVICE | *alsa device ID of USB interface* | last capture device | /etc/jackdrc.conf
+| DEVICE | *alsa device ID of USB interface* | last capture device | /etc/jackdrc.conf |
 | PERIOD | *Jack Audio samples per period* | 64 | /etc/jackdrc.conf |
 | NPERIODS | *Jack Audio number of periods per buffer* | 8 | /etc/jackdrc.conf |
 | **Jamulus Server Settings** | *see file* || /home/pi/.config/Jamulus/jamulus-server.conf |

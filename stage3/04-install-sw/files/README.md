@@ -1,5 +1,17 @@
 # Jambox: Jamming with Raspberry Pi
-Release 1.2.0
+Release 1.3.0b1
+
+## Changes from v1.2.0:
+- **New Jamming Apps: JamTaba, QJackTrip**
+- **"Audio Device Settings" on desktop (pimixer) allows control of internal interface settings.**
+    - changes should be persistent unless overriden by the app config items MASTER_LEVEL and CAPTURE_LEVEL settings (comment them out if you don't want that)
+- **Device settings in /etc/jackdrc.conf can be customized by app or by pi model.**
+    - this file is now a bit more complex, but in most cases it should "just work".
+    - in most cases, the only setting you might need to change is "NPERIODS" (decrease to lower delay, increase to get rid of distortion clicks, pops)
+    - Pi3 default setting has been changed to use PERIOD=128 (a bit more delay) to maximize audio quality.
+- **System language can be changed**
+    - Pi menu -> Preferences -> Localization
+- **Bug fixes and performance improvements**
 
 If you don't want to read the "Quickstart" section, scroll to the bottom to read "Other Topics".
 
@@ -68,6 +80,20 @@ If you don't want to read the "Quickstart" section, scroll to the bottom to read
     - "Monitor Level is what you hear (has no effect on what others hear).
     - "Output Level" is the what you are sending to others.
 + **SonoBus User Guide:** [https://www.sonobus.net/sonobus_userguide.html](https://www.sonobus.net/sonobus_userguide.html)
++ **Port Forwarding May Be Required** peer-to-peer apps may require port forwarding to be set up on certain routers, especially if multiple peers are used.
+
+### JamTaba
++ **JamTaba Features**
+    - Client for NINJAM servers - see [https://www.cockos.com/ninjam/](https://www.cockos.com/ninjam/)
+    - Jamming is based on synchronized intervals of measures - you hear and play with what everyone else played during the last interval.
+    - Not suited for all musical styles.
+    - Jamming over very long distances is possible (i.e. musicians from 4 different continents).
++ **JamTaba user guide:** [https://github.com/elieserdejesus/JamTaba/wiki/Jamtaba%27s-user-guide](https://github.com/elieserdejesus/JamTaba/wiki/Jamtaba%27s-user-guide)
+
+### QJackTrip
++ **QJackTrip Features**
+    - GUI wrapper for JackTrip - see Section 3, "Using QJackTrip": [https://www.psi-borg.org/other-dev.html](https://www.psi-borg.org/other-dev.html)
+    - qjacktrip can also be used from command line, with same arguments as JackTrip.
 
 ### Play!
 - **Make sure that "Direct Monitor" on your USB Audio Interface is "off" (pushbutton out for Behringer UM2).**
@@ -84,8 +110,8 @@ If you don't want to read the "Quickstart" section, scroll to the bottom to read
 + **Getting & Giving Help**
     - Questions: Start a Discussion or answer a question on github: [https://github.com/kdoren/jambox-pi-gen/discussions](https://github.com/kdoren/jambox-pi-gen/discussions)
     - Bugs/Problems: Open an issue on GitHub: [https://github.com/kdoren/jambox-pi-gen/issues](https://github.com/kdoren/jambox-pi-gen/issues)
-+ **Updating Jamulus or SonoBus**
-    - Jamulus and SonoBus are installed as apt packages from repo.jambox-project.com, so can be easily updated.
++ **Updating Jammming Apps (Jamulus - SonoBus - Jacktrip - Jamtrip - JamTaba)**
+    - Jamming apps are installed as apt packages from repo.jambox-project.com, so can be easily updated.
     - To update, double-click the "Update Apps" desktop icon.
 + **Updating Jambox**
     - Updating other jambox scripts, etc., currently requires flashing a new image to a micro SD card.
@@ -103,4 +129,5 @@ If you don't want to read the "Quickstart" section, scroll to the bottom to read
 + **Patch Changes**
     - Please see the topic "How do I change patches" on GitHub: [https://github.com/kdoren/jambox-pi-gen/discussions](https://github.com/kdoren/jambox-pi-gen/discussions)
 + **JackTrip**
-    - There is another jamming app called JackTrip which is also installed.  It's untested on jambox. You can report your experiences in the JackTrip discussion category on jambox-pi-gen GitHub.
+    - There is another jamming app called JackTrip which is also installed.  It's a command-line app for routing audio over a network, and by itself is not easy to use.  Port forwarding setup on your router will likely be required.  JackTrip can be used with the JamTrip wrapper, which simplifies JackTrip operation and configuration.  You can report your experiences in the JackTrip discussion category on jambox-pi-gen GitHub.
+
