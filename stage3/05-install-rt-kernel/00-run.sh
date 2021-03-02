@@ -1,3 +1,6 @@
+# custom-built kernels are best installed from repo ( in file 00-packages )
+# in order to actually boot from them, files must be copied to /boot,
+# and /boot/config.txt must have info added to it.
 
 install_kernel_from_deb () {
 
