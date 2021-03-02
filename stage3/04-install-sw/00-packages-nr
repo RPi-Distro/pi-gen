@@ -12,7 +12,7 @@ lxde lxtask menu-xdg # gksu
 lxrandr
 xdg-utils gvfs-backends gvfs-fuse
 lightdm gnome-themes-standard-data gnome-icon-theme
-liblo7 liblo-dev libasound-dev libjack-jackd2-dev
+liblo7 liblo-dev libasound-dev jackd2 libjack-jackd2-0
 hostapd
 python-numpy
 libqt5xml5
