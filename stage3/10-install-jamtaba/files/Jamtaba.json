@@ -1,0 +1,136 @@
+{
+    "Collapse": {
+        "bottomSection": false,
+        "chatSection": false,
+        "localChannels": false
+    },
+    "Looper": {
+        "bitDepth": 16,
+        "encodeAudio": false,
+        "loopsFolder": "/home/pi/Documents/JamTaba/Looper",
+        "preferredMode": 0,
+        "preferresLayersCount": 4
+    },
+    "Metering": {
+        "meterOption": 0,
+        "refreshRate": 30,
+        "showMaxPeak": true,
+        "waveDrawingMode": 3
+    },
+    "PrivateServer": {
+        "lastPassword": "",
+        "lastPort": 2049,
+        "lastServers": [
+            "localhost"
+        ]
+    },
+    "Remember": {
+        "boost": true,
+        "bottomSection": true,
+        "chatSection": true,
+        "level": true,
+        "localChannels": true,
+        "lowCut": true,
+        "mute": true,
+        "pan": true
+    },
+    "VST": {
+        "BlackListPlugins": [
+        ],
+        "cachedPlugins": [
+        ],
+        "scanPaths": [
+            "/home/pi"
+        ]
+    },
+    "audio": {
+        "audioInputDevice": "system",
+        "audioOutputDevice": "system",
+        "bufferSize": 256,
+        "encodingQuality": 0,
+        "firstIn": 0,
+        "firstOut": 0,
+        "lastIn": 1,
+        "lastOut": 1,
+        "sampleRate": 48000
+    },
+    "chatFontSizeOffset": 0,
+    "inputs": {
+        "channels": [
+            {
+                "instrument": -1,
+                "subchannels": [
+                    {
+                        "boost": 0,
+                        "channelsCount": 2,
+                        "firstInput": 0,
+                        "gain": 1,
+                        "higherNote": 127,
+                        "lowerNote": 0,
+                        "midiChannel": -1,
+                        "midiDevice": -1,
+                        "muted": false,
+                        "pan": 0,
+                        "plugins": [
+                        ],
+                        "stereoInverted": false,
+                        "transpose": 0
+                    }
+                ]
+            }
+        ]
+    },
+    "intervalProgressShape": 0,
+    "intervalsBeforeInactivityWarning": 5,
+    "masterGain": 1,
+    "metronome": {
+        "builtInMetronome": "Clave",
+        "customAccentBeatAudioFile": "",
+        "customOffBeatAudioFile": "",
+        "customPrimaryBeatAudioFile": "",
+        "gain": 1,
+        "muted": false,
+        "pan": 0,
+        "usingCustomSounds": false
+    },
+    "midi": {
+        "inputsState": [
+            true
+        ]
+    },
+    "publicChatActivated": false,
+    "recording": {
+        "dirNameDateFormat": "Qt::TextDate",
+        "jamRecorders": {
+            "ClipSortLogGenerator": {
+                "activated": false
+            },
+            "ReaperProjectGenerator": {
+                "activated": false
+            }
+        },
+        "recordActivated": false,
+        "recordingPath": "/home/pi/Documents/JamTaba/Jams"
+    },
+    "sync": {
+        "syncOutputsState": [
+        ]
+    },
+    "theme": "Ice",
+    "tracksLayoutOrientation": 2,
+    "translation": "en",
+    "userName": "jambox",
+    "usingNarrowTracks": false,
+    "window": {
+        "fullScreenView": false,
+        "location": {
+            "x": -0.001953125,
+            "y": 0.0390625
+        },
+        "maximized": false,
+        "size": {
+            "height": 695,
+            "width": 1100
+        }
+    }
+}

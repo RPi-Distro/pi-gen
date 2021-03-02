@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=JamTaba Start
+Comment=Jamming client for NINJAM servers
+GenericName=Jamtaba 2 - Play online music jam sessions.
+Path=/home/pi
+Exec=/usr/local/bin/jamtaba_start.sh
+Icon=Jamtaba2.png
+Terminal=true
+Type=Application
+Categories=AudioVideo;Audio
