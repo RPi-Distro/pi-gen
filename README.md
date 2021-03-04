@@ -22,7 +22,11 @@ Pre-built image file is available under "Releases" to download and burn with bal
  * Jamming apps are installed from packages in jambox-project apt repo, can be updated via desktop "Update Apps" button.
  * HDMI monitor can be used if desired (use HDMI connector next to USB-C port, and reboot).
 
+<img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_desktop_13-shadow.png" width="871" />
+**Jambox Desktop**
+
 <img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_screen1-shadow.png" width="871" />
+**Jamulus running on Jambox**
 
 ### Simple hardware platform
 Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-wired.
