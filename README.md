@@ -1,26 +1,28 @@
 # jambox-pi-gen
 
 **A Raspberry Pi micro-SD card image for online jamming.  
-Runs Jamulus (client-server) or SonoBus (peer-to-peer) or JamTaba (NINJAM) or QJackTrip on Raspberry Pi, with web browser UI.  
+Runs Jamulus (client-server), SonoBus (peer-to-peer), JamTaba (NINJAM) or QJackTrip on Raspberry Pi, with web browser UI.  
 Pre-built image file is available under "Releases" to download and burn with balenaEtcher**
 
  * Makes it easy for non-technical musicians to play together online, with a high-quality, high-performnace, low-cost system.
  * Suitable for a musical group or school to supply a pre-configured jamming appliance.
 
 ### Features
- * Runs on a **headless Raspberry Pi**.  Tested primarily on Pi4 but has been verified to work on Pi3B.
- * **easy UI access via web browser** on same local network
- * Wired ethernet connection required (wireless adds jitter)
- * USB audio interface required (i.e. Behringer UM2)
- * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours)
- * Real-time kernel (on Pi4, otherwise low-latency kernel) and default settings for low delay.
+ * Runs on a **headless Raspberry Pi**.  Pi4 is highly recommended but Jambox has been verified to work on Pi3B.
+ * **easy UI access via web browser** on same local network.
+ * Wired ethernet connection required (wireless adds jitter).
+ * Audio interface required (USB or HAT card).
+ * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours).
+ * Real-time kernel (on Pi4, low-latency kernel on Pi3) and default settings for low delay.
  * Jamulus requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
- * Jambox can run as a Jamulus Server.
+ * Can run as a Jamulus Server.
  * SonoBus for peer-to-peer jamming.
  * JamTaba for long-distance jamming using NINJAM servers.
  * QJackTrip for multi-machine network jamming.
- * Jamming apps are installed from packages in repo, can be updated via desktop "Update Apps" button.
- * HDMI monitor can be used if you don't want headless (use HDMI port next to USB-C port, and reboot)
+ * Jamming apps are installed from packages in jambox-project apt repo, can be updated via desktop "Update Apps" button.
+ * HDMI monitor can be used if desired (use HDMI connector next to USB-C port, and reboot).
+
+<img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_screen1-shadow.png" width="871" />
 
 ### Simple hardware platform
 Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-wired.
@@ -43,9 +45,9 @@ Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-
  1. Download image file from "Releases" (https://github.com/kdoren/jambox-pi-gen/releases).  No need to unzip.
  2. Flash micro SD card using balenaEtcher.
  3. (optional) customize settings after burning by editing/adding files in /boot/payload directory.
- 4. Tested primarily with Behringer UM-2 USB interface.  Verified to work with Focusrite Scarlett 2i2, Behringer UCA222.  Other interfaces may require changes to settings files, or may not work.
+ 4. Works with most USB audio interfaces and audio HAT cards.  Some interfaces may require changes to settings files.
  5. Connect wires: ethernet, USB audio interface, mic/instrument, headphones and power.
- 6. Headphone amp recommended (i.e. Rockville RHPA-4)
+ 6. Headphone amp may be needed (i.e. Rockville RHPA-4) if audio interface can't drive your headphones loud enough.
 
 ### Easy to Use
  1. Power on, boot up.
@@ -54,8 +56,11 @@ Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-
  4. Web browser will show Raspberry Pi desktop.
  5. Jamulus will automatically launch at startup.
  6. If JAMULUS_SERVER was configured, Jamulus will automatically connect (and shutdown after JAMULUS_TIMEOUT minutes)
- 7. Double-click on desktop icon "Jamulus Start" to  launch Jamulus.
- 8. Double-click on desktop icon "SonoBus Start" to  launch SonoBus.
+ 7. Double-click on a jamming app desktop icon:
+   -- "Jamulus Start" to launch Jamulus.
+   -- "SonoBus Start" to launch SonoBus.
+   -- "JamTaba Start" to launch JamTaba.
+   -- "QJackTrip Start" to launch QJackTrip.
  8. Double-click on desktop icon "Off Switch" to shut down Raspberry Pi.
 
 ### Customizable Settings
