@@ -28,6 +28,8 @@ Web Browser UI - use any laptop, tablet, desktop - even a smartphone.**
 
 <img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_sonobus1-shadow.png" width="871" />
 
+<img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_jamtaba2-shadow.png" width="871" />
+
 ---
 ### Easy to Setup
  1. Download image file from "Releases" (https://github.com/kdoren/jambox-pi-gen/releases).  No need to unzip.
