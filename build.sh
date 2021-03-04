@@ -1,4 +1,5 @@
 #!/bin/bash -e
+
 # shellcheck disable=SC2119
 run_sub_stage()
 {
@@ -13,7 +14,7 @@ $(cat "${i}-debconf")
 SELEOF
 EOF
 
-		log "End ${SUB_STAGE_DIR}/${i}-debconf"
+			log "End ${SUB_STAGE_DIR}/${i}-debconf"
 		fi
 		if [ -f "${i}-packages-nr" ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-packages-nr"
@@ -22,6 +23,11 @@ EOF
 				on_chroot << EOF
 apt-get -o APT::Acquire::Retries=3 install --no-install-recommends -y $PACKAGES
 EOF
+				if [ "${USE_QCOW2}" = "1" ]; then
+					on_chroot << EOF
+apt-get clean
+EOF
+				fi
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages-nr"
 		fi
@@ -32,6 +38,11 @@ EOF
 				on_chroot << EOF
 apt-get -o APT::Acquire::Retries=3 install -y $PACKAGES
 EOF
+				if [ "${USE_QCOW2}" = "1" ]; then
+					on_chroot << EOF
+apt-get clean
+EOF
+				fi
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages"
 		fi
@@ -82,17 +93,30 @@ EOF
 run_stage(){
 	log "Begin ${STAGE_DIR}"
 	STAGE="$(basename "${STAGE_DIR}")"
+
 	pushd "${STAGE_DIR}" > /dev/null
-	unmount "${WORK_DIR}/${STAGE}"
+
 	STAGE_WORK_DIR="${WORK_DIR}/${STAGE}"
 	ROOTFS_DIR="${STAGE_WORK_DIR}"/rootfs
+
+	if [ "${USE_QCOW2}" = "1" ]; then 
+		if [ ! -f SKIP ]; then
+			load_qimage
+		fi
+	else
+		# make sure we are not umounting during export-image stage
+		if [ "${USE_QCOW2}" = "0" ] && [ "${NO_PRERUN_QCOW2}" = "0" ]; then
+			unmount "${WORK_DIR}/${STAGE}"
+		fi
+	fi
+	
 	if [ ! -f SKIP_IMAGES ]; then
 		if [ -f "${STAGE_DIR}/EXPORT_IMAGE" ]; then
 			EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
 		fi
 	fi
 	if [ ! -f SKIP ]; then
-		if [ "${CLEAN}" = "1" ]; then
+		if [ "${CLEAN}" = "1" ] && [ "${USE_QCOW2}" = "0" ] ; then
 			if [ -d "${ROOTFS_DIR}" ]; then
 				rm -rf "${ROOTFS_DIR}"
 			fi
@@ -103,13 +127,21 @@ run_stage(){
 			log "End ${STAGE_DIR}/prerun.sh"
 		fi
 		for SUB_STAGE_DIR in "${STAGE_DIR}"/*; do
-			if [ -d "${SUB_STAGE_DIR}" ] &&
-			   [ ! -f "${SUB_STAGE_DIR}/SKIP" ]; then
+			if [ -d "${SUB_STAGE_DIR}" ] && [ ! -f "${SUB_STAGE_DIR}/SKIP" ]; then
 				run_sub_stage
 			fi
 		done
 	fi
-	unmount "${WORK_DIR}/${STAGE}"
+
+	if [ "${USE_QCOW2}" = "1" ]; then 
+		unload_qimage
+	else
+		# make sure we are not umounting during export-image stage
+		if [ "${USE_QCOW2}" = "0" ] && [ "${NO_PRERUN_QCOW2}" = "0" ]; then
+			unmount "${WORK_DIR}/${STAGE}"
+		fi
+	fi
+
 	PREV_STAGE="${STAGE}"
 	PREV_STAGE_DIR="${STAGE_DIR}"
 	PREV_ROOTFS_DIR="${ROOTFS_DIR}"
@@ -142,6 +174,15 @@ do
 			;;
 	esac
 done
+
+term() {
+	if [ "${USE_QCOW2}" = "1" ]; then
+		log "Unloading image"
+		unload_qimage
+	fi
+}
+
+trap term EXIT INT TERM
 
 export PI_GEN=${PI_GEN:-pi-gen}
 export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
@@ -211,6 +252,18 @@ source "${SCRIPT_DIR}/common"
 # shellcheck source=scripts/dependencies_check
 source "${SCRIPT_DIR}/dependencies_check"
 
+export NO_PRERUN_QCOW2="${NO_PRERUN_QCOW2:-1}"
+export USE_QCOW2="${USE_QCOW2:-1}"
+export BASE_QCOW2_SIZE=${BASE_QCOW2_SIZE:-12G}
+source "${SCRIPT_DIR}/qcow2_handling"
+if [ "${USE_QCOW2}" = "1" ]; then
+	NO_PRERUN_QCOW2=1
+else
+	NO_PRERUN_QCOW2=0
+fi
+
+export NO_PRERUN_QCOW2="${NO_PRERUN_QCOW2:-1}"
+
 dependencies_check "${BASE_DIR}/depends"
 
 #check username is valid
@@ -250,22 +303,98 @@ for EXPORT_DIR in ${EXPORT_DIRS}; do
 	# shellcheck source=/dev/null
 	source "${EXPORT_DIR}/EXPORT_IMAGE"
 	EXPORT_ROOTFS_DIR=${WORK_DIR}/$(basename "${EXPORT_DIR}")/rootfs
-	run_stage
+	if [ "${USE_QCOW2}" = "1" ]; then
+		USE_QCOW2=0
+		EXPORT_NAME="${IMG_FILENAME}${IMG_SUFFIX}"
+		echo "------------------------------------------------------------------------"
+		echo "Running export stage for ${EXPORT_NAME}"
+		rm -f "${WORK_DIR}/export-image/${EXPORT_NAME}.img" || true
+		rm -f "${WORK_DIR}/export-image/${EXPORT_NAME}.qcow2" || true
+		rm -f "${WORK_DIR}/${EXPORT_NAME}.img" || true
+		rm -f "${WORK_DIR}/${EXPORT_NAME}.qcow2" || true
+		EXPORT_STAGE=$(basename "${EXPORT_DIR}")
+		for s in $STAGE_LIST; do
+			TMP_LIST=${TMP_LIST:+$TMP_LIST }$(basename "${s}")
+		done
+		FIRST_STAGE=${TMP_LIST%% *}
+		FIRST_IMAGE="image-${FIRST_STAGE}.qcow2"
+
+		pushd "${WORK_DIR}" > /dev/null
+		echo "Creating new base "${EXPORT_NAME}.qcow2" from ${FIRST_IMAGE}"
+		cp "./${FIRST_IMAGE}" "${EXPORT_NAME}.qcow2"
+
+		ARR=($TMP_LIST)
+		# rebase stage images to new export base
+		for CURR_STAGE in "${ARR[@]}"; do
+			if [ "${CURR_STAGE}" = "${FIRST_STAGE}" ]; then
+				PREV_IMG="${EXPORT_NAME}"
+				continue
+			fi
+		echo "Rebasing image-${CURR_STAGE}.qcow2 onto ${PREV_IMG}.qcow2"
+			qemu-img rebase -f qcow2 -u -b ${PREV_IMG}.qcow2 image-${CURR_STAGE}.qcow2
+			if [ "${CURR_STAGE}" = "${EXPORT_STAGE}" ]; then
+				break
+			fi
+			PREV_IMG="image-${CURR_STAGE}"
+		done
+
+		# commit current export stage into base export image
+		echo "Committing image-${EXPORT_STAGE}.qcow2 to ${EXPORT_NAME}.qcow2"
+		qemu-img commit -f qcow2 -p -b "${EXPORT_NAME}.qcow2" image-${EXPORT_STAGE}.qcow2
+
+		# rebase stage images back to original first stage for easy re-run
+		for CURR_STAGE in "${ARR[@]}"; do
+			if [ "${CURR_STAGE}" = "${FIRST_STAGE}" ]; then
+				PREV_IMG="image-${CURR_STAGE}"
+				continue
+			fi
+		echo "Rebasing back image-${CURR_STAGE}.qcow2 onto ${PREV_IMG}.qcow2"
+			qemu-img rebase -f qcow2 -u -b ${PREV_IMG}.qcow2 image-${CURR_STAGE}.qcow2
+			if [ "${CURR_STAGE}" = "${EXPORT_STAGE}" ]; then
+				break
+			fi
+			PREV_IMG="image-${CURR_STAGE}"
+		done
+		popd > /dev/null
+
+		mkdir -p "${WORK_DIR}/export-image/rootfs"
+		mv "${WORK_DIR}/${EXPORT_NAME}.qcow2" "${WORK_DIR}/export-image/"
+		echo "Mounting image ${WORK_DIR}/export-image/${EXPORT_NAME}.qcow2 to rootfs ${WORK_DIR}/export-image/rootfs"
+		mount_qimage "${WORK_DIR}/export-image/${EXPORT_NAME}.qcow2" "${WORK_DIR}/export-image/rootfs"
+
+		CLEAN=0
+		run_stage
+		CLEAN=1
+		USE_QCOW2=1
+
+	else
+		run_stage
+	fi 
 	if [ "${USE_QEMU}" != "1" ]; then
 		if [ -e "${EXPORT_DIR}/EXPORT_NOOBS" ]; then
 			# shellcheck source=/dev/null
 			source "${EXPORT_DIR}/EXPORT_NOOBS"
 			STAGE_DIR="${BASE_DIR}/export-noobs"
-			run_stage
+			if [ "${USE_QCOW2}" = "1" ]; then
+				USE_QCOW2=0
+				run_stage
+				USE_QCOW2=1
+			else
+				run_stage
+			fi
 		fi
 	fi
 done
 
-if [ -x ${BASE_DIR}/postrun.sh ]; then
+if [ -x postrun.sh ]; then
 	log "Begin postrun.sh"
 	cd "${BASE_DIR}"
 	./postrun.sh
 	log "End postrun.sh"
+fi
+
+if [ "${USE_QCOW2}" = "1" ]; then
+	unload_qimage
 fi
 
 log "End ${BASE_DIR}"
