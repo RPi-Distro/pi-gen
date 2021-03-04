@@ -1,1 +1,4 @@
 # iptables-persistent
+ntp
+ntpdate
+ntpstats
