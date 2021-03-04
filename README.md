@@ -45,10 +45,10 @@ Web Browser UI - use any laptop, tablet, desktop - even a smartphone.**
  5. Jamulus will automatically launch at startup.
  6. If JAMULUS_SERVER is set, Jamulus will automatically connect (and shutdown after JAMULUS_TIMEOUT minutes)
  7. Double-click on a jamming app desktop icon: 
-   -- "Jamulus Start" to launch Jamulus. 
-   -- "SonoBus Start" to launch SonoBus. 
-   -- "JamTaba Start" to launch JamTaba. 
-   -- "QJackTrip Start" to launch QJackTrip. 
+    * "Jamulus Start" to launch Jamulus.  
+    * "SonoBus Start" to launch SonoBus.  
+    * "JamTaba Start" to launch JamTaba.  
+    * "QJackTrip Start" to launch QJackTrip.  
  8. Double-click on desktop icon "Off Switch" to shut down Raspberry Pi.
 
 ---
