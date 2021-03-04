@@ -1,7 +1,8 @@
 # Jambox
 
 **A Raspberry Pi micro-SD card image for online jamming.  
-Runs Jamulus (client-server), SonoBus (peer-to-peer), JamTaba (NINJAM) or QJackTrip on Raspberry Pi, with web browser UI.  
+Runs Jamulus (client-server), SonoBus (peer-to-peer), JamTaba (NINJAM) or QJackTrip on Raspberry Pi.  
+Web Browser UI - use any laptop, tablet, desktop - even a smartphone.   
 Pre-built image file is available under "Releases" to download and burn with balenaEtcher**
 
  * Makes it easy for non-technical musicians to play together online, with a high-quality, high-performnace, low-cost system.
@@ -34,7 +35,7 @@ Pre-built image file is available under "Releases" to download and burn with bal
  3. (optional) customize settings after burning by editing/adding files in /boot/payload directory.
  4. Works with most USB audio interfaces and audio HAT cards.  Some interfaces may require changes to settings files.
  5. Connect wires: ethernet, USB audio interface, mic/instrument, headphones and power.
- 6. Headphone amp may be needed (i.e. Rockville RHPA-4) if audio interface can't drive your headphones loud enough.
+ 6. Headphone amp may be needed (i.e. Rockville RHPA-4) depending on your audio interface.
 
 ### Easy to Use
  1. Power on, boot up.
@@ -42,7 +43,7 @@ Pre-built image file is available under "Releases" to download and burn with bal
  3. From any web browser on same local network (i.e. laptop or tablet), access Raspberry Pi UI via urlrelay.com/go
  4. Web browser will show Raspberry Pi desktop.
  5. Jamulus will automatically launch at startup.
- 6. If JAMULUS_SERVER was configured, Jamulus will automatically connect (and shutdown after JAMULUS_TIMEOUT minutes)
+ 6. If JAMULUS_SERVER is set, Jamulus will automatically connect (and shutdown after JAMULUS_TIMEOUT minutes)
  7. Double-click on a jamming app desktop icon:
    -- "Jamulus Start" to launch Jamulus.
    -- "SonoBus Start" to launch SonoBus.
@@ -121,10 +122,8 @@ Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-
  5. websockify (companion to noVNC) bridges websocket to VNC server
  6. Raspberry Pi runs VNC server presenting linux desktop
 
-
-**Original pi-gen README.md follows:**
-
 ---
+**Original pi-gen README.md follows:**
 # pi-gen
 
 Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
