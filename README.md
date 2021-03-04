@@ -19,32 +19,15 @@ Pre-built image file is available under "Releases" to download and burn with bal
  * SonoBus for peer-to-peer jamming.
  * JamTaba for long-distance jamming using NINJAM servers.
  * QJackTrip for multi-machine network jamming.
- * Jamming apps are installed from packages in jambox-project apt repo, can be updated via desktop "Update Apps" button.
- * HDMI monitor can be used if desired (use HDMI connector next to USB-C port, and reboot).
+ * Jamming apps can be updated via desktop "Update Apps" button.
+ * HDMI monitor can be used if desired.
 
 ---
 <img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_desktop_13-shadow.png" width="871" />
----
+
 <img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_screen1-shadow.png" width="871" />
+
 ---
-
-### Simple hardware platform
-Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-wired.
-
-**Suggested Bill of Materials**, prices in USD as of Mar 2, 2021:
-
-|Price (USD)|Item|URL|
-|-----:|--|--|
-|$ 35|Raspberry Pi 4-2GB|https://vilros.com/products/raspberry-pi-4-2gb-ram|
-|14|Vilros Self Cooling Heavy Duty Case|https://vilros.com/products/vilros-raspberry-pi-4-compatible-self-cooling-heavy-duty-aluminum-case|
-|11|Vilros Power Supply with Switch|https://vilros.com/products/vilros-usb-c-5v-3a-power-supply-with-switch-designed-for-pi-4|
-|7|SanDisk Ultra 16GB micro SD card|https://www.amazon.com/gp/product/9966573445|
-|45|Behringer UM2 USB Audio Interface|https://www.americanmusical.com/behringer-u-phoria-um2-usb-audio-interface/p/BEH-UM2|
-|15|Pyle PDMIC78 Microphone|https://www.amazon.com/gp/product/B005BSOVRY|
-|8|XLR Microphone Cable, 10 ft|https://www.amazon.com/gp/product/B07D5CPNWY|
-|22|Microphone Stand w/clip|https://www.amazon.com/gp/product/B00OZ9C9LK|
-|?|Over-ear Headphones|Use decent ones (likely $40 or more)|
-
 ### Easy to Setup
  1. Download image file from "Releases" (https://github.com/kdoren/jambox-pi-gen/releases).  No need to unzip.
  2. Flash micro SD card using balenaEtcher.
@@ -67,6 +50,25 @@ Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-
    -- "QJackTrip Start" to launch QJackTrip.
  8. Double-click on desktop icon "Off Switch" to shut down Raspberry Pi.
 
+---
+### Simple hardware platform
+Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-wired.
+
+**Suggested Bill of Materials**, prices in USD as of Mar 2, 2021:
+
+|Price (USD)|Item|URL|
+|-----:|--|--|
+|$ 35|Raspberry Pi 4-2GB|https://vilros.com/products/raspberry-pi-4-2gb-ram|
+|14|Vilros Self Cooling Heavy Duty Case|https://vilros.com/products/vilros-raspberry-pi-4-compatible-self-cooling-heavy-duty-aluminum-case|
+|11|Vilros Power Supply with Switch|https://vilros.com/products/vilros-usb-c-5v-3a-power-supply-with-switch-designed-for-pi-4|
+|7|SanDisk Ultra 16GB micro SD card|https://www.amazon.com/gp/product/9966573445|
+|45|Behringer UM2 USB Audio Interface|https://www.americanmusical.com/behringer-u-phoria-um2-usb-audio-interface/p/BEH-UM2|
+|15|Pyle PDMIC78 Microphone|https://www.amazon.com/gp/product/B005BSOVRY|
+|8|XLR Microphone Cable, 10 ft|https://www.amazon.com/gp/product/B07D5CPNWY|
+|22|Microphone Stand w/clip|https://www.amazon.com/gp/product/B00OZ9C9LK|
+|?|Over-ear Headphones|Use decent ones (likely $40 or more)|
+
+---
 ### Customizable Settings
 * Can be set immediately after flashing, on micro SD card "boot" partition /payload directory
 * Or set later after booting
@@ -121,6 +123,8 @@ Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-
 
 
 **Original pi-gen README.md follows:**
+
+---
 # pi-gen
 
 Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
