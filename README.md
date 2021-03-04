@@ -1,4 +1,4 @@
-# jambox-pi-gen
+# Jambox
 
 **A Raspberry Pi micro-SD card image for online jamming.  
 Runs Jamulus (client-server), SonoBus (peer-to-peer), JamTaba (NINJAM) or QJackTrip on Raspberry Pi, with web browser UI.  
@@ -22,11 +22,11 @@ Pre-built image file is available under "Releases" to download and burn with bal
  * Jamming apps are installed from packages in jambox-project apt repo, can be updated via desktop "Update Apps" button.
  * HDMI monitor can be used if desired (use HDMI connector next to USB-C port, and reboot).
 
+---
 <img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_desktop_13-shadow.png" width="871" />
-**Jambox Desktop**
-
+---
 <img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_screen1-shadow.png" width="871" />
-**Jamulus running on Jambox**
+---
 
 ### Simple hardware platform
 Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-wired.
@@ -97,6 +97,7 @@ Raspberry Pi + Audio Interface.  Can be attached to a board with velcro and pre-
 | NPERIODS | *Jack Audio number of periods per buffer* | 8 [pi4] or 4 [pi3]| /etc/jackdrc.conf |
 | **Jamulus Server Settings** | *see file* || /home/pi/.config/Jamulus/jamulus-server.conf |
 
+---
 ### Web Browser access to Raspberry Pi Desktop - How it works
 **urlrelay + noVNC = easy web browser access to Raspberry Pi desktop, without installing anything or knowing its IP address**
 
