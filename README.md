@@ -1,9 +1,9 @@
 # Jambox
 
 **A Raspberry Pi micro-SD card image for online jamming.  
+Pre-built image file is available under "Releases" to download and burn with balenaEtcher  
 Runs Jamulus (client-server), SonoBus (peer-to-peer), JamTaba (NINJAM) or QJackTrip on Raspberry Pi.  
-Web Browser UI - use any laptop, tablet, desktop - even a smartphone.   
-Pre-built image file is available under "Releases" to download and burn with balenaEtcher**
+Web Browser UI - use any laptop, tablet, desktop - even a smartphone.**
 
  * Makes it easy for non-technical musicians to play together online, with a high-quality, high-performnace, low-cost system.
  * Suitable for a musical group or school to supply a pre-configured jamming appliance.
@@ -13,7 +13,7 @@ Pre-built image file is available under "Releases" to download and burn with bal
  * **easy UI access via web browser** on same local network.
  * Wired ethernet connection required (wireless adds jitter).
  * Audio interface required (USB or HAT card).
- * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time (i.e. 2 hours).
+ * Can be easily configured to automatically connect to a Jamulus server on startup, then shutdown after a time.
  * Real-time kernel (on Pi4, low-latency kernel on Pi3) and default settings for low delay.
  * Jamulus requires a Jamulus server, in same area for lowest delay. Use a public server, or host your own. 
  * Can run as a Jamulus Server.
@@ -44,11 +44,11 @@ Pre-built image file is available under "Releases" to download and burn with bal
  4. Web browser will show Raspberry Pi desktop.
  5. Jamulus will automatically launch at startup.
  6. If JAMULUS_SERVER is set, Jamulus will automatically connect (and shutdown after JAMULUS_TIMEOUT minutes)
- 7. Double-click on a jamming app desktop icon:
-   -- "Jamulus Start" to launch Jamulus.
-   -- "SonoBus Start" to launch SonoBus.
-   -- "JamTaba Start" to launch JamTaba.
-   -- "QJackTrip Start" to launch QJackTrip.
+ 7. Double-click on a jamming app desktop icon: 
+   -- "Jamulus Start" to launch Jamulus. 
+   -- "SonoBus Start" to launch SonoBus. 
+   -- "JamTaba Start" to launch JamTaba. 
+   -- "QJackTrip Start" to launch QJackTrip. 
  8. Double-click on desktop icon "Off Switch" to shut down Raspberry Pi.
 
 ---
