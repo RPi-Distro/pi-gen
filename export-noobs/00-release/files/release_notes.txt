@@ -1,4 +1,17 @@
 UNRELEASED:
+  * Thonny upgraded to version 3.3.5
+  * SD Card Copier made compatible with NVMe devices; now built against GTK+3 toolkit
+  * Composite video options removed from Raspberry Pi 4 in Raspberry Pi Configuration
+  * Boot order options in raspi-config adjusted for more flexibility
+  * Recommended Software now built against GTK+3 toolkit
+  * Fix for crash in volume plugin when using keyboard could push value out of range
+  * Fix for focus changing between windows in file manager when using keyboard to navigate directory view
+  * Fix for Raspberry Pi 400 keyboard country not being read correctly in startup wizard
+  * Armenian and Japanese translations added to several packages
+  * Automatically load aes-neon-bs on ARM64 to speed up OpenSSL
+  * Raspberry Pi firmware fcf8d2f7639ad8d0330db9c8db9b71bd33eaaa28
+  * Linux kernel 5.10.17
+2021-01-11:
   * Chromium version 86.0.4240.197 included
   * Screen reader support enabled in Chromium
   * Adobe have end-of-lifed Flash Player, so it has been removed
