@@ -24,9 +24,9 @@ Web Browser UI - use any laptop, tablet, desktop - even a smartphone.**
  * HDMI monitor can be used if desired.
 
 ---
-<img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_desktop_13-shadow.png" width="871" />
-
 <img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_screen1-shadow.png" width="871" />
+
+<img src="https://jambox-project.s3-us-west-2.amazonaws.com/resources/jambox_sonobus1-shadow.png" width="871" />
 
 ---
 ### Easy to Setup
