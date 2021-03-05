@@ -44,7 +44,7 @@ Web Browser UI - use any laptop, tablet, desktop - even a smartphone.**
  2. Raspberry Pi will acquire a local IP address and register its access URL with urlrelay.com
  3. From any web browser on same local network (i.e. laptop or tablet), access Raspberry Pi UI via urlrelay.com/go
  4. Web browser will show Raspberry Pi desktop.
- 5. Jamulus will automatically launch at startup.
+ 5. Jamulus or SonoBus can be set to automatically launch at startup.
  6. If JAMULUS_SERVER is set, Jamulus will automatically connect (and shutdown after JAMULUS_TIMEOUT minutes)
  7. Double-click on a jamming app desktop icon: 
     * "Jamulus Start" to launch Jamulus.  
