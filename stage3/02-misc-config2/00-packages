@@ -1,4 +1,4 @@
 # iptables-persistent
 ntp
 ntpdate
-ntpstats
+ntpstat
