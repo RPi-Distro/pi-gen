@@ -1,5 +1,5 @@
 # Jambox: Jamming with Raspberry Pi
-Release 1.3.0b1
+Release 1.3.0b2
 
 ## Changes from v1.2.0:
 - **New Jamming Apps: JamTaba, QJackTrip**
