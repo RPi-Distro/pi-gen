@@ -4,8 +4,5 @@
 # install 5.10 realtime kernel
 linux-image-5.10.16-rt30-v7l+
 
-# install 5.10 realtime kernel with USB patch set
-linux-image-5.10.16-rt30-v7l-usb+
-
 # install 5.10 low latency kernel
 linux-image-5.10.17-ll-v7l+
