@@ -3,6 +3,7 @@ chromium-browser rpi-chromium-mods
 raspberrypi-ui-mods xserver-xorg-video-fbturbo-
 gnome-themes-standard-data gtk2-engines
 libasound2 libasound2-dev libasound2-plugins
+gir1.2-gst-plugins-base-0.10
 network-manager-gnome blueman vim lxplug-volume
 retext
 iotop
