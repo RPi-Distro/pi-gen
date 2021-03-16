@@ -10,7 +10,7 @@ Features are the ones provided by [mpd](https://github.com/MusicPlayerDaemon/MPD
 - LEDs are used as a vumeter
 
 ## how to create the image
-- First clone this repository with `git clone git@github.com:pirateradiohack/PiRadio.git`.  
+- First clone this repository with `git clone https://github.com/pirateradiohack/PiRadio.git`.  
 - Configure your wifi settings: copy the file called `config.example` to `config` and edit this last one. You will see where to enter your wifi name, password and country. All 3 settings are necessary. Your changes to this file will be kept in future updates.
 - Optionally configure your radio stations: If you create a file called `my-playlist.m3u` with your own list of internet radio streams, it will be installed.
 If not, then you can always add stations in the web interface.
@@ -25,16 +25,7 @@ For a user friendly experience you can try [etcher](https://www.balena.io/etcher
 
 ### manually
 On linux (and it probably works on Mac too) an example to get it on the SD card would be:  
-- First clone this repository with `git clone --recursive git@github.com:pirateradiohack/PiRadio.git`.  
-(Please note the `--recursive` here is important to get all the code, there is a submodule present.)
-- Configure your radio stations: Pimoroni maintains a set of default internet radio streams. You can see them in the file `example.m3u`. This file will be installed if nothing else is supplied. If you create a file called `my-playlist.m3u` with your own list of internet radio streams, this file will be used instead.
-- Configure your wifi settings: copy the file called `config.example` to `config` and edit this last one. You will see where to enter your wifi name, password and country. All 3 settings are necessary.
-- Then build the image. (You can see the whole guide on the official RaspberryPi repo: https://github.com/RPi-Distro/pi-gen). I find it easier to use docker as there is nothing else to install, just run one command from this directory: `./build-docker.sh`. That's it. On my computer it takes between 15 and 30 minutes. And at the end you should see something like: `Done! Your image(s) should be in deploy/`  
-If you don't see that, it's probably that the build failed. It happens to me sometimes for no reason and I find that just re-launching the build with `CONTINUE=1 ./build-docker.sh` finishes the build correctly.
-
-## burn the image to a SD card
-You should find the newly created image in the `deploy` directory. On linux an example to get it on the SD card would be:  
-`sudo dd bs=4M if=deploy/2019-05-23-Piradio-lite.img of=/dev/mmcblk0 conv=fsync`  
+`sudo dd bs=4M if=deploy/2019-05-23-Piradio-lite.img of=/dev/mmcblk0 conv=fsync`
 (of course you need to replace `/dev/mmcblk0` with the path to your own SD card. You can find it with the command `lsblk -f`)
 Those settings are recommended by the RaspberryPi instructions.
 
