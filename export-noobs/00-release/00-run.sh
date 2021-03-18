@@ -20,7 +20,7 @@ BOOT_SIZE="$(( BOOT_SIZE / 1024 / 1024 + 1))"
 ROOT_SIZE="$(( ROOT_SIZE / 1024 / 1024 + 1))"
 
 BOOT_NOM="256"
-ROOT_NOM="$(( ROOT_SIZE + 400 ))"
+ROOT_NOM="$(echo "$ROOT_SIZE" | awk '{printf "%.0f", (($1 + 400) * 1.2) + 0.5 }')"
 
 mv "${NOOBS_DIR}/OS.png" "${NOOBS_DIR}/${NOOBS_NAME// /_}.png"
 
@@ -37,7 +37,12 @@ sed "${NOOBS_DIR}/os.json" -i -e "s|UNRELEASED|${IMG_DATE}|"
 sed "${NOOBS_DIR}/os.json" -i -e "s|NOOBS_NAME|${NOOBS_NAME}|"
 sed "${NOOBS_DIR}/os.json" -i -e "s|NOOBS_DESCRIPTION|${NOOBS_DESCRIPTION}|"
 sed "${NOOBS_DIR}/os.json" -i -e "s|RELEASE|${RELEASE}|"
+sed "${NOOBS_DIR}/os.json" -i -e "s|KERNEL|$(cat "${STAGE_WORK_DIR}/kernel_version")|"
 
 sed "${NOOBS_DIR}/release_notes.txt" -i -e "s|UNRELEASED|${IMG_DATE}|"
 
-cp -a "${NOOBS_DIR}" "${DEPLOY_DIR}/"
+if [ "${USE_QCOW2}" = "1" ]; then
+	mv "${NOOBS_DIR}" "${DEPLOY_DIR}/"
+else
+	cp -a "${NOOBS_DIR}" "${DEPLOY_DIR}/"
+fi

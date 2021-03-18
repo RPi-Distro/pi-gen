@@ -1,6 +1,61 @@
 UNRELEASED:
-  *
-2020-05-27
+  * Chromium version 86.0.4240.197 included
+  * Screen reader support enabled in Chromium
+  * Adobe have end-of-lifed Flash Player, so it has been removed
+  * Scratch 2 required Flash, so it has been removed
+  * Added Epson printer drivers
+  * Added timeout to hide messages from USB device monitor after 5 seconds
+  * Bug fix - PulseAudio output was in mono
+  * Bug fix - brief audio interruptions at start of playback in VLC
+  * Bug fix - old ALSA output settings being used instead of PulseAudio settings by some applications
+  * Bug fix - crash in PulseAudio volume controller when used on multichannel devices
+  * Bug fix - battery monitor failing to load on x86 platforms
+  * Bug fix - setting of password in startup wizard failed if language was changed
+  * Bug fix - Chromium video playback lockup on small number of devices
+  * Bug fix - Chromium Google Maps 3D view artefacts
+  * Slovak, Italian and Norwegian translations updated
+  * Added Epson printer drivers
+  * Raspberry Pi firmware 70f1581eec2c036b7e9309f1af41c651fb125447
+  * Linux kernel 5.4.83
+2020-12-02:
+  * PulseAudio now included and running by default
+  * Bluealsa Bluetooth interface removed - Bluetooth audio is now handled by PulseAudio
+  * LXPanel volume control plugin replaced with PulseAudio version
+  * Version 84.0.4147.105 of Chromium web browser included
+  * Version 3.3.0 of Thonny included
+  * Version 32.0.0.453 of Flash player included - note that this will be the final release of Flash, as it is end-of-lifed at the end of 2020
+  * CUPS printer system included, along with system-config-printer CUPS GUI and HP printer drivers
+  * raspi-config menu structure rearranged to match Raspberry Pi Configuration tabs
+  * Control for GPIO-connected fans added to raspi-config and Raspberry Pi Configuration
+  * Control for power / activity LED on Pi 400 and Pi Zero added to raspi-config and Raspberry Pi Configuration
+  * Improved screen reader voice prompts in several applications
+  * Added ctrl-alt-space shortcut to install Orca screen reader at any point
+  * Low voltage warnings added to battery monitor plugin
+  * Magnifier plugin zoom can now be changed with scroll wheel when pointer is over icon
+  * Change to notification popups - now will only close when clicked on directly, not by clicking anywhere
+  * Bookshelf now made compatible with translated versions of books and magazines, and will offer translated versions where available, based on system language setting
+  * Bug fix - crash in CPU temperature plugin when throttling detection fails
+  * Bug fix - if Orca is running, shutdown commands and shutdown dialog will force kill it to prevent it locking up the reboot or shutdown process
+  * Various additional language translations added
+  * Various minor bug fixes and UI tweaks
+  * Raspberry Pi firmware b324aea801f669b6ab18441f970e74a5a7346684
+  * Linux kernel 5.4.79
+2020-08-20:
+  * raspi-config - added selection of boot device order
+  * raspi-config - added selection of boot EEPROM version
+  * SD Card Copier - copy is now immediately aborted if drives are connected or disconnected while copying
+  * Version 32.0.0.414 of Flash player included
+  * User feedback survey removed from first run of Chromium
+  * Recommended Software - now allows multiple install and reinstall operations without having to close between each one
+  * Bug fix - misleading file browser from panel menu icon selection dialog - icons must now be in icon theme rather than arbitrary files
+  * Bug fix - items in main menu not being translated
+  * Bug fix - raspi-config not detecting audio devices in non-English locales
+  * Bug fix - Bookshelf claiming no disk space in non-English locales
+  * Bug fix - failed installation of both 32 and 64 bit versions of packages by Recommended Software on 64-bit images
+  * Italian translations added (thanks to Emanuele Goldoni and the Italian translation team)
+  * Raspberry Pi firmware ef72c17bcaaeb89093d87bcf71f3228e1b5e1fff
+  * Linux kernel 5.4.51
+2020-05-27:
   * Added Bookshelf application
   * Added Raspberry Pi Diagnostics application
   * Added magnifier plugin to taskbar - needs magnifier application installed from Recommended Software to enable
