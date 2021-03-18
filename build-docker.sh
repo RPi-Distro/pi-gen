@@ -1,4 +1,5 @@
 #!/bin/bash -eu
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 BUILD_OPTS="$*"
@@ -73,10 +74,23 @@ fi
 # Modify original build-options to allow config file to be mounted in the docker container
 BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 
-${DOCKER} build -t pi-gen "${DIR}"
+# Check the arch of the machine we're running on. If it's 64-bit, use a 32-bit base image instead
+case "$(uname -m)" in
+  x86_64|aarch64)
+    BASE_IMAGE=i386/debian:buster
+    ;;
+  *)
+    BASE_IMAGE=debian:buster
+    ;;
+esac
+${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
+
 if [ "${CONTAINER_EXISTS}" != "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}_cont' SIGINT SIGTERM
 	time ${DOCKER} run --rm --privileged \
+		--cap-add=ALL \
+		-v /dev:/dev \
+		-v /lib/modules:/lib/modules \
 		--volume "${CONFIG_FILE}":/config:ro \
 		-e "GIT_HASH=${GIT_HASH}" \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
@@ -88,6 +102,9 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 else
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
 	time ${DOCKER} run --name "${CONTAINER_NAME}" --privileged \
+		--cap-add=ALL \
+		-v /dev:/dev \
+		-v /lib/modules:/lib/modules \
 		--volume "${CONFIG_FILE}":/config:ro \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
@@ -96,6 +113,7 @@ else
 	rsync -av work/*/build.log deploy/" &
 	wait "$!"
 fi
+
 echo "copying results from deploy/"
 ${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy .
 ls -lah deploy
