@@ -4,7 +4,7 @@ mkdir -p ${BASE_DIR}/.ccache/
 mkdir -p "${ROOTFS_DIR}/ccache"
 mount --bind ${BASE_DIR}/.ccache  "${ROOTFS_DIR}/ccache"
 on_chroot << EOF
-    # git clone --branch 2.3 https://github.com/mixxxdj/mixxx.git /code/
+    git clone --branch 2.3 https://github.com/mixxxdj/mixxx.git /code/
     cd /code/
     export CCACHE_DIR=/ccache
     ccache -M 5G
@@ -17,7 +17,6 @@ on_chroot << EOF
     export QT_QPA_PLATFORM="offscreen"
     mkdir -p build && cd build
     cmake -DKEYFINDER=OFF -DCMAKE_INSTALL_PREFIX=/usr/ -S /code -B /code/build
-    echo building....
     cmake --build /code/build --target install
     ccache -s
     cpack -G DEB
