@@ -1,0 +1,97 @@
+*filter
+:ufw-user-input - [0:0]
+:ufw-user-output - [0:0]
+:ufw-user-forward - [0:0]
+:ufw-before-logging-input - [0:0]
+:ufw-before-logging-output - [0:0]
+:ufw-before-logging-forward - [0:0]
+:ufw-user-logging-input - [0:0]
+:ufw-user-logging-output - [0:0]
+:ufw-user-logging-forward - [0:0]
+:ufw-after-logging-input - [0:0]
+:ufw-after-logging-output - [0:0]
+:ufw-after-logging-forward - [0:0]
+:ufw-logging-deny - [0:0]
+:ufw-logging-allow - [0:0]
+:ufw-user-limit - [0:0]
+:ufw-user-limit-accept - [0:0]
+### RULES ###
+
+### tuple ### allow tcp 22 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 22 -j ACCEPT
+
+### tuple ### allow tcp 443 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 443 -j ACCEPT
+
+### tuple ### allow tcp 80 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 80 -j ACCEPT
+
+### tuple ### allow tcp 2501 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 2501 -j ACCEPT
+
+### tuple ### allow any 5201 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 5201 -j ACCEPT
+-A ufw-user-input -p udp --dport 5201 -j ACCEPT
+
+### tuple ### allow any 5001 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 5001 -j ACCEPT
+-A ufw-user-input -p udp --dport 5001 -j ACCEPT
+
+### tuple ### allow any 5202 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 5202 -j ACCEPT
+-A ufw-user-input -p udp --dport 5202 -j ACCEPT
+
+### tuple ### allow any 26999 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 26999 -j ACCEPT
+-A ufw-user-input -p udp --dport 26999 -j ACCEPT
+
+### tuple ### allow any 18301 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 18301 -j ACCEPT
+-A ufw-user-input -p udp --dport 18301 -j ACCEPT
+
+### tuple ### allow any 5353 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 5353 -j ACCEPT
+-A ufw-user-input -p udp --dport 5353 -j ACCEPT
+
+### tuple ### allow any 3501 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 3501 -j ACCEPT
+-A ufw-user-input -p udp --dport 3501 -j ACCEPT
+
+### tuple ### allow any 8083 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 8083 -j ACCEPT
+-A ufw-user-input -p udp --dport 8083 -j ACCEPT
+
+### tuple ### allow any 2002 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 2002 -j ACCEPT
+-A ufw-user-input -p udp --dport 2002 -j ACCEPT
+
+### tuple ### allow any 9090 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 9090 -j ACCEPT
+-A ufw-user-input -p udp --dport 9090 -j ACCEPT
+
+### tuple ### allow any 8080 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 8080 -j ACCEPT
+-A ufw-user-input -p udp --dport 8080 -j ACCEPT
+
+### tuple ### allow any any 0.0.0.0/0 any 0.0.0.0/0 in_usb0
+-A ufw-user-input -i usb0 -j ACCEPT
+
+### tuple ### allow udp 69 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p udp --dport 69 -j ACCEPT
+
+### END RULES ###
+
+### LOGGING ###
+-A ufw-after-logging-input -j LOG --log-prefix "[UFW BLOCK] " -m limit --limit 3/min --limit-burst 10
+-A ufw-after-logging-forward -j LOG --log-prefix "[UFW BLOCK] " -m limit --limit 3/min --limit-burst 10
+-I ufw-logging-deny -m conntrack --ctstate INVALID -j RETURN -m limit --limit 3/min --limit-burst 10
+-A ufw-logging-deny -j LOG --log-prefix "[UFW BLOCK] " -m limit --limit 3/min --limit-burst 10
+-A ufw-logging-allow -j LOG --log-prefix "[UFW ALLOW] " -m limit --limit 3/min --limit-burst 10
+### END LOGGING ###
+
+### RATE LIMITING ###
+-A ufw-user-limit -m limit --limit 3/minute -j LOG --log-prefix "[UFW LIMIT BLOCK] "
+-A ufw-user-limit -j REJECT
+-A ufw-user-limit-accept -j ACCEPT
+### END RATE LIMITING ###
+COMMIT

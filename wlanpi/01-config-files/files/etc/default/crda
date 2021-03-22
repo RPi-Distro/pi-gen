@@ -1,0 +1,11 @@
+# Set REGDOMAIN to a ISO/IEC 3166-1 alpha2 country code so that iw(8) may set
+# the initial regulatory domain setting for IEEE 802.11 devices which operate
+# on this system.
+#
+# Governments assert the right to regulate usage of radio spectrum within
+# their respective territories so make sure you select a ISO/IEC 3166-1 alpha2
+# country code suitable for your location or you may infringe on local
+# legislature. See `/usr/share/zoneinfo/zone.tab' for a table of timezone
+# descriptions containing ISO/IEC 3166-1 alpha2 country codes.
+
+REGDOMAIN=US

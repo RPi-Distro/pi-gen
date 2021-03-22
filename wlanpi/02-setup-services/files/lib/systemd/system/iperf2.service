@@ -1,0 +1,7 @@
+[Unit]
+Description=iperf2 server
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/iperf -s -i1

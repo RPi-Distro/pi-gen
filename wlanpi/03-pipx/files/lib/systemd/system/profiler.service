@@ -1,0 +1,7 @@
+[Unit]
+Description=profiler service
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/opt/wlanpi/pipx/bin/profiler

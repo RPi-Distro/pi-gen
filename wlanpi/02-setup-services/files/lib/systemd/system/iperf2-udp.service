@@ -1,0 +1,7 @@
+[Unit]
+Description=iperf2 UDP server
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/iperf -s -i1 -u -p 5002

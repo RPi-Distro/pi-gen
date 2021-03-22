@@ -1,0 +1,9 @@
+[Unit]
+Description=Networkinfo daemon responsible for collecting network details of the WLAN Pi
+
+[Service]
+ExecStart=/usr/share/fpms/BakeBit/Software/Python/scripts/networkinfo/networkinfo.sh
+WorkingDirectory=/usr/share/fpms/BakeBit/Software/Python/scripts/networkinfo
+
+[Install]
+WantedBy=multi-user.target

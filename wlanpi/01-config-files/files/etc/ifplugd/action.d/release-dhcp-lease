@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+case "$2" in
+up)
+	;;
+down)
+	/sbin/dhclient -r $1
+	;;
+esac
+

@@ -98,3 +98,19 @@ update_issue() {
 	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }
 export -f update_issue
+
+# Usage: copy_overlay <FILE_TO_COPY> [-o <owner>] [-g <group>] [-m <perms>]
+copy_overlay() {
+	OVERLAY_DIR="files"
+	INSTALL_FILE="$1"
+
+	# Remove file from arguments
+	shift
+
+	# Make sure path to dest file exists
+	mkdir -p $(dirname "${INSTALL_FILE}")
+
+	# Copy overlay with defined permissions
+	install $@ "${OVERLAY_DIR}${INSTALL_FILE}" "${ROOTFS_DIR}${INSTALL_FILE}"
+}
+export -f copy_overlay

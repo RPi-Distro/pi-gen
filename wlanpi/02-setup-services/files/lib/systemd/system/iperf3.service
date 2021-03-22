@@ -1,0 +1,10 @@
+[Unit]
+Description=iperf3 server
+After=network-online.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/iperf3 -s -i1
+
+[Install]
+WantedBy=network-online.target
