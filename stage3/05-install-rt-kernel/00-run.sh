@@ -29,8 +29,7 @@ shift
 done
 }
 
-
-install_kernel_from_deb "5.10.16-rt30-v7l+" "pi4"
+install_kernel_from_deb "5.10.25-rt35-v7l+" "pi4"
 install_kernel_from_deb "5.10.17-ll-v7l+" "pi3" "pi2"
 
 # give audio group ability to raise priority with "nice"
