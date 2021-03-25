@@ -6,6 +6,9 @@ cp files/Desktop/*.desktop ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop/
 cp files/sonobus_start.sh ${ROOTFS_DIR}/usr/local/bin/
 chmod +x ${ROOTFS_DIR}/usr/local/bin/sonobus_start.sh
 
+mkdir -p ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/sonobus
+mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/sonobus
+
 # allow custom build version by defining:
 #   export CUSTOM_VERSION=<custom_version_name>
 # and placing customized files in directory:
@@ -24,11 +27,11 @@ if [[ -n "$CUSTOM_VERSION" ]]; then
     cp files/sonobus_start.conf ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/
   fi
   if [[ -f files/${CUSTOM_VERSION}/SonoBus.settings ]]; then
-    cp files/${CUSTOM_VERSION}/SonoBus.settings ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/
-    cp files/${CUSTOM_VERSION}/SonoBus.settings ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/
+    cp files/${CUSTOM_VERSION}/SonoBus.settings ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/sonobus/
+    cp files/${CUSTOM_VERSION}/SonoBus.settings ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/sonobus/
   else
-    cp files/SonoBus.settings ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/
-    cp files/SonoBus.settings ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/
+    cp files/SonoBus.settings ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/sonobus/
+    cp files/SonoBus.settings ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/sonobus/
   fi
   if [[ -f files/${CUSTOM_VERSION}/README.md ]]; then
     cp files/${CUSTOM_VERSION}/README.md ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/
@@ -43,7 +46,7 @@ if [[ -n "$CUSTOM_VERSION" ]]; then
 else
   cp files/sonobus_start.conf ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/
   cp files/sonobus_start.conf ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/
-  cp files/SonoBus.settings ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/
-  cp files/SonoBus.settings ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/
+  cp files/SonoBus.settings ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/sonobus/
+  cp files/SonoBus.settings ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/sonobus/
 fi
 

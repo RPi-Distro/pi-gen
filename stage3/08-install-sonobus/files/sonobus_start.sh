@@ -51,9 +51,9 @@ if [[ -f ~/.config/aj-snapshot/$AJ_SNAPSHOT ]]; then
 fi
 
 if [[ -n "$SONOBUS_PRIORITY" ]]; then
-  chrt --${SONOBUS_SCHED:-rr} ${SONOBUS_PRIORITY} SonoBus
+  chrt --${SONOBUS_SCHED:-rr} ${SONOBUS_PRIORITY} sonobus
 else
-  nice -n ${SONOBUS_NICEADJ:-0} SonoBus
+  nice -n ${SONOBUS_NICEADJ:-0} sonobus
 fi
 
 [[ -n "$AJ_SNAPSHOT_PID" ]] && kill $AJ_SNAPSHOT_PID   # kill aj-snapshot background process
