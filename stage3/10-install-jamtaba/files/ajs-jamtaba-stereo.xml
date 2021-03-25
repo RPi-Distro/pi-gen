@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aj-snapshot>
+<alsa>
+  <client name="System">
+    <port id="0" />
+    <port id="1" />
+  </client>
+  <client name="Midi Through">
+    <port id="0">
+      <connection client="RtMidi Input Client" port="0" />
+    </port>
+  </client>
+  <client name="jack_midi" />
+  <client name="RtMidi Input Client" />
+  <client name="Patchage" />
+</alsa>
+<jack>
+  <client name="system">
+    <port name="capture_1">
+      <connection port="JamTaba_INput:front-left" />
+      <connection port="PortAudio:in_0" />
+    </port>
+    <port name="capture_2">
+      <connection port="JamTaba_INput:front-right" />
+      <connection port="PortAudio:in_1" />
+    </port>
+    <port name="midi_capture_1" />
+  </client>
+  <client name="PortAudio">
+    <port name="out_0">
+      <connection port="system:playback_1" />
+    </port>
+    <port name="out_1">
+      <connection port="system:playback_2" />
+    </port>
+  </client>
+  <client name="JamTaba_OUTput">
+    <port name="front-left">
+      <connection port="system:playback_1" />
+    </port>
+    <port name="front-right">
+      <connection port="system:playback_2" />
+    </port>
+  </client>
+</jack>
+</aj-snapshot>
