@@ -12,9 +12,6 @@ on_chroot <<CHEOF
 		echo "retry 600;" >> /etc/dhcp/dhclient.conf
 	fi
 
-	# Enable dynamically assigned DNS nameservers
-	ln -sf /etc/resolvconf/run/resolv.conf /etc/resolv.conf
-
 	# Enable UFW on first boot script
 	# sed -i '/start)/a ufw enable' /usr/lib/armbian/armbian-firstrun
 

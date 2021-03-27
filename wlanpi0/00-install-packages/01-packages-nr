@@ -12,3 +12,4 @@ nftables
 iperf 
 avahi-daemon 
 ifplugd
+resolvconf
