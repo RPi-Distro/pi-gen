@@ -108,7 +108,7 @@ copy_overlay() {
 	shift
 
 	# Make sure path to dest file exists
-	mkdir -p $(dirname "${INSTALL_FILE}")
+	mkdir -p $(dirname "${ROOTFS_DIR}${INSTALL_FILE}")
 
 	# Copy overlay with defined permissions
 	install $@ "${OVERLAY_DIR}${INSTALL_FILE}" "${ROOTFS_DIR}${INSTALL_FILE}"
