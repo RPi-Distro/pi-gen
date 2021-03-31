@@ -1,4 +1,6 @@
 UNRELEASED:
+  * Install gpiozero in lite images
+2021-03-04:
   * Thonny upgraded to version 3.3.5
   * SD Card Copier made compatible with NVMe devices; now built against GTK+3 toolkit
   * Composite video options removed from Raspberry Pi 4 in Raspberry Pi Configuration
