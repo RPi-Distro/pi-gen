@@ -13,3 +13,4 @@ iperf
 avahi-daemon 
 ifplugd
 resolvconf
+iperf3
