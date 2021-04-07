@@ -3,6 +3,9 @@ name: Build Debian Packages
 on:
   schedule:
     - cron: '37 5 * * *'
+  push:
+    branches:
+      - port-customizations
 
 jobs:
   build:
