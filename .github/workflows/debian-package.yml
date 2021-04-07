@@ -26,7 +26,7 @@ jobs:
 
       - name: Build image
         run: |
-          last_commit_date=$(date -d "$(git log -1 --format=%cd)" +%s)
+          last_commit_date=$(git log -1 --format=%cd --date=unix)
           last_day=$(date -d '-1 day' +%s)
 
           if [ "${last_commit_date}" -lt "${last_day}"]; then
