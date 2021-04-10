@@ -66,7 +66,7 @@ dtparam=audio=off
 # Enable DRM VC4 V3D driver on top of the dispmanx display stack
 # Required for pi400, disabled for pi4 to minimize overhead
 # It allows change of display resolution from control panel,
-# but introduces overhead and bugs.
+# and supports 2 HDMI monitors, but introduces overhead and bugs.
 # Change filter [pi400] above to [pi4] to enable on pi4
 dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
@@ -75,7 +75,7 @@ max_framebuffers=2
 #dtoverlay=vc4-fkms-v3d
 
 # wireless interfaces add overhead that can impact jitter & xruns even if they are not in use.
-# leave wifi diabled, use it for jamming (too much delay & jitter)
+# It's best to leave wifi diabled, can't use it for jamming (too much delay & jitter)
 dtoverlay=disable-wifi
 
 # leave bluetooth disabled unless you have a specific need for it.
