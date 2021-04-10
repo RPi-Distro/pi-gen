@@ -4,8 +4,6 @@ cp files/autostart ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/lxsession/LXDE-
 cp files/jackdrc ${ROOTFS_DIR}/etc/jackdrc
 chmod +x ${ROOTFS_DIR}/etc/jackdrc
 
-cp files/jackdrc.conf ${ROOTFS_DIR}/etc/jackdrc.conf
-
 mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop
 cp files/Desktop/*.desktop ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop/
 
@@ -42,6 +40,13 @@ if [[ -n "$CUSTOM_VERSION" ]]; then
     cp files/Jamulus.ini ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/Jamulus/
     cp files/Jamulus.ini ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/Jamulus/
   fi
+  if [[ -f files/${CUSTOM_VERSION}/jackdrc.conf ]]; then
+    cp files/${CUSTOM_VERSION}/jackdrc.conf ${ROOTFS_DIR}/boot/payload/etc/
+    cp files/${CUSTOM_VERSION}/jackdrc.conf ${ROOTFS_DIR}/etc/
+  else
+    cp files/jackdrc.conf ${ROOTFS_DIR}/boot/payload/etc/
+    cp files/jackdrc.conf ${ROOTFS_DIR}/etc/
+  fi
   if [[ -f files/${CUSTOM_VERSION}/README.md ]]; then 
     cp files/${CUSTOM_VERSION}/README.md ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/
   fi
@@ -57,6 +62,8 @@ else
   cp files/jamulus_start.conf ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/Jamulus/
   cp files/Jamulus.ini ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/Jamulus/
   cp files/Jamulus.ini ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/Jamulus/
+  cp files/jackdrc.conf ${ROOTFS_DIR}/boot/payload/etc/
+  cp files/jackdrc.conf ${ROOTFS_DIR}/etc/
 fi
 
 # install jamulus-server files (binary is same as jamulus client)
