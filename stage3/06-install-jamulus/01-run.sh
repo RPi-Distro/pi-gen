@@ -16,11 +16,14 @@ chmod +x ${ROOTFS_DIR}/usr/local/bin/jambox_start.sh
 mkdir -p ${ROOTFS_DIR}/boot/payload/home/${FIRST_USER_NAME}/.config/Jamulus
 mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/Jamulus
 
+mkdir -p ${ROOTFS_DIR}/boot/payload/etc
+
 # allow custom build version by defining:
 #   export CUSTOM_VERSION=<custom_version_name>
 # and placing customized files in directory:
 #   stage3/06-install-jamulus/files/${CUSTOM_VERSION}/
 # customized files may include:
+#   jackdrc.conf
 #   jamulus_start.conf
 #   Jamulus.ini
 #   README.md
