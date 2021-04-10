@@ -30,7 +30,7 @@ done
 }
 
 install_kernel_from_deb "5.10.25-rt35-v7l+" "pi4"
-install_kernel_from_deb "5.10.17-ll-v7l+" "pi3" "pi2"
+install_kernel_from_deb "5.10.25-ll-v7l+" "pi3" "pi2"
 
 # give audio group ability to raise priority with "nice"
 sed -i "s/.*audio.*nice.*$/@audio   -  nice      -19/g" ${ROOTFS_DIR}/etc/security/limits.d/audio.conf
