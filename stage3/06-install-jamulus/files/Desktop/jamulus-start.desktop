@@ -2,7 +2,7 @@
 Name=Jamulus Start
 Type=Application
 Comment=Online Jamming
-Categories=Application
+Categories=AudioVideo;Audio
 Path=/home/pi
 Exec=/usr/local/bin/jamulus_start.sh
 Terminal=true
