@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Jamulus Server Start
+Type=Application
+Comment=Online Jamming
+Categories=AudioVideo;Audio
+Path=/home/pi
+Exec=sudo systemctl start jamulus-server
+Terminal=true
+Icon=/usr/share/icons/jamulus-server.png
+GenericName=Jamulus Server
