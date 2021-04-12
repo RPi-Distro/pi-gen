@@ -1,0 +1,38 @@
+[Unit]
+Description=Jamulus-Server2
+After=network.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/pi/.Xauthority
+#
+# Environment settings for PORT and NUMCHANNELS here are intended as defaults which can be
+# overridden by the EnvironmentFile /home/pi/.config/Jamulus/jamulus-server2.conf
+# Make Enviroment changes in that file, not here.
+#
+# Jambox runs jamulus-server with the GUI.
+# Most common jamulus-server settings are available in the GUI and should be set there.
+#
+Environment=NUMCHANNELS=10
+Environment=PORT=221234
+EnvironmentFile=-/home/pi/.config/Jamulus/jamulus-server2.conf
+User=pi
+NoNewPrivileges=true
+ProtectSystem=true
+Nice=-19
+IOSchedulingClass=realtime
+IOSchedulingPriority=0
+
+#### See https://jamulus.io/wiki/Command-Line-Options ####
+
+ExecStart=/usr/bin/jamulus --server --multithreading --htmlstatus /tmp/jamulus-server2-status.html --fastupdate --port ${PORT} --numchannels ${NUMCHANNELS} --numchannels ${NUMCHANNELS} --inifile /home/pi/.config/Jamulus/Jamulusserver2.ini
+
+Restart=on-failure
+RestartSec=60
+StandardOutput=journal
+StandardError=inherit
+SyslogIdentifier=jamulus-server2
+
+[Install]
+WantedBy=multi-user.target

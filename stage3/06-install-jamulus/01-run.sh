@@ -76,7 +76,9 @@ fi
 
 # install jamulus-server files (binary is same as jamulus client)
 cp files/jamulus-server.service ${ROOTFS_DIR}/usr/lib/systemd/system/
+cp files/jamulus-server2.service ${ROOTFS_DIR}/usr/lib/systemd/system/
 cp files/jamulus-server.conf ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/Jamulus/
+cp files/jamulus-server2.conf ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/Jamulus/
 mkdir -p ${ROOTFS_DIR}/var/recordings
 
 on_chroot << EOF
