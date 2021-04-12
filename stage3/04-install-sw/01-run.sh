@@ -11,7 +11,7 @@ cp files/patchagerc ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/
 
 # make QjackCtl visible in start menu
 cp files/qjackctl.svg ${ROOTFS_DIR}/usr/share/icons/scalable/apps/
-sed -i 's/^NoDisplay/#NoDisplay/' ${ROOTFS_DIR}/usr/share/raspi-ui-overrides/applications/qjackctl.desktop
+#sed -i 's/^NoDisplay/#NoDisplay/' ${ROOTFS_DIR}/usr/share/raspi-ui-overrides/applications/qjackctl.desktop
 
 # make lxrandr (Display Settings) visible in start menu
 sed -i 's/^NoDisplay/#NoDisplay/' ${ROOTFS_DIR}/usr/share/raspi-ui-overrides/applications/lxrandr.desktop
