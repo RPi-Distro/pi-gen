@@ -4,8 +4,13 @@ cp files/autostart ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config/lxsession/LXDE-
 cp files/jackdrc ${ROOTFS_DIR}/etc/jackdrc
 chmod +x ${ROOTFS_DIR}/etc/jackdrc
 
+cp files/jamulus-server.png /${ROOTFS_DIR}/usr/share/icons/
+
 mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop
 cp files/Desktop/*.desktop ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop/
+cp files/Desktop/*.desktop ${ROOTFS_DIR}/usr/share/applications/
+
+echo "NoDisplay=true" >> ${ROOTFS_DIR}/usr/share/applications/jamulus.desktop
 
 cp files/jamulus_start.sh ${ROOTFS_DIR}/usr/local/bin/
 chmod +x ${ROOTFS_DIR}/usr/local/bin/jamulus_start.sh

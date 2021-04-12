@@ -2,6 +2,9 @@
 
 mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop
 cp files/Desktop/*.desktop ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop/
+cp files/Desktop/*.desktop ${ROOTFS_DIR}/usr/share/applications/
+
+echo "NoDisplay=true" >> ${ROOTFS_DIR}/usr/share/applications/sonobus.desktop
 
 cp files/sonobus_start.sh ${ROOTFS_DIR}/usr/local/bin/
 chmod +x ${ROOTFS_DIR}/usr/local/bin/sonobus_start.sh

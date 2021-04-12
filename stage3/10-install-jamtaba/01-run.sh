@@ -1,6 +1,9 @@
 # Install desktop shortcut.
 mkdir -p ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop
 cp files/Desktop/*.desktop ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Desktop/
+cp files/Desktop/*.desktop ${ROOTFS_DIR}/usr/share/applications/
+
+echo "NoDisplay=true" >> ${ROOTFS_DIR}/usr/share/applications/Jamtaba2.desktop
 
 cp files/jamtaba_start.sh ${ROOTFS_DIR}/usr/local/bin/
 chmod +x ${ROOTFS_DIR}/usr/local/bin/jamtaba_start.sh
