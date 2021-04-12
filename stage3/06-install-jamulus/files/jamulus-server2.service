@@ -15,7 +15,7 @@ Environment=XAUTHORITY=/home/pi/.Xauthority
 # Most common jamulus-server settings are available in the GUI and should be set there.
 #
 Environment=NUMCHANNELS=10
-Environment=PORT=221234
+Environment=PORT=21234
 EnvironmentFile=-/home/pi/.config/Jamulus/jamulus-server2.conf
 User=pi
 NoNewPrivileges=true
