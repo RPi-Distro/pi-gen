@@ -2,7 +2,7 @@
 
 # Jambox: Jamming with Raspberry Pi
 ## *Jazz Night School Edition*
-Release 1.3.0b3
+Release 1.3.0
 
 ## Changes from v1.2.0:
 - **New Jamming Apps: JamTaba, QJackTrip**
@@ -14,6 +14,7 @@ Release 1.3.0b3
     - Pi3 default setting has been changed to use PERIOD=128 (a bit more delay) to maximize audio quality.
 - **System language can be changed**
     - Pi menu -> Preferences -> Localization
+- **Jamulus Server startup simplifed and placed on Desktop**
 - **Bug fixes and performance improvements**
 
 If you don't want to read the "Quickstart" section, scroll to the bottom to read "Other Topics".
@@ -117,14 +118,14 @@ If you don't want to read the "Quickstart" section, scroll to the bottom to read
 ### Wrap Up
 - Jamulus and Sonobus each have a "Disconnect" button which will kill your connection.
 - Closing the program ("x" in upper right) will exit the startup script.
-- To shut the system down, double-click the "Power Off" button on the desktop, then wait 1 min for full shutdown.
+- To shut the system down, double-click the "Power Off" button on the desktop, wait 1 min for full shutdown, then power off the Raspberry Pi.
 - Try to avoid shutting down by simply killing power, it can corrupt the SD card and make system unbootable.
 ---
 ### Other Topics
 + **Getting & Giving Help**
     - Questions: Start a Discussion or answer a question on github: [https://github.com/kdoren/jambox-pi-gen/discussions](https://github.com/kdoren/jambox-pi-gen/discussions)
     - Bugs/Problems: Open an issue on GitHub: [https://github.com/kdoren/jambox-pi-gen/issues](https://github.com/kdoren/jambox-pi-gen/issues)
-+ **Updating Jammming Apps (Jamulus - SonoBus - Jacktrip - Jamtrip - JamTaba)**
++ **Updating Jammming Apps (Jamulus - SonoBus - QJacktrip - JamTaba)**
     - Jamming apps are installed as apt packages from repo.jambox-project.com, so can be easily updated.
     - To update, double-click the "Update Apps" desktop icon.
 + **Updating Jambox**
@@ -136,14 +137,14 @@ If you don't want to read the "Quickstart" section, scroll to the bottom to read
 + **Running a Jamulus Server**
     - Jamulus server can run on Raspberry Pi.  It's best run on its own separate box.  Running on the same Raspberry Pi that runs a Jamulus Client will increase jitter.
     - Your internet connection needs enough upstream bandwidth to send streams to multiple clients.  DSL and Cable internet typically don't have very much.
-    - You router will likely require port forwarding set up.
-    - Customizable Settings are described in file /home/pi/.config/Jamulus/jamulus-server.conf
-    - jamulus-server doesn't need the "jack" service, so stop it unless you're running a client:  "sudo systemctl stop jack"
-    - To start:  "sudo systemctl start jamulus-server"
+    - If you run a private server, your router will require port forwarding to be set up.
+    - Most customizable settings can be controlled from the Jamulus Server GUI, and are persistent.
+    - The NUMCHANNELS (default 10) and PORT (default 22124) settings are set in the file /home/pi/.config/Jamulus/jamulus-server.conf
+    - To start: Double-click the "Jamulus Server Start" desktop icon, or from command line:  "sudo systemctl start jamulus-server"
+    - To auto-start jamulus-server at boot time:  "sudo systemctl enable jamulus-server"
+    - If you want to enable session recording (experimental on Raspberry Pi), a USB3 SSD is recommended.
 + **Patch Changes**
     - Please see the topic "How do I change patches" on GitHub: [https://github.com/kdoren/jambox-pi-gen/discussions](https://github.com/kdoren/jambox-pi-gen/discussions)
-+ **JackTrip**
-    - There is another jamming app called JackTrip which is also installed.  It's a command-line app for routing audio over a network, and by itself is not easy to use.  Port forwarding setup on your router will likely be required.  JackTrip can be used with the JamTrip wrapper, which simplifies JackTrip operation and configuration.  You can report your experiences in the JackTrip discussion category on jambox-pi-gen GitHub.
 
 #### Questions?
 Contact: Kevin Doren   *kevin@doren.org*
