@@ -42,5 +42,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: wlanpi-image
-          path: work/**/export-image/*.img
+          path: deploy/*.zip
         
