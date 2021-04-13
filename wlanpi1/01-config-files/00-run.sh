@@ -28,10 +28,6 @@ on_chroot <<CHEOF
 
 	# Configure arp_ignore: network/arp
 	echo "net.ipv4.conf.eth0.arp_ignore = 1" >> /etc/sysctl.conf
-
-	# Add WLAN Pi custom deb repository
-	echo "deb [trusted=yes] https://apt.fury.io/dfinimundi /" > /etc/apt/sources.list.d/wlanpi.list
-	apt-get update
 CHEOF
 
 # Setup TFTP
