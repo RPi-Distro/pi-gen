@@ -60,3 +60,5 @@ copy_overlay /etc/default/crda -o root -g root -m 644
 # Copy state file: WLAN Pi Mode
 copy_overlay /etc/wlanpi-state -o root -g root -m 644
 
+# Enable kernel modules for USB OTG
+copy_overlay /etc/modules-load.d/rndis.conf -o root -g root -m 644
