@@ -12,9 +12,6 @@ on_chroot <<CHEOF
 		echo "retry 600;" >> /etc/dhcp/dhclient.conf
 	fi
 
-	# Enable UFW on first boot script
-	# sed -i '/start)/a ufw enable' /usr/lib/armbian/armbian-firstrun
-
 	# Setup: TFTP
 	usermod -a -G tftp wlanpi
 	chown -R tftp:tftp /srv/tftp

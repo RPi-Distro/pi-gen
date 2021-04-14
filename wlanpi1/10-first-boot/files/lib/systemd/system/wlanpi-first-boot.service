@@ -1,0 +1,8 @@
+[Unit]
+Description=Script executed only once at the first boot to finish image configurations
+
+[Service]
+ExecStart=/usr/bin/first-boot.sh
+
+[Install]
+WantedBy=multi-user.target
