@@ -31,6 +31,33 @@ do
 	esac
 done
 
+# Ability to pass in name=value pairs that will be available to config
+# as well as sent to the docker run command as environment variables.
+# This is so we can use command line arguments (or workflow secrets)
+# to build a ready-to-use image without mucking around with saved configs
+# and thus expose private information
+
+# Get rest of unparsed arguments
+shift $(expr $OPTIND - 1 )
+
+# Convert it into an array
+ADDL_ENV=()
+while test $# -gt 0; do
+  ADDL_ENV+=("$1")
+  shift
+done
+
+# Parse key=value pairs and export them
+while IFS='=' read -r name value; do
+  # Handle double-quoted ("...") values.
+  if [[ $value =~ ^\"(.*)\"$ ]]; then
+    # Using `read` without `-r` removes the \ from embedded \<char> sequences.
+    IFS= read value <<<"${BASH_REMATCH[1]}"
+  fi
+  # Export so config can access these values
+  export "${name}=${value}"
+done <<< $( IFS=$'\n'; echo "${ADDL_ENV[*]}" )
+
 # Ensure that the configuration file is an absolute path
 if test -x /usr/bin/realpath; then
 	CONFIG_FILE=$(realpath -s "$CONFIG_FILE" || realpath "$CONFIG_FILE")
@@ -85,12 +112,26 @@ case "$(uname -m)" in
 esac
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
 
-MOUNTS=""
+# Ability to add additional mounts so that custom stages can be mounted into the build process
+# without modifying the pi-gen repository
+DOCKER_ADDL_MOUNTS=""
 echo "Processing additional mounts..."
 for mount in ${ADDL_MOUNTS:=""}
 do
-	MOUNTS="${MOUNTS} --volume ${mount}"
+	DOCKER_ADDL_MOUNTS="${DOCKER_ADDL_MOUNTS} --volume ${mount}"
 done
+
+# Pass in any additional env that we were given to the docker run commands
+DOCKER_ADDL_ENV=
+while IFS='=' read -r name value; do
+  # Handle double-quoted ("...") values.
+  if [[ $value =~ ^\"(.*)\"$ ]]; then
+    # Using `read` without `-r` removes the \ from embedded \<char> sequences.
+    IFS= read value <<<"${BASH_REMATCH[1]}"
+  fi
+  # Append to a string in docker env format
+  DOCKER_ADDL_ENV="${DOCKER_ADDL_ENV} -e ${name}=${value}"
+done <<< $( IFS=$'\n'; echo "${ADDL_ENV[*]}" )
 
 if [ "${CONTAINER_EXISTS}" != "" ]; then
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}_cont' SIGINT SIGTERM
@@ -99,7 +140,8 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		-v /dev:/dev \
 		-v /lib/modules:/lib/modules \
 		--volume "${CONFIG_FILE}":/config:ro \
-		${MOUNTS} \
+		${DOCKER_ADDL_MOUNTS} \
+		${DOCKER_ADDL_ENV} \
 		-e "GIT_HASH=${GIT_HASH}" \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		pi-gen \
@@ -114,7 +156,8 @@ else
 		-v /dev:/dev \
 		-v /lib/modules:/lib/modules \
 		--volume "${CONFIG_FILE}":/config:ro \
-		${MOUNTS} \
+		${DOCKER_ADDL_MOUNTS} \
+		${DOCKER_ADDL_ENV} \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
