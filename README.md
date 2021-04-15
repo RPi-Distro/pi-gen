@@ -1,20 +1,21 @@
 # pi-gen
 
-_Tool used to create the raspberrypi.org Raspbian images_
+Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
 
 
 ## Dependencies
 
-pi-gen runs on Debian based operating systems. Currently it is only supported on
+pi-gen runs on Debian-based operating systems. Currently it is only supported on
 either Debian Buster or Ubuntu Xenial and is known to have issues building on
 earlier releases of these systems. On other Linux distributions it may be possible
 to use the Docker build described below.
 
-To install the required dependencies for pi-gen you should run:
+To install the required dependencies for `pi-gen` you should run:
 
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
-dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl bc
+dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl bc \
+qemu-utils kpartx
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -36,7 +37,30 @@ The following environment variables are supported:
    but you should use something else for a customized version.  Export files
    in stages may add suffixes to `IMG_NAME`.
 
- * `RELEASE` (Default: buster)
+* `USE_QCOW2`(Default: `1` )
+
+    Instead of using traditional way of building the rootfs of every stage in
+    single subdirectories and copying over the previous one to the next one,
+    qcow2 based virtual disks with backing images are used in every stage.
+    This speeds up the build process and reduces overall space consumption
+    significantly.
+
+    <u>Additional optional parameters regarding qcow2 build:</u>
+
+    * `BASE_QCOW2_SIZE` (Default: 12G)
+
+        Size of the virtual qcow2 disk.
+        Note: it will not actually use that much of space at once but defines the
+        maximum size of the virtual disk. If you change the build process by adding
+        a lot of bigger packages or additional build stages, it can be necessary to
+        increase the value because the virtual disk can run out of space like a normal
+        hard drive would.
+
+    **CAUTION:**  Although the qcow2 build mechanism will run fine inside Docker, it can happen
+    that the network block device is not disconnected correctly after the Docker process has
+    ended abnormally. In that case see [Disconnect an image if something went wrong](#Disconnect-an-image-if-something-went-wrong)
+
+* `RELEASE` (Default: buster)
 
    The release version to build images against. Valid values are jessie, stretch
    buster, bullseye, and testing.
@@ -68,7 +92,7 @@ The following environment variables are supported:
    system for each build stage, amounting to tens of gigabytes in the case of
    Raspbian.
 
-   **CAUTION**: If your working directory is on an NTFS partition you probably won't be able to build. Make sure this is a proper Linux filesystem.
+   **CAUTION**: If your working directory is on an NTFS partition you probably won't be able to build: make sure this is a proper Linux filesystem.
 
  * `DEPLOY_DIR`  (Default: `"$BASE_DIR/deploy"`)
 
@@ -124,11 +148,23 @@ The following environment variables are supported:
 
  * `WPA_ESSID`, `WPA_PASSWORD` and `WPA_COUNTRY` (Default: unset)
 
-   If these are set, they are use to configure `wpa_supplicant.conf`, so that the Raspberry Pi can automatically connect to a wifi network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wifi network will be configured. If set, `WPA_PASSWORD` must be between 8 and 63 characters.
+   If these are set, they are use to configure `wpa_supplicant.conf`, so that the Raspberry Pi can automatically connect to a wireless network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wireless network will be configured. If set, `WPA_PASSWORD` must be between 8 and 63 characters.
 
  * `ENABLE_SSH` (Default: `0`)
 
    Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you Raspberry Pi.
+
+  * `PUBKEY_SSH_FIRST_USER` (Default: unset)
+
+   Setting this to a value will make that value the contents of the FIRST_USER_NAME's ~/.ssh/authorized_keys.  Obviously the value should
+   therefore be a valid authorized_keys file.  Note that this does not
+   automatically enable SSH.
+
+  * `PUBKEY_ONLY_SSH` (Default: `0`)
+
+   * Setting to `1` will disable password authentication for SSH and enable
+   public key authentication.  Note that if SSH is not enabled this will take
+   effect when SSH becomes enabled.
 
  * `STAGE_LIST` (Default: `stage*`)
 
@@ -264,7 +300,7 @@ maintenance and allows for more easy customization.
 
  - **Stage 2** - lite system.  This stage produces the Raspbian-Lite image.  It
    installs some optimized memory functions, sets timezone and charmap
-   defaults, installs fake-hwclock and ntp, wifi and bluetooth support,
+   defaults, installs fake-hwclock and ntp, wireless LAN and bluetooth support,
    dphys-swapfile, and other basics for managing the hardware.  It also
    creates necessary groups and gives the pi user access to sudo and the
    standard console hardware permission groups.
@@ -327,6 +363,71 @@ follows:
  * Rebuild just the last stage using ```sudo CLEAN=1 ./build.sh```
  * Once you're happy with the image you can remove the SKIP_IMAGES files and
    export your image to test
+
+# Regarding Qcow2 image building
+
+### Get infos about the image in use
+
+If you issue the two commands shown in the example below in a second command shell while a build
+is running you can find out, which network block device is currently being used and which qcow2 image
+is bound to it.
+
+Example:
+
+```bash
+root@build-machine:~/$ lsblk | grep nbd
+nbd1      43:32   0    10G  0 disk 
+├─nbd1p1  43:33   0    10G  0 part 
+└─nbd1p1 253:0    0    10G  0 part
+
+root@build-machine:~/$ ps xa | grep qemu-nbd
+ 2392 pts/6    S+     0:00 grep --color=auto qemu-nbd
+31294 ?        Ssl    0:12 qemu-nbd --discard=unmap -c /dev/nbd1 image-stage4.qcow2
+```
+
+Here you can see, that the qcow2 image `image-stage4.qcow2` is currently connected to `/dev/nbd1` with
+the associated partition map `/dev/mapper/nbd1p1`. Don't worry that `lsblk` shows two entries. It is totally fine, because the device map is accessible via `/dev/mapper/nbd1p1` and also via `/dev/dm-0`. This is all part of the device mapper functionality of the kernel. See `dmsetup` for further information.
+
+### Mount a qcow2 image
+
+If you want to examine the content of a a single stage, you can simply mount the qcow2 image found in the `WORK_DIR` directory with the tool `./imagetool.sh`.
+
+See `./imagetool.sh -h` for further details on how to use it.
+
+### Disconnect an image if something went wrong
+
+It can happen, that your build stops in case of an error. Normally `./build.sh` should handle image disconnection appropriately, but in rare cases, especially during a Docker build, this may not work as expected. If that happens, starting a new build will fail and you may have to disconnect the image and/or device yourself.
+
+A typical message indicating that there are some orphaned device mapper entries is this:
+
+```
+Failed to set NBD socket 
+Disconnect client, due to: Unexpected end-of-file before all bytes were read
+```
+
+If that happens go through the following steps:
+
+1. First, check if the image is somehow mounted to a directory entry and umount it as you would any other block device, like i.e. a hard disk or USB stick.
+
+2. Second, to disconnect an image from `qemu-nbd`, the QEMU Disk Network Block Device Server, issue the following command (be sure to change the device name to the one actually used):
+
+   ```bash
+   sudo qemu-nbd -d /dev/nbd1
+   ```
+
+   Note: if you use Docker build, normally no active `qemu-nbd` process exists anymore as it will be terminated when the Docker container stops.
+
+3. To disconnect a device partition map from the network block device, execute:
+
+   ```bash
+   sudo kpartx -d /dev/nbd1
+   or
+   sudo ./imagetool.sh --cleanup
+   ```
+   
+   Note: The `imagetool.sh` command will cleanup any /dev/nbdX that is not connected to a running `qemu-nbd` daemon. Be careful if you use network block devices for other tasks utilizing NBDs on your build machine as well.
+
+Now you should be able to start a new build without running into troubles again. Most of the time, especially when using Docker build, you will only need no. 3 to get everything up and running again. 
 
 # Troubleshooting
 
