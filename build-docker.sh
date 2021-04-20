@@ -43,7 +43,7 @@ shift $(expr $OPTIND - 1 )
 # Convert it into an array
 ADDL_ENV=()
 while test $# -gt 0; do
-  ADDL_ENV+=("$1")
+  ADDL_ENV+=($1)
   shift
 done
 
@@ -122,7 +122,8 @@ do
 done
 
 # Pass in any additional env that we were given to the docker run commands
-DOCKER_ADDL_ENV=
+DOCKER_ADDL_ENV=""
+echo "Processing additional env..."
 while IFS='=' read -r name value; do
   # Handle double-quoted ("...") values.
   if [[ $value =~ ^\"(.*)\"$ ]]; then
