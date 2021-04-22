@@ -6,7 +6,7 @@ mount --bind ${BASE_DIR}/.ccache  "${ROOTFS_DIR}/ccache"
 on_chroot << EOF
     git clone --branch 2.3 https://github.com/mixxxdj/mixxx.git /code/
     cd /code/
-    echo 'Mixxx commit: $(git rev-parse HEAD)' > /opt/mixxx.version
+    git rev-parse HEAD > /opt/mixxx.version
     export CCACHE_DIR=/ccache
     ccache -M 5G
     export CCACHE_NOCOMPRESS="true"
