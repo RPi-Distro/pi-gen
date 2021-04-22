@@ -53,4 +53,8 @@ jobs:
       with:
         name: packages-info
         path: deploy/*.info
+    - uses: actions/upload-artifact@v2
+      with:
+        name: mixxx-version
+        path: deploy/*.version
     
