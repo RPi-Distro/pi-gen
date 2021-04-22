@@ -1,3 +1,3 @@
-xserver-xorg xinit xserver-xorg-video-fbdev xserver-xorg-video-fbturbo
+xserver-xorg xinit xserver-xorg-video-fbdev
 mousepad
 zenity lightdm
