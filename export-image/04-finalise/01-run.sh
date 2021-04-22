@@ -2,7 +2,7 @@
 
 IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.info"
-MIXXX_VERSION_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}-mixxx.info"
+MIXXX_VERSION_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}-mixxx.version"
 
 on_chroot << EOF
 if [ -x /etc/init.d/fake-hwclock ]; then
@@ -58,7 +58,6 @@ update_issue "$(basename "${EXPORT_DIR}")"
 install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/issue.txt"
 
 cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
-cp "$ROOTFS_DIR/opt/mixxx.version" "$MIXXX_VERSION_FILE"
 
 {
 	if [ -f "$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" ]; then
@@ -99,3 +98,4 @@ else
 fi
 
 cp "$INFO_FILE" "$DEPLOY_DIR"
+cp "$MIXXX_VERSION_FILE" "$DEPLOY_DIR"
