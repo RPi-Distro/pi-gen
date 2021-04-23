@@ -1,5 +1,8 @@
 # Jambox: Jamming with Raspberry Pi
-Release 1.3.0
+Release 1.3.1
+
+## Changes from v1.3.0:
+- disabled jack softmode to avoid bug, lowered default NPERIODS
 
 ## Changes from v1.2.0:
 - **New Jamming Apps: JamTaba, QJackTrip**
