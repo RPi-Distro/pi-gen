@@ -28,6 +28,7 @@ cp files/jambox_update.sh ${ROOTFS_DIR}/usr/local/bin/
 chmod +x ${ROOTFS_DIR}/usr/local/bin/jambox_update.sh
 
 # avoid:  warning: "libEGL warning: DRI2: failed to authenticate" 
+# see:  https://raspberrypi.stackexchange.com/questions/61078/qt-applications-dont-work-due-to-libegl
 on_chroot << EOF
         sudo ln -s /usr/lib/arm-linux-gnueabihf/libGLESv2.so.2 /usr/lib/arm-linux-gnueabihf/libGLESv2.so
 EOF
