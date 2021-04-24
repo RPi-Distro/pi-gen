@@ -30,11 +30,19 @@ done
 [[ -n "$MASTER_LEVEL" ]] && amixer set Master $MASTER_LEVEL
 [[ -n "$CAPTURE_LEVEL" ]] && amixer set Capture $CAPTURE_LEVEL
 
+# if JAMULUS_SERVER is defined, check for connectivity
 if [ -n "$JAMULUS_SERVER" ]; then
-	# check that Jamulus server is reachable (it must have ICMP ping allowed in its firewall or security group)
-  while ! ping -c1 ${JAMULUS_SERVER%:*}
+  if [[ "$JAMULUS_SERVER" == *:* ]]; then
+    JAMULUS_PORT="${JAMULUS_SERVER##*:}"
+  else
+    JAMULUS_PORT=22124
+  fi
+  # Check that Jamulus server is reachable by sending a Jamulus UDP ping, and checking if server replies
+  # This should work even if server is behind a NAT
+  while [[ "`echo -n -e '\x00\x00\xea\x03\x00\x05\x00\xab\x2e\x04\x00\x00\x48\x9b' | nc -u -w 2 ${JAMULUS_SERVER%:*} ${JAMULUS_PORT} 2>/dev/null | wc -c`" == "0" ]]
   do
-    sleep 5
+    echo "Jamulus Server ${JAMULUS_SERVER%:*} is not reachable on UDP port ${JAMULUS_PORT}, retrying in 15 seconds."
+    sleep 15
   done
 fi
 
