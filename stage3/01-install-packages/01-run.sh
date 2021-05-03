@@ -17,7 +17,8 @@ on_chroot << EOF
     export CTEST_OUTPUT_ON_FAILURE="1"
     export QT_QPA_PLATFORM="offscreen"
     mkdir -p build && cd build
-    cmake -DKEYFINDER=OFF -DCMAKE_INSTALL_PREFIX=/usr/ -S /code -B /code/build
+    cmake -DKEYFINDER=OFF -DFFMPEG=ON -DMAD=ON -DMODPLUG=ON -DWAVPACK=ON -DBULK=ON \
+        -DCMAKE_INSTALL_PREFIX=/usr/ -S /code -B /code/build
     cmake --build /code/build --target install
     ccache -s
     cpack -G DEB
