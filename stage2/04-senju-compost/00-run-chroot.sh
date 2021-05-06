@@ -12,7 +12,7 @@ echo "1a6492df162f66131c291260a2e9fd8e64288729 n" | sha1sum -c - || exit 1
 chmod +x n
 mkdir -p "${ROOTFS_DIR}/usr/local/bin"
 mv n "${ROOTFS_DIR}/usr/local/bin"
-N_NODE_MIRROR=https://unofficial-builds.nodejs.org/download/release/ N_PREFIX=${ROOTFS_DIR}/usr/local ${ROOTFS_DIR}/usr/local/bin lts
+N_NODE_MIRROR=https://unofficial-builds.nodejs.org/download/release/ N_PREFIX=${ROOTFS_DIR}/usr/local ${ROOTFS_DIR}/usr/local/bin/n lts
 
 # Install Node RED
 npm install -g --unsafe-perm node-red
