@@ -15,6 +15,7 @@ dphys-swapfile
 raspberrypi-sys-mods
 pi-bluetooth
 apt-listchanges
+apt-transport-https
 usb-modeswitch
 libpam-chksshpwd
 rpi-update
