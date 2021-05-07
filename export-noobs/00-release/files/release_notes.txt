@@ -1,5 +1,24 @@
 UNRELEASED:
+  * Chromium upgraded to version 88.0.4324.187
+  * NuScratch upgraded to version 20210507
+  * Node-RED upgraded to version 1.3.4
+  * pigpio upgraded to version 1.79
+  * Thonny upgraded to version 3.3.6
+  * Icelandic and Italian translations updated for several packages
+  * piclone: Remove hiding of application in other desktops
+  * agnostics: Remove hiding of app in other desktops
+  * rp-bookshelf:
+    - Remove hiding of app in other desktops
+    - GTK+3 version
+  * lxplug-bluetooth:
+    - Fix some memory leaks
+    - Add authorisation dialog required by some BT-LE pairings
+  * alsa-utils: Add custom init files for bcm2835 on Raspberry Pi to set volume correctly
+  * rp-prefapps: Remove hiding of app in other desktops
+  * OpenSSH and OpenSSL speed improvements
   * Install gpiozero in lite images
+  * Raspberry Pi firmware 518ee7c871aaa9aaa88116953d57e73787ee6e43
+  * Linux kernel 5.10.17
 2021-03-04:
   * Thonny upgraded to version 3.3.5
   * SD Card Copier made compatible with NVMe devices; now built against GTK+3 toolkit
