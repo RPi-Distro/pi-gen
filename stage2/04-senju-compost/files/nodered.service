@@ -1,0 +1,26 @@
+[Unit]
+Description=Node-RED graphical event wiring tool
+Wants=network.target
+Documentation=http://nodered.org/docs/hardware/raspberrypi.html
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi
+
+Environment="NODE_OPTIONS=--max_old_space_size=512"
+ExecStartPre=/bin/bash -c '/bin/journalctl -b -u systemd-timesyncd | /bin/grep -q "systemd-timesyncd.* Synchronized to time server"'
+
+ExecStart=/usr/bin/env node-red-pi $NODE_OPTIONS 
+
+# Use SIGINT to stop
+KillSignal=SIGINT
+# Auto restart on crash
+Restart=on-failure
+RestartSec=20
+# Tag things in the log
+SyslogIdentifier=Node-RED
+
+[Install]
+WantedBy=multi-user.target
