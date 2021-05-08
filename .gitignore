@@ -1,4 +1,5 @@
 deploy/*
+deploy*/*
 work/*
 config
 postrun.sh
