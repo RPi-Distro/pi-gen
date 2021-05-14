@@ -21,4 +21,4 @@ qt5-default qt5keychain-dev qtdeclarative5-dev libqt5opengl5-dev qtscript5-dev
 libqt5svg5-dev libqt5x11extras5-dev libvamp-sdk2v5 libhidapi-libusb0 libqt5sql5-sqlite libmodplug-dev
 libglu1-mesa-dev
 cmake ccache
-debhelper markdown docbook-to-man
+debhelper markdown docbook-to-man debchange
