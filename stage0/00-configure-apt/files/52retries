@@ -1,1 +1,1 @@
-APT::Acquire::Retries "3";
+APT::Acquire::Retries "5";
