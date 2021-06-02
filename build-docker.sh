@@ -76,7 +76,8 @@ BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 
 # Check the arch of the machine we're running on. If it's 64-bit, use a 32-bit base image instead
 case "$(uname -m)" in
-  x86_64|aarch64)
+  x86_64)
+#  x86_64|aarch64)
     BASE_IMAGE=i386/debian:buster
     ;;
   *)
