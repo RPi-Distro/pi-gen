@@ -8805,3 +8805,70 @@ Current image in use: /pi-gen/work/2021-06-02-rpi4b-1/image-stage5.qcow2 (MP: /p
 [20:47:29] Begin /pi-gen/stage5/00-install-extras
 [20:47:29] Begin /pi-gen/stage5/00-install-extras/00-packages
 Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  ca-certificates-java claws-mail-i18n firmware-microbit-micropython
+  fonts-dejavu-extra fonts-inconsolata fonts-lyx java-common
+  libatk-wrapper-java libatk-wrapper-java-jni libcompfaceg1 libetpan20
+  libice-dev libjs-jquery-ui liblockfile-bin liblockfile1 libopenjfx-java
+  libopenjfx-jni libpthread-stubs0-dev libqscintilla2-qt5-13
+  libqscintilla2-qt5-l10n libqt5charts5 libqt5designer5 libqt5help5
+  libqt5serialport5 libqt5test5 libsm-dev libx11-dev libxau-dev libxcb1-dev
+  libxdmcp-dev libxt-dev openjdk-11-jdk openjdk-11-jdk-headless openjdk-11-jre
+  openjdk-11-jre-headless openjfx openjfx-source pyflakes pyflakes3
+  python-matplotlib-data python-pyflakes python3-appdirs python3-cycler
+  python3-dateutil python3-decorator python3-gi-cairo python3-guizero
+  python3-ipykernel python3-ipython python3-ipython-genutils
+  python3-jupyter-client python3-jupyter-core python3-kiwisolver
+  python3-matplotlib python3-nudatus python3-pickleshare python3-pil.imagetk
+  python3-prompt-toolkit python3-pycodestyle python3-pyflakes
+  python3-pyparsing python3-pyqt5 python3-pyqt5.qsci python3-pyqt5.qtchart
+  python3-pyqt5.qtserialport python3-pyqt5.qtsvg python3-qtconsole
+  python3-semver python3-sense-emu python3-simplegeneric python3-sip
+  python3-tornado python3-traitlets python3-uflash python3-wcwidth python3-zmq
+  ttf-bitstream-vera x11proto-core-dev x11proto-dev xfonts-100dpi
+  xfonts-encodings xfonts-utils xorg-sgml-doctools xtrans-dev
+Suggested packages:
+  claws-mail-doc claws-mail-tools firmware-microbit-micropython-doc picocom
+  | screen default-jre libice-doc libjs-jquery-ui-docs libqscintilla2-doc
+  libsm-doc libx11-doc libxcb-doc libxt-doc mu-editor-doc openjdk-11-demo
+  openjdk-11-source visualvm fonts-ipafont-gothic fonts-ipafont-mincho
+  fonts-wqy-microhei | fonts-wqy-zenhei fonts-indic python-cycler-doc
+  python3-guizero-doc dvipng inkscape ipython3 python-matplotlib-doc
+  python3-cairocffi python3-gobject python3-nose python3-pyqt4 python3-scipy
+  texlive-extra-utils texlive-latex-extra ttf-staypuft python-pil-doc
+  python3-pil.imagetk-dbg python-pyparsing-doc python3-pyqt5-dbg
+  python3-pycurl python-tornado-doc python3-twisted
+  firmware-microbit-micropython-dl python3-uflash-doc
+The following NEW packages will be installed:
+  bluej ca-certificates-java claws-mail claws-mail-i18n code-the-classics
+  firmware-microbit-micropython fonts-dejavu-extra fonts-inconsolata fonts-lyx
+  greenfoot-unbundled java-common libatk-wrapper-java libatk-wrapper-java-jni
+  libcompfaceg1 libetpan20 libice-dev libjs-jquery-ui liblockfile-bin
+  liblockfile1 libopenjfx-java libopenjfx-jni libpthread-stubs0-dev
+  libqscintilla2-qt5-13 libqscintilla2-qt5-l10n libqt5charts5 libqt5designer5
+  libqt5help5 libqt5serialport5 libqt5test5 libsm-dev libx11-dev libxau-dev
+  libxcb1-dev libxdmcp-dev libxt-dev mu-editor openjdk-11-jdk
+  openjdk-11-jdk-headless openjdk-11-jre openjdk-11-jre-headless openjfx
+  openjfx-source pyflakes pyflakes3 python-games python-matplotlib-data
+  python-pyflakes python-sense-emu python-sense-emu-doc python3-appdirs
+  python3-cycler python3-dateutil python3-decorator python3-gi-cairo
+  python3-guizero python3-ipykernel python3-ipython python3-ipython-genutils
+  python3-jupyter-client python3-jupyter-core python3-kiwisolver
+  python3-matplotlib python3-nudatus python3-pickleshare python3-pil.imagetk
+  python3-prompt-toolkit python3-pycodestyle python3-pyflakes
+  python3-pyparsing python3-pyqt5 python3-pyqt5.qsci python3-pyqt5.qtchart
+  python3-pyqt5.qtserialport python3-pyqt5.qtsvg python3-qtconsole
+  python3-semver python3-sense-emu python3-simplegeneric python3-sip
+  python3-tornado python3-traitlets python3-uflash python3-wcwidth python3-zmq
+  realvnc-vnc-viewer sense-emu-tools smartsim ttf-bitstream-vera
+  x11proto-core-dev x11proto-dev xfonts-100dpi xfonts-encodings xfonts-utils
+  xorg-sgml-doctools xtrans-dev
+0 upgraded, 95 newly installed, 0 to remove and 0 not upgraded.
+Need to get 380 MB of archives.
+After this operation, 689 MB of additional disk space will be used.
+Get:1 http://archive.raspberrypi.org/debian buster/main arm64 code-the-classics all 0.3 [34.2 MB]
+Get:2 http://deb.debian.org/debian buster/main arm64 liblockfile-bin arm64 1.14-1.1 [18.9 kB]
+Get:3 http://deb.debian.org/debian buster/main arm64 java-common all 0.71 [14.4 kB]
+Get:4 http://deb.debian.org/debian-security buster/updates/main arm64 openjdk-11-jre-headless arm64 11.0.11+9-1~deb10u1 [36.3 MB]
