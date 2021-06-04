@@ -103,3 +103,10 @@ if [ "${DEPLOY_ZIP}" == "1" ]; then
 else
 	mv "$IMG_FILE" "$DEPLOY_DIR/"
 fi
+
+if [ "${DEPLOY_FILES}" == "1" ]; then
+	echo "Copying rootfs"
+	mkdir "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}/"
+	cp -a "${ROOT_DIR}" "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}/rootfs"
+	cp -a "${BOOT_DIR}" "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}/bootfs"
+fi

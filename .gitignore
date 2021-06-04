@@ -7,7 +7,5 @@ SKIP_IMAGES
 .pc
 *-pc
 apt-cacher-ng/
-build-docker.out
-build.out
-build-docker.log
-build-docker.log
+*.out
+*.log
