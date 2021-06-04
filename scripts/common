@@ -44,7 +44,8 @@ unmount(){
 	else
 		DIR=$1
 	fi
-
+	
+	sync
 	while mount | grep -q "$DIR"; do
 		local LOCS
 		LOCS=$(mount | grep "$DIR" | cut -f 3 -d ' ' | sort -r)

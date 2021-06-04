@@ -1,4 +1,4 @@
-deploy/*
+deploy*/*
 work/*
 config
 postrun.sh
@@ -7,3 +7,5 @@ SKIP_IMAGES
 .pc
 *-pc
 apt-cacher-ng/
+build-docker.out
+build.out

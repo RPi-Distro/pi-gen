@@ -42,5 +42,6 @@ if [ -z "$restore" ]; then
   fi
 fi
 
+sync
 umount /tmp/1
 umount /tmp/2
