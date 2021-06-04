@@ -9,3 +9,4 @@ SKIP_IMAGES
 apt-cacher-ng/
 build-docker.out
 build.out
+build-docker.log
