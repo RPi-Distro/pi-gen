@@ -46,6 +46,36 @@ EOF
 			fi
 			log "End ${SUB_STAGE_DIR}/${i}-packages"
 		fi
+		if [ -f "${i}-packages-nr-${USE_DESKTOP}" ]; then
+			log "Begin ${SUB_STAGE_DIR}/${i}-packages-nr-${USE_DESKTOP}"
+			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages-nr-${USE_DESKTOP}")"
+			if [ -n "$PACKAGES" ]; then
+				on_chroot << EOF
+apt-get -o APT::Acquire::Retries=5 install --no-install-recommends -y $PACKAGES
+EOF
+				if [ "${USE_QCOW2}" = "1" ]; then
+					on_chroot << EOF
+apt-get clean
+EOF
+				fi
+			fi
+			log "End ${SUB_STAGE_DIR}/${i}-packages-nr-${USE_DESKTOP}"
+		fi
+		if [ -f "${i}-packages-${USE_DESKTOP}" ]; then
+			log "Begin ${SUB_STAGE_DIR}/${i}-packages-${USE_DESKTOP}"
+			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages-${USE_DESKTOP}")"
+			if [ -n "$PACKAGES" ]; then
+				on_chroot << EOF
+apt-get -o APT::Acquire::Retries=5 install -y $PACKAGES
+EOF
+				if [ "${USE_QCOW2}" = "1" ]; then
+					on_chroot << EOF
+apt-get clean
+EOF
+				fi
+			fi
+			log "End ${SUB_STAGE_DIR}/${i}-packages-${USE_DESKTOP}"
+		fi
 		if [ -d "${i}-patches" ]; then
 			log "Begin ${SUB_STAGE_DIR}/${i}-patches"
 			pushd "${STAGE_WORK_DIR}" > /dev/null
