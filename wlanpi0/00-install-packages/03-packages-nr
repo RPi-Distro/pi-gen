@@ -13,3 +13,4 @@ libcurl4-openssl-dev
 libssl-dev 
 libjpeg-dev
 git
+jq
