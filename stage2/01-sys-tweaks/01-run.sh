@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+sed -i -e 's%\(console=.\+ \)\?\(console=.\+ \)\?root=ROOTDEV rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait%\1\2root=ROOTDEV rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait quiet init=/usr/lib/raspi-config/init_resize.sh%' "${ROOTFS_DIR}/boot/cmdline.txt"
+
+
 install -m 755 files/resize2fs_once	"${ROOTFS_DIR}/etc/init.d/"
 
 install -d				"${ROOTFS_DIR}/etc/systemd/system/rc-local.service.d"
