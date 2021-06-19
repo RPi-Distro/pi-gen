@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 BOOKSHELF_URL="https://magpi.raspberrypi.org/bookshelf.xml"
-GUIDE_URL="$(curl -s "$BOOKSHELF_URL" | awk -F '[<>]' "/<TITLE>Raspberry Pi Beginner's Guide v3<\/TITLE>/ {f=1; next} f==1 && /PDF/ {print \$3; exit}")"
+GUIDE_URL="$(curl -s "$BOOKSHELF_URL" | awk -F '[<>]' "/<TITLE>Raspberry Pi Beginner's Guide 4th Edition<\/TITLE>/ {f=1; next} f==1 && /PDF/ {print \$3; exit}")"
 OUTPUT="$(basename "$GUIDE_URL" | cut -f1 -d'?')"
 
 if [ ! -f "files/$OUTPUT" ]; then
