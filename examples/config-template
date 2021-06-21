@@ -1,0 +1,156 @@
+# The name of the image to build with the current stage directories. Setting IMG_NAME=Raspbian is logical
+# for an unmodified RPi-Distro/pi-gen build, but you should use something else for a customized version.
+# Export files in stages may add suffixes to IMG_NAME.
+#
+# Default: unset
+IMG_NAME=
+
+# Instead of using traditional way of building the rootfs of every stage in single subdirectories
+# and copying over the previous one to the next one, qcow2 based virtual disks with backing images are used
+# in every stage. This speeds up the build process and reduces overall space consumption significantly.
+#
+# CAUTION:
+# Although the qcow2 build mechanism will run fine inside Docker, it can happen that
+# the network block device is not disconnected correctly after the Docker process has ended abnormally.
+# In that case see https://github.com/RPi-Distro/pi-gen#Disconnect-an-image-if-something-went-wrong
+#
+# Default: 1
+#USE_QCOW2=
+
+# Size of the virtual qcow2 disk. Note: it will not actually use that much of space at once but defines
+# the maximum size of the virtual disk. If you change the build process by adding a lot of bigger packages
+# or additional build stages, it can be necessary to increase the value because the virtual disk can run
+# out of space like a normal hard drive would.
+#
+# Default: 12G
+#BASE_QCOW2_SIZE=
+
+# The release version to build images against. Valid values are jessie, stretch, buster, bullseye and testing.
+#
+# Default: buster
+#RELEASE=
+
+# If you require the use of an apt proxy, set it here. This proxy setting will not be included in the image,
+# making it safe to use an apt-cacher or similar package for development.
+#
+# If you have Docker installed, you can set up a local apt caching proxy to like speed up subsequent builds
+# like this:
+#
+# ```
+# docker-compose up -d
+# echo 'APT_PROXY=http://172.17.0.1:3142' >> config
+# ```
+#
+# Default: unset
+#APT_PROXY=
+
+# CAUTION: Currently, changing this value will probably break build.sh
+#
+# Top-level directory for pi-gen. Contains stage directories, build scripts, and by default both work
+# and deployment directories.
+#
+# Default: location of build.sh
+#BASE_DIR=
+
+# Directory in which pi-gen builds the target system. This value can be changed if you have a suitably large,
+# fast storage location for stages to be built and cached. Note, WORK_DIR stores a complete copy of the target
+# system for each build stage, amounting to tens of gigabytes in the case of Raspbian.
+#
+# CAUTION: If your working directory is on an NTFS partition you probably won't be able to build: make sure
+# this is a proper Linux filesystem.
+#
+# Default: "$BASE_DIR/work"
+#WORK_DIR=
+
+# Output directory for target system images and NOOBS bundles.
+#
+# Default: "$BASE_DIR/deploy"
+#DEPLOY_DIR=
+
+# Setting to 0 will deploy the actual image (.img) instead of a zipped image (.zip).
+#
+# Default: 1
+#DEPLOY_ZIP=
+
+# Setting to "1" enables the QEMU mode - creating an image that can be mounted via QEMU for an emulated
+# environment. These images include "-qemu" in the image file name.
+#
+# Default: "0"
+#USE_QEMU=
+
+# Default system locale.
+#
+# Default: "en_GB.UTF-8"
+#LOCALE_DEFAULT=
+
+# Setting the hostname to the specified value.
+#
+# Default: "raspberrypi"
+#TARGET_HOSTNAME=
+
+# Default keyboard keymap.
+#
+# To get the current value from a running system, run `debconf-show keyboard-configuration` and look
+# at the keyboard-configuration/xkb-keymap value.
+#
+# Default: "gb"
+#KEYBOARD_KEYMAP=
+
+# Default keyboard layout.
+#
+# To get the current value from a running system, run `debconf-show keyboard-configuration` and look
+# at the keyboard-configuration/variant value.
+#
+# Default: "English (UK)"
+#KEYBOARD_LAYOUT=
+
+# Default system timezone.
+#
+# To get the current value from a running system, look in /etc/timezone.
+#
+# Default: "Europe/London"
+#TIMEZONE_DEFAULT=
+
+# Username for the first user.
+#
+# Default: "pi"
+#FIRST_USER_NAME=
+
+# Password for the first user.
+#
+# Default: "raspberry"
+#FIRST_USER_PASS=
+
+# If these are set, they are used to configure wpa_supplicant.conf, so that the Raspberry Pi can automatically
+# connect to a wireless network on first boot. If WPA_ESSID is set and WPA_PASSWORD is unset an unprotected
+# wireless network will be configured. If set, WPA_PASSWORD must be between 8 and 63 characters.
+#
+# Default: unset
+#WPA_COUNTRY=
+#WPA_ESSID=
+#WPA_PASSWORD=
+
+# Setting to 1 will enable ssh server for remote log in. Note that if you are using a common password such
+# as the defaults there is a high risk of attackers taking over you Raspberry Pi.
+#
+# Default: 0
+#ENABLE_SSH=
+
+# Setting this to a value will make that value the contents of the FIRST_USER_NAME's ~/.ssh/authorized_keys.
+# Obviously the value should therefore be a valid authorized_keys file. Note that this does not automatically
+# enable SSH.
+#
+# Default: unset
+#PUBKEY_SSH_FIRST_USER=
+
+# Setting to 1 will disable password authentication for SSH and enable public key authentication. Note that
+# if SSH is not enabled this will take effect when SSH becomes enabled.
+#
+# Default: 0
+#PUBKEY_ONLY_SSH=
+
+# If set, then instead of working through the numeric stages in order, this list will be followed. For example
+# setting to "stage0 stage1 mystage stage2" will run the contents of mystage before stage2. Note that quotes
+# are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
+# Default: stage*
+#STAGE_LIST=
