@@ -14,3 +14,5 @@ avahi-daemon
 ifplugd
 resolvconf
 iperf3
+dnsutils
+arping
