@@ -21,7 +21,7 @@ EOF
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages-nr")"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
-apt-get -o APT::Acquire::Retries=5 install --no-install-recommends -y $PACKAGES
+retry apt-get -o APT::Acquire::Retries=5 install --no-install-recommends -y $PACKAGES
 EOF
 				if [ "${USE_QCOW2}" = "1" ]; then
 					on_chroot << EOF
@@ -36,7 +36,7 @@ EOF
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages")"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
-apt-get -o APT::Acquire::Retries=5 install -y $PACKAGES
+retry apt-get -o APT::Acquire::Retries=5 install -y $PACKAGES
 EOF
 				if [ "${USE_QCOW2}" = "1" ]; then
 					on_chroot << EOF
@@ -51,7 +51,7 @@ EOF
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages-nr-${USE_DESKTOP}")"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
-apt-get -o APT::Acquire::Retries=5 install --no-install-recommends -y $PACKAGES
+retry apt-get -o APT::Acquire::Retries=5 install --no-install-recommends -y $PACKAGES
 EOF
 				if [ "${USE_QCOW2}" = "1" ]; then
 					on_chroot << EOF
@@ -66,7 +66,7 @@ EOF
 			PACKAGES="$(sed -f "${SCRIPT_DIR}/remove-comments.sed" < "${i}-packages-${USE_DESKTOP}")"
 			if [ -n "$PACKAGES" ]; then
 				on_chroot << EOF
-apt-get -o APT::Acquire::Retries=5 install -y $PACKAGES
+retry apt-get -o APT::Acquire::Retries=5 install -y $PACKAGES
 EOF
 				if [ "${USE_QCOW2}" = "1" ]; then
 					on_chroot << EOF

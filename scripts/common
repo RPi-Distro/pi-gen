@@ -100,3 +100,27 @@ update_issue() {
 	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }
 export -f update_issue
+
+fail() {
+  echo $1 >&2
+  exit 1
+}
+export -f fail
+
+retry() {
+  local n=1
+  local max=5
+  local delay=0.1
+  while true; do
+    "$@" && break || {
+      if [[ $n -lt $max ]]; then
+        ((n++))
+        echo "Command failed. Attempt $n/$max:"
+        sleep $delay;
+      else
+        fail "The command has failed after $n attempts."
+      fi
+    }
+  done
+}
+export -f retry
