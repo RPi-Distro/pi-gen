@@ -1,0 +1,4 @@
+pcmanfm #pipanel
+xserver-xorg-video-fbturbo fonts-piboto raspberrypi-artwork pi-greeter rpd-plym-splash rpd-wallpaper
+pishutdown gtk2-engines-pixbuf gtk2-engines-clearlookspix gnome-icon-theme pixflat-icons rc-gui gtk2-engines-pixflat
+rp-bookshelf agnostics gui-pkinst cups system-config-printer pi-printer-support
