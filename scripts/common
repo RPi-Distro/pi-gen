@@ -22,8 +22,10 @@ bootstrap(){
 
 	capsh --drop=cap_setfcap -- -c "'${BOOTSTRAP_CMD}' $BOOTSTRAP_STR" || true
 
-	if [ -d "$2/debootstrap" ]; then
-		rmdir "$2/debootstrap"
+	if [ -d "$2/debootstrap" ] && ! rmdir "$2/debootstrap"; then
+		cp "$2/debootstrap/debootstrap.log" "${STAGE_WORK_DIR}"
+		log "bootstrap failed: please check ${STAGE_WORK_DIR}/debootstrap.log"
+		return 1
 	fi
 }
 export -f bootstrap
