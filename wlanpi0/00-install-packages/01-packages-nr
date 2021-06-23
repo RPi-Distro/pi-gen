@@ -15,4 +15,4 @@ ifplugd
 resolvconf
 iperf3
 dnsutils
-arping
+iputils-arping
