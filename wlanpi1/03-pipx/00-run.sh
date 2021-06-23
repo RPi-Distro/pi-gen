@@ -13,7 +13,7 @@ on_chroot <<CHEOF
 	chown -R root:sudo /opt/wlanpi/pipx
 	chmod -R g+rwx /opt/wlanpi/pipx
 
-	cat <<EOF >> /etc/environment
+	cat <<-EOF >> /etc/environment
 	PIPX_HOME=/opt/wlanpi/pipx
 	PIPX_BIN_DIR=/opt/wlanpi/pipx/bin
 	EOF
