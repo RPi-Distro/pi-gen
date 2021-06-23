@@ -5,7 +5,7 @@ on:
     - cron: '37 5 * * *'
   push:
     branches:
-      - port-customizations
+      - force-build
 
 jobs:
   build:
@@ -14,33 +14,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: port-customizations
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get install -yqq \
-            coreutils quilt parted qemu-user-static debootstrap zerofree zip \
-            dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file \
-            git curl bc qemu-utils kpartx
 
       - name: Build image
         run: |
           last_commit_date=$(git log -1 --format=%cd --date=unix)
           last_day=$(date -d '-1 day' +%s)
 
-          if [ "${last_commit_date}" -lt "${last_day}"]; then
+          if [ "${last_commit_date}" -lt "${last_day}" ]; then
             echo "Nothig new to build."
             echo "Last commit:"
             git log -1 --format='%C(auto)%h (%cd) - %s' --date=relative
             exit 0
           fi
 
-          sudo ./build.sh
+          sudo ./build-docker.sh
 
       - name: Upload image
         uses: actions/upload-artifact@v2
         with:
           name: wlanpi-image
           path: deploy/*.zip
-        
+
