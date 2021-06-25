@@ -4,11 +4,40 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 BUILD_OPTS="$*"
 
-DOCKER="docker"
-
-if ! ${DOCKER} ps >/dev/null 2>&1; then
-	DOCKER="sudo docker"
+SUDO=''
+if [ $EUID != 0 ]; then
+    SUDO='sudo'
 fi
+
+function install_binfmt_support {
+    local binfmtSupport="binfmt-support"
+    if ! dpkg -s $binfmtSupport &>/dev/null; then
+        echo "please install $binfmtSupport with this command: $SUDO apt-get install $binfmtSupport"
+        exit 1
+    fi
+}
+
+function load_kernelmodule {
+    local kernelMod="$1"
+    if ! $SUDO modinfo $kernelMod &>/dev/null; then
+        echo "missing this kernel modul: $kernelMod"
+        exit 1
+    else
+        if $SUDO modprobe -n --first-time $kernelMod &>/dev/null; then
+            echo "loading kernel module $kernelMod"
+            $SUDO modprobe $kernelMod
+        fi
+    fi
+}
+
+install_binfmt_support
+
+load_kernelmodule loop
+load_kernelmodule binfmt_misc
+
+
+DOCKER="$SUDO docker"
+
 if ! ${DOCKER} ps >/dev/null; then
 	echo "error connecting to docker:"
 	${DOCKER} ps
