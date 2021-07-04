@@ -27,6 +27,9 @@ on_chroot <<CHEOF
 	echo "net.ipv4.conf.eth0.arp_ignore = 1" >> /etc/sysctl.conf
 CHEOF
 
+# Set WLAN Pi image version
+copy_overlay /etc/wlanpi-release -o root -g root -m 644
+
 # Setup TFTP
 copy_overlay /etc/default/tftpd-hpa -o root -g root -m 644
 
