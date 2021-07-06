@@ -11,6 +11,13 @@ on_chroot <<CHEOF
 	else
 		echo "retry 600;" >> /etc/dhcp/dhclient.conf
 	fi
+	
+	# Send hardware MAC address to DHCP server
+	if grep -q -E "^#?send dhcp-client-identifier " /etc/dhcp/dhclient.conf; then
+		sed -i 's/^#\?send dhcp-client-identifier .*/send dhcp-client-identifier = hardware;/' /etc/dhcp/dhclient.conf
+	else
+		echo "send dhcp-client-identifier = hardware;" >> /etc/dhcp/dhclient.conf
+	fi
 
 	# Setup: TFTP
 	usermod -a -G tftp wlanpi
