@@ -14,3 +14,4 @@ libssl-dev
 libjpeg-dev
 git
 jq
+toilet
