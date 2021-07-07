@@ -32,10 +32,16 @@ on_chroot <<CHEOF
 
 	# Configure arp_ignore: network/arp
 	echo "net.ipv4.conf.eth0.arp_ignore = 1" >> /etc/sysctl.conf
+	
+	# Remove default Debian MOTD
+	echo "" > /etc/motd
 CHEOF
 
 # Set WLAN Pi image version
 copy_overlay /etc/wlanpi-release -o root -g root -m 644
+
+# Create WLAN Pi MOTD
+copy_overlay /etc/update-motd.d/00-wlanpi-motd -o root -g root -m 644
 
 # Setup TFTP
 copy_overlay /etc/default/tftpd-hpa -o root -g root -m 644
