@@ -41,7 +41,7 @@ CHEOF
 copy_overlay /etc/wlanpi-release -o root -g root -m 644
 
 # Create WLAN Pi MOTD
-copy_overlay /etc/update-motd.d/00-wlanpi-motd -o root -g root -m 644
+copy_overlay /etc/update-motd.d/00-wlanpi-motd -o root -g root -m 755
 
 # Setup TFTP
 copy_overlay /etc/default/tftpd-hpa -o root -g root -m 644
