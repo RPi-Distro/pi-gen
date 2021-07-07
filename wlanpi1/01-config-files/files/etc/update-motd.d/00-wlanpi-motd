@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# WLAN Pi login banner
+WLAN_PI_RELEASE=$(grep "VERSION" /etc/wlanpi-release | cut -d '"' -f 2 2>/dev/null)
+toilet -f wideterm --filter border:gay " WLAN Pi $WLAN_PI_RELEASE "
