@@ -170,6 +170,19 @@ The following environment variables are supported:
 
     If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
 
+ * `XZ_MEMLIMIT` (Default: `0` (unlimited))
+
+   Setting this to something like `1GiB` will limit the xz process to only
+   consuming a maximum of `1GiB` of memory. This is especially important on
+   high core-count systems where the amount of memory taken up by xz is
+   multiplied by the number of threads. In most cases, xz will simply limit
+   the number of threads in order to stay below the memory limit.
+
+ * `XZ_THREADS` (Default: `0` (unlimited))
+
+   Setting this to a non-zero value will limit the number of threads that
+   the xz process will spawn.
+
 A simple example for building Raspbian:
 
 ```bash
