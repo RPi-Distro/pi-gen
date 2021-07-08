@@ -3,3 +3,29 @@
 # WLAN Pi login banner
 WLAN_PI_RELEASE=$(grep "VERSION" /etc/wlanpi-release | cut -d '"' -f 2 2>/dev/null)
 toilet -f wideterm --filter border:gay " WLAN Pi $WLAN_PI_RELEASE "
+
+# Calculate uptime
+up_seconds=$(/usr/bin/cut -d "." -f1 /proc/uptime)
+secs=$((${up_seconds}%60))
+mins=$((${up_seconds}/60%60))
+hrs=$((${up_seconds}/3600%24))
+days=$((${up_seconds}/86400))
+uptime=$(printf "%d days, %d hrs %d mins %d secs" "$days" "$hrs" "$mins" "$secs")
+
+# Measure temperature
+temp=$(/opt/vc/bin/vcgencmd measure_temp | awk -F "[=\']" '{print ($2-int($2)<0.499)?int($2):int($2)+1}')
+
+# Memory utilisation
+mem_util=$(free -m | awk 'NR==2 { printf "Total: %sMB, Used: %sMB, Free: %sMB",$2,$3,$4; }')
+
+# Disk utilisation
+disk_util=$(df -h ~ | awk 'NR==2 { printf "Total: %sB, Used: %sB, Free: %sB",$2,$3,$4; }')
+
+# Display output
+echo
+echo "Uptime:      ${uptime}"
+echo "Date:        $(date)"
+echo "Memory:      ${mem_util}"
+echo "Disk:        ${disk_util}"
+echo "CPU temp:    ${temp}°C"
+echo
