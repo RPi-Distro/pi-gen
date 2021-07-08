@@ -21,6 +21,15 @@ mem_util=$(free -m | awk 'NR==2 { printf "Total: %sMB, Used: %sMB, Free: %sMB",$
 # Disk utilisation
 disk_util=$(df -h ~ | awk 'NR==2 { printf "Total: %sB, Used: %sB, Free: %sB",$2,$3,$4; }')
 
+# System load
+load=$(LC_ALL=C uptime)
+load=${load#*'load average: '}
+load=${load//','}
+load=$(echo $load | cut -d " " -f 1)
+[[ $load == 0.0* ]] && load=0.10
+cpu_count=$(grep -c processor /proc/cpuinfo)
+load=$(awk '{printf("%.0f",($1/$2) * 100)}' <<< "$load $cpu_count")
+
 # Display output
 echo
 echo "Uptime:      ${uptime}"
@@ -28,4 +37,5 @@ echo "Date:        $(date)"
 echo "Memory:      ${mem_util}"
 echo "Disk:        ${disk_util}"
 echo "CPU temp:    ${temp}°C"
+echo "System load: ${load} %"
 echo
