@@ -19,6 +19,11 @@ on_chroot <<CHEOF
 		echo "send dhcp-client-identifier = hardware;" >> /etc/dhcp/dhclient.conf
 	fi
 
+	# Enable built-in RJ-45 console port
+	echo >> /boot/config.txt
+	echo "# Enable built-in RJ-45 console port" >> /boot/config.txt
+	echo "dtoverlay=uart3" >> /boot/config.txt
+
 	# Setup: TFTP
 	usermod -a -G tftp wlanpi
 	chown -R tftp:tftp /srv/tftp
