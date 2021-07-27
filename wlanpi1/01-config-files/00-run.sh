@@ -19,6 +19,11 @@ on_chroot <<CHEOF
 		echo "send dhcp-client-identifier = hardware;" >> /etc/dhcp/dhclient.conf
 	fi
 
+	# Enable Dynamic Voltage and Frequency Scaling
+	echo >> /boot/config.txt
+	echo "# Enable Dynamic Voltage and Frequency Scaling" >> /boot/config.txt
+	echo "dvfs=1" >> /boot/config.txt
+
 	# Enable built-in RJ-45 console port
 	echo >> /boot/config.txt
 	echo "# Enable built-in RJ-45 console port" >> /boot/config.txt
