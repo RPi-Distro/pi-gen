@@ -1,5 +1,5 @@
 # Server and management packages
-nginx-light 
+nginx-full 
 php7.3-fpm 
 cockpit 
 cockpit-packagekit 
