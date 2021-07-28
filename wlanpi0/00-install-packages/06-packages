@@ -1,8 +1,8 @@
 # Install our custom repos
 wlanpi-profiler
+wlanpi-webui
 fpms
 #wlanpihotspot
 #wconsole
 #wiperf
 #wlanpiserver
-#wlanpi-webui
