@@ -7,6 +7,9 @@ on_chroot <<CHEOF
 	
 	# Add our own custom repository
 	echo "deb [trusted=yes] https://apt.fury.io/dfinimundi /" | tee /etc/apt/sources.list.d/wlanpi.list
+	
+	# Add packagecloud wlanpi/main repository
+	curl -s https://packagecloud.io/install/repositories/wlanpi/main/script.deb.sh | sudo bash
 
 	apt-get update
 CHEOF
