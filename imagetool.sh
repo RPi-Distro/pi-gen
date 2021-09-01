@@ -103,10 +103,12 @@ if [ "${UMOUNT}" = "1" ] && [ -z "${MOUNTPOINT}" ]; then
 fi
 
 export NBD_DEV="${NBD_DEV:-/dev/nbd1}"
+export MAP_BOOT_DEV=/dev/mapper/nbd1p1
+export MAP_ROOT_DEV=/dev/mapper/nbd1p2
 source scripts/qcow2_handling
 
 if [ "${MOUNT}" = "1" ]; then
-	mount_qimage "${MOUNTPOINT}" "${IMAGE}"
+	mount_qimage "${IMAGE}" "${MOUNTPOINT}"
 elif [ "${UMOUNT}" = "1" ]; then
 	umount_qimage "${MOUNTPOINT}"
 fi
