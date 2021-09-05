@@ -27,3 +27,4 @@ EOF
 unmount "${BASE_DIR}/.ccache"
 mkdir -p "$DEPLOY_DIR"
 cp ${ROOTFS_DIR}/code/build/*.deb "$DEPLOY_DIR/"
+rm -rf ${ROOTFS_DIR}/code/build/CMakeFiles/
