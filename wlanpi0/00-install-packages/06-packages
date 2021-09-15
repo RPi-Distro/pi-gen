@@ -1,7 +1,7 @@
 # Install our custom repos
+wlanpi-common
 wlanpi-profiler
 wlanpi-webui
-wlanpi-common
 wlanpi-fpms
 wlanpi-chat-bot
 #wlanpihotspot
