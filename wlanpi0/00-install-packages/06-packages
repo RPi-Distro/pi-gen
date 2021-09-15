@@ -4,6 +4,7 @@ wlanpi-profiler
 wlanpi-webui
 wlanpi-fpms
 wlanpi-chat-bot
+#wlanpi-bluetooth
 #wlanpihotspot
 #wconsole
 #wiperf
