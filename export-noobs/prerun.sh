@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-NOOBS_DIR="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}"
+NOOBS_DIR="${STAGE_WORK_DIR}/${IMG_NAME}${IMG_SUFFIX}"
 mkdir -p "${STAGE_WORK_DIR}"
 
 if [ "${DEPLOY_ZIP}" == "1" ]; then
