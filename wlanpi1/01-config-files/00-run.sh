@@ -51,6 +51,9 @@ on_chroot <<CHEOF
 	
 	# Create a new stats command which displays MOTD on demand
 	ln -fs /etc/update-motd.d/00-wlanpi-motd /usr/local/bin/stats
+	
+	#Auto-start systemd-networkd used by Bluetooth pan0
+	systemctl enable systemd-networkd
 CHEOF
 
 # Set WLAN Pi image version
