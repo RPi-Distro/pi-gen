@@ -11,9 +11,6 @@ copy_overlay /lib/systemd/system/iperf3.service -o root -g root -m 644
 copy_overlay /lib/systemd/system/iperf2.service -o root -g root -m 644
 copy_overlay /lib/systemd/system/iperf2-udp.service -o root -g root -m 644
 
-# Setup service: networkinfo
-copy_overlay /lib/systemd/system/networkinfo.service -o root -g root -m 644
-
 on_chroot <<CHEOF
 	systemctl enable iperf3
 	systemctl enable networkinfo
