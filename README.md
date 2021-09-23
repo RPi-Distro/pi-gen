@@ -1,6 +1,6 @@
 # pi-gen
 
-Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
+Tool used to create WLAN Pi OS images. Our current GitHub setup automatically builds a new image every day, or whenever new code is committed to the `force-build` branch.
 
 
 ## Dependencies
