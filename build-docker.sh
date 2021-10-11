@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 BUILD_OPTS="$*"
 
@@ -20,16 +20,51 @@ if [ -f "${DIR}/config" ]; then
 	CONFIG_FILE="${DIR}/config"
 fi
 
-while getopts "c:" flag
-do
+while getopts "c:" flag; do
 	case "${flag}" in
-		c)
-			CONFIG_FILE="${OPTARG}"
-			;;
-		*)
-			;;
+	c)
+		CONFIG_FILE="${OPTARG}"
+		;;
+	*) ;;
+
 	esac
 done
+
+# Ability to pass in name=value pairs that will be available to config
+# as well as sent to the docker run command as environment variables.
+# This is so we can use command line arguments (or workflow secrets)
+# to build a ready-to-use image without mucking around with saved configs
+# and thus expose private information
+
+# Process from command-line
+CMDLINE_ENV=()
+
+# Get rest of unparsed arguments
+shift $(expr $OPTIND - 1)
+
+# Append to our array
+while test $# -gt 0; do
+	CMDLINE_ENV+=($1)
+	shift
+done
+
+# Either way, we may have some key=value pairs now
+# parse and export them so config can get them
+echo "Exporting command-line environment variables..."
+while IFS='=' read -r name value; do
+
+	# Handle double-quoted ("...") values.
+	if [[ $value =~ ^\"(.*)\"$ ]]; then
+		# Using `read` without `-r` removes the \ from embedded \<char> sequences.
+		IFS= read value <<<"${BASH_REMATCH[1]}"
+	fi
+
+	# Export so config can access these values
+	export "${name}=${value}"
+done <<<$(
+	IFS=$'\n'
+	echo "${CMDLINE_ENV[*]}"
+)
 
 # Ensure that the configuration file is an absolute path
 if test -x /usr/bin/realpath; then
@@ -38,11 +73,45 @@ fi
 
 # Ensure that the confguration file is present
 if test -z "${CONFIG_FILE}"; then
-	echo "Configuration file need to be present in '${DIR}/config' or path passed as parameter"
+	echo "Configuration file needs to be present in '${DIR}/config', or path passed as parameter with -c"
 	exit 1
 else
 	# shellcheck disable=SC1090
 	source ${CONFIG_FILE}
+fi
+
+# Concatenate any command line env to DOCKER_ADDL_ENV
+export DOCKER_ADDL_ENV+=("${CMDLINE_ENV[@]}")
+
+# Convert additional env into docker format 
+# so we can pass it to docker run
+ADDL_ENV=""
+echo "Processing additional environment for docker run..."
+while IFS='=' read -r name value; do
+	# Handle double-quoted ("...") values.
+	if [[ $value =~ ^\"(.*)\"$ ]]; then
+		# Using `read` without `-r` removes the \ from embedded \<char> sequences.
+		IFS= read value <<<"${BASH_REMATCH[1]}"
+	fi
+	# Append to a string in docker env format
+	ADDL_ENV="${ADDL_ENV} -e ${name}=${value}"
+done <<<$(
+	IFS=$'\n'
+	echo "${DOCKER_ADDL_ENV[*]}"
+)
+
+# Ability to add additional mounts so that custom stages can be mounted into the build process
+# without modifying the pi-gen repository
+# Note: Mounts cannot be passed in via the command line
+ADDL_MOUNTS=""
+if [[ ! -z ${DOCKER_ADDL_MOUNTS:=""} ]]; then
+	echo "Processing additional mounts for docker run..."
+	while IFS=' ' read -r mount; do
+		ADDL_MOUNTS="${ADDL_MOUNTS} -v ${mount}"
+	done <<<$(
+		IFS=$'\n'
+		echo "${DOCKER_ADDL_MOUNTS[*]}"
+	)
 fi
 
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
@@ -53,7 +122,7 @@ PIGEN_DOCKER_OPTS=${PIGEN_DOCKER_OPTS:-""}
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set in 'config'" 1>&2
 	echo 1>&2
-exit 1
+	exit 1
 fi
 
 # Ensure the Git Hash is recorded before entering the docker container
@@ -77,12 +146,12 @@ BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 
 # Check the arch of the machine we're running on. If it's 64-bit, use a 32-bit base image instead
 case "$(uname -m)" in
-  x86_64|aarch64)
-    BASE_IMAGE=i386/debian:buster
-    ;;
-  *)
-    BASE_IMAGE=debian:buster
-    ;;
+x86_64 | aarch64)
+	BASE_IMAGE=i386/debian:buster
+	;;
+*)
+	BASE_IMAGE=debian:buster
+	;;
 esac
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
 
@@ -94,6 +163,8 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		-v /lib/modules:/lib/modules \
 		${PIGEN_DOCKER_OPTS} \
 		--volume "${CONFIG_FILE}":/config:ro \
+		${ADDL_MOUNTS} \
+		${ADDL_ENV} \
 		-e "GIT_HASH=${GIT_HASH}" \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		pi-gen \
@@ -109,6 +180,8 @@ else
 		-v /lib/modules:/lib/modules \
 		${PIGEN_DOCKER_OPTS} \
 		--volume "${CONFIG_FILE}":/config:ro \
+		${ADDL_MOUNTS} \
+		${ADDL_ENV} \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
