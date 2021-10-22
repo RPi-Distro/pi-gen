@@ -13,7 +13,7 @@ tree
 libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
 geany
 piclone
-wiringpi pigpio python-pigpio python3-pigpio raspi-gpio python-gpiozero python3-gpiozero python3-rpi.gpio
+wiringpi pigpio python-pigpio python3-pigpio raspi-gpio python3-rpi.gpio
 python-spidev python3-spidev
 python-twython python3-twython
 python-smbus python3-smbus

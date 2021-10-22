@@ -1,4 +1,129 @@
 UNRELEASED:
+  * Chromium upgraded to version 88.0.4324.187
+  * NuScratch upgraded to version 20210507
+  * Node-RED upgraded to version 1.3.4
+  * pigpio upgraded to version 1.79
+  * Thonny upgraded to version 3.3.6
+  * Icelandic and Italian translations updated for several packages
+  * piclone: Remove hiding of application in other desktops
+  * agnostics: Remove hiding of app in other desktops
+  * rp-bookshelf:
+    - Remove hiding of app in other desktops
+    - GTK+3 version
+  * lxplug-bluetooth:
+    - Fix some memory leaks
+    - Add authorisation dialog required by some BT-LE pairings
+  * alsa-utils: Add custom init files for bcm2835 on Raspberry Pi to set volume correctly
+  * rp-prefapps: Remove hiding of app in other desktops
+  * OpenSSH and OpenSSL speed improvements
+  * Install gpiozero in lite images
+  * Raspberry Pi firmware 518ee7c871aaa9aaa88116953d57e73787ee6e43
+  * Linux kernel 5.10.17
+2021-03-04:
+  * Thonny upgraded to version 3.3.5
+  * SD Card Copier made compatible with NVMe devices; now built against GTK+3 toolkit
+  * Composite video options removed from Raspberry Pi 4 in Raspberry Pi Configuration
+  * Boot order options in raspi-config adjusted for more flexibility
+  * Recommended Software now built against GTK+3 toolkit
+  * Fix for crash in volume plugin when using keyboard could push value out of range
+  * Fix for focus changing between windows in file manager when using keyboard to navigate directory view
+  * Fix for Raspberry Pi 400 keyboard country not being read correctly in startup wizard
+  * Armenian and Japanese translations added to several packages
+  * Automatically load aes-neon-bs on ARM64 to speed up OpenSSL
+  * Raspberry Pi firmware fcf8d2f7639ad8d0330db9c8db9b71bd33eaaa28
+  * Linux kernel 5.10.17
+2021-01-11:
+  * Chromium version 86.0.4240.197 included
+  * Screen reader support enabled in Chromium
+  * Adobe have end-of-lifed Flash Player, so it has been removed
+  * Scratch 2 required Flash, so it has been removed
+  * Added Epson printer drivers
+  * Added timeout to hide messages from USB device monitor after 5 seconds
+  * Bug fix - PulseAudio output was in mono
+  * Bug fix - brief audio interruptions at start of playback in VLC
+  * Bug fix - old ALSA output settings being used instead of PulseAudio settings by some applications
+  * Bug fix - crash in PulseAudio volume controller when used on multichannel devices
+  * Bug fix - battery monitor failing to load on x86 platforms
+  * Bug fix - setting of password in startup wizard failed if language was changed
+  * Bug fix - Chromium video playback lockup on small number of devices
+  * Bug fix - Chromium Google Maps 3D view artefacts
+  * Slovak, Italian and Norwegian translations updated
+  * Added Epson printer drivers
+  * Raspberry Pi firmware 70f1581eec2c036b7e9309f1af41c651fb125447
+  * Linux kernel 5.4.83
+2020-12-02:
+  * PulseAudio now included and running by default
+  * Bluealsa Bluetooth interface removed - Bluetooth audio is now handled by PulseAudio
+  * LXPanel volume control plugin replaced with PulseAudio version
+  * Version 84.0.4147.105 of Chromium web browser included
+  * Version 3.3.0 of Thonny included
+  * Version 32.0.0.453 of Flash player included - note that this will be the final release of Flash, as it is end-of-lifed at the end of 2020
+  * CUPS printer system included, along with system-config-printer CUPS GUI and HP printer drivers
+  * raspi-config menu structure rearranged to match Raspberry Pi Configuration tabs
+  * Control for GPIO-connected fans added to raspi-config and Raspberry Pi Configuration
+  * Control for power / activity LED on Pi 400 and Pi Zero added to raspi-config and Raspberry Pi Configuration
+  * Improved screen reader voice prompts in several applications
+  * Added ctrl-alt-space shortcut to install Orca screen reader at any point
+  * Low voltage warnings added to battery monitor plugin
+  * Magnifier plugin zoom can now be changed with scroll wheel when pointer is over icon
+  * Change to notification popups - now will only close when clicked on directly, not by clicking anywhere
+  * Bookshelf now made compatible with translated versions of books and magazines, and will offer translated versions where available, based on system language setting
+  * Bug fix - crash in CPU temperature plugin when throttling detection fails
+  * Bug fix - if Orca is running, shutdown commands and shutdown dialog will force kill it to prevent it locking up the reboot or shutdown process
+  * Various additional language translations added
+  * Various minor bug fixes and UI tweaks
+  * Raspberry Pi firmware b324aea801f669b6ab18441f970e74a5a7346684
+  * Linux kernel 5.4.79
+2020-08-20:
+  * raspi-config - added selection of boot device order
+  * raspi-config - added selection of boot EEPROM version
+  * SD Card Copier - copy is now immediately aborted if drives are connected or disconnected while copying
+  * Version 32.0.0.414 of Flash player included
+  * User feedback survey removed from first run of Chromium
+  * Recommended Software - now allows multiple install and reinstall operations without having to close between each one
+  * Bug fix - misleading file browser from panel menu icon selection dialog - icons must now be in icon theme rather than arbitrary files
+  * Bug fix - items in main menu not being translated
+  * Bug fix - raspi-config not detecting audio devices in non-English locales
+  * Bug fix - Bookshelf claiming no disk space in non-English locales
+  * Bug fix - failed installation of both 32 and 64 bit versions of packages by Recommended Software on 64-bit images
+  * Italian translations added (thanks to Emanuele Goldoni and the Italian translation team)
+  * Raspberry Pi firmware ef72c17bcaaeb89093d87bcf71f3228e1b5e1fff
+  * Linux kernel 5.4.51
+2020-05-27:
+  * Added Bookshelf application
+  * Added Raspberry Pi Diagnostics application
+  * Added magnifier plugin to taskbar - needs magnifier application installed from Recommended Software to enable
+  * Added Magnifier application to Recommended Software
+  * Added marketing questionnaire as initial Chromium tab
+  * Version 0.25 of Scratch 2 included - uses external application to access IMU on SenseHAT
+  * Version 1.0.5 of Scratch 3 included - uses external application to access IMU on SenseHAT
+  * Version 32.0.0.371 of Flash player included
+  * Version 1.0.6 of Node-RED included
+  * Version 6.7.1 of VNC Server included
+  * Version 6.20.113 of VNC Client included
+  * Internal audio outputs enabled as separate ALSA devices
+  * MagPi preinstall removed and replaced with Beginner’s Guide
+  * MagPi weblink removed from main menu
+  * Chromium made default application for PDF files
+  * Common icon loading code for lxpanel plugins used
+  * Italian translations added
+  * Initial move of mouse pointer to menu button disabled
+  * Padding at left of menu button removed
+  * Focus behaviour changed so that focus moves to desktop if no windows are opened - improves reliability of Orca screen reader
+  * Bug fix - focus bug in volume plugin
+  * Bug fix - keyboard repeat interval bug in Mouse & Keyboard Settings
+  * Bug fix - battery detection bug in battery plugin
+  * Bug fix - spurious active areas on taskbar when plugins are hidden
+  * Bug fix - occasional crash in file manager on file selection
+  * Disk ID is now regenerated on first boot
+  * Updated udev rules
+    - Remove unused argon rule
+    - Add vcsm-cma to video group
+    - Add pwm to gpio group
+  * i2cprobe: More flexible I2C/SPI alias mapping
+  * Raspberry Pi firmware 21e1fe3477ffb708a5736ed61a924fd650031136
+  * Linux kernel 4.19.118
+2020-02-13:
   * Raspberry Pi Configuration - screen blanking setting disabled if Xscreensaver is installed
   * Bug fix - switch to turn off VNC server in Raspberry Pi Configuration has no effect
   * Bug fix - fix %20 characters in file names
