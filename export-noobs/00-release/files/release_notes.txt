@@ -44,7 +44,7 @@ UNRELEASED:
   * Bug fix - piwiz : country-specific language packages not being installed
   * Bug fix - bookshelf : now waits for longer between packets before timing out
   * Bug fix - accented characters now displayed correctly in localisation dialogs
-  * Raspberry Pi firmware 0c4fc71befd228419a225c84d316cabbda8633a7
+  * Raspberry Pi firmware e2bab29767e51c683a312df20014e3277275b8a6
   * Linux kernel 5.10.63
 2021-05-07:
   * Chromium upgraded to version 88.0.4324.187
