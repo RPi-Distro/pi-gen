@@ -55,6 +55,9 @@ dtparam=audio=on
 # Automatically load overlays for detected cameras
 camera_auto_detect=1
 
+# Automatically load overlays for detected DSI displays
+display_auto_detect=1
+
 # Enable DRM VC4 V3D driver
 dtoverlay=vc4-kms-v3d
 max_framebuffers=2
