@@ -1,4 +1,57 @@
 UNRELEASED:
+  * Chromium upgraded to version 88.0.4324.187
+  * NuScratch upgraded to version 20210507
+  * Node-RED upgraded to version 1.3.4
+  * pigpio upgraded to version 1.79
+  * Thonny upgraded to version 3.3.6
+  * Icelandic and Italian translations updated for several packages
+  * piclone: Remove hiding of application in other desktops
+  * agnostics: Remove hiding of app in other desktops
+  * rp-bookshelf:
+    - Remove hiding of app in other desktops
+    - GTK+3 version
+  * lxplug-bluetooth:
+    - Fix some memory leaks
+    - Add authorisation dialog required by some BT-LE pairings
+  * alsa-utils: Add custom init files for bcm2835 on Raspberry Pi to set volume correctly
+  * rp-prefapps: Remove hiding of app in other desktops
+  * OpenSSH and OpenSSL speed improvements
+  * Install gpiozero in lite images
+  * Raspberry Pi firmware 518ee7c871aaa9aaa88116953d57e73787ee6e43
+  * Linux kernel 5.10.17
+2021-03-04:
+  * Thonny upgraded to version 3.3.5
+  * SD Card Copier made compatible with NVMe devices; now built against GTK+3 toolkit
+  * Composite video options removed from Raspberry Pi 4 in Raspberry Pi Configuration
+  * Boot order options in raspi-config adjusted for more flexibility
+  * Recommended Software now built against GTK+3 toolkit
+  * Fix for crash in volume plugin when using keyboard could push value out of range
+  * Fix for focus changing between windows in file manager when using keyboard to navigate directory view
+  * Fix for Raspberry Pi 400 keyboard country not being read correctly in startup wizard
+  * Armenian and Japanese translations added to several packages
+  * Automatically load aes-neon-bs on ARM64 to speed up OpenSSL
+  * Raspberry Pi firmware fcf8d2f7639ad8d0330db9c8db9b71bd33eaaa28
+  * Linux kernel 5.10.17
+2021-01-11:
+  * Chromium version 86.0.4240.197 included
+  * Screen reader support enabled in Chromium
+  * Adobe have end-of-lifed Flash Player, so it has been removed
+  * Scratch 2 required Flash, so it has been removed
+  * Added Epson printer drivers
+  * Added timeout to hide messages from USB device monitor after 5 seconds
+  * Bug fix - PulseAudio output was in mono
+  * Bug fix - brief audio interruptions at start of playback in VLC
+  * Bug fix - old ALSA output settings being used instead of PulseAudio settings by some applications
+  * Bug fix - crash in PulseAudio volume controller when used on multichannel devices
+  * Bug fix - battery monitor failing to load on x86 platforms
+  * Bug fix - setting of password in startup wizard failed if language was changed
+  * Bug fix - Chromium video playback lockup on small number of devices
+  * Bug fix - Chromium Google Maps 3D view artefacts
+  * Slovak, Italian and Norwegian translations updated
+  * Added Epson printer drivers
+  * Raspberry Pi firmware 70f1581eec2c036b7e9309f1af41c651fb125447
+  * Linux kernel 5.4.83
+2020-12-02:
   * PulseAudio now included and running by default
   * Bluealsa Bluetooth interface removed - Bluetooth audio is now handled by PulseAudio
   * LXPanel volume control plugin replaced with PulseAudio version
