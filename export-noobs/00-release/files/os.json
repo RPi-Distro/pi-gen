@@ -1,7 +1,7 @@
 {
     "description": "NOOBS_DESCRIPTION",
     "feature_level": 35120124,
-    "kernel": "4.19",
+    "kernel": "KERNEL",
     "name": "NOOBS_NAME",
     "password": "raspberry",
     "release_date": "UNRELEASED",
