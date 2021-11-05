@@ -47,7 +47,7 @@ on_chroot <<CHEOF
 	echo "net.ipv4.conf.eth0.arp_ignore = 1" >> /etc/sysctl.conf
 	
 	# Remove default Debian MOTD
-	echo "" > /etc/motd
+	rm /etc/motd
 	
 	# Remove Cockpit MOTD
 	rm /etc/motd.d/cockpit
