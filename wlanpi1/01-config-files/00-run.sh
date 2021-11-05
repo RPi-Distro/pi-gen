@@ -49,6 +49,9 @@ on_chroot <<CHEOF
 	# Remove default Debian MOTD
 	echo "" > /etc/motd
 	
+	# Remove Cockpit MOTD
+	rm /etc/motd.d/cockpit
+	
 	# Create a new stats command which displays MOTD on demand
 	ln -fs /etc/update-motd.d/00-wlanpi-motd /usr/local/bin/stats
 	
