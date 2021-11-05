@@ -45,3 +45,9 @@ echo "Disk:        ${DISK_UTIL}"
 echo "CPU temp:    ${TEMP}°C"
 echo "CPU load:    ${LOAD} %"
 echo
+
+#Display WLAN Pi tips
+if [ -f /opt/wlanpi-common/motd-tips.txt ]; then
+    echo "Tip:" $(shuf -n 1 /opt/wlanpi-common/motd-tips.txt)
+    echo
+fi
