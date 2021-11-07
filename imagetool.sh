@@ -25,7 +25,7 @@ Usage:
      -p, --mount-point    mount point for image
 
    This tool will use /dev/nbd1 as default for mounting an image. If you want to use another device, execute like this:
-   NBD_DEV=/dev/nbd2 ./$progname --mount --image <your image> --mount-point <your path>
+   NBD_DEV=/dev/nbd2 ./$progname --mount --image-name <your image> --mount-point <your path>
 
 HEREDOC
 }
