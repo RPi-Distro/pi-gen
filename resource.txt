@@ -1,0 +1,7 @@
+https://geoffhudik.com/tech/2020/05/15/using-pi-gen-to-build-a-custom-raspbian-lite-image/
+https://www.blackmoreops.com/2021/09/16/add-raspberry-pi-repository-in-ubuntu/
+echo deb http://archive.raspberrypi.org/debian/ stretch main | sudo tee /etc/apt/sources.list.d/raspberrypi.list
+
+
+https://unix.stackexchange.com/questions/138188/easily-unpack-deb-edit-postinst-and-repack-deb
+The old wpasupplicant install requires libreadline7 (>= 6.0) but I have to edit the text file of control to accept libreadline8

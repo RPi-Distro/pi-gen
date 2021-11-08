@@ -1,0 +1,11 @@
+./wpasupplicant_2.4-1+deb9u6_armhf.deb
+network-manager 
+network-manager-gnome 
+openvpn 
+openvpn-systemd-resolved 
+network-manager-openvpn 
+network-manager-openvpn-gnome
+libx11-dev 
+libasound2-dev 
+libavformat-dev 
+libavcodec-dev

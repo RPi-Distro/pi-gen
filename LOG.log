@@ -1,0 +1,141 @@
+[14:12:10] Begin /media/install/D5B1-F2D1/pi-gen
+[14:12:10] Begin /media/install/D5B1-F2D1/pi-gen/stage0
+[14:12:11] Begin /media/install/D5B1-F2D1/pi-gen/stage0/00-configure-apt
+[14:12:11] End /media/install/D5B1-F2D1/pi-gen/stage0/00-configure-apt
+[14:12:11] Begin /media/install/D5B1-F2D1/pi-gen/stage0/01-locale
+[14:12:11] Begin /media/install/D5B1-F2D1/pi-gen/stage0/01-locale/00-debconf
+[14:12:11] End /media/install/D5B1-F2D1/pi-gen/stage0/01-locale/00-debconf
+[14:12:11] Begin /media/install/D5B1-F2D1/pi-gen/stage0/01-locale/00-packages
+Reading package lists...
+Building dependency tree...
+Reading state information...
+locales is already the newest version (2.31-0ubuntu9.2).
+0 upgraded, 0 newly installed, 0 to remove and 4 not upgraded.
+[14:12:12] End /media/install/D5B1-F2D1/pi-gen/stage0/01-locale/00-packages
+[14:12:12] End /media/install/D5B1-F2D1/pi-gen/stage0/01-locale
+[14:12:12] Begin /media/install/D5B1-F2D1/pi-gen/stage0/02-firmware
+[14:12:12] Begin /media/install/D5B1-F2D1/pi-gen/stage0/02-firmware/01-packages
+Reading package lists...
+Building dependency tree...
+Reading state information...
+[14:12:13] End /media/install/D5B1-F2D1/pi-gen/stage0/02-firmware/01-packages
+[14:12:13] End /media/install/D5B1-F2D1/pi-gen/stage0/02-firmware
+[14:12:13] Begin /media/install/D5B1-F2D1/pi-gen/stage0/files
+[14:12:13] End /media/install/D5B1-F2D1/pi-gen/stage0/files
+[14:12:13] End /media/install/D5B1-F2D1/pi-gen/stage0
+[14:12:13] Begin /media/install/D5B1-F2D1/pi-gen/stage1
+[14:12:13] Begin /media/install/D5B1-F2D1/pi-gen/stage1/00-boot-files
+[14:12:14] End /media/install/D5B1-F2D1/pi-gen/stage1/00-boot-files
+[14:12:14] Begin /media/install/D5B1-F2D1/pi-gen/stage1/01-sys-tweaks
+[14:12:14] Begin /media/install/D5B1-F2D1/pi-gen/stage1/01-sys-tweaks/00-packages
+Reading package lists...
+Building dependency tree...
+Reading state information...
+[14:12:14] End /media/install/D5B1-F2D1/pi-gen/stage1/01-sys-tweaks/00-packages
+[14:12:14] Begin /media/install/D5B1-F2D1/pi-gen/stage1/01-sys-tweaks/00-patches
+The quilt meta-data in .pc/ are already in the version 2 format; nothing to do
+Applying patch /media/install/D5B1-F2D1/pi-gen/stage1/01-sys-tweaks/00-patches/01-bashrc.diff
+can't find file to patch at input line 3
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|--- a/rootfs/etc/skel/.bashrc
+|+++ b/rootfs/etc/skel/.bashrc
+--------------------------
+No file to patch.  Skipping patch.
+3 out of 3 hunks ignored
+Patch /media/install/D5B1-F2D1/pi-gen/stage1/01-sys-tweaks/00-patches/01-bashrc.diff does not apply (enforce with -f)
+[14:12:15] End /media/install/D5B1-F2D1/pi-gen/stage1/01-sys-tweaks/00-patches
+[14:12:15] End /media/install/D5B1-F2D1/pi-gen/stage1/01-sys-tweaks
+[14:12:15] Begin /media/install/D5B1-F2D1/pi-gen/stage1/02-net-tweaks
+[14:12:15] Begin /media/install/D5B1-F2D1/pi-gen/stage1/02-net-tweaks/00-packages
+Reading package lists...
+Building dependency tree...
+Reading state information...
+netbase is already the newest version (6.1).
+0 upgraded, 0 newly installed, 0 to remove and 4 not upgraded.
+[14:12:16] End /media/install/D5B1-F2D1/pi-gen/stage1/02-net-tweaks/00-packages
+[14:12:16] End /media/install/D5B1-F2D1/pi-gen/stage1/02-net-tweaks
+[14:12:16] Begin /media/install/D5B1-F2D1/pi-gen/stage1/03-install-packages
+[14:12:16] Begin /media/install/D5B1-F2D1/pi-gen/stage1/03-install-packages/00-packages
+Reading package lists...
+Building dependency tree...
+Reading state information...
+[14:12:16] End /media/install/D5B1-F2D1/pi-gen/stage1/03-install-packages/00-packages
+[14:12:16] End /media/install/D5B1-F2D1/pi-gen/stage1/03-install-packages
+[14:12:17] End /media/install/D5B1-F2D1/pi-gen/stage1
+[14:12:17] Begin /media/install/D5B1-F2D1/pi-gen/mystage
+[14:12:17] End /media/install/D5B1-F2D1/pi-gen/mystage
+[14:12:17] Begin /media/install/D5B1-F2D1/pi-gen/stage2
+[14:12:17] Begin /media/install/D5B1-F2D1/pi-gen/stage2/00-copies-and-fills
+[14:12:17] Begin /media/install/D5B1-F2D1/pi-gen/stage2/00-copies-and-fills/01-packages
+Reading package lists...
+Building dependency tree...
+Reading state information...
+[14:12:18] End /media/install/D5B1-F2D1/pi-gen/stage2/00-copies-and-fills/01-packages
+[14:12:18] End /media/install/D5B1-F2D1/pi-gen/stage2/00-copies-and-fills
+[14:12:18] Begin /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks
+[14:12:18] Begin /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-debconf
+[14:12:18] End /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-debconf
+[14:12:18] Begin /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-packages-nr
+Reading package lists...
+Building dependency tree...
+Reading state information...
+[14:12:19] End /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-packages-nr
+[14:12:19] Begin /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-packages
+Reading package lists...
+Building dependency tree...
+Reading state information...
+[14:12:20] End /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-packages
+[14:12:20] Begin /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-patches
+The quilt meta-data in .pc/ are already in the version 2 format; nothing to do
+Applying patch /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-patches/01-useradd.diff
+can't find file to patch at input line 5
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|Index: jessie-stage2/rootfs/etc/default/useradd
+|===================================================================
+|--- jessie-stage2.orig/rootfs/etc/default/useradd
+|+++ jessie-stage2/rootfs/etc/default/useradd
+--------------------------
+No file to patch.  Skipping patch.
+2 out of 2 hunks ignored
+Patch /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-patches/01-useradd.diff does not apply (enforce with -f)
+[14:12:20] End /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks/00-patches
+[14:12:20] End /media/install/D5B1-F2D1/pi-gen/stage2/01-sys-tweaks
+[14:12:20] Begin /media/install/D5B1-F2D1/pi-gen/stage2/02-net-tweaks
+[14:12:20] Begin /media/install/D5B1-F2D1/pi-gen/stage2/02-net-tweaks/00-packages
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Package firmware-misc-nonfree is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+Package firmware-realtek is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+[14:12:21] End /media/install/D5B1-F2D1/pi-gen/stage2/02-net-tweaks/00-packages
+[14:12:21] End /media/install/D5B1-F2D1/pi-gen/stage2/02-net-tweaks
+[14:12:21] Begin /media/install/D5B1-F2D1/pi-gen/stage2/03-accept-mathematica-eula
+[14:12:21] Begin /media/install/D5B1-F2D1/pi-gen/stage2/03-accept-mathematica-eula/00-debconf
+[14:12:21] End /media/install/D5B1-F2D1/pi-gen/stage2/03-accept-mathematica-eula/00-debconf
+[14:12:21] End /media/install/D5B1-F2D1/pi-gen/stage2/03-accept-mathematica-eula
+[14:12:22] Begin /media/install/D5B1-F2D1/pi-gen/stage2/03-set-timezone
+[14:12:22] End /media/install/D5B1-F2D1/pi-gen/stage2/03-set-timezone
+[14:12:22] End /media/install/D5B1-F2D1/pi-gen/stage2
+[14:12:22] Begin /media/install/D5B1-F2D1/pi-gen/export-image
+[14:12:22] Begin /media/install/D5B1-F2D1/pi-gen/export-image/00-allow-rerun
+[14:12:22] End /media/install/D5B1-F2D1/pi-gen/export-image/00-allow-rerun
+[14:12:22] Begin /media/install/D5B1-F2D1/pi-gen/export-image/01-set-sources
+[14:12:22] End /media/install/D5B1-F2D1/pi-gen/export-image/01-set-sources
+[14:12:22] Begin /media/install/D5B1-F2D1/pi-gen/export-image/02-network
+[14:12:23] End /media/install/D5B1-F2D1/pi-gen/export-image/02-network
+[14:12:23] Begin /media/install/D5B1-F2D1/pi-gen/export-image/03-set-partuuid
+[14:12:23] End /media/install/D5B1-F2D1/pi-gen/export-image/03-set-partuuid
+[14:12:23] Begin /media/install/D5B1-F2D1/pi-gen/export-image/04-finalise
+[14:12:23] End /media/install/D5B1-F2D1/pi-gen/export-image/04-finalise
+[14:12:23] End /media/install/D5B1-F2D1/pi-gen/export-image
+[14:12:23] End /media/install/D5B1-F2D1/pi-gen
