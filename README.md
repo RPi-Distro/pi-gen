@@ -62,7 +62,7 @@ The following environment variables are supported:
 
 * `RELEASE` (Default: bullseye)
 
-   The release version to build images against. Valid values are jessie, stretch
+   The release version to build images against. Valid values are jessie, stretch,
    buster, bullseye, and testing.
 
  * `APT_PROXY` (Default: unset)
