@@ -1,4 +1,52 @@
 UNRELEASED:
+  * Based on Debian version 11 (bullseye)
+  * Desktop components (lxpanel and all plugins, libfm, pcmanfm) now built against GTK+3
+  * Applications (piwiz, pipanel, rc_gui, lxinput) now built against GTK+3
+  * PiXflat GTK+3 theme updated with numerous changes to support the above
+  * GTK+3 : toolbar icon size setting added
+  * GTK+3 : ability to request client-side decoration on windows added
+  * GTK+3 : setting for indent for frame labels in custom style added
+  * mutter window manager used instead of openbox on devices with 2GB or more of RAM
+  * mutter : title bar icon behaviour and appearance modified to match openbox
+  * mutter : additional keyboard shortcuts added
+  * mutter : various performance enhancements
+  * mutter compatibility added to screen magnifier
+  * Numerous changes to Appearance Settings application to support GTK+3 and mutter
+  * Updater plugin added to lxpanel to detect and install software updates
+  * File manager view options simplified to either list or icons, with separate menu option for thumbnails
+  * New file manager toolbar icons
+  * KMS used as default display driver
+  * Modifications to HDMI audio output selection to support the above
+  * xcompmgr enabled when openbox is running under KMS
+  * New default camera subsystem based on libcamera
+  * New camera demo applications (libcamera-still and libcamera-vid) have replaced raspistill and raspivid
+  * Legacy camera subsystem removed from 64-bit RPi OS (still available on 32-bit)
+  * Chromium upgraded to version 92.0.4515.98
+  * VLC media player upgraded to version 3.0.16
+  * Spurious drive removal warning after use of SD card copier removed
+  * Bookshelf application now includes Custom PC magazine
+  * Various translation updates - Italian, Korean, Polish, German, Armenian
+  * Startup wizard now installs Japanese fonts if needed
+  * Progress and information dialog boxes for lxpanel plugins now common to lxpanel, rather than in individual plugins
+  * Icon handling code for lxpanel plugins now common to lxpanel
+  * Package with 4K version of Raspberry Pi wallpaper added to Recommended Software
+  * Python Games and Minecraft removed from Recommended Software - neither is compatible with bullseye
+  * Bluetooth pairing and connection dialogs updated for compatibility with more devices
+  * Bluetooth devices always disconnected before removal to speed up removal process
+  * Bluetooth pairing dialog now only shows devices which offer services which are usable by Pi
+  * Separate Bluetooth unpair dialog removed - unpair now an option for each individual device
+  * Bug fix - mutter : header bar colours not updating when theme is changed
+  * Bug fix - GTK+3 : tooltips being displayed incorrectly at bottom of screen
+  * Bug fix - lxpanel : crash when using keyboard shortcut to enable magnifier when magnifier not installed
+  * Bug fix - lxpanel : lockup in Bluetooth plugin when connecting to certain devices
+  * Bug fix - lxpanel : discoverable mode icon could get out of sync with underlying Bluetooth system state
+  * Bug fix - piwiz : missing cities in timezone list
+  * Bug fix - piwiz : country-specific language packages not being installed
+  * Bug fix - bookshelf : now waits for longer between packets before timing out
+  * Bug fix - accented characters now displayed correctly in localisation dialogs
+  * Raspberry Pi firmware e2bab29767e51c683a312df20014e3277275b8a6
+  * Linux kernel 5.10.63
+2021-05-07:
   * Chromium upgraded to version 88.0.4324.187
   * NuScratch upgraded to version 20210507
   * Node-RED upgraded to version 1.3.4
