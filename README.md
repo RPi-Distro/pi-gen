@@ -37,7 +37,7 @@ The following environment variables are supported:
    but you should use something else for a customized version.  Export files
    in stages may add suffixes to `IMG_NAME`.
 
-* `USE_QCOW2`(Default: `1` )
+* `USE_QCOW2` **EXPERIMENTAL** (Default: `0` )
 
     Instead of using traditional way of building the rootfs of every stage in
     single subdirectories and copying over the previous one to the next one,
@@ -60,9 +60,9 @@ The following environment variables are supported:
     that the network block device is not disconnected correctly after the Docker process has
     ended abnormally. In that case see [Disconnect an image if something went wrong](#Disconnect-an-image-if-something-went-wrong)
 
-* `RELEASE` (Default: buster)
+* `RELEASE` (Default: bullseye)
 
-   The release version to build images against. Valid values are jessie, stretch
+   The release version to build images against. Valid values are jessie, stretch,
    buster, bullseye, and testing.
 
  * `APT_PROXY` (Default: unset)
