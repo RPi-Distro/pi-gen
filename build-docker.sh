@@ -48,6 +48,7 @@ fi
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
 CONTINUE=${CONTINUE:-0}
 PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-0}
+PIGEN_DOCKER_OPTS=${PIGEN_DOCKER_OPTS:-""}  
 
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set in 'config'" 1>&2
@@ -77,10 +78,10 @@ BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 # Check the arch of the machine we're running on. If it's 64-bit, use a 32-bit base image instead
 case "$(uname -m)" in
   x86_64|aarch64)
-    BASE_IMAGE=i386/debian:buster
+    BASE_IMAGE=i386/debian:bullseye
     ;;
   *)
-    BASE_IMAGE=debian:buster
+    BASE_IMAGE=debian:bullseye
     ;;
 esac
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
@@ -91,6 +92,7 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		--cap-add=ALL \
 		-v /dev:/dev \
 		-v /lib/modules:/lib/modules \
+		${PIGEN_DOCKER_OPTS} \
 		--volume "${CONFIG_FILE}":/config:ro \
 		-e "GIT_HASH=${GIT_HASH}" \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
@@ -105,6 +107,7 @@ else
 		--cap-add=ALL \
 		-v /dev:/dev \
 		-v /lib/modules:/lib/modules \
+		${PIGEN_DOCKER_OPTS} \
 		--volume "${CONFIG_FILE}":/config:ro \
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
