@@ -26,7 +26,8 @@ jobs:
             git log -1 --format='%C(auto)%h (%cd) - %s' --date=relative
             exit 0
           fi
-
+          
+          sudo modprobe binfmt_misc
           sudo ./build-docker.sh
 
       - name: Upload image
