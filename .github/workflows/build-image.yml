@@ -27,7 +27,6 @@ jobs:
             exit 0
           fi
           
-          sudo modprobe binfmt_misc
           sudo ./build-docker.sh
 
       - name: Upload image
