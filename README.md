@@ -37,7 +37,7 @@ The following environment variables are supported:
    but you should use something else for a customized version.  Export files
    in stages may add suffixes to `IMG_NAME`.
 
-* `USE_QCOW2` **EXPERIMENTAL** (Default: `0` )
+* `USE_QCOW2`(Default: `1` )
 
     Instead of using traditional way of building the rootfs of every stage in
     single subdirectories and copying over the previous one to the next one,
@@ -60,9 +60,9 @@ The following environment variables are supported:
     that the network block device is not disconnected correctly after the Docker process has
     ended abnormally. In that case see [Disconnect an image if something went wrong](#Disconnect-an-image-if-something-went-wrong)
 
-* `RELEASE` (Default: bullseye)
+* `RELEASE` (Default: buster)
 
-   The release version to build images against. Valid values are jessie, stretch,
+   The release version to build images against. Valid values are jessie, stretch
    buster, bullseye, and testing.
 
  * `APT_PROXY` (Default: unset)
@@ -272,10 +272,6 @@ fix is to ensure `binfmt-support` is installed on the host machine before
 starting the `./build-docker.sh` script (or using your own docker build
 solution).
 
-### Passing arguments to Docker
-
-When the docker image is run various required command line arguments are provided.  For example the system mounts the `/dev` directory to the `/dev` directory within the docker container.  If other arguments are required they may be specified in the PIGEN_DOCKER_OPTS environment variable.  For example setting `PIGEN_DOCKER_OPTS="--add-host foo:192.168.0.23"` will add '192.168.0.23   foo' to the `/etc/hosts` file in the container.  The `--name`
-and `--privileged` options are already set by the script and should not be redefined.
 
 ## Stage Anatomy
 

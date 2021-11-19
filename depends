@@ -7,7 +7,7 @@ zerofree
 zip
 mkdosfs:dosfstools
 capsh:libcap2-bin
-bsdtar:libarchive-tools
+bsdtar
 grep
 rsync
 xz:xz-utils
