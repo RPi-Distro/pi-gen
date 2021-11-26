@@ -27,7 +27,7 @@ EOF
 # Run the actual install
 on_chroot << EOF
 apt-get install insserv resolvconf -y
-curl https://install.yunohost.org/buster | bash -s -- -a -d testing
+curl https://install.yunohost.org/buster | bash -s -- -a
 rm -f /etc/ssh/ssh_host_*
 EOF
 
