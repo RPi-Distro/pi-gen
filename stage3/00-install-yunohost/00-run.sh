@@ -16,7 +16,9 @@ ln -s /dev/null /etc/systemd/network/99-default.link
 EOF
 
 # Enable resize2fs for first boot (without having to log-in ssh)
+on_chroot << EOF
 systemctl enable resize2fs_once
+EOF
 
 # For some reason curl doesnt recognize CA in any cert
 # and this is fixed by regerating links in /etc/ssl/certs/ ...
