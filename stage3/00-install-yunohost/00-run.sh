@@ -26,6 +26,13 @@ on_chroot << EOF
 update-ca-certificates -f -v
 EOF
 
+# For some reason curl still doesnt recognize CA in any cert
+# and this is fixed by adding a ~/.curlrc file ...
+on_chroot << EOF
+echo  capath=/etc/ssl/certs/ > /root/.curlrc
+echo cacert=/etc/ssl/certs/ca-certificates.crt >> /root/.curlrc
+EOF
+
 # Run the actual install
 on_chroot << EOF
 apt-get install insserv resolvconf -y
