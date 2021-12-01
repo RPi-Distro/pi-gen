@@ -57,6 +57,13 @@
     value: '80'
     vtype: select
 
+- name: Kolibri will run zip_content on port 81
+  debconf:
+    name: kolibri-server
+    question: kolibri-server/zip_content_port
+    value: '81'
+    vtype: select
+
 - name: Install necessary packages
   become: yes
   apt:

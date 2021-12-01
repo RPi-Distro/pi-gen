@@ -1,3 +1,4 @@
 kolibri	kolibri/init	boolean	false
 kolibri	kolibri/user	string	pi
 kolibri-server	kolibri-server/port	select	80
+kolibri-server	kolibri-server/zip_content_port	select	81

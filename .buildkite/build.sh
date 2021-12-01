@@ -7,6 +7,7 @@ mkdir -p dist
 # Could move this type of setup to hooks
 if [[ $LE_TRIGGERED_FROM_BUILD_ID ]]
 then
+  # This was implemented in https://github.com/learningequality/pi-gen/pull/1
   echo "--- Downloading debian package from Buildkite"
   buildkite-agent artifact download --build $LE_TRIGGERED_FROM_BUILD_ID 'dist/*.deb' .
 else

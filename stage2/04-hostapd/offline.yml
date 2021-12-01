@@ -6,6 +6,11 @@
     path: /tmp/kolibri_uwsgi.sock
     state: absent
 
+- name: Remove another file lock file left by package installation
+  file:
+    path: /tmp/kolibri_hashi_uwsgi.sock
+    state: absent
+
 - name: Remove directory lock dir left by package installation
   file:
     path: /var/run/kolibri-server
