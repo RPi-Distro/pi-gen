@@ -5,7 +5,7 @@ git
 policykit-1
 gvfs
 rfkill
-chromium-browser rpi-chromium-mods
+chromium-browser rpi-chromium-mods libwidevinecdm0
 gldriver-test
 fonts-droid-fallback
 fonts-liberation2
