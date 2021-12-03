@@ -229,7 +229,7 @@ fi
 mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
-SAVEIFS=$IFS
+SAVEIFS="$IFS"
 IFS=$(echo -en "\n\b")
 
 STAGE_LIST=${STAGE_LIST:-"${BASE_DIR}"/stage*}
@@ -265,4 +265,4 @@ fi
 
 log "End ${BASE_DIR}"
 
-IFS=$SAVEIFS
+IFS="$SAVEIFS"
