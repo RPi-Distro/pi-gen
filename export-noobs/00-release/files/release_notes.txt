@@ -30,6 +30,7 @@ UNRELEASED:
   * Bug fix - gtk+3 - disabled new GDK touch events to enable double-clicks to be detected on touchscreen
   * Bug fix - xrdp - included backports from bookworm version of xrdp and xorgxrdp to restore window frames with mutter over xrdp connections
   * Update various translations
+  * udisks2 added to lite image
   * Raspberry Pi firmware 
   * Linux kernel 
 2021-10-30:
