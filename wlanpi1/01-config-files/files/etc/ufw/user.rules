@@ -73,6 +73,10 @@
 -A ufw-user-input -p tcp --dport 8080 -j ACCEPT
 -A ufw-user-input -p udp --dport 8080 -j ACCEPT
 
+### tuple ### allow any 31415 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 31415 -j ACCEPT
+-A ufw-user-input -p udp --dport 31415 -j ACCEPT
+
 ### tuple ### allow any any 0.0.0.0/0 any 0.0.0.0/0 in_usb0
 -A ufw-user-input -i usb0 -j ACCEPT
 
