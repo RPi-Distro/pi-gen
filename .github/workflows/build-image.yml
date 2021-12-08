@@ -1,6 +1,10 @@
 
 name: Build Debian Packages
+
 on:
+  # Allow manual runs of workflow from Actions tab
+  workflow_dispatch:
+
   schedule:
     - cron: '37 5 * * *'
   push:
@@ -9,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: 'ubuntu-20.04'
 
     steps:
       - name: Checkout
@@ -35,3 +39,17 @@ jobs:
           name: wlanpi-image
           path: deploy/*.zip
 
+  slack-workflow-status:
+    if: always()
+    name: Post Workflow Status to Slack
+    needs:
+      - build
+    runs-on: 'ubuntu-20.04'
+    steps:
+      - name: Slack Workflow Notification
+        uses: Gamesight/slack-workflow-status@master
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          channel: '#pi-gen'
+          name: 'WLAN Pi CI Bot'
