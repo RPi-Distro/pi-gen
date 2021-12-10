@@ -36,7 +36,7 @@ connect_blkdev() {
 	init_nbd
 	qemu-nbd --discard=unmap -c $NBD_DEV "$1"
 	sync
-	kpartx -a $NBD_DEV
+	kpartx -as $NBD_DEV
 	sync
 	CURRENT_IMAGE="$1"
 }
@@ -108,7 +108,7 @@ load_qimage() {
 254MiB,,83;
 EOF
 				sync
-				kpartx -a $NBD_DEV
+				kpartx -as $NBD_DEV
 				mkdosfs -n boot -F 32 -v $MAP_BOOT_DEV
 				mkfs.ext4 -L rootfs -O "^huge_file,^metadata_csum,^64bit" $MAP_ROOT_DEV
 				sync
@@ -123,7 +123,7 @@ EOF
 				sync
 				qemu-nbd --discard=unmap -c $NBD_DEV image-${STAGE}.qcow2
 				sync
-				kpartx -a $NBD_DEV
+				kpartx -as $NBD_DEV
 			fi
 
 			mount -v -t ext4 $MAP_ROOT_DEV "${ROOTFS_DIR}"
