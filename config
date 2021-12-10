@@ -1,5 +1,5 @@
 IMG_NAME='wlanpi'
-RELEASE='buster'
+RELEASE='bullseye'
 DEPLOY_ZIP='1'
 LOCALE_DEFAULT='en_US.UTF-8'
 TARGET_HOSTNAME='wlanpi'
