@@ -1,6 +1,6 @@
 # Server and management packages
 nginx-full 
-php7.3-fpm 
+php-fpm
 cockpit 
 cockpit-packagekit 
 cockpit-storaged 
