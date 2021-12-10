@@ -1,0 +1,45 @@
+[cm4]
+# Boot using customized kernel
+kernel=kernel8_wlanpi_pro.img
+
+# Enable i2c
+dtparam=i2c_arm=on
+
+# Enable spi (required for OLED Display)
+dtparam=spi=on
+
+# Enable OTG
+dtoverlay=dwc2,dr_mode=otg
+
+# Fan Controller
+dtoverlay=gpio-fan,gpiopin=26,temp=60000
+
+# RTC
+dtoverlay=i2c-rtc,pcf85063a,addr=0x51
+
+# Battery gauge
+dtoverlay=battery_gauge
+
+# Reduce video memory for headless mode
+max_framebuffers=0
+
+# Enable Dynamic Voltage and Frequency Scaling
+dvfs=1
+
+# Enable serial console
+enable_uart=1
+
+[pi4]
+# Enable DRM VC4 V3D driver on top of the dispmanx display stack
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
+
+# Enable USB 2.0 ports
+dtoverlay=dwc2
+
+[all]
+# heartbeat LED
+dtparam=act_led_trigger=heartbeat
+
+# Switch to kernel 64 bits
+arm_64bit=1
