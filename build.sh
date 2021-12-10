@@ -99,7 +99,7 @@ run_stage(){
 	STAGE_WORK_DIR="${WORK_DIR}/${STAGE}"
 	ROOTFS_DIR="${STAGE_WORK_DIR}"/rootfs
 
-	if [ "${USE_QCOW2}" = "1" ]; then 
+	if [ "${USE_QCOW2}" = "1" ]; then
 		if [ ! -f SKIP ]; then
 			load_qimage
 		fi
@@ -109,7 +109,7 @@ run_stage(){
 			unmount "${WORK_DIR}/${STAGE}"
 		fi
 	fi
-	
+
 	if [ ! -f SKIP_IMAGES ]; then
 		if [ -f "${STAGE_DIR}/EXPORT_IMAGE" ]; then
 			EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
@@ -198,7 +198,7 @@ export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
 export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
 
 export SCRIPT_DIR="${BASE_DIR}/scripts"
-export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"}"
+export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_NAME}"}"
 export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
 export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
 export LOG_FILE="${WORK_DIR}/build.log"
@@ -207,7 +207,7 @@ export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
-export RELEASE=${RELEASE:-buster}
+export RELEASE=${RELEASE:-bullseye}
 export WPA_ESSID
 export WPA_PASSWORD
 export WPA_COUNTRY
@@ -253,7 +253,7 @@ source "${SCRIPT_DIR}/common"
 source "${SCRIPT_DIR}/dependencies_check"
 
 export NO_PRERUN_QCOW2="${NO_PRERUN_QCOW2:-1}"
-export USE_QCOW2="${USE_QCOW2:-1}"
+export USE_QCOW2="${USE_QCOW2:-0}"
 export BASE_QCOW2_SIZE=${BASE_QCOW2_SIZE:-12G}
 source "${SCRIPT_DIR}/qcow2_handling"
 if [ "${USE_QCOW2}" = "1" ]; then
