@@ -18,7 +18,7 @@ DAYS=$((${UP_SECONDS}/86400))
 UPTIME=$(printf "%d days, %d hrs %d mins %d secs" "$DAYS" "$HRS" "$MINS" "$SECS")
 
 # Measure temperature
-TEMP=$(/opt/vc/bin/vcgencmd measure_temp | awk -F "[=\']" '{print ($2-int($2)<0.499)?int($2):int($2)+1}')
+TEMP=$(vcgencmd measure_temp | awk -F "[=\']" '{print ($2-int($2)<0.499)?int($2):int($2)+1}')
 
 # Memory utilisation
 MEM_UTIL=$(free -m | awk 'NR==2 { printf "Total: %sMB, Used: %sMB, Free: %sMB",$2,$3,$4; }')
