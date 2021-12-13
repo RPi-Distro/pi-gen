@@ -12,7 +12,6 @@ nftables
 iperf 
 avahi-daemon 
 ifplugd
-openresolv
 iperf3
 dnsutils
 iputils-arping
