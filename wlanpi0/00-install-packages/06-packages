@@ -6,6 +6,7 @@ wlanpi-fpms
 wlanpi-chat-bot
 wlanpi-bluetooth
 wlanpi-core
+wlanpi-hwcheck
 #wlanpihotspot
 #wconsole
 #wiperf
