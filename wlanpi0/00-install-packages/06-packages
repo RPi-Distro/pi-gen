@@ -11,3 +11,4 @@ wlanpi-hwcheck
 #wconsole
 #wiperf
 #wlanpiserver
+libpcap0.8/bullseye-backports
