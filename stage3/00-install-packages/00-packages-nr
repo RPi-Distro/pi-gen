@@ -4,3 +4,4 @@ lxde lxtask menu-xdg
 zenity xdg-utils
 gvfs-backends gvfs-fuse
 lightdm gnome-themes-standard gnome-icon-theme
+gnome-keyring
