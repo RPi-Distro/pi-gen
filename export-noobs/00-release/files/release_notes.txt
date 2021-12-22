@@ -32,6 +32,7 @@ UNRELEASED:
   * Update various translations
   * udisks2 added to lite image
   * mkvtoolnix added to lite image
+  * gnome-keyring added to desktop images
   * Raspberry Pi firmware 
   * Linux kernel 
 2021-10-30:
