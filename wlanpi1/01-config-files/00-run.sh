@@ -52,6 +52,9 @@ on_chroot <<CHEOF
 	
 	#Auto-start systemd-networkd used by Bluetooth pan0
 	systemctl enable systemd-networkd
+	
+        # Fetch current version of the pci. ids file
+        update-pciids
 CHEOF
 
 # Set WLAN Pi image version
