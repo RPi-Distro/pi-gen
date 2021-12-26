@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 # shellcheck disable=SC2119
+IMG_NAME="RPi0_xr"
 run_sub_stage()
 {
 	log "Begin ${SUB_STAGE_DIR}"
@@ -185,8 +186,8 @@ term() {
 trap term EXIT INT TERM
 
 export PI_GEN=${PI_GEN:-pi-gen}
-export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
-
+export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/develomentional/pi-gen}
+export IMG_NAME="Amphetipi"
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set" 1>&2
 	exit 1
@@ -226,8 +227,8 @@ export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 export PUBKEY_SSH_FIRST_USER
 
 export CLEAN
-export IMG_NAME
-export APT_PROXY
+export IMG_NAME="Amphetpi"
+export APT_PROXY="http://192.168.1.202:3142' >> config"
 
 export STAGE
 export STAGE_DIR
@@ -236,7 +237,7 @@ export PREV_STAGE
 export PREV_STAGE_DIR
 export ROOTFS_DIR
 export PREV_ROOTFS_DIR
-export IMG_SUFFIX
+export IMG_SUFFIX="JB"
 export NOOBS_NAME
 export NOOBS_DESCRIPTION
 export EXPORT_DIR
