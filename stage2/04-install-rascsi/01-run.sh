@@ -24,6 +24,8 @@ git config --global user.email "user@rascsi.com"
 git config --global user.name "RaSCSI User"
 echo "export CI=$CI"
 echo "export GITHUB_REF=$GITHUB_REF"
+# Cache the sudo credentials
+echo raspberry | sudo -S ls
 export CI=$CI
 export GITHUB_REF=$GITHUB_REF
 ./easyinstall.sh -r=1 -j=8
