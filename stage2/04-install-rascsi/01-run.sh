@@ -26,6 +26,6 @@ echo "export CI=$CI"
 echo "export GITHUB_REF=$GITHUB_REF"
 export CI=$CI
 export GITHUB_REF=$GITHUB_REF
-./easyinstall.sh -r=1
+./easyinstall.sh -r=1 -j=8
 echo "easyinstal exited: $?"
 EOF
