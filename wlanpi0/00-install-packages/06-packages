@@ -6,8 +6,8 @@ wlanpi-fpms
 wlanpi-chat-bot
 wlanpi-bluetooth
 wlanpi-core
-#wlanpihotspot
-#wconsole
+wlanpi-hotspot
+wlanpi-wconsole
 #wiperf
 #wlanpiserver
 libpcap0.8/bullseye-backports
