@@ -22,11 +22,6 @@ on_chroot <<CHEOF
 		echo "send dhcp-client-identifier = hardware;" >> /etc/dhcp/dhclient.conf
 	fi
 
-	# Enable Dynamic Voltage and Frequency Scaling
-	echo >> /boot/config.txt
-	echo "# Enable Dynamic Voltage and Frequency Scaling" >> /boot/config.txt
-	echo "dvfs=1" >> /boot/config.txt
-
 	# Setup: TFTP
 	usermod -a -G tftp wlanpi
 	chown -R tftp:tftp /srv/tftp
@@ -50,7 +45,7 @@ on_chroot <<CHEOF
 	# Create a new stats command which displays MOTD on demand
 	ln -fs /etc/update-motd.d/00-wlanpi-motd /usr/local/bin/stats
 	
-	#Auto-start systemd-networkd used by Bluetooth pan0
+	#Auto-start systemd-networkd used by Bluetooth pan0 and usb0
 	systemctl enable systemd-networkd
 	
         # Fetch current version of the pci. ids file
