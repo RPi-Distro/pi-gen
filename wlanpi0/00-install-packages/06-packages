@@ -8,6 +8,6 @@ wlanpi-bluetooth
 wlanpi-core
 wlanpi-hotspot
 wlanpi-wconsole
-#wiperf
-#wlanpiserver
+wlanpi-server
 libpcap0.8/bullseye-backports
+#wiperf
