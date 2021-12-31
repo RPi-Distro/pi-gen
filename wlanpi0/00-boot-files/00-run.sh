@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-install -m 644 files/config.txt "${ROOTFS_DIR}/boot/"
+install -b -m 644 files/config.txt "${ROOTFS_DIR}/boot/"
