@@ -1,3 +1,0 @@
-DHCPDv4_CONF=/etc/dhcp/dhcpd.conf
-DHCPDv4_PID=/var/run/dhcpd.pid
-INTERFACESv4=""
