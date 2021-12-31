@@ -1,5 +1,5 @@
 [Match]
 Name=usb0
 [Network]
-Address=169.254.43.1/24
+Address=169.254.42.1/24
 DHCPServer=yes
