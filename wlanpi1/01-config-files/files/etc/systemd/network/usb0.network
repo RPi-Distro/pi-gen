@@ -1,7 +1,9 @@
 [Match]
 Name=usb0
+[Address]
+Address=169.254.42.1/27
+Scope=link
 [Network]
-Address=169.254.42.1/24
 DHCPServer=yes
 [DHCPServer]
 EmitRouter=no
