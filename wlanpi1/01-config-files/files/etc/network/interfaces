@@ -1,0 +1,30 @@
+source /etc/network/interfaces.d/*
+
+auto lo
+iface lo inet loopback
+
+# Wired ethernet
+allow-hotplug eth0
+iface eth0 inet dhcp
+
+# Wired ethernet
+# For boards with 2 eth ifaces
+allow-hotplug eth1
+iface eth1 inet dhcp
+
+# wlan0 configuration
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+#address 192.168.0.100
+#netmask 255.255.255.0
+#gateway 192.168.0.1
+#dns-nameservers 8.8.8.8 8.8.4.4
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+wireless-mode Monitor
+# Disable power saving on compatible chipsets (prevents SSH/connection dropouts over WiFi)
+wireless-power off
+
+# wlan1 configuration
+# For second WiFi dongle
+allow-hotplug wlan1
+iface wlan1 inet dhcp
