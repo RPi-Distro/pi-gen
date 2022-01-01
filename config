@@ -12,5 +12,5 @@ WPA_COUNTRY='US'
 #WPA_ESSID=''
 #WPA_PASSWORD=''
 ENABLE_SSH='1'
-STAGE_LIST="stage0 stage1 stage2 wlanpi0 wlanpi1"
+STAGE_LIST="stage0 stage1 stage2 wlanpi0 wlanpi1 wlanpi_hwtest"
 USE_QCOW2='0'
