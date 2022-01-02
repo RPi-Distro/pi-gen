@@ -37,12 +37,10 @@ on_chroot <<CHEOF
 	echo "net.ipv4.conf.eth0.arp_ignore = 1" >> /etc/sysctl.conf
 	
 	# Remove default Debian MOTD
-	touch /etc/motd
-	rm /etc/motd
+	rm -f /etc/motd
 	
 	# Remove Cockpit MOTD
-	touch /etc/motd.d/cockpit
-	rm /etc/motd.d/cockpit
+	rm -f /etc/motd.d/cockpit
 	
 	# Create a new stats command which displays MOTD on demand
 	ln -fs /etc/update-motd.d/00-wlanpi-motd /usr/local/bin/stats
