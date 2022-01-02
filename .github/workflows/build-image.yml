@@ -1,5 +1,5 @@
 
-name: Build Debian Packages
+name: Build image
 
 on:
   # Allow manual runs of workflow from Actions tab
