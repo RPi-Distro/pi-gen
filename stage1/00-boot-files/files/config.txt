@@ -36,8 +36,6 @@ dvfs=1
 dtoverlay=disable-wifi
 dtoverlay=disable-bt
 
-[all]
-
 
 [pi4]
 # Enable DRM VC4 V3D driver on top of the dispmanx display stack
