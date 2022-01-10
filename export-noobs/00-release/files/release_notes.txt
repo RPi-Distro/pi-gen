@@ -33,8 +33,8 @@ UNRELEASED:
   * udisks2 added to lite image
   * mkvtoolnix added to lite image
   * gnome-keyring added to desktop images
-  * Raspberry Pi firmware 
-  * Linux kernel 
+  * Raspberry Pi firmware cfdbadea5f74c16b7ed5d3b4866092a054e3c3bf
+  * Linux kernel 5.10.89
 2021-10-30:
   * Based on Debian version 11 (bullseye)
   * Desktop components (lxpanel and all plugins, libfm, pcmanfm) now built against GTK+3
