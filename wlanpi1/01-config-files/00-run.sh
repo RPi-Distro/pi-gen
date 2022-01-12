@@ -50,6 +50,9 @@ on_chroot <<CHEOF
 	
         # Fetch current version of the pci. ids file
         update-pciids
+	
+	# Prevent interfaces from being managed by dhcpcd which conflicts with systemd
+	echo "denyinterfaces usb* pan*" | tee -a /etc/dhcpcd.conf
 CHEOF
 
 # Set WLAN Pi image version
