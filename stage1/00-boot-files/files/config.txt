@@ -11,7 +11,7 @@ kernel=kernel8-wp.img
 dtoverlay=dwc2,dr_mode=otg
 
 # Fan Controller
-dtoverlay=gpio-fan,gpiopin=26,temp=64000
+dtoverlay=gpio-fan,gpiopin=26,temp=70000
 
 # RTC
 dtoverlay=i2c-rtc,pcf85063a,addr=0x51
@@ -25,10 +25,6 @@ dtoverlay=battery_gauge
 # Reduce GPU memory
 gpu_mem=16
 
-# Underclocking
-arm_freq=1200
-core_freq_min=100
-gpu_freq_min=100
 # Enable Dynamic Voltage and Frequency Scaling
 dvfs=1
 
@@ -36,12 +32,10 @@ dvfs=1
 dtoverlay=disable-wifi
 dtoverlay=disable-bt
 
-
 [pi4]
 # Enable DRM VC4 V3D driver on top of the dispmanx display stack
 dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
-
 
 [all]
 # Enable i2c
