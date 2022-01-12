@@ -32,6 +32,7 @@ UNRELEASED:
   * Update various translations
   * udisks2 added to lite image
   * mkvtoolnix added to lite image
+  * 7z and zip support added to lite image
   * gnome-keyring added to desktop images
   * Raspberry Pi firmware cfdbadea5f74c16b7ed5d3b4866092a054e3c3bf
   * Linux kernel 5.10.89
