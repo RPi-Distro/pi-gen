@@ -5,7 +5,7 @@
 #otg_mode=1
 
 # Boot using customized kernel
-kernel=kernel8_wlanpi_pro.img
+kernel=kernel8-wp.img
 
 # Enable OTG
 dtoverlay=dwc2,dr_mode=otg
