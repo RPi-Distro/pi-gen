@@ -33,10 +33,14 @@ jobs:
 
           sudo ./build-docker.sh
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       - name: Upload image
         uses: actions/upload-artifact@v2
         with:
-          name: wlanpi-image
+          name: wlanpi-nightly-release-${{ steps.date.outputs.date }}
           path: deploy/*.zip
 
   slack-workflow-status:
