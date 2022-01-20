@@ -34,8 +34,8 @@ UNRELEASED:
   * mkvtoolnix added to lite image
   * 7z and zip support added to lite image
   * gnome-keyring added to desktop images
-  * Raspberry Pi firmware cfdbadea5f74c16b7ed5d3b4866092a054e3c3bf
-  * Linux kernel 5.10.89
+  * Raspberry Pi firmware c6d56567ff6ef17fd85159770f22abcf2c5953ed
+  * Linux kernel 5.10.92
 2021-10-30:
   * Based on Debian version 11 (bullseye)
   * Desktop components (lxpanel and all plugins, libfm, pcmanfm) now built against GTK+3
