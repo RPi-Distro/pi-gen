@@ -1,0 +1,17 @@
+lightdm xterm i3 i3status
+libasound-dev ccache cmake clazy clang-tidy debhelper devscripts 
+docbook-to-man dput fonts-open-sans fonts-ubuntu g++
+libavformat-dev
+lcov libchromaprint-dev libdistro-info-perl libebur128-dev libfaad-dev
+libfftw3-dev libflac-dev libhidapi-dev libid3tag0-dev liblilv-dev libmad0-dev libmodplug-dev libmp3lame-dev libopus-dev
+libopusfile-dev libportmidi-dev libprotobuf-dev
+libqt5opengl5-dev libqt5sql5-sqlite libqt5svg5-dev libqt5x11extras5-dev
+librubberband-dev libshout-idjc-dev libsndfile1-dev libsoundtouch-dev 
+libsqlite3-dev 
+libssl-dev libtag1-dev libudev-dev libupower-glib-dev libusb-1.0-0-dev
+libwavpack-dev 
+markdown 
+portaudio19-dev
+protobuf-compiler 
+qt5keychain-dev qtdeclarative5-dev 
+qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qt-labs-qmlmodels qml-module-qtquick-shapes

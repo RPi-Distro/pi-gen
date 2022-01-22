@@ -1,5 +1,4 @@
 alsa-utils
-raspberrypi-artwork
 policykit-1
 rfkill
 fonts-droid-fallback
@@ -8,17 +7,4 @@ arandr
 udevil
 libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
 g++ git scons libportmidi-dev libopusfile-dev ffmpeg
-libshout-dev libtag1-dev libprotobuf-dev protobuf-compiler
-libusb-1.0-0-dev libfftw3-dev libmad0-dev portaudio19-dev
-libchromaprint-dev librubberband-dev libsoundtouch-dev libsqlite3-dev libwavpack-dev
-libid3tag0-dev libflac-dev libsndfile-dev libupower-glib-dev
-libavcodec-dev libavformat-dev
-libgl-dev liblilv-dev
-libjack-dev libjack0 portaudio19-dev
-libfaad-dev
-libmp3lame-dev libebur128-dev
-qt5-default qt5keychain-dev qtdeclarative5-dev libqt5opengl5-dev qtscript5-dev
-libqt5svg5-dev libqt5x11extras5-dev libvamp-sdk2v5 libhidapi-libusb0 libqt5sql5-sqlite libmodplug-dev
-libglu1-mesa-dev
-cmake ccache
 debhelper markdown docbook-to-man devscripts
