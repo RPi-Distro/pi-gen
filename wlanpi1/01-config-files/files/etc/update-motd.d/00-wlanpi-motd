@@ -35,8 +35,12 @@ LOAD=$(echo $LOAD | cut -d " " -f 1)
 CPU_COUNT=$(grep -c processor /proc/cpuinfo)
 LOAD=$(awk '{printf("%.0f",($1/$2) * 100)}' <<< "$LOAD $CPU_COUNT")
 
+# WLAN Pi Mode
+WLAN_PI_MODE=$(cat /etc/wlanpi-state)
+
 # Display output
 echo
+echo "Mode:        ${WLAN_PI_MODE}"
 echo "Release:     ${WLAN_PI_RELEASE}"
 echo "Uptime:      ${UPTIME}"
 echo "Date:        $(date)"
