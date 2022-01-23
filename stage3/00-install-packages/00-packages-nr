@@ -1,3 +1,5 @@
-xserver-xorg xinit xserver-xorg-video-fbdev
+xserver-xorg xinit
 mousepad
-zenity lightdm
+zenity xdg-utils
+gvfs-backends gvfs-fuse
+lightdm

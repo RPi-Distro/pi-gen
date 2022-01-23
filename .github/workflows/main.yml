@@ -27,7 +27,7 @@ jobs:
     - name: Update apt-get
       run: sudo apt-get update
     - name: Install deps
-      run: sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc
+      run: sudo apt-get install coreutils quilt parted kpartx qemu-utils qemu-user-static debootstrap zerofree zip dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc
     # Runs a single command using the runners shell
     - run: mkdir .ccache
     - name: "Set up ccache cache"
