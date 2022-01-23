@@ -4,9 +4,6 @@
 [[ -f "${ROOTFS_DIR}"/usr/share/doc/avahi-daemon/examples/ssh.service ]] && \
 cp "${ROOTFS_DIR}"/usr/share/doc/avahi-daemon/examples/ssh.service "${ROOTFS_DIR}"/etc/avahi/services/
 
-# Create WLAN Pi MOTD
-copy_overlay /etc/update-motd.d/00-wlanpi-motd -o root -g root -m 755
-
 on_chroot <<CHEOF
 	# Set retry for dhclient
 	if grep -q -E "^#?retry " /etc/dhcp/dhclient.conf; then
@@ -42,8 +39,8 @@ on_chroot <<CHEOF
 	# Remove Cockpit MOTD
 	rm -f /etc/motd.d/cockpit
 	
-	# Create a new stats command which displays MOTD on demand
-	ln -fs /etc/update-motd.d/00-wlanpi-motd /usr/local/bin/stats
+	# Remove existing MOTD
+	rm -f /etc/update-motd.d/10-uname
 	
 	#Auto-start systemd-networkd used by Bluetooth pan0 and usb0
 	systemctl enable systemd-networkd
