@@ -15,4 +15,5 @@ on_chroot <<CHEOF
 	systemctl enable iperf3
 	systemctl enable networkinfo
 	systemctl enable cockpit.socket
+	systemctl enable wlanpi-rename-at-startup
 CHEOF
