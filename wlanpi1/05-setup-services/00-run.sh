@@ -13,7 +13,5 @@ copy_overlay /lib/systemd/system/iperf2-udp.service -o root -g root -m 644
 
 on_chroot <<CHEOF
 	systemctl enable iperf3
-	systemctl enable networkinfo
 	systemctl enable cockpit.socket
-	systemctl enable wlanpi-rename-at-startup
 CHEOF
