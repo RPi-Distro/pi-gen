@@ -5,9 +5,9 @@ wlanpi-webui
 wlanpi-fpms
 wlanpi-kernel
 wlanpi-bluetooth
-wlanpi-core
 wlanpi-hotspot
 wlanpi-wconsole
 wlanpi-server
 libpcap0.8/bullseye-backports
 #wiperf
+#wlanpi-core
