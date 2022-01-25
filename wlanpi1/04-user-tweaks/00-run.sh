@@ -9,4 +9,7 @@ on_chroot <<CHEOF
 	echo 'export PATH="$PATH:/usr/local/sbin:/usr/sbin:/sbin"' >> /home/wlanpi/.profile
 	# Include pipx bin location in wlanpi's PATH
 	echo 'export PATH="$PATH:/opt/wlanpi/pipx/bin"' >> /home/wlanpi/.profile
+	
+	# Make the wlanpi user change their password at first login
+	passwd -e wlanpi
 CHEOF
