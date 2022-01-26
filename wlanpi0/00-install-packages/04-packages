@@ -1,2 +1,1 @@
-# Firmware Packages
-wlanpi-linux-firmware
+#Install wlanpi-linux-firmware in the next stage after packagecloud repos have been added
