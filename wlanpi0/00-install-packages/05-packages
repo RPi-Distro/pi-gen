@@ -1,2 +1,4 @@
 kismet
+
+# Install iw built from source, iwlwifi built from source, from this repo https://github.com/WLAN-Pi/wlanpi-misc-packages
 wlanpi-linux-firmware
