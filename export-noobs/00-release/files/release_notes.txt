@@ -1,4 +1,15 @@
 UNRELEASED:
+  * Raspberry Pi firmware 4877a7d918be6fab22ce5d345feefd9c43200a90
+  * Linux kernel 5.10.63
+2022-01-28:
+  * Policykit CVE-2021-4034 fix
+  * Raspberry Pi firmware 4877a7d918be6fab22ce5d345feefd9c43200a90
+  * Linux kernel 5.10.63
+2021-12-03:
+  * Replaced hardware accelerated Chromium build with Raspbian's stock version
+  * Raspberry Pi firmware 4877a7d918be6fab22ce5d345feefd9c43200a90
+  * Linux kernel 5.10.63
+2021-05-07:
   * Chromium upgraded to version 88.0.4324.187
   * NuScratch upgraded to version 20210507
   * Node-RED upgraded to version 1.3.4
