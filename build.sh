@@ -155,6 +155,14 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ $BASE_DIR = *" "* ]]; then
+	echo "There is a space in the base path of pi-gen"
+	echo "This is not a valid setup supported by debootstrap."
+	echo "Please remove the spaces, or move pi-gen directory to a base path without spaces" 1>&2
+	exit 1
+fi
+
 export BASE_DIR
 
 if [ -f config ]; then
