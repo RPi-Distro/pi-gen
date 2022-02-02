@@ -15,12 +15,30 @@ To install the required dependencies for `pi-gen` you should run:
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-qemu-utils kpartx
+qemu-utils kpartx gpg
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
 package is `<tool>[:<debian-package>]`.
 
+## Getting started with building your images
+
+Getting started is as simple as cloning this repository on your build machine. You
+can do so with:
+
+```bash
+git clone -–depth 1 https://github.com/RPI-Distro/pi-gen.git
+```
+
+Using `--depth 1` with `git clone` will create a shallow clone, only containing
+the latest revision of the repository. Do not do this on your development machine.
+
+Also, be careful to clone the repository to a base path **NOT** containing spaces.
+This configuration is not supported by debootstrap and will lead to `pi-gen` not
+running.
+
+After cloning the repository, you can move to the next step and start configuring
+your build.
 
 ## Config
 
@@ -328,7 +346,7 @@ maintenance and allows for more easy customization.
 
  - **Stage 5** - The Raspbian Full image. More development
    tools, an email client, learning tools like Scratch, specialized packages
-   like sonic-pi, office productivity, etc.  
+   like sonic-pi, office productivity, etc.
 
 ### Stage specification
 
@@ -380,8 +398,8 @@ Example:
 
 ```bash
 root@build-machine:~/$ lsblk | grep nbd
-nbd1      43:32   0    10G  0 disk 
-├─nbd1p1  43:33   0    10G  0 part 
+nbd1      43:32   0    10G  0 disk
+├─nbd1p1  43:33   0    10G  0 part
 └─nbd1p1 253:0    0    10G  0 part
 
 root@build-machine:~/$ ps xa | grep qemu-nbd
@@ -405,7 +423,7 @@ It can happen, that your build stops in case of an error. Normally `./build.sh` 
 A typical message indicating that there are some orphaned device mapper entries is this:
 
 ```
-Failed to set NBD socket 
+Failed to set NBD socket
 Disconnect client, due to: Unexpected end-of-file before all bytes were read
 ```
 
@@ -428,10 +446,10 @@ If that happens go through the following steps:
    or
    sudo ./imagetool.sh --cleanup
    ```
-   
+
    Note: The `imagetool.sh` command will cleanup any /dev/nbdX that is not connected to a running `qemu-nbd` daemon. Be careful if you use network block devices for other tasks utilizing NBDs on your build machine as well.
 
-Now you should be able to start a new build without running into troubles again. Most of the time, especially when using Docker build, you will only need no. 3 to get everything up and running again. 
+Now you should be able to start a new build without running into troubles again. Most of the time, especially when using Docker build, you will only need no. 3 to get everything up and running again.
 
 # Troubleshooting
 
