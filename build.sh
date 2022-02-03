@@ -133,7 +133,7 @@ run_stage(){
 		done
 	fi
 
-	if [ "${USE_QCOW2}" = "1" ]; then 
+	if [ "${USE_QCOW2}" = "1" ]; then
 		unload_qimage
 	else
 		# make sure we are not umounting during export-image stage
@@ -155,6 +155,14 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ $BASE_DIR = *" "* ]]; then
+	echo "There is a space in the base path of pi-gen"
+	echo "This is not a valid setup supported by debootstrap."
+	echo "Please remove the spaces, or move pi-gen directory to a base path without spaces" 1>&2
+	exit 1
+fi
+
 export BASE_DIR
 
 if [ -f config ]; then
@@ -369,7 +377,7 @@ for EXPORT_DIR in ${EXPORT_DIRS}; do
 
 	else
 		run_stage
-	fi 
+	fi
 	if [ "${USE_QEMU}" != "1" ]; then
 		if [ -e "${EXPORT_DIR}/EXPORT_NOOBS" ]; then
 			# shellcheck source=/dev/null

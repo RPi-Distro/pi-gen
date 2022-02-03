@@ -1,2 +1,2 @@
-NOOBS_NAME="Raspberry Pi OS (32-bit)"
+NOOBS_NAME="Raspberry Pi OS (64-bit)"
 NOOBS_DESCRIPTION="A port of Debian with the Raspberry Pi Desktop"

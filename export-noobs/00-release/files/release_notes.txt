@@ -1,4 +1,42 @@
 UNRELEASED:
+  * rc_gui - add combo box to allow resolution to be set for VNC connections
+  * rc_gui - camera interface switch removed
+  * lxpanel - remove appearance settings from preferences dialog; instead add menu option to open general Appearance Settings application
+  * lxpanel - add ellipses to menu items which open dialogs
+  * lxinput - read current mouse acceleration directly from xinput
+  * lxinput - use device IDs rather than names to cope with devices changing when powered-down
+  * lxinput - remove redundant changes to openbox config file
+  * plymouth - set KillMode to mixed to suppress warning message
+  * raspi-config - add option to switch composite video
+  * raspi-config - add option to switch to legacy camera mode
+  * raspi-config - add option to set resolution for headless connections
+  * raspberrypi-ui-mods - disable mutter when VNC server is running and fall back to openbox
+  * pipanel - add command-line option to open on arbitrary tab
+  * lxplug-network - suppress ’scan received’ logging message
+  * raspberrypi-ui-mods - set hover colour for taskbar items based on taskbar colour, not system highlight colour
+  * Legacy camera applications and libraries reinstalled
+  * Bug fix - lxinput - lxsession config file not being written on first attempt
+  * Bug fix - lxinput - set timer for file write to prevent slider slowing down
+  * Bug fix - lxinput - write values to gsettings as well as xinput and xsettings to take effect within mutter
+  * Bug fix - lxinput - fix failure to parse and write non-English numeric formats
+  * Bug fix - arandr - various fixes to parsing of non-standard EDID blocks to enable model and serial to be correctly extracted
+  * Bug fix - arandr - refresh rate calculated to 3 decimal places for monitors which require it
+  * Bug fix - arandr - enable setting of left and right orientation
+  * Bug fix - arandr - add compatibility with new touchscreen driver
+  * Bug fix - arandr - apply settings correctly to DSI and composite displays
+  * Bug fix - lxplug-magnifier - fix crash when opening preferences without required magnifier package installed
+  * Bug fix - piwiz - launch screen reader install prompt as a new process to prevent audio lockups crashing wizard
+  * Bug fix - lxpanel - not loading some plugins (cpufreq, minimise all windows) due to icon loading code not compatible with GTK+3
+  * Bug fix - gtk+3 - disabled new GDK touch events to enable double-clicks to be detected on touchscreen
+  * Bug fix - xrdp - included backports from bookworm version of xrdp and xorgxrdp to restore window frames with mutter over xrdp connections
+  * Update various translations
+  * udisks2 added to lite image
+  * mkvtoolnix added to lite image
+  * 7z and zip support added to lite image
+  * gnome-keyring added to desktop images
+  * Raspberry Pi firmware c6d56567ff6ef17fd85159770f22abcf2c5953ed
+  * Linux kernel 5.10.92
+2021-10-30:
   * Based on Debian version 11 (bullseye)
   * Desktop components (lxpanel and all plugins, libfm, pcmanfm) now built against GTK+3
   * Applications (piwiz, pipanel, rc_gui, lxinput) now built against GTK+3
