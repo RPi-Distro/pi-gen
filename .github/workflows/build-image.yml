@@ -43,6 +43,13 @@ jobs:
           name: wlanpi-nightly-release-${{ steps.date.outputs.date }}
           path: deploy/*.zip
 
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: wlanpi-nightly-release-${{ steps.date.outputs.date }}-buildlogs
+          path: deploy/*.log
+
   slack-workflow-status:
     if: always()
     name: Post Workflow Status to Slack

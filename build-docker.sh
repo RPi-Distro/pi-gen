@@ -116,8 +116,9 @@ else
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	# binfmt_misc is sometimes not mounted with debian bullseye image
 	(mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true) &&
-	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
-	rsync -av work/*/build.log deploy/" &
+	cd /pi-gen; ./build.sh ${BUILD_OPTS};
+	rsync -av work/*/build.log deploy/;
+	rsync -av work/wlanpi/stage0/debootstrap.log deploy/" &
 	wait "$!"
 fi
 
