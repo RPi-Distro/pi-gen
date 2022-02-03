@@ -100,9 +100,9 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	# binfmt_misc is sometimes not mounted with debian bullseye image
 	(mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true) &&
-	cd /pi-gen; ./build.sh ${BUILD_OPTS};
+	cd /pi-gen; (./build.sh ${BUILD_OPTS} || true);
 	rsync -av work/*/build.log deploy/;
-	rsync -av work/wlanpi/stage0/debootstrap.log deploy/" &
+	rsync -av work/wlanpi/stage0/debootstrap.log deploy/ || true" &
 	wait "$!"
 else
 	trap 'echo "got CTRL+C... please wait 5s" && ${DOCKER} stop -t 5 ${CONTAINER_NAME}' SIGINT SIGTERM
@@ -117,9 +117,9 @@ else
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	# binfmt_misc is sometimes not mounted with debian bullseye image
 	(mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true) &&
-	cd /pi-gen; ./build.sh ${BUILD_OPTS};
+	cd /pi-gen; (./build.sh ${BUILD_OPTS} || true);
 	rsync -av work/*/build.log deploy/;
-	rsync -av work/wlanpi/stage0/debootstrap.log deploy/" &
+	rsync -av work/wlanpi/stage0/debootstrap.log deploy/ || true" &
 	wait "$!"
 fi
 
@@ -132,4 +132,9 @@ if [ "${PRESERVE_CONTAINER}" != "1" ]; then
 	${DOCKER} rm -v "${CONTAINER_NAME}"
 fi
 
-echo "Done! Your image(s) should be in deploy/"
+if [ -f deploy/*.zip ]; then
+	echo "Done! Your image(s) should be in deploy/"
+else
+	echo "Build failed. Logs are in deploy/"
+	exit 1
+fi
