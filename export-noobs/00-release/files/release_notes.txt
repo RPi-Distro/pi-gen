@@ -1,4 +1,7 @@
 UNRELEASED:
+  *
+2022-01-28:
+  * Policykit CVE-2021-4034 fix
   * rc_gui - add combo box to allow resolution to be set for VNC connections
   * rc_gui - camera interface switch removed
   * lxpanel - remove appearance settings from preferences dialog; instead add menu option to open general Appearance Settings application
@@ -14,7 +17,7 @@ UNRELEASED:
   * pipanel - add command-line option to open on arbitrary tab
   * lxplug-network - suppress ’scan received’ logging message
   * raspberrypi-ui-mods - set hover colour for taskbar items based on taskbar colour, not system highlight colour
-  * Legacy camera applications and libraries reinstalled
+  * Legacy camera applications and libraries reinstalled (32-bit only)
   * Bug fix - lxinput - lxsession config file not being written on first attempt
   * Bug fix - lxinput - set timer for file write to prevent slider slowing down
   * Bug fix - lxinput - write values to gsettings as well as xinput and xsettings to take effect within mutter
