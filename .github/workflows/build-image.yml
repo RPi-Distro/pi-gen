@@ -44,6 +44,17 @@ jobs:
         with:
           name: wlanpi-nightly-release-${{ steps.date.outputs.date }}
           path: deploy/*.zip
+          
+      - name: Create Pre-Release
+        if: ${{ github.event.ref == 'ref/heads/bullseye' }}
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            deploy/*.zip
 
       - name: Upload logs
         if: always()
