@@ -44,7 +44,13 @@ jobs:
         with:
           name: wlanpi-nightly-release-${{ steps.date.outputs.date }}
           path: deploy/*.zip
-          
+
+      - name: Upload image info
+        uses: actions/upload-artifact@v2
+        with:
+          name: wlanpi-nightly-release-${{ steps.date.outputs.date }}-info
+          path: deploy/*.info
+
       - name: Create Pre-Release
         if: ${{ github.event.ref == github.event.repository.default_branch }}
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -55,6 +61,8 @@ jobs:
           title: "Development Build"
           files: |
             deploy/*.zip
+            deploy/*.info
+            deploy/wlanpi-os/os.json
 
       - name: Upload logs
         if: always()
