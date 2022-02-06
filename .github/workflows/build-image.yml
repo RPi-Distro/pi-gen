@@ -63,6 +63,7 @@ jobs:
             deploy/*.zip
             deploy/*.info
             deploy/wlanpi-os/os.json
+            deploy/wlanpi-os/os-list.json
 
       - name: Upload logs
         if: always()

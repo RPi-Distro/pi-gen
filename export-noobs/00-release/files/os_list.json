@@ -1,0 +1,19 @@
+{
+    "imager": {
+        "latest_version": "1.6",
+        "url": "https://www.raspberrypi.org/software/"
+    },
+    "os_list": [
+        {
+            "name": "WLAN Pi OS",
+            "description": "Custom OS based on Raspberry Pi OS for the WLAN Pi project",
+            "icon": "https://avatars.githubusercontent.com/u/43886783?s=45&u=f557b4699474a0e1def1600fcb286188c978cd6e&v=4",
+            "url": "https://github.com/WLANPi/pi-gen/releases/download/latest/image_RELEASE-wlanpi-os.zip",
+            "extract_size": EXTRACTSIZE,
+            "extract_sha256": "EXTRACTSHA256",
+            "image_download_size": IMAGEDOWNLOADSIZE,
+            "release_date": "RELEASE"
+        }
+    ]
+}
+

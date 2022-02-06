@@ -96,10 +96,14 @@ else
 	make_bootable_image "${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.qcow2" "$IMG_FILE"
 fi
 
+export EXTRATED_IMAGE_SIZE=$(stat --format="%s" "$IMG_FILE")
+export EXTRATED_IMAGE_SHA256=$(sha256sum "$IMG_FILE")
+
 if [ "${DEPLOY_ZIP}" == "1" ]; then
 	pushd "${STAGE_WORK_DIR}" > /dev/null
 	zip "${DEPLOY_DIR}/${ZIP_FILENAME}${IMG_SUFFIX}.zip" \
 		"$(basename "${IMG_FILE}")"
+	export ZIPPED_IMAGE_SIZE=$(stat --format="%s" "${DEPLOY_DIR}/${ZIP_FILENAME}${IMG_SUFFIX}.zip")
 	popd > /dev/null
 else
 	mv "$IMG_FILE" "$DEPLOY_DIR/"

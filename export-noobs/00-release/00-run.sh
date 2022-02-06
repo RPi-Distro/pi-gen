@@ -5,6 +5,7 @@ NOOBS_DIR="${STAGE_WORK_DIR}/${IMG_NAME}${IMG_SUFFIX}"
 install -v -m 744	files/partition_setup.sh	"${NOOBS_DIR}/"
 install -v		files/partitions.json		"${NOOBS_DIR}/"
 install -v		files/os.json			"${NOOBS_DIR}/"
+install -v		files/os_list.json		"${NOOBS_DIR}/"
 install -v		files/OS.png			"${NOOBS_DIR}/"
 install -v		files/release_notes.txt		"${NOOBS_DIR}/"
 
@@ -38,6 +39,11 @@ sed "${NOOBS_DIR}/os.json" -i -e "s|NOOBS_NAME|${NOOBS_NAME}|"
 sed "${NOOBS_DIR}/os.json" -i -e "s|NOOBS_DESCRIPTION|${NOOBS_DESCRIPTION}|"
 sed "${NOOBS_DIR}/os.json" -i -e "s|RELEASE|${RELEASE}|"
 sed "${NOOBS_DIR}/os.json" -i -e "s|KERNEL|$(cat "${STAGE_WORK_DIR}/kernel_version")|"
+
+sed "${NOOBS_DIR}/os_list.json" -i -e "s|RELEASE|${RELEASE}|"
+sed "${NOOBS_DIR}/os_list.json" -i -e "s|EXTRACTSIZE|${EXTRACTED_IMAGE_SIZE}|"
+sed "${NOOBS_DIR}/os_list.json" -i -e "s|IMAGEDOWNLOADSIZE|${ZIPPED_IMAGE_SIZE}|"
+sed "${NOOBS_DIR}/os_list.json" -i -e "s|EXTRACTSHA256|${EXTRACTED_IMAGE_SHA256}|"
 
 sed "${NOOBS_DIR}/release_notes.txt" -i -e "s|UNRELEASED|${IMG_DATE}|"
 
