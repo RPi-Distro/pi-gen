@@ -12,7 +12,7 @@ else
 	rm -f "${ROOTFS_DIR}/etc/apt/apt.conf.d/51cache"
 fi
 
-on_chroot apt-key add - < files/raspberrypi.gpg.key
+cat files/raspberrypi.gpg.key | gpg --dearmor > "${ROOTFS_DIR}/etc/apt/trusted.gpg.d/raspberrypi-archive-stable.gpg"
 on_chroot << EOF
 apt-get update
 apt-get dist-upgrade -y

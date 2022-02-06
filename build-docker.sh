@@ -48,7 +48,7 @@ fi
 CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
 CONTINUE=${CONTINUE:-0}
 PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-0}
-PIGEN_DOCKER_OPTS=${PIGEN_DOCKER_OPTS:-""}  
+PIGEN_DOCKER_OPTS=${PIGEN_DOCKER_OPTS:-""}
 
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set in 'config'" 1>&2
@@ -98,6 +98,8 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
+	# binfmt_misc is sometimes not mounted with debian bullseye image
+	(mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true) &&
 	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
 	rsync -av work/*/build.log deploy/" &
 	wait "$!"
@@ -112,6 +114,8 @@ else
 		-e "GIT_HASH=${GIT_HASH}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
+	# binfmt_misc is sometimes not mounted with debian bullseye image
+	(mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true) &&
 	cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
 	rsync -av work/*/build.log deploy/" &
 	wait "$!"
