@@ -6,7 +6,7 @@ on_chroot <<CHEOF
 	echo 'deb https://www.kismetwireless.net/repos/apt/release/bullseye bullseye main' | tee /etc/apt/sources.list.d/kismet.list
 	
 	# Add packagecloud wlanpi/main repository
-	curl -s https://packagecloud.io/install/repositories/wlanpi/main/script.deb.sh | sudo os="raspbian" dist="${RELEASE}" bash
+	curl -s https://packagecloud.io/install/repositories/wlanpi/main/script.deb.sh
 
 	# Add Bullseye Backports repository
 	echo 'deb http://deb.debian.org/debian bullseye-backports main' | tee /etc/apt/sources.list.d/bullseye-backports.list
