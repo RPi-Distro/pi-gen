@@ -86,6 +86,9 @@
 ### tuple ### allow any any 0.0.0.0/0 any 0.0.0.0/0 in_usb0
 -A ufw-user-input -i usb0 -j ACCEPT
 
+### tuple ### allow udp 67 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p udp --dport 67 -j ACCEPT
+
 ### END RULES ###
 
 ### LOGGING ###
