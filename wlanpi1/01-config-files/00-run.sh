@@ -96,3 +96,6 @@ copy_overlay /etc/modules-load.d/rndis.conf -o root -g root -m 644
 
 # Copy USB1 network configuration
 copy_overlay /etc/systemd/network/usb1.network -o root -g root -m 664
+
+# Copy eth1 network configuration
+copy_overlay /etc/systemd/network/eth1.network -o root -g root -m 664
