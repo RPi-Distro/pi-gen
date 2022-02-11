@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-####################
-# Install Profiler and speedtest
-####################
+############################################
+# Install sivel's unofficial speedtest-cli #
+############################################
 
 on_chroot <<CHEOF
 	# Set pipx variables for the remainder of the script
