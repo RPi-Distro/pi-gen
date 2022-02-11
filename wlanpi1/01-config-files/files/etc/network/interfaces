@@ -19,8 +19,6 @@ iface wlan0 inet dhcp
 #netmask 255.255.255.0
 #gateway 192.168.0.1
 #dns-nameservers 8.8.8.8 8.8.4.4
-#wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-wireless-mode Monitor
 # Disable power saving on compatible chipsets (prevents SSH/connection dropouts over WiFi)
 wireless-power off
 
@@ -28,3 +26,6 @@ wireless-power off
 # For second WiFi dongle
 allow-hotplug wlan1
 iface wlan1 inet dhcp
+#wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+# Disable power saving on compatible chipsets (prevents SSH/connection dropouts over WiFi)
+wireless-power off
