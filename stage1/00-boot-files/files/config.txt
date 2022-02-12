@@ -56,6 +56,3 @@ dtparam=act_led_trigger=heartbeat
 
 # Switch to kernel 64 bits
 arm_64bit=1
-
-# Power device off after OS shutdown
-dtoverlay=gpio-shutdown
