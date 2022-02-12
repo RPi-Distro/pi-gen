@@ -2,3 +2,6 @@ kismet
 
 # Install iw built from source, iwlwifi built from source, from this repo https://github.com/WLAN-Pi/wlanpi-misc-packages
 wlanpi-linux-firmware
+
+# Install 45Drives cockpit-navigator from packagecloud
+cockpit-navigator
