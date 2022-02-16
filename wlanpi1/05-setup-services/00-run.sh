@@ -14,4 +14,6 @@ copy_overlay /lib/systemd/system/iperf2-udp.service -o root -g root -m 644
 on_chroot <<CHEOF
 	systemctl enable iperf3
 	systemctl enable cockpit.socket
+	# ISC DHCP server is not used in Classic mode. Only Hotspot, Server and Wi-Fi Console modes rely on it today. The plan is to remove ISC DHCP server.
+	systemctl disable isc-dhcp-server
 CHEOF
