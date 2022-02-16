@@ -27,7 +27,7 @@ Getting started is as simple as cloning this repository on your build machine. Y
 can do so with:
 
 ```bash
-git clone -–depth 1 https://github.com/RPI-Distro/pi-gen.git
+git clone --depth 1 https://github.com/RPI-Distro/pi-gen.git
 ```
 
 Using `--depth 1` with `git clone` will create a shallow clone, only containing
