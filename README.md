@@ -15,7 +15,7 @@ To install the required dependencies for `pi-gen` you should run:
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-qemu-utils kpartx gpg
+qemu-utils kpartx gpg pigz
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -116,9 +116,12 @@ The following environment variables are supported:
 
    Output directory for target system images and NOOBS bundles.
 
- * `DEPLOY_ZIP` (Default: `1`)
+ * `DEPLOY_COMPRESSION` (Default: `zip`)
 
-   Setting to `0` will deploy the actual image (`.img`) instead of a zipped image (`.zip`).
+   Setting to `none` will deploy the actual image (`.img`).
+   Setting to `zip` will deploy a zipped image (`.zip`).
+   Setting to `gz` will create a gzipped image (`.img.gz`).
+   Setting to `xz` will create a xzipped image (`.img.xz`).
 
  * `USE_QEMU` (Default: `"0"`)
 
