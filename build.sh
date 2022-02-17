@@ -235,6 +235,9 @@ export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
 export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 
 export VERSION_BUMP=${VERSION_BUMP:-auto}
+export LAST_VERSION=${LAST_VERSION:-"$(git describe --tags --abbrev=0 --match="v[0-9].[0-9].[0-9]*")"}
+export LAST_VERSION_HASH=${LAST_VERSION_HASH:-"$(git rev-parse "${LAST_VERSION}")"}
+export COMMITS_FROM_LAST=${COMMITS_FROM_LAST:-"$(git log --oneline "${LAST_VERSION}"..${GIT_HASH})"}
 
 export PUBKEY_SSH_FIRST_USER
 

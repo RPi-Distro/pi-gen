@@ -7,7 +7,7 @@ setup_version() {
 	return 0
     fi
 
-    wget -O /tmp/semver \
+    wget -q -O /tmp/semver \
 	https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
     chmod +x /tmp/semver
 }
@@ -21,9 +21,9 @@ get_latest_tag() {
 update_version() {
     setup_version
 
-    last_version="$(get_latest_tag)"
-    if [ "$(git rev-parse "${latest_version}") == "$(git rev-parse HEAD) ]; then
-	echo "v${latest_version}"
+    last_version="${LAST_VERSION}"
+    if [ "${GIT_HASH}" == "${LAST_VERSION_HASH}" ]; then
+	echo "${last_version}"
 	exit 0
     fi
 
@@ -36,7 +36,7 @@ update_version() {
 	patch) is_patch=1 ;;
 	*)
 	    # Guess the bump from commit history
-	    commits="$(git log --oneline "${last_version}"..HEAD)"
+	    commits="${COMMITS_FROM_LAST}"
 
 	    is_breaking="$(echo "${commits}" | awk '{ print $2; }' | { grep "BREAK:" || :; })"
 	    is_feature="$(echo "${commits}" | awk '{ print $2; }' | { grep "feat:" || :; })"

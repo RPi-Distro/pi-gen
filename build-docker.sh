@@ -58,6 +58,9 @@ fi
 
 # Ensure the Git Hash is recorded before entering the docker container
 GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
+LAST_VERSION="$(git describe --tags --abbrev=0 --match="v[0-9].[0-9].[0-9]*")"
+LAST_VERSION_HASH="$(git rev-parse "${LAST_VERSION}")"
+COMMITS_FROM_LAST="$(git log --oneline "${LAST_VERSION}"..${GIT_HASH})"
 
 CONTAINER_EXISTS=$(${DOCKER} ps -a --filter name="${CONTAINER_NAME}" -q)
 CONTAINER_RUNNING=$(${DOCKER} ps --filter name="${CONTAINER_NAME}" -q)
@@ -95,6 +98,9 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		${PIGEN_DOCKER_OPTS} \
 		--volume "${CONFIG_FILE}":/config:ro \
 		-e "GIT_HASH=${GIT_HASH}" \
+		-e "LAST_VERSION=${LAST_VERSION}" \
+		-e "LAST_VERSION_HASH=${LAST_VERSION_HASH}" \
+		-e "COMMITS_FROM_LAST=${COMMITS_FROM_LAST}" \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
@@ -113,6 +119,9 @@ else
 		${PIGEN_DOCKER_OPTS} \
 		--volume "${CONFIG_FILE}":/config:ro \
 		-e "GIT_HASH=${GIT_HASH}" \
+		-e "LAST_VERSION=${LAST_VERSION}" \
+		-e "LAST_VERSION_HASH=${LAST_VERSION_HASH}" \
+		-e "COMMITS_FROM_LAST=${COMMITS_FROM_LAST}" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	# binfmt_misc is sometimes not mounted with debian bullseye image
