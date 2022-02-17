@@ -69,13 +69,23 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 		#kernel="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/git_hash")"
 		#printf "Kernel: https://github.com/raspberrypi/linux/tree/%s\n" "$kernel"
 
-		uname="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/uname_string7")"
-		printf "Uname string: %s\n" "$uname"
+		#uname="$(curl -s -L "https://github.com/raspberrypi/firmware/raw/$firmware/extra/uname_string7")"
+	fi
+
+	if [ -f "$ROOTFS_DIR/usr/share/doc/wlanpi-kernel/changelog.Debian.gz" ]; then
+		kernel=$(zgrep "Kernel version" \
+			"$ROOTFS_DIR/usr/share/doc/wlanpi-kernel/changelog.Debian.gz" | \
+			head -n1 | sed  -n 's|.* \([^ ]*\)$|\1|p')
+		printf "Kernel: %s\n" "$uname"
 	fi
 
 	printf "\nPackages:\n"
 	dpkg -l --root "$ROOTFS_DIR"
 } >> "$INFO_FILE"
+
+new_version=$(source "${SCRIPT_DIR}/update_version.sh" "${VERSION_BUMP}")
+echo "VERSION=${new_version}" > "${ROOTFS_DIR}/etc/wlanpi-release"
+echo "::set-output name=version::${new_version}"
 
 mkdir -p "${DEPLOY_DIR}"
 
