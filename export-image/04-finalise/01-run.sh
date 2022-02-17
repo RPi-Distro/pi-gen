@@ -84,7 +84,7 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 } >> "$INFO_FILE"
 
 new_version=$(source "${SCRIPT_DIR}/update_version.sh" "${VERSION_BUMP}")
-echo "VERSION=${new_version}" > "${ROOTFS_DIR}/etc/wlanpi-release"
+echo "VERSION=${new_version#v}" > "${ROOTFS_DIR}/etc/wlanpi-release"
 echo "::set-output name=version::${new_version}"
 
 mkdir -p "${DEPLOY_DIR}"
