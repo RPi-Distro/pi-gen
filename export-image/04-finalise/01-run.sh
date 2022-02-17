@@ -83,6 +83,10 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 	dpkg -l --root "$ROOTFS_DIR"
 } >> "$INFO_FILE"
 
+new_version=$("${SCRIPT_DIR}/update_version.sh" "${VERSION_BUMP}")
+echo "VERSION=${new_version}" > "${ROOTFS_DIR}/etc/wlanpi-release"
+echo "::set-output name=version::${new_version}"
+
 mkdir -p "${DEPLOY_DIR}"
 
 rm -f "${DEPLOY_DIR}/${ZIP_FILENAME}${IMG_SUFFIX}.zip"

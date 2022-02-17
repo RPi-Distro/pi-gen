@@ -4,6 +4,18 @@ name: Build image
 on:
   # Allow manual runs of workflow from Actions tab
   workflow_dispatch:
+    inputs:
+      version-bump:
+        description: Version bump
+        required: true
+        type: choice
+        options:
+          - Auto
+          - Major
+          - Minor
+          - Patch
+          - RC
+        default: Auto
 
   schedule:
     - cron: '37 5 * * *'
@@ -18,8 +30,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
 
       - name: Build image
+        id: build-image
         run: |
           last_commit_date=$(git log -1 --format=%cd --date=unix)
           last_day=$(date -d '-1 day' +%s)
@@ -32,23 +47,18 @@ jobs:
           fi
 
           sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-          sudo ./build-docker.sh
-
-      - name: Get current date
-        if: always()
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+          sudo ./build-docker.sh -v ${{ github.event.input.version-bump }}
 
       - name: Upload image
         uses: actions/upload-artifact@v2
         with:
-          name: wlanpi-nightly-release-${{ steps.date.outputs.date }}
+          name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}
           path: deploy/*.zip
 
       - name: Upload image info
         uses: actions/upload-artifact@v2
         with:
-          name: wlanpi-nightly-release-${{ steps.date.outputs.date }}-info
+          name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}-info
           path: deploy/*.info
 
       - name: Create Pre-Release
@@ -56,20 +66,18 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          automatic_release_tag: ${{ steps.build-image.outputs.version }}
           prerelease: true
-          title: "Development Build"
           files: |
             deploy/*.zip
             deploy/*.info
             deploy/wlanpi-os/os.json
-            deploy/wlanpi-os/os-list.json
 
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: wlanpi-nightly-release-${{ steps.date.outputs.date }}-buildlogs
+          name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}-buildlogs
           path: deploy/*.log
 
   slack-workflow-status:

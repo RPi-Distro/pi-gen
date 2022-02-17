@@ -170,13 +170,16 @@ if [ -f config ]; then
 	source config
 fi
 
-while getopts "c:" flag
+while getopts "c:v:" flag
 do
 	case "$flag" in
 		c)
 			EXTRA_CONFIG="$OPTARG"
 			# shellcheck disable=SC1090
 			source "$EXTRA_CONFIG"
+			;;
+		v)
+			VERSION_BUMP="${OPTARG}"
 			;;
 		*)
 			;;
@@ -230,6 +233,8 @@ export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"
 export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
 
 export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
+
+export VERSION_BUMP=${VERSION_BUMP:-auto}
 
 export PUBKEY_SSH_FIRST_USER
 

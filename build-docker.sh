@@ -20,7 +20,7 @@ if [ -f "${DIR}/config" ]; then
 	CONFIG_FILE="${DIR}/config"
 fi
 
-while getopts "c:" flag
+while getopts "c:v:" flag
 do
 	case "${flag}" in
 		c)
