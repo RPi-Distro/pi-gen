@@ -96,21 +96,22 @@ else
 fi
 
 case "${DEPLOY_COMPRESSION}" in
-"zip")
+zip)
 	pushd "${STAGE_WORK_DIR}" > /dev/null
 	zip "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.zip" \
 		"$(basename "${IMG_FILE}")"
 	popd > /dev/null
 	;;
-"gz")
-	mv "$IMG_FILE" "$DEPLOY_DIR/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
+gz)
+	cp "$IMG_FILE" "$DEPLOY_DIR/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
 	pigz --force -9 "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
 	;;
-"xz")
-	mv "$IMG_FILE" "$DEPLOY_DIR/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
-	xz --compress --force --threads 0 --memlimit-compress=50% -9 "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
+xz)
+	cp "$IMG_FILE" "$DEPLOY_DIR/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
+	xz --compress --force --threads 0 --memlimit-compress=50% -9 \
+		"${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
 	;;
-"none" | *)
+none | *)
 	mv "$IMG_FILE" "$DEPLOY_DIR/"
 ;;
 esac

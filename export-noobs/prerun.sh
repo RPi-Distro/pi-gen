@@ -3,10 +3,10 @@
 NOOBS_DIR="${STAGE_WORK_DIR}/${IMG_NAME}${IMG_SUFFIX}"
 mkdir -p "${STAGE_WORK_DIR}"
 
-if [ "${DEPLOY_COMPRESSION}" != "none" ]; then
-	IMG_FILE="${WORK_DIR}/export-image/${IMG_FILENAME}${IMG_SUFFIX}.img"
-else
+if [ "${DEPLOY_COMPRESSION}" == "none" ]; then
 	IMG_FILE="${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
+else
+	IMG_FILE="${WORK_DIR}/export-image/${IMG_FILENAME}${IMG_SUFFIX}.img"
 fi
 
 unmount_image "${IMG_FILE}"
