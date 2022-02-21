@@ -466,7 +466,9 @@ git clone --depth 1 --branch arm64 https://github.com/RPI-Distro/pi-gen.git
 
 If you want to generate a 64 bits image from a Raspberry Pi running a 32 bits
 version, you need to add `arm_64bit=1` to your `config.txt` file and reboot your
-machine. This will restart your machine with a 64 bits kernel.
+machine. This will restart your machine with a 64 bits kernel. This will only
+work from a Raspberry Pi with a 64-bit capable processor (i.e. Raspberry Pi Zero
+2, Raspberry Pi 3 or Raspberry Pi 4).
 
 
 ## `binfmt_misc`
