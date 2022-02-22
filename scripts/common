@@ -7,7 +7,7 @@ bootstrap(){
 	local BOOTSTRAP_CMD=debootstrap
 	local BOOTSTRAP_ARGS=()
 
-	#export http_proxy=${APT_PROXY}
+	export http_proxy=${APT_PROXY}
 
 	BOOTSTRAP_ARGS+=(--arch arm64)
 	BOOTSTRAP_ARGS+=(--include gnupg)
