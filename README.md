@@ -118,10 +118,15 @@ The following environment variables are supported:
 
  * `DEPLOY_COMPRESSION` (Default: `zip`)
 
-   Setting to `none` will deploy the actual image (`.img`).
-   Setting to `zip` will deploy a zipped image (`.zip`).
-   Setting to `gz` will create a gzipped image (`.img.gz`).
-   Setting to `xz` will create a xzipped image (`.img.xz`).
+   Set to:
+   * `none` to deploy the actual image (`.img`).
+   * `zip` to deploy a zipped image (`.zip`).
+   * `gz` to deploy a gzipped image (`.img.gz`).
+
+ * `COMPRESSION_LEVEL` (Default: `9`)
+
+   Compression level to be used when using `zip`, `gz` or `xz` for
+   `DEPLOY_COMPRESSION`. From 0 to 9.
 
  * `USE_QEMU` (Default: `"0"`)
 

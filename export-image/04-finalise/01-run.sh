@@ -98,18 +98,17 @@ fi
 case "${DEPLOY_COMPRESSION}" in
 zip)
 	pushd "${STAGE_WORK_DIR}" > /dev/null
-	zip "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.zip" \
-		"$(basename "${IMG_FILE}")"
+	zip -"${COMPRESSION_LEVEL}" \
+	"${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.zip" "$(basename "${IMG_FILE}")"
 	popd > /dev/null
 	;;
 gz)
-	cp "$IMG_FILE" "$DEPLOY_DIR/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
-	pigz --force -9 "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
+	pigz --force -"${COMPRESSION_LEVEL}" "$IMG_FILE" -c > \
+	"${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img.gz"
 	;;
 xz)
-	cp "$IMG_FILE" "$DEPLOY_DIR/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
-	xz --compress --force --threads 0 --memlimit-compress=50% -9 \
-		"${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
+	xz --compress --force --threads 0 --memlimit-compress=50% -"${COMPRESSION_LEVEL}" \
+	--stdout "$IMG_FILE" > "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
 	;;
 none | *)
 	cp "$IMG_FILE" "$DEPLOY_DIR/"
