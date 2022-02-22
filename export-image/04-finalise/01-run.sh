@@ -103,12 +103,12 @@ zip)
 	popd > /dev/null
 	;;
 gz)
-	pigz --force -"${COMPRESSION_LEVEL}" "$IMG_FILE" -c > \
+	pigz --force -"${COMPRESSION_LEVEL}" "$IMG_FILE" --stdout > \
 	"${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img.gz"
 	;;
 xz)
 	xz --compress --force --threads 0 --memlimit-compress=50% -"${COMPRESSION_LEVEL}" \
-	--stdout "$IMG_FILE" > "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
+	--stdout "$IMG_FILE" > "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img.xz"
 	;;
 none | *)
 	cp "$IMG_FILE" "$DEPLOY_DIR/"
