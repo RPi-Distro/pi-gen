@@ -478,10 +478,15 @@ possible to make use of `pi-gen` on an x86_64 system, even though it will be run
 ARM binaries. This requires support from the [`binfmt_misc`](https://en.wikipedia.org/wiki/Binfmt_misc)
 kernel module.
 
-You may see the following error:
+You may see one of the following errors:
 
 ```
 update-binfmts: warning: Couldn't load the binfmt_misc module.
+```
+```
+W: Failure trying to run: chroot "/pi-gen/work/test/stage0/rootfs" /bin/true
+and/or
+chroot: failed to run command '/bin/true': Exec format error
 ```
 
 To resolve this, ensure that the following files are available (install them if necessary):
@@ -492,3 +497,5 @@ To resolve this, ensure that the following files are available (install them if 
 ```
 
 You may also need to load the module by hand - run `modprobe binfmt_misc`.
+
+If you are using WSL to build you may have to enable the service `sudo update-binfmts --enable` 
