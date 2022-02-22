@@ -132,10 +132,12 @@ The following environment variables are supported:
    If `DEPLOY_ZIP=0` is still present in your config file, the behavior is the
    same as with `DEPLOY_COMPRESSION=none`.
 
- * `COMPRESSION_LEVEL` (Default: `9`)
+ * `COMPRESSION_LEVEL` (Default: `6`)
 
    Compression level to be used when using `zip`, `gz` or `xz` for
-   `DEPLOY_COMPRESSION`. From 0 to 9.
+   `DEPLOY_COMPRESSION`. From 0 to 9 (refer to the tool man page for more
+   information on this. Usually 0 is no compression but very fast, up to 9 with
+   the best compression but very slow ).
 
  * `USE_QEMU` (Default: `"0"`)
 
