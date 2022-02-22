@@ -112,6 +112,6 @@ xz)
 		"${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img"
 	;;
 none | *)
-	mv "$IMG_FILE" "$DEPLOY_DIR/"
+	cp "$IMG_FILE" "$DEPLOY_DIR/"
 ;;
 esac
