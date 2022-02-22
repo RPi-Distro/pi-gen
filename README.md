@@ -454,7 +454,22 @@ Now you should be able to start a new build without running into troubles again.
 # Troubleshooting
 
 ## `64 Bit Systems`
-Please note there is currently an issue when compiling with a 64 Bit OS. See https://github.com/RPi-Distro/pi-gen/issues/271
+Please note there is currently an issue when compiling with a 64 Bit OS. See
+https://github.com/RPi-Distro/pi-gen/issues/271
+
+A 64 bit image can be generated from the `arm64` branch in this repository. Just
+replace the command from [this section](#getting-started-with-building-your-images)
+by the one below, and follow the rest of the documentation:
+```bash
+git clone --depth 1 --branch arm64 https://github.com/RPI-Distro/pi-gen.git
+```
+
+If you want to generate a 64 bits image from a Raspberry Pi running a 32 bits
+version, you need to add `arm_64bit=1` to your `config.txt` file and reboot your
+machine. This will restart your machine with a 64 bits kernel. This will only
+work from a Raspberry Pi with a 64-bit capable processor (i.e. Raspberry Pi Zero
+2, Raspberry Pi 3 or Raspberry Pi 4).
+
 
 ## `binfmt_misc`
 
