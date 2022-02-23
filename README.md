@@ -498,4 +498,4 @@ To resolve this, ensure that the following files are available (install them if 
 
 You may also need to load the module by hand - run `modprobe binfmt_misc`.
 
-If you are using WSL to build you may have to enable the service `sudo update-binfmts --enable` 
+If you are using WSL to build you may have to enable the service `sudo update-binfmts --enable`
