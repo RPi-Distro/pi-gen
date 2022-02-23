@@ -27,7 +27,7 @@ Getting started is as simple as cloning this repository on your build machine. Y
 can do so with:
 
 ```bash
-git clone -–depth 1 https://github.com/RPI-Distro/pi-gen.git
+git clone --depth 1 https://github.com/RPI-Distro/pi-gen.git
 ```
 
 Using `--depth 1` with `git clone` will create a shallow clone, only containing
@@ -454,7 +454,22 @@ Now you should be able to start a new build without running into troubles again.
 # Troubleshooting
 
 ## `64 Bit Systems`
-Please note there is currently an issue when compiling with a 64 Bit OS. See https://github.com/RPi-Distro/pi-gen/issues/271
+Please note there is currently an issue when compiling with a 64 Bit OS. See
+https://github.com/RPi-Distro/pi-gen/issues/271
+
+A 64 bit image can be generated from the `arm64` branch in this repository. Just
+replace the command from [this section](#getting-started-with-building-your-images)
+by the one below, and follow the rest of the documentation:
+```bash
+git clone --depth 1 --branch arm64 https://github.com/RPI-Distro/pi-gen.git
+```
+
+If you want to generate a 64 bits image from a Raspberry Pi running a 32 bits
+version, you need to add `arm_64bit=1` to your `config.txt` file and reboot your
+machine. This will restart your machine with a 64 bits kernel. This will only
+work from a Raspberry Pi with a 64-bit capable processor (i.e. Raspberry Pi Zero
+2, Raspberry Pi 3 or Raspberry Pi 4).
+
 
 ## `binfmt_misc`
 
@@ -463,10 +478,15 @@ possible to make use of `pi-gen` on an x86_64 system, even though it will be run
 ARM binaries. This requires support from the [`binfmt_misc`](https://en.wikipedia.org/wiki/Binfmt_misc)
 kernel module.
 
-You may see the following error:
+You may see one of the following errors:
 
 ```
 update-binfmts: warning: Couldn't load the binfmt_misc module.
+```
+```
+W: Failure trying to run: chroot "/pi-gen/work/test/stage0/rootfs" /bin/true
+and/or
+chroot: failed to run command '/bin/true': Exec format error
 ```
 
 To resolve this, ensure that the following files are available (install them if necessary):
@@ -477,3 +497,5 @@ To resolve this, ensure that the following files are available (install them if 
 ```
 
 You may also need to load the module by hand - run `modprobe binfmt_misc`.
+
+If you are using WSL to build you may have to enable the service `sudo update-binfmts --enable`
