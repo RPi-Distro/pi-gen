@@ -15,7 +15,7 @@ To install the required dependencies for `pi-gen` you should run:
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-qemu-utils kpartx gpg
+qemu-utils kpartx gpg pigz
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -116,9 +116,28 @@ The following environment variables are supported:
 
    Output directory for target system images and NOOBS bundles.
 
- * `DEPLOY_ZIP` (Default: `1`)
+ * `DEPLOY_COMPRESSION` (Default: `zip`)
 
-   Setting to `0` will deploy the actual image (`.img`) instead of a zipped image (`.zip`).
+   Set to:
+   * `none` to deploy the actual image (`.img`).
+   * `zip` to deploy a zipped image (`.zip`).
+   * `gz` to deploy a gzipped image (`.img.gz`).
+   * `xz` to deploy a xzipped image (`.img.xz`).
+
+
+ * `DEPLOY_ZIP` (Deprecated)
+
+   This option has been deprecated in favor of `DEPLOY_COMPRESSION`.
+
+   If `DEPLOY_ZIP=0` is still present in your config file, the behavior is the
+   same as with `DEPLOY_COMPRESSION=none`.
+
+ * `COMPRESSION_LEVEL` (Default: `6`)
+
+   Compression level to be used when using `zip`, `gz` or `xz` for
+   `DEPLOY_COMPRESSION`. From 0 to 9 (refer to the tool man page for more
+   information on this. Usually 0 is no compression but very fast, up to 9 with
+   the best compression but very slow ).
 
  * `USE_QEMU` (Default: `"0"`)
 
