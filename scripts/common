@@ -98,3 +98,12 @@ update_issue() {
 	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }
 export -f update_issue
+
+proxy_check(){
+    if [[ -n "${APT_PROXY}" ]] && ! curl --silent "${APT_PROXY}" >/dev/null ; then
+	    return 1
+    else
+        return 0
+    fi
+}
+export -f proxy_check
