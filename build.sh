@@ -211,7 +211,7 @@ export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
 
 # DEPLOY_ZIP was deprecated in favor of DEPLOY_COMPRESSION
 # This preserve the old behavior with DEPLOY_ZIP=0 where no archive was created
-if [[ (-z ${DEPLOY_COMPRESSION}) && (${DEPLOY_ZIP:-1} -eq 0) ]]; then
+if [ -z "${DEPLOY_COMPRESSION}" ] && [ "${DEPLOY_ZIP:-1}" = "0" ]; then
 	echo "DEPLOY_ZIP has been deprecated in favor of DEPLOY_COMPRESSION"
 	echo "Similar behavior to DEPLOY_ZIP=0 can be obtained with DEPLOY_COMPRESSION=none"
 	echo "Please update your config file"
