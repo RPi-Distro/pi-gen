@@ -281,7 +281,7 @@ if [[ ! "$FIRST_USER_NAME" =~ ^[a-z][-a-z0-9_]*$ ]]; then
 	exit 1
 fi
 
-if [[ -n "${APT_PROXY}" && ! proxy_check ]]; then
+if ! proxy_check; then
 	if [[ "${APT_PROXY_FALLBACK}" != "1" ]]; then
 		echo "Could not reach APT_PROXY server: ${APT_PROXY}"
 		exit 1
