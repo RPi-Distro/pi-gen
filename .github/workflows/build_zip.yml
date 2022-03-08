@@ -1,0 +1,55 @@
+name: Build Pi image
+
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      deb-url:
+        description: 'URL for Kolibri deb file'
+        required: true
+  workflow_call:
+    inputs:
+      deb-file-name:
+        required: true
+        type: string
+      ref:
+        description: 'A ref for this workflow to check out its own repo'
+        required: true
+        type: string
+    outputs:
+      zip-file-name:
+        description: "ZIP file name"
+        value: ${{ jobs.build_zip.outputs.zip-file-name }}
+
+jobs:
+  build_zip:
+    name: Build Pi image
+    runs-on: ubuntu-latest
+    outputs:
+      zip-file-name: ${{ steps.get-zip-filename.outputs.zip-file-name }}
+    steps:
+    - uses: actions/checkout@v2
+      if: ${{ !inputs.ref }}
+    - uses: actions/checkout@v2
+      if: ${{ inputs.ref }}
+      with:
+        repository: learningequality/pi-gen
+        ref: ${{ inputs.ref }}
+    - name: Download the debfile from URL and install
+      if: ${{ github.event.inputs.deb-url }}
+      run: make get-deb deb=${{ github.event.inputs.deb-url }}
+    - name: Download the debfile from artifacts
+      if: ${{ inputs.deb-file-name }}
+      uses: actions/download-artifact@v2
+      with:
+        name: ${{ inputs.deb-file-name }}
+        path: dist
+    - name: Build the pi image
+      run: ./build-docker.sh
+    - name: Get ZIP filename
+      id: get-zip-filename
+      run: echo "::set-output name=zip-file-name::$(ls deploy | grep .zip | cat)"
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ steps.get-zip-filename.outputs.zip-file-name }}
+        path: deploy/${{ steps.get-zip-filename.outputs.zip-file-name }}
