@@ -40,6 +40,12 @@ dtoverlay=disable-bt
 # Enable DRM VC4 V3D driver on top of the dispmanx display stack
 dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
+
+# Disable RPi 4 Wi-Fi radio if present
+dtoverlay=disable-wifi
+
+[pi3]
+# Disable RPi 3 Wi-Fi radio if present
 dtoverlay=disable-wifi
 
 [all]
