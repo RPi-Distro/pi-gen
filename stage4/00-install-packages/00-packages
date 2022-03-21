@@ -24,3 +24,4 @@ rp-prefapps
 ffmpeg
 vlc
 rpi-imager
+rpi-wayland
