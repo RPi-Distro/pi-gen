@@ -9,6 +9,11 @@ bootstrap(){
 
 	if proxy_check; then
 		export http_proxy=${APT_PROXY} 
+	else
+		if [[ "${APT_PROXY_FALLBACK}" != "1" ]]; then
+			echo "Could not reach APT_PROXY server: ${APT_PROXY}"
+			exit 1
+		fi
 	fi
 	
 	BOOTSTRAP_ARGS+=(--arch armhf)
