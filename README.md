@@ -7,7 +7,7 @@ _Mixxx image for the raspberry pi_
 
 This repo is for the generation of a raspbian image for Mixxx.
 Included:
-- Mixxx 2.3 built from the [Mixxx](https://mixxx.org) repo
+- Mixxx 2.3.2 built from the [Mixxx](https://mixxx.org) repo
 - 64 bit raspbian
 - irqthreads enabled on standard kernel and performance CPU governer as standard
 - i3 window manager with autostart to Mixxx
@@ -26,9 +26,19 @@ The instructions below use Balena Etcher:
 4. Open Balena Etcher
 5. Select 'Flash from File' and pick the zip you downloaded earlier
 6. Select the SD card to flash to (check here that you're not overwriting something important!)
-7. Hit 'Flash!'
-8. Once this is done and verified, remove the SD card and transfer it to your raspberry pi
+7. Hit 'Flash!' and wait for it to be verified.
+8. Remove the SD card and transfer it to your raspberry pi
 9. Turn on the raspberry pi (make sure it's plugged into a screen) and wait until mixxx shows up
+
+### Important for running on Pi3 - remove threadirqs from boot commandline
+Between step 7 and 8 in the instructions above (after the SD card is flashed with the image but before you run it the first time on your Pi3). Open up /boot/cmdline.txt on whatever PC you used to do the flash, and remove the threadirqs part from the end of the line. Do not remove the whole line.
+
+It should look like this:
+```
+console=serial0,115200 console=tty1 root=ROOTDEV rootfstype=ext4 fsck.repair=yes rootwait quiet init=/usr/lib/raspi-config/init_resize.sh
+```
+
+This disables `threadirqs` option which causes a kernel panic on the Pi3.
 
 ### Optional steps:
 
