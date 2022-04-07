@@ -1,3 +1,23 @@
-cifs-utils
-libcamera-apps-lite
-mkvtoolnix
+ssh less fbset sudo psmisc ed ncdu crda
+console-setup keyboard-configuration parted
+bash-completion
+avahi-daemon
+hardlink ca-certificates curl
+fake-hwclock usbutils
+dosfstools
+raspberrypi-sys-mods
+pi-bluetooth
+apt-listchanges
+usb-modeswitch
+libpam-chksshpwd
+rsync
+htop
+man-db
+policykit-1
+ssh-import-id
+rng-tools
+ethtool
+pciutils
+rpi-eeprom
+udisks2
+unzip zip

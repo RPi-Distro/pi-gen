@@ -1,0 +1,16 @@
+[Unit]
+Description=Regenerate SSH host keys
+Before=ssh.service
+ConditionFileIsExecutable=/usr/bin/ssh-keygen
+ConditionPathExists=!/mnt/user_data/etc/ssh
+
+[Service]
+Type=oneshot
+ExecStartPre=-/bin/dd if=/dev/hwrng of=/dev/urandom count=1 bs=4096
+ExecStartPre=-/bin/sh -c "mkdir -p /mnt/user_data/etc/ssh"
+ExecStartPre=-/bin/sh -c "cp -ra /etc/ssh_factory_defaults/* /mnt/user_data/etc/ssh"
+ExecStartPre=-/bin/sh -c "/bin/rm -f -v /etc/ssh/ssh_host_*_key*"
+ExecStart=/usr/bin/ssh-keygen -A -v
+
+[Install]
+WantedBy=multi-user.target

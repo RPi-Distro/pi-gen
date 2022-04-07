@@ -1,0 +1,10 @@
+IMG_NAME='belaybox'
+STAGE_LIST='stage0 stage1 stage2'
+ENABLE_SSH=1
+TARGET_HOSTNAME='BelayBox' 
+FIRST_USER_NAME='everest'
+FIRST_USER_PASS='everest'
+WPA_ESSID='mywifi'
+WPA_PASSWORD='password'
+WPA_COUNTRY='DE'
+DEPLOY_COMPRESSION='none'

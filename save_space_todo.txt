@@ -1,0 +1,8 @@
+Save a bit of space:
+
+- Kernels: /boot contains kernels and hw config for all raspi models. Could be reduced to Rpi4 and CM4 only. Currently about 50M in /boot
+- /lib/modules: remove 3*about 60megs of kernel modules for unused kernels
+Those will be reinstalled because they are part of the debian package if apt upgrade is being used. But for normal users it seems ok to remove file belonging to debian packages...
+- Not in image, but later on root part: /var/swap with 100M
+- apt consumes about 65MB cache stuff and 65mb list stuff under /var/lib, could be removed but would mean apt is not working properly anymore
+
