@@ -11,6 +11,8 @@ install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
 
 install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
 
+install -m 755 files/regenerate_ssh_host_keys.service		"${ROOTFS_DIR}/lib/systemd/system/"
+
 if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
 	install -v -m 0700 -o 1000 -g 1000 -d "${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh
 	echo "${PUBKEY_SSH_FIRST_USER}" >"${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh/authorized_keys

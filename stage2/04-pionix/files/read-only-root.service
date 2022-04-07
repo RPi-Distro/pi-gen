@@ -1,0 +1,14 @@
+[Unit]
+Description=Remount root read only. Run after first boot.
+After=systemd-logind.service
+After=update-hostname.service
+After=rpi-eeprom-update.service
+After=ssh.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/read-only-root.sh
+
+[Install]
+WantedBy=multi-user.target
+

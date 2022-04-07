@@ -1,0 +1,4 @@
+wpasupplicant wireless-tools firmware-brcm80211
+raspberrypi-net-mods
+dhcpcd5
+net-tools

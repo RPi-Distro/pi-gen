@@ -1,0 +1,15 @@
+[Unit]
+Description=Prepare wpa_supplicant directory on user data partition if it does not exist
+Before=wpa_supplicant.service
+Before=networking.service
+After=mnt-user_data.mount
+ConditionPathExists=!/mnt/user_data/etc/wpa_supplicant
+
+[Service]
+Type=oneshot
+ExecStartPre=-mkdir -p /mnt/user_data/etc/wpa_supplicant
+ExecStart=-sh -c 'cp -ar /etc/wpa_supplicant_factory/* /mnt/user_data/etc/wpa_supplicant/'
+
+[Install]
+WantedBy=multi-user.target
+
