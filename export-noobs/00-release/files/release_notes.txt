@@ -1,5 +1,7 @@
 UNRELEASED:
-  * Default “pi” user has been removed; the first-boot wizard enforces the creation of a new user account
+  * 
+2022-04-04:
+  * Default "pi” user has been removed; the first-boot wizard enforces the creation of a new user account
   * rename-user script added to allow existing users to be renamed by temporarily rebooting to cut-down first-boot wizard
   * Overscan now managed by xrandr under KMS, can be set independently for both monitors, and takes effect on the fly rather than requiring reboot
   * GTK3 switch control now used in place of paired radio buttons throughout
@@ -16,7 +18,7 @@ UNRELEASED:
   * Bug fix - terminal windows not focussed correctly when launched
   * Bug fix - crash after multiple update checks in updater plugin
   * Bug fix - Raspberry Pi keyboard auto-detect by wizard was broken in previous release
-  * Bug fix - spurious “connected” dialog box shown when reconnecting to Bluetooth LE devices on boot
+  * Bug fix - spurious "connected” dialog box shown when reconnecting to Bluetooth LE devices on boot
   * Support for experimental Wayland backend added - can be enabled as an advanced option in raspi-config
   * Various small bug fixes and graphical tweaks
   * Chromium upgraded to version 98.0.4758.106
