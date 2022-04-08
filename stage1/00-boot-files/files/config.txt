@@ -44,9 +44,15 @@ max_framebuffers=2
 # Disable RPi 4 Wi-Fi radio if present
 dtoverlay=disable-wifi
 
+# Enable OTG on RPi4
+dtoverlay=dwc2,dr_mode=otg
+
 [pi3]
 # Disable RPi 3 Wi-Fi radio if present
 dtoverlay=disable-wifi
+
+# Enable OTG on RPi3
+dtoverlay=dwc2,dr_mode=otg
 
 [all]
 # Enable i2c
