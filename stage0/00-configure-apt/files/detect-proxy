@@ -1,0 +1,6 @@
+#!/bin/bash
+if curl --silent "APT_PROXY" >/dev/null; then
+    echo -n "APT_PROXY"
+else
+    echo -n "DIRECT"
+fi
