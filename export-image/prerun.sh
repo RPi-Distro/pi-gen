@@ -145,7 +145,24 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t ext4
 	mkdir -p "${ROOTFS_DIR}/boot"
 	mount -v "$BOOT_DEV" "${ROOTFS_DIR}/boot" -t vfat
+	mkdir -p "${ROOTFS_DIR}/mnt/factory_data"
+	mount -v "$DATAF_DEV" "${ROOTFS_DIR}/mnt/factory_data" -t ext4
 
 	rsync -aHAXx --exclude /var/cache/apt/archives --exclude /boot "${EXPORT_ROOTFS_DIR}/" "${ROOTFS_DIR}/"
-	rsync -rtx "${EXPORT_ROOTFS_DIR}/boot/" "${ROOTFS_DIR}/boot/"
+	mkdir -p "${ROOTFS_DIR}/boot/system0/"
+	mkdir -p "${ROOTFS_DIR}/boot/system1/"
+	rsync -rtx "${EXPORT_ROOTFS_DIR}/boot/" "${ROOTFS_DIR}/boot/system0/"
+	cp $ROOTFS_DIR/boot/system0/start4cd.elf $ROOTFS_DIR/boot/0strt4cd.elf
+	cp $ROOTFS_DIR/boot/system0/fixup4cd.dat $ROOTFS_DIR/boot/0fxup4cd.dat
+	# not needed on Pi4
+	#cp $ROOTFS_DIR/boot/system0/bootcode.bin $ROOTFS_DIR/boot/
+	mkdir -p "${ROOTFS_DIR}/boot_factorydefault/"
+	rsync -rtx "${EXPORT_ROOTFS_DIR}/boot/" "${ROOTFS_DIR}/boot_factorydefault/"
+	# install boot config.txt which boots system0
+	cp "${ROOTFS_DIR}/boot/system0/config.txt" "${ROOTFS_DIR}/boot/"
+	echo "[all]" >> "${ROOTFS_DIR}/boot/config.txt"
+	echo "gpu_mem=16" >> "${ROOTFS_DIR}/boot/config.txt"
+	echo "os_prefix=/system0/" >> "${ROOTFS_DIR}/boot/config.txt"
+	echo "start_file=0strt4cd.elf" >> "${ROOTFS_DIR}/boot/config.txt"
+	echo "fixup_file=0fxup4cd.dat" >> "${ROOTFS_DIR}/boot/config.txt"
 fi

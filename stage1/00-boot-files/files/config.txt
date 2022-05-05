@@ -50,10 +50,10 @@
 # Additional overlays and parameters are documented /boot/overlays/README
 
 # Enable audio (loads snd_bcm2835)
-dtparam=audio=on
+dtparam=audio=off
 
 # Automatically load overlays for detected cameras
-camera_auto_detect=1
+camera_auto_detect=0
 
 # Automatically load overlays for detected DSI displays
 display_auto_detect=1
@@ -64,6 +64,10 @@ max_framebuffers=2
 
 # Disable compensation for displays with overscan
 disable_overscan=1
+
+[pi4]
+# Run as fast as firmware / board allows
+#arm_boost=1
 
 [cm4]
 # Enable host mode on the 2711 built-in XHCI USB controller.
@@ -83,6 +87,3 @@ hdmi_cvt=800 480 60 6 0 0 0
 max_usb_current=1
 #disable_splash=1
 
-[pi4]
-# Run as fast as firmware / board allows
-#arm_boost=1

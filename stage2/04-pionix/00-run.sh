@@ -10,8 +10,10 @@ install -m 644 files/read-only-root.service "${ROOTFS_DIR}/lib/systemd/system/"
 
 install -m 644 files/user-wpa-supplicant.service "${ROOTFS_DIR}/lib/systemd/system/"
 
-install -m 755 files/ro.sh "${ROOTFS_DIR}/usr/bin"
-install -m 755 files/rw.sh "${ROOTFS_DIR}/usr/bin"
+install -m 755 files/ro "${ROOTFS_DIR}/usr/bin"
+install -m 755 files/rw "${ROOTFS_DIR}/usr/bin"
+
+install -m 440 files/sudoers "${ROOTFS_DIR}/etc"
 
 # fix VIM mouse support
 cp "files/vimrc" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.vimrc"
@@ -28,7 +30,7 @@ systemctl disable resize2fs_once.service
 rm -rf /var/lib/dhcp /var/lib/dhcpcd5 /var/run /var/spool /var/lock /etc/resolv.conf
 ln -s /tmp /var/lib/dhcp
 ln -s /tmp /var/lib/dhcpcd5
-ln -s /tmp /var/run
+ln -s /run /var/run
 ln -s /tmp /var/spool
 ln -s /tmp /var/lock
 
@@ -38,7 +40,7 @@ ln -s /tmp/dhcpcd.resolv.conf /etc/resolv.conf
 systemctl enable update-hostname.service
 
 mkdir -p /mnt/user_data
-mkdir -p /mnt/factory_defaults
+mkdir -p /mnt/factory_data
 
 if [ -L "/etc/ssh" ]; then
     echo Rebuilding over existing work directory, skipping ssh config magic

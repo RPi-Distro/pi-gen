@@ -1,8 +1,8 @@
 proc            /proc           proc    defaults          0       0
 /dev/mmcblk0p1  /boot           vfat    defaults,flush,ro    0       2
 /dev/mmcblk0p2  /               ext4    defaults,noatime,rw  0       1
-/dev/mmcblk0p5  /mnt/user_data               ext4    defaults,noatime,rw  0       0
-/dev/mmcblk0p6  /mnt/factory_defaults               ext4    defaults,noatime,ro  0       0
+/dev/mmcblk0p5  /mnt/factory_data               ext4    defaults,noatime,ro  0       0
+/dev/mmcblk0p6  /mnt/user_data               ext4    defaults,noatime,rw  0       0
 tmpfs           /tmp            tmpfs   nosuid,nodev         0       0
 tmpfs           /var/log        tmpfs   nosuid,nodev         0       0
 tmpfs           /var/tmp        tmpfs   nosuid,nodev         0       0

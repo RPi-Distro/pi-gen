@@ -1,0 +1,21 @@
+[Unit]
+Description=Mark boot as good for rauc
+Before=read-only-root.service
+After=systemd-logind.service
+After=update-hostname.service
+After=rpi-eeprom-update.service
+After=ssh.service
+
+[Service]
+Type=oneshot
+ExecStartPre=-mount -o remount,rw /boot
+ExecStartPre=-mount -o remount,rw /mnt/factory_data
+ExecStartPre=-sh -c 'cp /boot/tryboot.txt /boot/config.txt 2>>/dev/null'
+ExecStartPre=-mount -o remount,ro /boot
+ExecStart=rauc status mark-good
+ExecStartPost=-systemctl disable boot-mark-good.service
+ExecStartPost=-mount -o remount,ro /mnt/factory_data
+
+[Install]
+WantedBy=multi-user.target
+

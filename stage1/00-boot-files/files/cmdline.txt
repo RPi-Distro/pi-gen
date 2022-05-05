@@ -1,1 +1,1 @@
-console=tty1 root=ROOTDEV rootfstype=ext4 fsck.repair=yes rootwait fastboot noswap ro
+console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 fsck.repair=yes rootwait fastboot noswap ro

@@ -1,0 +1,7 @@
+Package: rauc
+Version: 1.6
+Architecture: armhf
+Maintainer: Cornelius Claussen <cc@pionix.de>
+Description: Pionix version of RAUC system update tool
+Depends: libc6 (>= 2.28), libcurl4 (>= 7.16.2), libfdisk1 (>= 2.31.1), libglib2.0-0 (>= 2.51.2), libjson-glib-1.0-0 (>= 1.5.2), libssl1.1 (>= 1.1.0), dbus, systemd
+

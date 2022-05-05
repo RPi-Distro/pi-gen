@@ -1,0 +1,9 @@
+[update]
+compatible=pionix-belaybox
+version=VERSION
+
+[bundle]
+format=verity
+
+[image.rootfs]
+filename=root.tar.xz

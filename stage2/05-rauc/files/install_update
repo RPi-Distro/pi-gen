@@ -1,0 +1,16 @@
+#!/bin/bash
+echo Pionix BelayBox update installer v1.0
+
+if [ $1 == "--reboot" ]; then
+   sudo reboot '0 tryboot'
+fi
+
+if [ -f $1 ]; then
+   rw
+   rauc install $1
+   ro
+   echo "Installation finished. Use $0 --reboot to reboot with the newly installed OS."
+   exit 0
+fi
+echo "File not found."
+exit 1
