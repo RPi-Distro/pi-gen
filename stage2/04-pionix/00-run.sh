@@ -10,6 +10,9 @@ install -m 644 files/read-only-root.service "${ROOTFS_DIR}/lib/systemd/system/"
 
 install -m 644 files/user-wpa-supplicant.service "${ROOTFS_DIR}/lib/systemd/system/"
 
+install -m 755 files/ro.sh "${ROOTFS_DIR}/usr/bin"
+install -m 755 files/rw.sh "${ROOTFS_DIR}/usr/bin"
+
 # fix VIM mouse support
 cp "files/vimrc" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.vimrc"
 
