@@ -1,0 +1,5 @@
+xset s off
+xset s noblank
+xset s -dpms
+@/opt/coe-client-ui
+

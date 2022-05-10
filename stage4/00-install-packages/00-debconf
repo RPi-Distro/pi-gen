@@ -1,2 +1,0 @@
-# Enable realtime process priority?
-jackd2  jackd/tweak_rt_limits   boolean true
