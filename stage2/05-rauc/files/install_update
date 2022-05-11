@@ -7,9 +7,15 @@ fi
 
 if [ -f $1 ]; then
    rw
-   rauc install $1
-   ro
+   FN="${1%.pnx}.raucb"
+   mv $1 $FN 
+   if [ $2 == "--reboot-delete" ]; then
+     rauc install $FN && rm $1 && sudo reboot '0 tryboot'
+   else
+     rauc install $FN
+   fi
    echo "Installation finished. Use $0 --reboot to reboot with the newly installed OS."
+   ro
    exit 0
 fi
 echo "File not found."

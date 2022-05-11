@@ -1,0 +1,8 @@
+{
+    "update": {
+		    "hwid": "belayboxr1",
+		    "version": 5,
+		    "description": "This is a cool new update",
+		    "download_uri": "https://pionix-update.de/231231212.pnx"
+	    }
+}

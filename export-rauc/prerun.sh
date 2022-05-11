@@ -37,6 +37,7 @@ mount "$ROOT_DEV" "${STAGE_WORK_DIR}/rootfs"
 #ln -sv "/lib/systemd/system/apply_noobs_os_config.service" "$ROOTFS_DIR/etc/systemd/system/multi-user.target.wants/apply_noobs_os_config.service"
 export XZ_DEFAULTS="-T 4"
 tar cJf "${RAUC_DIR}/root.tar.xz" -C"${STAGE_WORK_DIR}/rootfs" .
+cp ${STAGE_WORK_DIR}/rootfs/etc/update.meta ${DEPLOY_DIR}/${IMG_FILENAME}.meta
 #bsdtar --numeric-owner --format gnutar -C "${STAGE_WORK_DIR}/rootfs" --one-file-system -cpf - . | xz -T0 > "${NOOBS_DIR}/root.tar.xz"
 
 unmount_image "${IMG_FILE}"

@@ -1,0 +1,9 @@
+[Unit]
+Description=Pull OTA update once
+
+[Service]
+Type=simple
+ExecStart=ota-update-daemon.sh
+
+[Install]
+WantedBy=default.target

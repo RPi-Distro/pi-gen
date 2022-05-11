@@ -1,0 +1,13 @@
+[Unit]
+Description=OTA update daemon timer
+RefuseManualStart=no  # Allow manual starts
+RefuseManualStop=no   # Allow manual stops
+
+[Timer]
+Persistent=false
+OnBootSec=30
+OnUnitActiveSec=3600
+Unit=ota-update.service
+
+[Install]
+WantedBy=timers.target

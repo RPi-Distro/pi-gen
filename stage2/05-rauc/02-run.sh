@@ -19,6 +19,8 @@ install -m 755 files/postinst.sh "${ROOTFS_DIR}/usr/lib/rauc"
 install -m 755 files/backend.sh "${ROOTFS_DIR}/usr/lib/rauc"
 
 install -m 644 files/system.conf "${ROOTFS_DIR}/etc/rauc"
+sed -i "s/HWID/${HW_ID}/g" "${ROOTFS_DIR}/etc/rauc/system.conf"
+
 install -m 644 files/pionix-rauc-update.cert.pem "${ROOTFS_DIR}/etc/rauc"
 
 mkdir -p "${ROOTFS_DIR}/mnt/factory_data/rauc"

@@ -201,8 +201,12 @@ if [ -z "${IMG_NAME}" ]; then
 fi
 
 export USE_QEMU="${USE_QEMU:-0}"
-export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
-export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
+export IMG_TIMESTAMP=$(date +%s)
+export IMG_DATE=$(date -d @$IMG_TIMESTAMP +%Y-%m-%d)
+export IMG_FILENAME="${IMG_FILENAME:-"$IMG_TIMESTAMP-${IMG_DATE}-${IMG_NAME}"}"
+export IMG_DESCRIPTION="${IMG_DESCRIPTION:-"Belay Box upate"}"
+export HW_ID="${HW_ID:-"belayboxr1"}"
+export UPDATE_CHANNEL="${UPDATE_CHANNEL:-"unstable"}"
 export ARCHIVE_FILENAME="${ARCHIVE_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
 
 export SCRIPT_DIR="${BASE_DIR}/scripts"
