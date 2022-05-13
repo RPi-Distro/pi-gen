@@ -12,4 +12,4 @@ ufw enable
 #clamav?
 #apt/ansible?
 
-
+#ntp servers?
