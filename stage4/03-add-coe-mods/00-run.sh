@@ -11,19 +11,19 @@ install -v -m 655 files/eCalib "${ROOTFS_DIR}/opt/eCalib"
 install -v -m 777 files/eGTouchD.service "${ROOTFS_DIR}/etc/systemd/system/eGTouchD.service"
 install -v -m 777 files/81-egalax-touchscreen.rules "${ROOTFS_DIR}/etc/udev/rules.d/81-egalax-touchscreen.rules"
 
-install -v -m 644 files/freshclam.conf "${ROOTFS_DIR}/etc/clamavnjk/freshclam.conf"
+install -v -m 644 files/freshclam.conf "${ROOTFS_DIR}/etc/clamav/freshclam.conf"
 install -v -m 777 files/scan "${ROOTFS_DIR}/etc/cron.daily/scan"
 install -v -m 644 files/crontab "${ROOTFS_DIR}/etc/crontab"
 
 install -v -m 644 files/timesyncd.conf "${ROOTFS_DIR}/etc/systemd/timesyncd.conf"
 
+install -v -m 777 files/firstboot.service "${ROOTFS_DIR}/lib/systemd/system/firstboot.service"
+install -v -m 777 files/firstboot.sh "${ROOTFS_DIR}/boot/firstboot.sh"
+
+
 on_chroot << EOF
 systemctl enable vncserver-x11-serviced.service
-systemctl start vncserver-x11-serviced.service
 rfkill block wifi
 rfkill block bluetooth
-ufw allow ssh
-ufw allow 5800
-ufw allow 5900
-ufw enable
+systemctl enable firstboot.service
 EOF
