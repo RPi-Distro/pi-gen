@@ -10,3 +10,14 @@ install -v -m 655 files/eGTouchD "${ROOTFS_DIR}/opt/eGTouchD"
 install -v -m 655 files/eCalib "${ROOTFS_DIR}/opt/eCalib"
 install -v -m 777 files/eGTouchD.service "${ROOTFS_DIR}/etc/systemd/system/eGTouchD.service"
 install -v -m 777 files/81-egalax-touchscreen.rules "${ROOTFS_DIR}/etc/udev/rules.d/81-egalax-touchscreen.rules"
+
+install -v -m 644 files/freshclam.conf "${ROOTFS_DIR}/etc/clamavnjk/freshclam.conf"
+install -v -m 777 files/scan "${ROOTFS_DIR}/etc/cron.daily/scan"
+install -v -m 644 files/crontab "${ROOTFS_DIR}/etc/crontab"
+
+install -v -m 644 files/timesyncd.conf "${ROOTFS_DIR}/etc/systemd/timesyncd.conf"
+
+on_chroot << EOF
+systemctl enable vncserver-x11-serviced.service
+systemctl start vncserver-x11-serviced.service
+EOF
