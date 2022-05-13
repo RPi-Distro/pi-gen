@@ -20,4 +20,10 @@ install -v -m 644 files/timesyncd.conf "${ROOTFS_DIR}/etc/systemd/timesyncd.conf
 on_chroot << EOF
 systemctl enable vncserver-x11-serviced.service
 systemctl start vncserver-x11-serviced.service
+rfkill block wifi
+rfkill block bluetooth
+ufw allow ssh
+ufw allow 5800
+ufw allow 5900
+ufw enable
 EOF
