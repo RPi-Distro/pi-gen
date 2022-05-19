@@ -22,7 +22,12 @@ install -v -m 777 files/firstboot.sh "${ROOTFS_DIR}/boot/firstboot.sh"
 
 
 on_chroot << EOF
+#add bncsadmin user
+adduser --gecos "" --disabled-password bncsadmin
+chpasswd <<< "bncsadmin:${BNCS_ADMIN_PASS}"
 systemctl enable vncserver-x11-serviced.service
+systemctl disable rsyslog
+systemctl disable syslog.socket
 rfkill block wifi
 rfkill block bluetooth
 systemctl enable firstboot.service
