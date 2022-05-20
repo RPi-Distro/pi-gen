@@ -24,11 +24,26 @@ install -v -m 777 files/firstboot.sh "${ROOTFS_DIR}/boot/firstboot.sh"
 on_chroot << EOF
 #add bncsadmin user
 adduser --gecos "" --disabled-password bncsadmin
-chpasswd <<< "bncsadmin:${BNCS_ADMIN_PASS}"
+usermod -a -G sudo bncsadmin
+chpasswd <<< "bncsadmin:6G!S7NM>=U&t1%NA"
+
+#remove default user from sudo and dont allow ssh - not sure why it has to be done here at the moment
+deluser ${FIRST_USER_NAME} sudo
+
+#don't allow bncs to login via ssh
+echo -e 'DenyUsers\t${FIRST_USER_NAME}' >> /etc/ssh/sshd_config
+
+#add vnc server
 systemctl enable vncserver-x11-serviced.service
+
+#disable logging
 systemctl disable rsyslog
 systemctl disable syslog.socket
+
+#block wifi and bluetooth
 rfkill block wifi
 rfkill block bluetooth
+
+#enable script that runs on first boot up only
 systemctl enable firstboot.service
 EOF
