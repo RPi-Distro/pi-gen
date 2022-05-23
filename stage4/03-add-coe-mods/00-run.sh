@@ -20,6 +20,7 @@ install -v -m 644 files/timesyncd.conf "${ROOTFS_DIR}/etc/systemd/timesyncd.conf
 install -v -m 777 files/firstboot.service "${ROOTFS_DIR}/lib/systemd/system/firstboot.service"
 install -v -m 777 files/firstboot.sh "${ROOTFS_DIR}/boot/firstboot.sh"
 
+install -v -m 744 files/65-srvrkeys-none "${ROOTFS_DIR}/etc/X11/Xsession.d/65-srvrkeys-none"
 
 on_chroot << EOF
 #add bncsadmin user
