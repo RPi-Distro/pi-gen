@@ -1,9 +1,11 @@
 #!/bin/bash -e
 
+install -v -m 644 files/autologin "${ROOTFS_DIR}/etc/systemd/system/getty@tty1.service.d/autologin.conf"
+
 install -v -m 644 files/autostart "${ROOTFS_DIR}/etc/xdg/lxsession/LXDE-pi/autostart"
 
-install -v -m 655 files/coe-client-ui "${ROOTFS_DIR}/opt/coe-client-ui"
-install -v -m 644 files/coe-client.conf "${ROOTFS_DIR}/etc/coe-client.conf"
+install -v -m 655 files/thinclient-ui "${ROOTFS_DIR}/opt/thinclient-ui"
+install -v -m 644 files/thinclient-client.conf "${ROOTFS_DIR}/etc/thinclient-client.conf"
 
 install -v -m 644 files/eGTouchL.ini "${ROOTFS_DIR}/etc/eGTouchL.ini"
 install -v -m 655 files/eGTouchD "${ROOTFS_DIR}/opt/eGTouchD"
@@ -22,20 +24,25 @@ install -v -m 777 files/firstboot.sh "${ROOTFS_DIR}/boot/firstboot.sh"
 
 install -v -m 744 files/65-srvrkeys-none "${ROOTFS_DIR}/etc/X11/Xsession.d/65-srvrkeys-none"
 
+install -v -m 644 files/thinclient-client.conf "${ROOTFS_DIR}/boot/thinclient-client.conf"
+install -v -m 644 files/net.cfg "${ROOTFS_DIR}/boot/net.cfg"
+
+
 on_chroot << EOF
-#add bncsadmin user
-adduser --gecos "" --disabled-password bncsadmin
-usermod -a -G sudo bncsadmin
-chpasswd <<< "bncsadmin:6G!S7NM>=U&t1%NA"
+#add admin user
+if adduser --gecos "" --disabled-password tcadmin; then
+ usermod -a -G sudo tcadmin
+ chpasswd <<< "tcadmin:6G!S7NM>=U&t1%NA"
+fi
 
 #remove default user from sudo and dont allow ssh - not sure why it has to be done here at the moment
-deluser ${FIRST_USER_NAME} sudo
+if deluser ${FIRST_USER_NAME} sudo; then
+ echo "removed tcuser from sudo"
+fi
 
-#don't allow bncs to login via ssh
+#don't allow tcuser to login via ssh
 echo -e 'DenyUsers\t${FIRST_USER_NAME}' >> /etc/ssh/sshd_config
 
-#add vnc server
-systemctl enable vncserver-x11-serviced.service
 
 #disable logging
 systemctl disable rsyslog
