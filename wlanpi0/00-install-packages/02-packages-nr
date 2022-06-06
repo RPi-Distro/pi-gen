@@ -8,3 +8,4 @@ dirmngr
 apt-transport-https 
 tftpd-hpa 
 tftp
+chrony
