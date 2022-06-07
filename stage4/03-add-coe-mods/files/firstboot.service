@@ -1,12 +1,11 @@
 [Unit]
 Description=FirstBoot
-After=network.target apt-daily.service apt-daily-upgrade.service
-Before=rc-local.service
-ConditionFileNotEmpty=/boot/firstboot.sh
+Before=rc-local.service network.target
+ConditionFileNotEmpty=/opt/firstboot.sh
 
 [Service]
 ExecStart=/boot/firstboot.sh
-ExecStartPost=/bin/mv /boot/firstboot.sh /tmp/firstboot.sh.done
+ExecStartPost=/bin/mv /opt/firstboot.sh /tmp/firstboot.sh.done
 Type=oneshot
 RemainAfterExit=no
 

@@ -24,6 +24,7 @@ fi
 NETWORKFILE=/boot/net.cfg
 if test -f "$NETWORKFILE"; then
   mv $NETWORKFILE /etc/dhcpcd.conf
+  #systemctl restart dhcpcd.service
 fi
 
 #clamav?
@@ -37,13 +38,19 @@ if test -f "$KEYFILE"; then
   chgrp tcadmin /home/tcadmin/.ssh/authorized_keys
 fi
 
-#set x11vnc and tcadmin password
+#set tcadmin password
 PASSFILE=/boot/password
 if test -f "$PASSFILE"; then
- x11vnc -storepasswd "`cat $PASSFILE`" /etc/x11vnc.pass
  chpasswd <<< "tcadmin:`cat $PASSFILE`"
-else
- x11vnc -storepasswd "6G!S7NM>=U&t1%NA" /etc/x11vnc.pass
 fi 
+
+#set x11vnc password
+VNCPASSFILE=/boot/vncpass
+if test -f "$VNCPASSFILE"; then
+ x11vnc -storepasswd "`cat $VNCPASSFILE`" /etc/x11vnc.pass
+else
+ x11vnc -storepasswd "x11vnct3st" /etc/x11vnc.pass
+fi 
+chmod +r /etc/x11vnc.pass
 
 #ntp servers?
