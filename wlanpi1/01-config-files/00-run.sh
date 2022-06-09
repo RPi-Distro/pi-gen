@@ -82,9 +82,6 @@ copy_overlay /etc/default/ifplugd -o root -g root -m 644
 # Copy script: release-dhcp-lease
 copy_overlay /etc/ifplugd/action.d/release-dhcp-lease -o root -g root -m 755
 
-# Copy config file: RF Central Regulatory Domain Agent
-copy_overlay /etc/default/crda -o root -g root -m 644
-
 # Copy state file: WLAN Pi Mode
 copy_overlay /etc/wlanpi-state -o root -g root -m 644
 
