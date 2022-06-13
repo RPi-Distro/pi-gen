@@ -99,7 +99,7 @@ run_stage(){
 	STAGE_WORK_DIR="${WORK_DIR}/${STAGE}"
 	ROOTFS_DIR="${STAGE_WORK_DIR}"/rootfs
 
-	if [ "${USE_QCOW2}" = "1" ]; then 
+	if [ "${USE_QCOW2}" = "1" ]; then
 		if [ ! -f SKIP ]; then
 			load_qimage
 		fi
@@ -109,7 +109,7 @@ run_stage(){
 			unmount "${WORK_DIR}/${STAGE}"
 		fi
 	fi
-	
+
 	if [ ! -f SKIP_IMAGES ]; then
 		if [ -f "${STAGE_DIR}/EXPORT_IMAGE" ]; then
 			EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
@@ -133,7 +133,7 @@ run_stage(){
 		done
 	fi
 
-	if [ "${USE_QCOW2}" = "1" ]; then 
+	if [ "${USE_QCOW2}" = "1" ]; then
 		unload_qimage
 	else
 		# make sure we are not umounting during export-image stage
@@ -155,6 +155,14 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ $BASE_DIR = *" "* ]]; then
+	echo "There is a space in the base path of pi-gen"
+	echo "This is not a valid setup supported by debootstrap."
+	echo "Please remove the spaces, or move pi-gen directory to a base path without spaces" 1>&2
+	exit 1
+fi
+
 export BASE_DIR
 
 if [ -f config ]; then
@@ -195,17 +203,27 @@ fi
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
 export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
-export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
+export ARCHIVE_FILENAME="${ARCHIVE_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
 
 export SCRIPT_DIR="${BASE_DIR}/scripts"
 export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_NAME}"}"
 export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
-export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
+
+# DEPLOY_ZIP was deprecated in favor of DEPLOY_COMPRESSION
+# This preserve the old behavior with DEPLOY_ZIP=0 where no archive was created
+if [ -z "${DEPLOY_COMPRESSION}" ] && [ "${DEPLOY_ZIP:-1}" = "0" ]; then
+	echo "DEPLOY_ZIP has been deprecated in favor of DEPLOY_COMPRESSION"
+	echo "Similar behavior to DEPLOY_ZIP=0 can be obtained with DEPLOY_COMPRESSION=none"
+	echo "Please update your config file"
+	DEPLOY_COMPRESSION=none
+fi
+export DEPLOY_COMPRESSION=${DEPLOY_COMPRESSION:-zip}
+export COMPRESSION_LEVEL=${COMPRESSION_LEVEL:-6}
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
 
-export RELEASE=${RELEASE:-buster}
+export RELEASE=${RELEASE:-bullseye}
 export WPA_ESSID
 export WPA_PASSWORD
 export WPA_COUNTRY
@@ -251,7 +269,7 @@ source "${SCRIPT_DIR}/common"
 source "${SCRIPT_DIR}/dependencies_check"
 
 export NO_PRERUN_QCOW2="${NO_PRERUN_QCOW2:-1}"
-export USE_QCOW2="${USE_QCOW2:-1}"
+export USE_QCOW2="${USE_QCOW2:-0}"
 export BASE_QCOW2_SIZE=${BASE_QCOW2_SIZE:-12G}
 source "${SCRIPT_DIR}/qcow2_handling"
 if [ "${USE_QCOW2}" = "1" ]; then
@@ -361,7 +379,7 @@ for EXPORT_DIR in ${EXPORT_DIRS}; do
 
 	else
 		run_stage
-	fi 
+	fi
 	if [ "${USE_QEMU}" != "1" ]; then
 		if [ -e "${EXPORT_DIR}/EXPORT_NOOBS" ]; then
 			# shellcheck source=/dev/null
