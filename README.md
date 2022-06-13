@@ -175,13 +175,19 @@ The following environment variables are supported:
    To get the current value from a running system, look in
    `/etc/timezone`.
 
- * `FIRST_USER_NAME` (Default: "pi" )
+ * `FIRST_USER_NAME` (Default: unset)
 
-   Username for the first user
+   Username for the first user. This user creation is not enforced unless `FORCE_USER_CREATION` is
+   also set. This is a security feature designed to prevent shipping images with a default username.
 
  * `FIRST_USER_PASS` (Default: unset)
 
    Password for the first user. If unset, the account is locked.
+
+ * `FORCE_USER_CREATION` (Default: unset)
+
+   Forces the creation of the user with the username defined in `FIRST_USER_NAME`. Please be aware
+   that this is a security risk.
 
  * `WPA_ESSID`, `WPA_PASSWORD` and `WPA_COUNTRY` (Default: unset)
 
