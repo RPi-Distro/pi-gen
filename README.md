@@ -175,19 +175,22 @@ The following environment variables are supported:
    To get the current value from a running system, look in
    `/etc/timezone`.
 
- * `FIRST_USER_NAME` (Default: unset)
+ * `FIRST_USER_NAME` (Default: `pi`)
 
-   Username for the first user. This user creation is not enforced unless `FORCE_USER_CREATION` is
-   also set. This is a security feature designed to prevent shipping images with a default username.
+   Username for the first user. This user only exists during the image creation process. Unless
+   `DISABLE_FIRST_BOOT_USER_RENAME` is set to `1`, this user will be renamed on the first boot with
+   a name chosen by the final user. This security feature is designed to prevent shipping images
+   with a default username and help prevent malicious actors from taking over your devices.
 
  * `FIRST_USER_PASS` (Default: unset)
 
    Password for the first user. If unset, the account is locked.
 
- * `FORCE_USER_CREATION` (Default: unset)
+ * `DISABLE_FIRST_BOOT_USER_RENAME` (Default: `0`)
 
-   Forces the creation of the user with the username defined in `FIRST_USER_NAME`. Please be aware
-   that this is a security risk.
+   Disable the renaming of the first user during the first boot. This make it so `FIRST_USER_NAME`
+   stays activated. `FIRST_USER_PASS` must be set for this to work. Please be aware of the implied
+   security risk of defining a default username and password for your devices.
 
  * `WPA_ESSID`, `WPA_PASSWORD` and `WPA_COUNTRY` (Default: unset)
 
