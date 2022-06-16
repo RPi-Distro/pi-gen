@@ -8,7 +8,7 @@ libopusfile-dev libportmidi-dev libprotobuf-dev
 libqt5opengl5-dev libqt5sql5-sqlite libqt5svg5-dev libqt5x11extras5-dev
 librubberband-dev libshout-idjc-dev libsndfile1-dev libsoundtouch-dev 
 libsqlite3-dev 
-libssl-dev libtag1-dev libudev-dev libupower-glib-dev libusb-1.0-0-dev
+libssl-dev libtag1-dev libudev-dev libupower-glib-dev libusb-1.0-0-dev libmsgsl-dev
 libwavpack-dev 
 markdown 
 portaudio19-dev
