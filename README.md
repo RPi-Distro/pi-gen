@@ -7,7 +7,7 @@ _Mixxx image for the raspberry pi_
 
 This repo is for the generation of a raspbian image for Mixxx.
 Included:
-- Mixxx 2.3.2 built from the [Mixxx](https://mixxx.org) repo
+- Mixxx 2.4 alpha built from the [Mixxx](https://mixxx.org) repo
 - 64 bit raspbian
 - irqthreads enabled on standard kernel and performance CPU governer as standard
 - i3 window manager with autostart to Mixxx
