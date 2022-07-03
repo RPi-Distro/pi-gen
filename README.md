@@ -27,6 +27,7 @@ The instructions below use Balena Etcher:
 5. Select 'Flash from File' and pick the zip you downloaded earlier
 6. Select the SD card to flash to (check here that you're not overwriting something important!)
 7. Hit 'Flash!' and wait for it to be verified.
+ a) If you're using on a Raspberry Pi3(B+) follow the steps below before continuing to the next step.
 8. Remove the SD card and transfer it to your raspberry pi
 9. Turn on the raspberry pi (make sure it's plugged into a screen) and wait until mixxx shows up
 
