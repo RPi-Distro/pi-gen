@@ -24,7 +24,7 @@ fi
 NETWORKFILE=/boot/net.cfg
 if test -f "$NETWORKFILE"; then
   mv $NETWORKFILE /etc/dhcpcd.conf
-  #systemctl restart dhcpcd.service
+  systemctl restart dhcpcd.service
 fi
 
 #clamav?
