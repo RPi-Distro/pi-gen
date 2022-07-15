@@ -1,3 +1,7 @@
-deb http://raspbian.raspberrypi.org/raspbian/ RELEASE main contrib non-free rpi
-# Uncomment line below then 'apt-get update' to enable 'apt-get source'
-#deb-src http://raspbian.raspberrypi.org/raspbian/ RELEASE main contrib non-free rpi
+deb http://deb.debian.org/debian RELEASE main contrib non-free
+deb http://security.debian.org/debian-security RELEASE-security main contrib non-free
+deb http://deb.debian.org/debian RELEASE-updates main contrib non-free
+# Uncomment deb-src lines below then 'apt-get update' to enable 'apt-get source'
+#deb-src http://deb.debian.org/debian RELEASE main contrib non-free
+#deb-src http://security.debian.org/debian-security RELEASE-security main contrib non-free
+#deb-src http://deb.debian.org/debian RELEASE-updates main contrib non-free

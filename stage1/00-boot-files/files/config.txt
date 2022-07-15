@@ -62,6 +62,9 @@ display_auto_detect=1
 dtoverlay=vc4-kms-v3d
 max_framebuffers=2
 
+# Run in 64-bit mode
+arm_64bit=1
+
 # Disable compensation for displays with overscan
 disable_overscan=1
 
