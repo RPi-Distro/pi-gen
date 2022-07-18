@@ -60,7 +60,7 @@ EOF
 # the rootfs/image after that ?
 while lsof 2>/dev/null | grep -q /root/rpi-image/work/*/export-image/rootfs/dev;
 do
-    for PID in `ps -ef --forest | grep "qemu-arm-static" | grep -v "grep" | grep "nginx\|nscd\|slapd\|nslcd" | awk '{print $2}'`
+    for PID in `ps -ef --forest | grep "qemu-binfmt" | grep -v "grep" | grep "nginx\|nscd\|slapd\|nslcd" | awk '{print $2}'`
     do
         echo "Killing $PID"
         kill -9 $PID || true
@@ -68,9 +68,9 @@ do
     done
     sleep 5
 done
-while ps -ef --forest | grep "qemu-arm-static" | grep -v "grep"
+while ps -ef --forest | grep "qemu-binfmt" | grep -v "grep"
 do
-    for PID in `ps -ef --forest | grep "qemu-arm-static" | grep -v "grep" | grep "nginx\|nscd\|slapd\|nslcd" | awk '{print $2}'`
+    for PID in `ps -ef --forest | grep "qemu-binfmt" | grep -v "grep" | grep "nginx\|nscd\|slapd\|nslcd" | awk '{print $2}'`
     do
         echo "Killing $PID"
         kill -9 $PID || true
