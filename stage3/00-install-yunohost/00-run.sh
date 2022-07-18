@@ -78,3 +78,7 @@ do
     done
     sleep 5
 done
+echo "last lsof..."
+lsof
+echo "last ps -ef --forest..."
+ps -ef --forest
