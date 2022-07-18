@@ -33,4 +33,7 @@ jobs:
           sudo curl -fsSL https://get.docker.com -o get-docker.sh
           sudo sh ./get-docker.sh
           sudo ./build-docker.sh
-          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Upload deploy directory as artifact
+          path: deploy/
