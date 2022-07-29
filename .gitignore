@@ -1,9 +1,3 @@
-deploy/*
-work/*
-config
-postrun.sh
-SKIP
-SKIP_IMAGES
-.pc
-*-pc
-apt-cacher-ng/
+config.secret
+work/
+deploy/
