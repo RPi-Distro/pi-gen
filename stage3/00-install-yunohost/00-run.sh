@@ -46,6 +46,10 @@ sed -i '/PermitRootLogin/c\PermitRootLogin yes' /etc/ssh/sshd_config
 echo "root:yunohost" | chpasswd
 EOF
 
+echo "Removing Raspbian sshd banner"
+rm -f "${ROOTFS_DIR}/etc/ssh/sshd_config.d/rename_user.conf"
+rm -f "${ROOTFS_DIR}/usr/share/userconf-pi/sshd_banner"
+
 install -m 755 files/check_yunohost_is_installed.sh "${ROOTFS_DIR}/etc/profile.d/"
 
 echo "Cleaning ..."
@@ -78,7 +82,3 @@ do
     done
     sleep 5
 done
-echo "last lsof..."
-lsof
-echo "last ps -ef --forest..."
-ps -ef --forest
