@@ -203,18 +203,29 @@ fi
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
 export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
-export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
+export ARCHIVE_FILENAME="${ARCHIVE_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
 
 export SCRIPT_DIR="${BASE_DIR}/scripts"
 export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_NAME}"}"
 export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
-export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
+
+# DEPLOY_ZIP was deprecated in favor of DEPLOY_COMPRESSION
+# This preserve the old behavior with DEPLOY_ZIP=0 where no archive was created
+if [ -z "${DEPLOY_COMPRESSION}" ] && [ "${DEPLOY_ZIP:-1}" = "0" ]; then
+	echo "DEPLOY_ZIP has been deprecated in favor of DEPLOY_COMPRESSION"
+	echo "Similar behavior to DEPLOY_ZIP=0 can be obtained with DEPLOY_COMPRESSION=none"
+	echo "Please update your config file"
+	DEPLOY_COMPRESSION=none
+fi
+export DEPLOY_COMPRESSION=${DEPLOY_COMPRESSION:-zip}
+export COMPRESSION_LEVEL=${COMPRESSION_LEVEL:-6}
 export LOG_FILE="${WORK_DIR}/build.log"
 
 export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
-export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
+export FIRST_USER_PASS
+export DISABLE_FIRST_BOOT_USER_RENAME=${DISABLE_FIRST_BOOT_USER_RENAME:-0}
 export RELEASE=${RELEASE:-bullseye}
 export WPA_ESSID
 export WPA_PASSWORD
@@ -278,6 +289,17 @@ dependencies_check "${BASE_DIR}/depends"
 if [[ ! "$FIRST_USER_NAME" =~ ^[a-z][-a-z0-9_]*$ ]]; then
 	echo "Invalid FIRST_USER_NAME: $FIRST_USER_NAME"
 	exit 1
+fi
+
+if [[ "$DISABLE_FIRST_BOOT_USER_RENAME" == "1" ]] && [ -z "${FIRST_USER_PASS}" ]; then
+	echo "To disable user rename on first boot, FIRST_USER_PASS needs to be set"
+	echo "Not setting FIRST_USER_PASS makes your system vulnerable and open to cyberattacks"
+	exit 1
+fi
+
+if [[ "$DISABLE_FIRST_BOOT_USER_RENAME" == "1" ]]; then
+	echo "User rename on the first boot is disabled"
+	echo "Be advised of the security risks linked to shipping a device with default username/password set."
 fi
 
 if [[ -n "${APT_PROXY}" ]] && ! curl --silent "${APT_PROXY}" >/dev/null ; then

@@ -1,5 +1,31 @@
 UNRELEASED:
-  *
+  * 
+2022-04-04:
+  * Default "pi” user has been removed; the first-boot wizard enforces the creation of a new user account
+  * rename-user script added to allow existing users to be renamed by temporarily rebooting to cut-down first-boot wizard
+  * Overscan now managed by xrandr under KMS, can be set independently for both monitors, and takes effect on the fly rather than requiring reboot
+  * GTK3 switch control now used in place of paired radio buttons throughout
+  * piwiz - first-boot wizard now runs in a separate session as a different user with different graphics
+  * piwiz - first-boot wizard now has automatic pairing for discoverable Bluetooth mice and keyboards
+  * lxinput - keyboard delay and repeat settings now persist across reboots under mutter
+  * raspi-config / rc_gui - removed pixel doubling option when KMS driver in use
+  * raspi-config - removed composition manager option when legacy driver in use
+  * arandr - restored support for interlaced displays
+  * mutter - implemented more intuitive window and application cycling behaviour
+  * pi-greeter - rebuilt for GTK3
+  * Bug fix - graphical corruption in system tray icons
+  * Bug fix - desktop items vanishing when dragged
+  * Bug fix - terminal windows not focussed correctly when launched
+  * Bug fix - crash after multiple update checks in updater plugin
+  * Bug fix - Raspberry Pi keyboard auto-detect by wizard was broken in previous release
+  * Bug fix - spurious "connected” dialog box shown when reconnecting to Bluetooth LE devices on boot
+  * Support for experimental Wayland backend added - can be enabled as an advanced option in raspi-config
+  * Various small bug fixes and graphical tweaks
+  * Chromium upgraded to version 98.0.4758.106
+  * FFmpeg HW acceleration improved
+  * OpenJDK 17 now defaults to 'client' JVM for ARMv6 compatibility
+  * Raspberry Pi firmware 69277bc713133a54a1d20554d79544da1ae2b6ca
+  * Linux kernel 5.15.30
 2022-01-28:
   * Policykit CVE-2021-4034 fix
   * rc_gui - add combo box to allow resolution to be set for VNC connections
