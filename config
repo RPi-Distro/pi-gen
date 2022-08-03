@@ -1,4 +1,4 @@
 IMG_NAME="rasppi-os-sth"
-STAGE_LIST="stage0 stage1 stage2"
+STAGE_LIST="stage0 stage1 stage2 stage99-sth"
 
-[ -f "config.secret" ] && . config.secret
+[ -f "config.secret" ] && source config.secret
