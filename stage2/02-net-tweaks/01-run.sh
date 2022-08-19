@@ -8,7 +8,9 @@ on_chroot << EOF
 EOF
 
 if [ -v WPA_COUNTRY ]; then
-	echo "country=${WPA_COUNTRY}" >> "${ROOTFS_DIR}/etc/wpa_supplicant/wpa_supplicant.conf"
+	on_chroot <<- EOF
+		SUDO_USER="${FIRST_USER_NAME}" raspi-config nonint do_wifi_country "${WPA_COUNTRY}"
+	EOF
 fi
 
 if [ -v WPA_ESSID ] && [ -v WPA_PASSWORD ]; then
