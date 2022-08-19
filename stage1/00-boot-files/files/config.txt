@@ -8,9 +8,6 @@
 # (e.g. for USB device mode) or if USB support is not required.
 #otg_mode=1
 
-# Boot using customized kernel
-kernel=kernel8-wp.img
-
 # Enable OTG
 dtoverlay=dwc2,dr_mode=otg
 
@@ -72,3 +69,6 @@ dtparam=act_led_trigger=heartbeat
 
 # Switch to kernel 64 bits
 arm_64bit=1
+
+# Boot using customized kernel
+kernel=kernel8-wp.img
