@@ -56,7 +56,7 @@ on_chroot <<CHEOF
 	wget -O "$TEMP_DEB" "http://ftp.us.debian.org/debian/pool/main/w/wireless-regdb/wireless-regdb_2022.06.06-1_all.deb" &&
 	sudo dpkg -i "$TEMP_DEB"
 	rm -f "$TEMP_DEB"
-  sudo update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
+  update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
 CHEOF
 
 # Set WLAN Pi image version
