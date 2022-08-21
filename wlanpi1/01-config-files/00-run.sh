@@ -105,6 +105,6 @@ copy_overlay /etc/systemd/network/usb1.network -o root -g root -m 664
 copy_overlay /etc/systemd/network/eth1.network -o root -g root -m 664
 
 # Copy MediaTek USB and M.2 Wi-Fi adapter firmware used by CF-751AX, CF-753AX, MT7921K
-copy_overlay /lib/firmware/mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin -o root -g root -m 664
-copy_overlay /lib/firmware/mediatek/WIFI_MT7961_patch_mcu_1_2_hdr.bin -o root -g root -m 664
-copy_overlay /lib/firmware/mediatek/WIFI_RAM_CODE_MT7961_1.bin -o root -g root -m 664
+copy_overlay /lib/firmware/mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin -o root -g root -m 644
+copy_overlay /lib/firmware/mediatek/WIFI_MT7961_patch_mcu_1_2_hdr.bin -o root -g root -m 644
+copy_overlay /lib/firmware/mediatek/WIFI_RAM_CODE_MT7961_1.bin -o root -g root -m 644
