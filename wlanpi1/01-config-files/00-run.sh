@@ -11,7 +11,7 @@ on_chroot <<CHEOF
 	else
 		echo "retry 600;" >> /etc/dhcp/dhclient.conf
 	fi
-	
+
 	# Send hardware MAC address to DHCP server
 	if grep -q -E "^#?send dhcp-client-identifier " /etc/dhcp/dhclient.conf; then
 		sed -i 's/^#\?send dhcp-client-identifier .*/send dhcp-client-identifier = hardware;/' /etc/dhcp/dhclient.conf
@@ -32,24 +32,31 @@ on_chroot <<CHEOF
 
 	# Configure arp_ignore: network/arp
 	echo "net.ipv4.conf.eth0.arp_ignore = 1" >> /etc/sysctl.conf
-	
+
 	# Remove default Debian MOTD
 	rm -f /etc/motd
-	
+
 	# Remove Cockpit MOTD
 	rm -f /etc/motd.d/cockpit
-	
+
 	# Remove existing MOTD
 	rm -f /etc/update-motd.d/10-uname
-	
+
 	#Auto-start systemd-networkd used by Bluetooth pan0 and usb0
 	systemctl enable systemd-networkd
-	
+
         # Fetch current version of the pci. ids file
         update-pciids
-	
+
 	# Prevent interfaces from being managed by dhcpcd which conflicts with systemd
 	echo "denyinterfaces usb* pan*" | tee -a /etc/dhcpcd.conf
+
+	# Install wireless-regdb which supports Wi-Fi 6E
+	TEMP_DEB="$(mktemp)" &&
+	wget -O "$TEMP_DEB" "http://ftp.us.debian.org/debian/pool/main/w/wireless-regdb/wireless-regdb_2022.06.06-1_all.deb" &&
+	sudo dpkg -i "$TEMP_DEB"
+	rm -f "$TEMP_DEB"
+  sudo update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
 CHEOF
 
 # Set WLAN Pi image version
@@ -96,3 +103,8 @@ copy_overlay /etc/systemd/network/usb1.network -o root -g root -m 664
 
 # Copy eth1 network configuration
 copy_overlay /etc/systemd/network/eth1.network -o root -g root -m 664
+
+# Copy MediaTek USB and M.2 Wi-Fi adapter firmware used by CF-751AX, CF-753AX, MT7921K
+copy_overlay /lib/firmware/mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin -o root -g root -m 664
+copy_overlay /lib/firmware/mediatek/WIFI_MT7961_patch_mcu_1_2_hdr.bin -o root -g root -m 664
+copy_overlay /lib/firmware/mediatek/WIFI_RAM_CODE_MT7961_1.bin -o root -g root -m 664
