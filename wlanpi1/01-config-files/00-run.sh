@@ -45,8 +45,8 @@ on_chroot <<CHEOF
 	#Auto-start systemd-networkd used by Bluetooth pan0 and usb0
 	systemctl enable systemd-networkd
 
-        # Fetch current version of the pci. ids file
-        update-pciids
+	# Fetch current version of the pci. ids file
+	update-pciids
 
 	# Prevent interfaces from being managed by dhcpcd which conflicts with systemd
 	echo "denyinterfaces usb* pan*" | tee -a /etc/dhcpcd.conf
@@ -56,7 +56,7 @@ on_chroot <<CHEOF
 	wget -O "$TEMP_DEB" "http://ftp.us.debian.org/debian/pool/main/w/wireless-regdb/wireless-regdb_2022.06.06-1_all.deb" &&
 	sudo dpkg -i "$TEMP_DEB"
 	rm -f "$TEMP_DEB"
-  update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
+	update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
 CHEOF
 
 # Set WLAN Pi image version
