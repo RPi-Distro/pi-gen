@@ -52,10 +52,9 @@ on_chroot <<CHEOF
 	echo "denyinterfaces usb* pan*" | tee -a /etc/dhcpcd.conf
 
 	# Install wireless-regdb which supports Wi-Fi 6E
-	echo "TEMP_DEB=$(mktemp)" >> $GITHUB_ENV
-	wget -O ${{env.TEMP_DEB}} http://ftp.us.debian.org/debian/pool/main/w/wireless-regdb/wireless-regdb_2022.06.06-1_all.deb
-	dpkg -i ${{env.TEMP_DEB}}
-	rm -f ${{env.TEMP_DEB}}
+	wget -O /tmp/wireless-regdb_2022.06.06-1_all.deb http://ftp.us.debian.org/debian/pool/main/w/wireless-regdb/wireless-regdb_2022.06.06-1_all.deb
+	dpkg -i /tmp/wireless-regdb_2022.06.06-1_all.deb
+	rm -f /tmp/wireless-regdb_2022.06.06-1_all.deb
 	update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
 CHEOF
 
