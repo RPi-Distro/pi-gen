@@ -53,9 +53,9 @@ on_chroot <<CHEOF
 
 	# Install wireless-regdb which supports Wi-Fi 6E
 	TEMP_DEB=$(mktemp)
-	wget -O $TEMP_DEB http://ftp.us.debian.org/debian/pool/main/w/wireless-regdb/wireless-regdb_2022.06.06-1_all.deb
-	dpkg -i $TEMP_DEB
-	rm -f $TEMP_DEB
+	wget -O "${TEMP_DEB}" http://ftp.us.debian.org/debian/pool/main/w/wireless-regdb/wireless-regdb_2022.06.06-1_all.deb
+	dpkg -i "${TEMP_DEB}"
+	rm -f "${TEMP_DEB}"
 	update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
 CHEOF
 
