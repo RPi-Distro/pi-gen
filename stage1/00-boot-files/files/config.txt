@@ -33,9 +33,6 @@ dvfs=1
 dtoverlay=disable-wifi
 dtoverlay=disable-bt
 
-# Allows MT7921K adapter to work with 64-bit kernel, fixes error: "mt7921e: probe of 0000:01:00.0 failed with error -12"
-dtoverlay=pcie-32bit-dma
-
 [pi4]
 # Enable DRM VC4 V3D driver on top of the dispmanx display stack
 dtoverlay=vc4-fkms-v3d
