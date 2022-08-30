@@ -1,6 +1,7 @@
 UNRELEASED:
   * Install NetworkManager
   * Install OpenJDK 17 rather than OpenJDK 11 on full images
+  * Install picamera2
   * Format the root partition with the metadata_csum option
   * Format the boot partition with 4 sectors per cluster for a slight performance boost
   * Remove 'flush' mount option from the boot partition

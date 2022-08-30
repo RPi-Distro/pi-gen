@@ -13,3 +13,5 @@ obconf
 arandr
 libcamera-tools
 libcamera-apps
+python3-pyqt5
+python3-opengl
