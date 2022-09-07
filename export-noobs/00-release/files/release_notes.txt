@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2022-09-06:
   * lxpanel - new main menu plugin with text search
   * lxpanel - new separate audio input plugin with microphone volume and input select
   * lxpanel - keyboard shortcuts to open wifi and bluetooth plugins added
