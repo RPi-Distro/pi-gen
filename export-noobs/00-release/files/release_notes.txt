@@ -1,5 +1,14 @@
 UNRELEASED:
-  *
+  * NodeRED removed from Recommended Software and full image - should only be installed via apt
+  * Bug fix - splash screen version number and date incorrect
+  * Bug fix - text entry in searchable main menu ignored while caps or num lock active
+  * Bug fix - keyboard shortcuts to open Wi-fi and Bluetooth plugin menus not working in 64-bit builds
+  * Bug fix - typo in Bluetooth device menu
+  * Bug fix - firstboot script skipped further steps if rootfs resize failed
+  * Bug fix - firstboot script inadvertently wrote /test.log
+  * Bug fix - typo in raspi-config resulted in empty file /2 being created
+  * Raspberry Pi firmware 48cd70fe84432c5d050637b61e4b7b9c831c98bf
+  * Linux kernel 5.15.61
 2022-09-06:
   * lxpanel - new main menu plugin with text search
   * lxpanel - new separate audio input plugin with microphone volume and input select
@@ -29,7 +38,7 @@ UNRELEASED:
   * Raspberry Pi firmware 48cd70fe84432c5d050637b61e4b7b9c831c98bf
   * Linux kernel 5.15.61
 2022-04-04:
-  * Default "pi” user has been removed; the first-boot wizard enforces the creation of a new user account
+  * Default "pi" user has been removed; the first-boot wizard enforces the creation of a new user account
   * rename-user script added to allow existing users to be renamed by temporarily rebooting to cut-down first-boot wizard
   * Overscan now managed by xrandr under KMS, can be set independently for both monitors, and takes effect on the fly rather than requiring reboot
   * GTK3 switch control now used in place of paired radio buttons throughout
@@ -46,7 +55,7 @@ UNRELEASED:
   * Bug fix - terminal windows not focussed correctly when launched
   * Bug fix - crash after multiple update checks in updater plugin
   * Bug fix - Raspberry Pi keyboard auto-detect by wizard was broken in previous release
-  * Bug fix - spurious "connected” dialog box shown when reconnecting to Bluetooth LE devices on boot
+  * Bug fix - spurious "connected" dialog box shown when reconnecting to Bluetooth LE devices on boot
   * Support for experimental Wayland backend added - can be enabled as an advanced option in raspi-config
   * Various small bug fixes and graphical tweaks
   * Chromium upgraded to version 98.0.4758.106
