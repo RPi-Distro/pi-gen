@@ -10,5 +10,6 @@ wlanpi-wconsole
 wlanpi-server
 wlanpi-wipry
 libpcap0.8/bullseye-backports
+wpasupplicant/bullseye-backports
 #wiperf
 #wlanpi-core
