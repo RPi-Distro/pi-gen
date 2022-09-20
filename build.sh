@@ -131,6 +131,10 @@ run_stage(){
 				run_sub_stage
 			fi
 		done
+
+		PREV_STAGE="${STAGE}"
+		PREV_STAGE_DIR="${STAGE_DIR}"
+		PREV_ROOTFS_DIR="${ROOTFS_DIR}"
 	fi
 
 	if [ "${USE_QCOW2}" = "1" ]; then
@@ -142,9 +146,6 @@ run_stage(){
 		fi
 	fi
 
-	PREV_STAGE="${STAGE}"
-	PREV_STAGE_DIR="${STAGE_DIR}"
-	PREV_ROOTFS_DIR="${ROOTFS_DIR}"
 	popd > /dev/null
 	log "End ${STAGE_DIR}"
 }
