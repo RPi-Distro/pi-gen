@@ -1,9 +1,13 @@
 UNRELEASED:
   * NodeRED removed from Recommended Software and full image - should only be installed via apt
+  * Improved speed of startup of lxpanel network controller plugins
+  * Improved detection of Bluetooth HID devices in first-boot wizard
   * Bug fix - splash screen version number and date incorrect
   * Bug fix - text entry in searchable main menu ignored while caps or num lock active
   * Bug fix - keyboard shortcuts to open Wi-fi and Bluetooth plugin menus not working in 64-bit builds
   * Bug fix - typo in Bluetooth device menu
+  * Bug fix - crash when cycling windows in mutter
+  * Bug fix - spurious text output in raspi-config network configuration selection
   * Bug fix - firstboot script skipped further steps if rootfs resize failed
   * Bug fix - firstboot script inadvertently wrote /test.log
   * Bug fix - typo in raspi-config resulted in empty file /2 being created
