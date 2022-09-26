@@ -1,6 +1,9 @@
 UNRELEASED:
   * Raspberry Pi firmware 74c4307951701f93bd94b4fd37e6adc44910d6e0
   * Linux kernel 5.10.103
+2022-09-22:
+  * Raspberry Pi firmware 74c4307951701f93bd94b4fd37e6adc44910d6e0
+  * Linux kernel 5.10.103
 2022-09-07:
   * Raspberry Pi firmware 74c4307951701f93bd94b4fd37e6adc44910d6e0
   * Linux kernel 5.10.103
