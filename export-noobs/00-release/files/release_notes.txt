@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2022-09-22:
   * NodeRED removed from Recommended Software and full image - should only be installed via apt
   * Improved speed of startup of lxpanel network controller plugins
   * Improved detection of Bluetooth HID devices in first-boot wizard
