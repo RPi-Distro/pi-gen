@@ -47,7 +47,7 @@ jobs:
           fi
 
           sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-          sudo ./build-docker.sh -v ${{ github.event.input.version-bump }}
+          sudo ./build-docker.sh -v ${{ github.event.inputs.version-bump }}
 
       - name: Upload image
         uses: actions/upload-artifact@v2
