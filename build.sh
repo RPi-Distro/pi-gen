@@ -207,6 +207,7 @@ export SCRIPT_DIR="${BASE_DIR}/scripts"
 
 export LAST_VERSION=${LAST_VERSION:-"$(git describe --tags --abbrev=0 --match="v[0-9].[0-9].[0-9]*")"}
 export LAST_VERSION_HASH=${LAST_VERSION_HASH:-"$(git rev-parse "${LAST_VERSION}")"}
+export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 export COMMITS_FROM_LAST=${COMMITS_FROM_LAST:-"$(git log --oneline "${LAST_VERSION}"..${GIT_HASH})"}
 export VERSION_BUMP=${VERSION_BUMP:-auto}
 export NEW_VERSION=$(source "${SCRIPT_DIR}/update_version.sh" "${VERSION_BUMP}")
@@ -239,8 +240,6 @@ export KEYBOARD_KEYMAP="${KEYBOARD_KEYMAP:-gb}"
 export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"
 
 export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
-
-export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 
 export PUBKEY_SSH_FIRST_USER
 
