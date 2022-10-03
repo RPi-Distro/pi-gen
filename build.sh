@@ -206,6 +206,7 @@ fi
 export SCRIPT_DIR="${BASE_DIR}/scripts"
 export VERSION_BUMP=${VERSION_BUMP:-auto}
 export NEW_VERSION=$(source "${SCRIPT_DIR}/update_version.sh" "${VERSION_BUMP}")
+echo "NEW_VERSION is ${NEW_VERSION}"
 
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
