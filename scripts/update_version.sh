@@ -4,11 +4,11 @@ REQUEST_BUMP="$1"
 
 setup_version() {
     if [ -f "/tmp/semver" ]; then
-	    return 0
+        return 0
     fi
 
     wget -q -O /tmp/semver \
-	https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
+    https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
     chmod +x /tmp/semver
 }
 
@@ -24,8 +24,8 @@ update_version() {
     last_version="${LAST_VERSION}"
     # if hash of previous version matches current git hash, we don't update!
     if [ "${GIT_HASH}" == "${LAST_VERSION_HASH}" ]; then
-	    echo "${last_version}"
-	    exit 0
+        echo "${last_version}"
+        exit 0
     fi
 
     REQUEST_BUMP="$(echo "${REQUEST_BUMP}" | tr '[:upper:]' '[:lower:]')"
@@ -37,29 +37,29 @@ update_version() {
         patch) is_patch=1 ;;
         release) is_release=1 ;;
         dev) is_dev=1 ;;
-	*)
-	    # Guess the bump from commit history
-	    commits="${COMMITS_FROM_LAST}"
+    *)
+        # Guess the bump from commit history
+        commits="${COMMITS_FROM_LAST}"
 
-	    is_breaking="$(echo "${commits}" | awk '{ print $2; }' | { grep "BREAK:" || :; })"
-	    is_feature="$(echo "${commits}" | awk '{ print $2; }' | { grep "feat:" || :; })"
-	    is_rc="$(echo "${last_version}" | { grep -- "-rc" || :; })"
+        is_breaking="$(echo "${commits}" | awk '{ print $2; }' | { grep "BREAK:" || :; })"
+        is_feature="$(echo "${commits}" | awk '{ print $2; }' | { grep "feat:" || :; })"
+        is_rc="$(echo "${last_version}" | { grep -- "-rc" || :; })"
         is_dev="$(echo "${last_version}" | { grep -- "-dev" || :; })"
-	    ;;
+        ;;
     esac
 
     if [ -n "${is_breaking}" ]; then
-	    ver_bump="major"
+        ver_bump="major"
     elif [ -n "${is_feature}" ]; then
-	    ver_bump="minor"
+        ver_bump="minor"
     elif [ -n "${is_rc}" ]; then
-	    ver_bump="prerel rc."
+        ver_bump="prerel rc."
     elif [ -n "${is_dev}" ]; then
         ver_bump="prerel dev."
     elif [ -n "${is_release}" ]; then
         ver_bump="release"
     else
-	    ver_bump="patch"
+        ver_bump="patch"
     fi
 
     if [ -n "${is_release}" ]; then
@@ -72,7 +72,7 @@ update_version() {
 
         # Add -rc to the new version code
         if [ -n "${is_rc}" ] && [ "${ver_bump}" != "prerel rc." ]; then
-	        new_version=$(/tmp/semver bump ${ver_bump} "${new_version}")
+            new_version=$(/tmp/semver bump ${ver_bump} "${new_version}")
         fi
 
         # Add -dev to the new version code
