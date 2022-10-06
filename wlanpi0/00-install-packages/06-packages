@@ -13,5 +13,6 @@ wlanpi-misc-firmware
 libpcap0.8/bullseye-backports
 wpasupplicant/bullseye-backports
 hostapd/bullseye-backports
+wlanpi-librespeed-cli
 #wiperf
 #wlanpi-core
