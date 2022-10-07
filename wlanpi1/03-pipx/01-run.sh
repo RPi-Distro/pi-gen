@@ -11,7 +11,4 @@ on_chroot <<CHEOF
 	
 	# Install speedtest
 	pipx install speedtest-cli
-	# Remove speedtest symlink (speedtest-cli is still available) and free it up for the official Ookla's speedtest tool
-	sudo unlink /opt/wlanpi/pipx/bin/speedtest
-	sudo unlink /usr/local/bin/speedtest
 CHEOF
