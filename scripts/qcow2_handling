@@ -109,8 +109,8 @@ load_qimage() {
 EOF
 				sync
 				kpartx -as $NBD_DEV
-				mkdosfs -n boot -F 32 -v $MAP_BOOT_DEV
-				mkfs.ext4 -L rootfs -O "^huge_file,^metadata_csum,^64bit" $MAP_ROOT_DEV
+				mkdosfs -n boot -F 32 -s 4 -v $MAP_BOOT_DEV
+				mkfs.ext4 -L rootfs -O "^huge_file,^64bit" $MAP_ROOT_DEV
 				sync
 			else
 				if [ ! -f "${WORK_DIR}/image-${PREV_STAGE}.qcow2" ]; then
