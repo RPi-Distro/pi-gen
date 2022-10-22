@@ -57,19 +57,14 @@ export -f unmount
 unmount_image(){
 	sync
 	sleep 1
-	local LOOP_DEVICES
-	LOOP_DEVICES=$(losetup --list | grep "$(basename "${1}")" | cut -f1 -d' ')
-	for LOOP_DEV in ${LOOP_DEVICES}; do
-		if [ -n "${LOOP_DEV}" ]; then
-			local MOUNTED_DIR
-			MOUNTED_DIR=$(mount | grep "$(basename "${LOOP_DEV}")" | head -n 1 | cut -f 3 -d ' ')
-			if [ -n "${MOUNTED_DIR}" ] && [ "${MOUNTED_DIR}" != "/" ]; then
-				unmount "$(dirname "${MOUNTED_DIR}")"
-			fi
-			sleep 1
-			losetup -d "${LOOP_DEV}"
-		fi
-	done
+	echo XXX "$1"
+	losetup --list
+	LOOP_DEVICE=$(losetup --list | grep "$1" | cut -f1 -d' ')
+	[[ -n "$LOOP_DEVICE" ]] && {
+		umount "$LOOP_DEVICE"p1
+		umount "$LOOP_DEVICE"p2
+		losetup -d "$LOOP_DEVICE"
+	}
 }
 export -f unmount_image
 
