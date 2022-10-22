@@ -57,8 +57,6 @@ export -f unmount
 unmount_image(){
 	sync
 	sleep 1
-	echo XXX "$1"
-	losetup --list
 	LOOP_DEVICE=$(losetup --list | grep "$1" | cut -f1 -d' ')
 	[[ -n "$LOOP_DEVICE" ]] && {
 		umount "$LOOP_DEVICE"p1
