@@ -15,4 +15,4 @@ wpasupplicant/bullseye-backports
 hostapd/bullseye-backports
 wlanpi-librespeed-cli
 #wiperf
-wlanpi-core
+#wlanpi-core
