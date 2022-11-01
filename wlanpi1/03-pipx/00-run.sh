@@ -6,7 +6,7 @@
 
 on_chroot <<CHEOF
 	# Install a deterministic version of pipx
-	python3 -m pip install pipx==1.0.0
+	python3 -m pip install pipx==1.1.0
 
 	# Setting up Pipx in a global directory so all users in sudo group can access installed packages
 	mkdir -p /opt/wlanpi/pipx/bin
