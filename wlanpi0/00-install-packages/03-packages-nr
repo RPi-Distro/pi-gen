@@ -19,3 +19,6 @@ toilet
 screen
 usbmuxd
 lsof
+flent
+netperf
+fping
