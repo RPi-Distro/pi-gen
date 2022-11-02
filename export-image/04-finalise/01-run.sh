@@ -88,8 +88,10 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 # echo "::set-output name=version::${new_version}"
 
 echo "VERSION=${NEW_VERSION#v}" > "${ROOTFS_DIR}/etc/wlanpi-release"
-# echo "::set-output name=version::${NEW_VERSION}"
-echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+echo "::set-output name=version::${NEW_VERSION}"
+# echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+# ./01-run.sh: line 92: $GITHUB_OUTPUT: ambiguous redirect
+# https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
 
 mkdir -p "${DEPLOY_DIR}"
 
