@@ -27,11 +27,11 @@ on:
 
 jobs:
   build:
-    runs-on: 'ubuntu-20.04'
+    runs-on: 'ubuntu-22.04'
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: '0'
 
@@ -52,13 +52,13 @@ jobs:
           sudo ./build-docker.sh -v ${{ github.event.inputs.version-bump }}
 
       - name: Upload image
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}
           path: deploy/*.zip
 
       - name: Upload image info
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}-info
           path: deploy/*.info
@@ -77,7 +77,7 @@ jobs:
 
       - name: Upload logs
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}-buildlogs
           path: deploy/*.log
@@ -87,7 +87,7 @@ jobs:
     name: Post Workflow Status to Slack
     needs:
       - build
-    runs-on: 'ubuntu-20.04'
+    runs-on: 'ubuntu-22.04'
     steps:
       - name: Slack Workflow Notification
         uses: Gamesight/slack-workflow-status@master

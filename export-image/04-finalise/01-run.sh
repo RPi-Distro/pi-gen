@@ -88,7 +88,8 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 # echo "::set-output name=version::${new_version}"
 
 echo "VERSION=${NEW_VERSION#v}" > "${ROOTFS_DIR}/etc/wlanpi-release"
-echo "::set-output name=version::${NEW_VERSION}"
+# echo "::set-output name=version::${NEW_VERSION}"
+echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
 
 mkdir -p "${DEPLOY_DIR}"
 
