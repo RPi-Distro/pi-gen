@@ -56,6 +56,9 @@ on_chroot <<CHEOF
 	dpkg -i /tmp/wireless-regdb_2022.06.06-1_all.deb
 	rm -f /tmp/wireless-regdb_2022.06.06-1_all.deb
 	update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
+
+	# Fix sntp permission error
+	chmod o+w /var/lib/sntp/kod
 CHEOF
 
 # Set WLAN Pi image version
