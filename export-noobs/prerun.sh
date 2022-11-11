@@ -9,41 +9,21 @@ unmount_image "${IMG_FILE}"
 
 rm -rf "${NOOBS_DIR}"
 
-PARTED_OUT=$(parted -sm "${IMG_FILE}" unit b print)
-BOOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^1:' | cut -d':' -f 2 | tr -d B)
-BOOT_LENGTH=$(echo "$PARTED_OUT" | grep -e '^1:' | cut -d':' -f 4 | tr -d B)
-
-ROOT_OFFSET=$(echo "$PARTED_OUT" | grep -e '^2:' | cut -d':' -f 2 | tr -d B)
-ROOT_LENGTH=$(echo "$PARTED_OUT" | grep -e '^2:' | cut -d':' -f 4 | tr -d B)
-
-echo "Mounting BOOT_DEV..."
+echo "Creating loop device..."
 cnt=0
-until BOOT_DEV=$(losetup --show -f -o "${BOOT_OFFSET}" --sizelimit "${BOOT_LENGTH}" "${IMG_FILE}"); do
+until LOOP_DEV="$(losetup --show --find --partscan "$IMG_FILE")"; do
 	if [ $cnt -lt 5 ]; then
 		cnt=$((cnt + 1))
-		echo "Error in losetup for BOOT_DEV.  Retrying..."
+		echo "Error in losetup.  Retrying..."
 		sleep 5
 	else
-		echo "ERROR: losetup for BOOT_DEV failed; exiting"
+		echo "ERROR: losetup failed; exiting"
 		exit 1
 	fi
 done
 
-echo "Mounting ROOT_DEV..."
-cnt=0
-until ROOT_DEV=$(losetup --show -f -o "${ROOT_OFFSET}" --sizelimit "${ROOT_LENGTH}" "${IMG_FILE}"); do
-	if [ $cnt -lt 5 ]; then
-		cnt=$((cnt + 1))
-		echo "Error in losetup for ROOT_DEV.  Retrying..."
-		sleep 5
-	else
-		echo "ERROR: losetup for ROOT_DEV failed; exiting"
-		exit 1
-	fi
-done
-
-echo "/boot: offset $BOOT_OFFSET, length $BOOT_LENGTH"
-echo "/:     offset $ROOT_OFFSET, length $ROOT_LENGTH"
+BOOT_DEV="${LOOP_DEV}p1"
+ROOT_DEV="${LOOP_DEV}p2"
 
 mkdir -p "${STAGE_WORK_DIR}/rootfs"
 mkdir -p "${NOOBS_DIR}"
