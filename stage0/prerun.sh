@@ -5,6 +5,6 @@ if [ "$RELEASE" != "bookworm" ]; then
 	echo "         Please check the relevant README.md section."
 fi
 
-if [ ! -d "${ROOTFS_DIR}" ] || [ "${USE_QCOW2}" = "1" ]; then
+if [ ! -d "${ROOTFS_DIR}" ]; then
 	bootstrap ${RELEASE} "${ROOTFS_DIR}" http://raspbian.raspberrypi.com/raspbian/
 fi
