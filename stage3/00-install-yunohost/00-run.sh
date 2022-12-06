@@ -20,6 +20,12 @@ on_chroot << EOF
 systemctl enable resize2fs_once
 EOF
 
+# Disable the damn userconfig stuff that wants to rename the user and configure the keyboard
+# creating a debconf process that hangs forever
+on_chroot << EOF
+systemctl disable userconfig || true
+EOF
+
 # For some reason curl doesnt recognize CA in any cert
 # and this is fixed by regerating links in /etc/ssl/certs/ ...
 on_chroot << EOF
