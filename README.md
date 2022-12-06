@@ -27,10 +27,10 @@ Getting started is as simple as cloning this repository on your build machine. Y
 can do so with:
 
 ```bash
-git clone --depth 1 https://github.com/RPI-Distro/pi-gen.git
+git clone https://github.com/RPI-Distro/pi-gen.git
 ```
 
-Using `--depth 1` with `git clone` will create a shallow clone, only containing
+`--depth 1` can be added afer `git clone` to create a shallow clone, only containing
 the latest revision of the repository. Do not do this on your development machine.
 
 Also, be careful to clone the repository to a base path **NOT** containing spaces.
@@ -80,8 +80,11 @@ The following environment variables are supported:
 
 * `RELEASE` (Default: bullseye)
 
-   The release version to build images against. Valid values are jessie, stretch,
-   buster, bullseye, and testing.
+   The release version to build images against. Valid values are any supported
+   Debian release. However, since different releases will have different sets of
+   packages available, you'll need to either modify your stages accordingly, or
+   checkout the appropriate branch. For example, if you'd like to build a
+   `buster` image, you should do so from the `buster` branch.
 
  * `APT_PROXY` (Default: unset)
 
@@ -175,9 +178,26 @@ The following environment variables are supported:
    To get the current value from a running system, look in
    `/etc/timezone`.
 
+ * `FIRST_USER_NAME` (Default: `pi`)
+
+   Username for the first user. This user only exists during the image creation process. Unless
+   `DISABLE_FIRST_BOOT_USER_RENAME` is set to `1`, this user will be renamed on the first boot with
+   a name chosen by the final user. This security feature is designed to prevent shipping images
+   with a default username and help prevent malicious actors from taking over your devices.
+
+ * `FIRST_USER_PASS` (Default: unset)
+
+   Password for the first user. If unset, the account is locked.
+
+ * `DISABLE_FIRST_BOOT_USER_RENAME` (Default: `0`)
+
+   Disable the renaming of the first user during the first boot. This make it so `FIRST_USER_NAME`
+   stays activated. `FIRST_USER_PASS` must be set for this to work. Please be aware of the implied
+   security risk of defining a default username and password for your devices.
+
  * `WPA_ESSID`, `WPA_PASSWORD` and `WPA_COUNTRY` (Default: unset)
 
-   If these are set, they are use to configure `wpa_supplicant.conf`, so that the Raspberry Pi can automatically connect to a wireless network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wireless network will be configured. If set, `WPA_PASSWORD` must be between 8 and 63 characters.
+   If these are set, they are use to configure `wpa_supplicant.conf`, so that the Raspberry Pi can automatically connect to a wireless network on first boot. If `WPA_ESSID` is set and `WPA_PASSWORD` is unset an unprotected wireless network will be configured. If set, `WPA_PASSWORD` must be between 8 and 63 characters. `WPA_COUNTRY` is a 2-letter ISO/IEC 3166 country Code, i.e. `GB`
 
  * `ENABLE_SSH` (Default: `0`)
 
@@ -194,6 +214,13 @@ The following environment variables are supported:
    * Setting to `1` will disable password authentication for SSH and enable
    public key authentication.  Note that if SSH is not enabled this will take
    effect when SSH becomes enabled.
+
+ * `SETFCAP` (Default: unset)
+
+   * Setting to `1` will prevent pi-gen from dropping the "capabilities"
+   feature. Generating the root filesystem with capabilities enabled and running
+   it from a filesystem that does not support capabilities (like NFS) can cause
+   issues. Only enable this if you understand what it is.
 
  * `STAGE_LIST` (Default: `stage*`)
 
@@ -472,7 +499,7 @@ A 64 bit image can be generated from the `arm64` branch in this repository. Just
 replace the command from [this section](#getting-started-with-building-your-images)
 by the one below, and follow the rest of the documentation:
 ```bash
-git clone --depth 1 --branch arm64 https://github.com/RPI-Distro/pi-gen.git
+git clone --branch arm64 https://github.com/RPI-Distro/pi-gen.git
 ```
 
 If you want to generate a 64 bits image from a Raspberry Pi running a 32 bits

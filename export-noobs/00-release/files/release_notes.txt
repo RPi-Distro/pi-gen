@@ -1,7 +1,50 @@
 UNRELEASED:
-  * 
+  * Install kms++-utils
+2022-09-22:
+  * NodeRED removed from Recommended Software and full image - should only be installed via apt
+  * Improved speed of startup of lxpanel network controller plugins
+  * Improved detection of Bluetooth HID devices in first-boot wizard
+  * Bug fix - splash screen version number and date incorrect
+  * Bug fix - text entry in searchable main menu ignored while caps or num lock active
+  * Bug fix - keyboard shortcuts to open Wi-fi and Bluetooth plugin menus not working in 64-bit builds
+  * Bug fix - typo in Bluetooth device menu
+  * Bug fix - crash when cycling windows in mutter
+  * Bug fix - spurious text output in raspi-config network configuration selection
+  * Bug fix - firstboot script skipped further steps if rootfs resize failed
+  * Bug fix - firstboot script inadvertently wrote /test.log
+  * Bug fix - typo in raspi-config resulted in empty file /2 being created
+  * Raspberry Pi firmware 48cd70fe84432c5d050637b61e4b7b9c831c98bf
+  * Linux kernel 5.15.61
+2022-09-06:
+  * lxpanel - new main menu plugin with text search
+  * lxpanel - new separate audio input plugin with microphone volume and input select
+  * lxpanel - keyboard shortcuts to open wifi and bluetooth plugins added
+  * lxpanel - notifications now shown with short delay after startup and between each
+  * rc_gui - only allows valid hostnames to be set
+  * piwiz - no longer allows "root" as a user name
+  * gtk3 - menus can now be resized after being drawn
+  * raspi-config - option to switch between dhcpcd and Network Manager added
+  * lxpanel - new network plugin compatible with Network Manager added
+  * piwiz - compatibility with Network Manager added
+  * Bug fix - 100% CPU usage in file manager when desktop item unmounted
+  * Bug fix - window manager was preventing switching between international keyboard layouts
+  * Bug fix - system tray redrawing made more robust
+  * Bug fix - translations not being shown in various lxpanel plugins
+  * Bug fix - updater plugin failing on x86 images
+  * Bug fix - force power on for Bluetooth hardware when unblocked with rfkill
+  * Bug fix - message boxes in rc_gui not centred correctly
+  * Bug fix - switching sessions between Wayland and X11 made more robust
+  * Bug fix - switching of ALSA devices in raspi-config made compatible with third-party devices
+  * Install NetworkManager (disabled)
+  * Install OpenJDK 17 rather than OpenJDK 11 on full images
+  * Install picamera2
+  * Format the root partition with the metadata_csum option
+  * Format the boot partition with 4 sectors per cluster for a slight performance boost
+  * Remove 'flush' mount option from the boot partition
+  * Raspberry Pi firmware 48cd70fe84432c5d050637b61e4b7b9c831c98bf
+  * Linux kernel 5.15.61
 2022-04-04:
-  * Default "pi” user has been removed; the first-boot wizard enforces the creation of a new user account
+  * Default "pi" user has been removed; the first-boot wizard enforces the creation of a new user account
   * rename-user script added to allow existing users to be renamed by temporarily rebooting to cut-down first-boot wizard
   * Overscan now managed by xrandr under KMS, can be set independently for both monitors, and takes effect on the fly rather than requiring reboot
   * GTK3 switch control now used in place of paired radio buttons throughout
@@ -18,7 +61,7 @@ UNRELEASED:
   * Bug fix - terminal windows not focussed correctly when launched
   * Bug fix - crash after multiple update checks in updater plugin
   * Bug fix - Raspberry Pi keyboard auto-detect by wizard was broken in previous release
-  * Bug fix - spurious "connected” dialog box shown when reconnecting to Bluetooth LE devices on boot
+  * Bug fix - spurious "connected" dialog box shown when reconnecting to Bluetooth LE devices on boot
   * Support for experimental Wayland backend added - can be enabled as an advanced option in raspi-config
   * Various small bug fixes and graphical tweaks
   * Chromium upgraded to version 98.0.4758.106

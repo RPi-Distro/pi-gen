@@ -3,7 +3,7 @@
         {
             "filesystem_type": "FAT",
             "label": "boot",
-            "mkfs_options": "-F 32",
+            "mkfs_options": "-F 32 -s 4",
             "partition_size_nominal": BOOT_NOM,
             "uncompressed_tarball_size": BOOT_SIZE,
             "want_maximised": false,

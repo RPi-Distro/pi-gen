@@ -32,3 +32,5 @@ rpi-eeprom
 raspinfo
 udisks2
 unzip zip p7zip-full
+file
+kms++-utils
