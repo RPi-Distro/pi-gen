@@ -17,7 +17,7 @@ bootstrap(){
 	BOOTSTRAP_ARGS+=("$@")
 	printf -v BOOTSTRAP_STR '%q ' "${BOOTSTRAP_ARGS[@]}"
 
-	setarch linux32 capsh --drop=cap_setfcap -- -c "'${BOOTSTRAP_CMD}' $BOOTSTRAP_STR" || true
+	setarch linux32 capsh $CAPSH_ARG -- -c "'${BOOTSTRAP_CMD}' $BOOTSTRAP_STR" || true
 
 	if [ -d "$2/debootstrap" ] && ! rmdir "$2/debootstrap"; then
 		cp "$2/debootstrap/debootstrap.log" "${STAGE_WORK_DIR}"
@@ -57,19 +57,15 @@ export -f unmount
 unmount_image(){
 	sync
 	sleep 1
-	local LOOP_DEVICES
-	LOOP_DEVICES=$(losetup --list | grep "$(basename "${1}")" | cut -f1 -d' ')
-	for LOOP_DEV in ${LOOP_DEVICES}; do
-		if [ -n "${LOOP_DEV}" ]; then
-			local MOUNTED_DIR
-			MOUNTED_DIR=$(mount | grep "$(basename "${LOOP_DEV}")" | head -n 1 | cut -f 3 -d ' ')
-			if [ -n "${MOUNTED_DIR}" ] && [ "${MOUNTED_DIR}" != "/" ]; then
-				unmount "$(dirname "${MOUNTED_DIR}")"
+	LOOP_DEVICE=$(losetup --list | grep "$1" | cut -f1 -d' ')
+	if [ -n "$LOOP_DEVICE" ]; then
+		for part in "$LOOP_DEVICE"p*; do
+			if DIR=$(findmnt -n -o target -S "$part"); then
+				unmount "$DIR"
 			fi
-			sleep 1
-			losetup -d "${LOOP_DEV}"
-		fi
-	done
+		done
+		losetup -d "$LOOP_DEVICE"
+	fi
 }
 export -f unmount_image
 
@@ -90,7 +86,7 @@ on_chroot() {
 		mount --bind /sys "${ROOTFS_DIR}/sys"
 	fi
 
-	setarch linux32 capsh --drop=cap_setfcap "--chroot=${ROOTFS_DIR}/" -- -e "$@"
+	setarch linux32 capsh $CAPSH_ARG "--chroot=${ROOTFS_DIR}/" -- -e "$@"
 }
 export -f on_chroot
 
