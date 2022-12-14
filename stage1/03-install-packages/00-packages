@@ -1,2 +1,2 @@
-libraspberrypi-bin libraspberrypi0
-systemd-timesyncd
+libraspberrypi-bin libraspberrypi0 rpi-eeprom raspinfo
+systemd-timesyncd sudo openssh-server
