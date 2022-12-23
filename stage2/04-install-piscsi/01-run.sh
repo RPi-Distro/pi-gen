@@ -16,7 +16,7 @@ echo "CI is $CI"
 on_chroot << EOF
 su pi
 cd /home/pi/
-git clone https://github.com/piscsi/piscsi.git
+git clone https://github.com/PiSCSI/piscsi.git
 cd piscsi
 echo $GITHUB_REF
 git checkout $GITHUB_REF
