@@ -16,12 +16,12 @@ echo "CI is $CI"
 on_chroot << EOF
 su pi
 cd /home/pi/
-git clone https://github.com/akuker/RASCSI.git
-cd RASCSI
+git clone https://github.com/PiSCSI/piscsi.git
+cd piscsi
 echo $GITHUB_REF
 git checkout $GITHUB_REF
-git config --global user.email "user@rascsi.com"
-git config --global user.name "RaSCSI User"
+git config --global user.email "noone@piscsi.com"
+git config --global user.name "PiSCSI User"
 echo "export CI=$CI"
 echo "export GITHUB_REF=$GITHUB_REF"
 # Cache the sudo credentials
