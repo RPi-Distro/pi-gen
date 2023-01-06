@@ -59,6 +59,9 @@ on_chroot <<CHEOF
 
 	# Fix sntp permission error
 	chmod o+w /var/lib/sntp/kod
+	
+	# Automatically reboot after 1 second if a kernel panic occurs
+	echo "kernel.panic = 1" >> /etc/sysctl.conf
 CHEOF
 
 # Set WLAN Pi image version
