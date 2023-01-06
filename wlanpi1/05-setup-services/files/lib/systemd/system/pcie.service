@@ -1,0 +1,10 @@
+[Unit]
+Description=Enable PCIe
+
+[Service]
+Type=oneshot
+ExecStart=dtparam pcie=on
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
