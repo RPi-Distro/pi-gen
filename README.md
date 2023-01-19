@@ -205,26 +205,26 @@ The following environment variables are supported:
 
   * `PUBKEY_SSH_FIRST_USER` (Default: unset)
 
-   Setting this to a value will make that value the contents of the FIRST_USER_NAME's ~/.ssh/authorized_keys.  Obviously the value should
-   therefore be a valid authorized_keys file.  Note that this does not
-   automatically enable SSH.
+    Setting this to a value will make that value the contents of the FIRST_USER_NAME's ~/.ssh/authorized_keys.  Obviously the value should
+    therefore be a valid authorized_keys file.  Note that this does not
+    automatically enable SSH.
 
   * `PUBKEY_ONLY_SSH` (Default: `0`)
 
-   * Setting to `1` will disable password authentication for SSH and enable
+   Setting to `1` will disable password authentication for SSH and enable
    public key authentication.  Note that if SSH is not enabled this will take
    effect when SSH becomes enabled.
 
  * `SETFCAP` (Default: unset)
 
-   * Setting to `1` will prevent pi-gen from dropping the "capabilities"
+   Setting to `1` will prevent pi-gen from dropping the "capabilities"
    feature. Generating the root filesystem with capabilities enabled and running
    it from a filesystem that does not support capabilities (like NFS) can cause
    issues. Only enable this if you understand what it is.
 
  * `STAGE_LIST` (Default: `stage*`)
 
-    If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
+   If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
 
 A simple example for building Raspbian:
 
