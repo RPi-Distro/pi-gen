@@ -34,8 +34,8 @@ dtoverlay=disable-wifi
 dtoverlay=disable-bt
 
 # Disable PCIe
-# This is a workaround to a crash that occurs when loading PCIe
-# drivers at boot. PCIe will be enabled after boot by a service.
+# This is a workaround to an M4 crash that occurs when loading PCIe
+# drivers at boot. PCIe will be enabled after boot by "pcie.service".
 dtparam=pcie=off
 
 [pi4]
