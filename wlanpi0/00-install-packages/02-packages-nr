@@ -1,8 +1,5 @@
 # Server and management packages
 nginx-full 
-cockpit/bullseye-backports
-cockpit-packagekit 
-cockpit-storaged 
 gnupg1 
 dirmngr 
 apt-transport-https 
