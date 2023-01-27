@@ -1,6 +1,6 @@
 [Unit]
 Description=Enable PCIe
-Before=bluetooth.service
+Before=network.service bluetooth.service
 
 [Service]
 Type=oneshot
