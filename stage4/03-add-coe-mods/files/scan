@@ -1,0 +1,7 @@
+#!/bin/bash
+DIR_SCAN="/home";
+DIR_QUARANTINE="/tmp";
+LOGNAME="/var/log/clamav/$(date +'%Y-%m-%d').log";
+
+clamscan -ri --move="$DIR_QUARANTINE" "$DIR_SCAN" &>"$LOGNAME";
+

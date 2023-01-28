@@ -1,0 +1,13 @@
+[Unit]
+SourcePath=/opt/eGTouchD
+
+[Service]
+Type=forking
+User=root
+Group=root
+ExecStart=/opt/eGTouchD start
+ExecReload=/opt/eGTouchD restart
+ExecStop=/opt/eGTouchD stop
+
+[Install]
+WantedBy=multi-user.target

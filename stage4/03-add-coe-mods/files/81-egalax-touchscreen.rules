@@ -1,0 +1,1 @@
+ENV{ID_BUS}=="usb", ENV{ID_VENDOR_ID}=="0eef", ENV{ID_MODEL_ID}=="0001", RUN+="/usr/bin/systemctl start eGTouchD.service"
