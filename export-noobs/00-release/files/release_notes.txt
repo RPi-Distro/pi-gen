@@ -1,5 +1,16 @@
 UNRELEASED:
+  * glamor now disabled on all platforms other than Raspberry Pi 4 with legacy video driver
+  * msdri3 video driver support added
+  * KiCad added to Recommended Software
+  * Support for new touchscreen driver added to Screen Resolution tool; minor UI tweaks
+  * GTK message dialogs shown with right-justified buttons
+  * Bug fix - updater plugin now does not clear icon when an update has failed
+  * Bug fix - keyboard highlight now shown on GTK switch control
+  * Some Korean and Brazilian translations added
+  * Fix rpi-imager hidden ssid configuration
   * Install kms++-utils
+  * Raspberry Pi firmware 78852e166b4cf3ebb31d051e996d54792f0994b0
+  * Linux kernel 5.15.84
 2022-09-22:
   * NodeRED removed from Recommended Software and full image - should only be installed via apt
   * Improved speed of startup of lxpanel network controller plugins
