@@ -25,9 +25,9 @@ git config --global user.name "PiSCSI User"
 echo "export CI=$CI"
 echo "export GITHUB_REF=$GITHUB_REF"
 # Cache the sudo credentials
-echo raspberry | sudo -S ls
+echo raspberry | sudo -v -S
 export CI=$CI
 export GITHUB_REF=$GITHUB_REF
-./easyinstall.sh --headless -r=1 -j=8
+./easyinstall.sh --headless --cores=16 --run_choice=1
 echo "easyinstal exited: $?"
 EOF
