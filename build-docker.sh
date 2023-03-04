@@ -15,6 +15,11 @@ if ! ${DOCKER} ps >/dev/null; then
 	exit 1
 fi
 
+# Pass APT_PROXY into Docker run environment
+if test -n "$APT_PROXY"; then
+	DOCKER_APT_PROXY="-e APT_PROXY=$APT_PROXY"
+fi
+
 CONFIG_FILE=""
 if [ -f "${DIR}/config" ]; then
 	CONFIG_FILE="${DIR}/config"
@@ -94,7 +99,7 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		-v /lib/modules:/lib/modules \
 		${PIGEN_DOCKER_OPTS} \
 		--volume "${CONFIG_FILE}":/config:ro \
-		-e "GIT_HASH=${GIT_HASH}" \
+		-e "GIT_HASH=${GIT_HASH}" ${DOCKER_APT_PROXY} \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
@@ -111,7 +116,7 @@ else
 		-v /lib/modules:/lib/modules \
 		${PIGEN_DOCKER_OPTS} \
 		--volume "${CONFIG_FILE}":/config:ro \
-		-e "GIT_HASH=${GIT_HASH}" \
+		-e "GIT_HASH=${GIT_HASH}" ${DOCKER_APT_PROXY} \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	# binfmt_misc is sometimes not mounted with debian bullseye image
