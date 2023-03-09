@@ -5,7 +5,7 @@ smartsim
 
 python3-sense-emu sense-emu-tools python-sense-emu-doc
 
-#wolfram-engine
+wolfram-engine
 claws-mail
 greenfoot-unbundled bluej-unbundled
 realvnc-vnc-viewer
