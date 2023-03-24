@@ -288,6 +288,9 @@ if [ "$SETFCAP" != "1" ]; then
 fi
 
 dependencies_check "${BASE_DIR}/depends"
+if [ "${PIGEN_RUNNING_INSIDE_DOCKER}" != "1" ]; then
+  dependencies_check "${BASE_DIR}/depends.no-docker"
+fi
 
 #check username is valid
 if [[ ! "$FIRST_USER_NAME" =~ ^[a-z][-a-z0-9_]*$ ]]; then

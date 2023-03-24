@@ -112,11 +112,11 @@ time ${DOCKER} run \
   -v /lib/modules:/lib/modules \
   ${PIGEN_DOCKER_OPTS} \
   --volume "${CONFIG_FILE}":/config:ro \
+  -e PIGEN_RUNNING_INSIDE_DOCKER=1 \
   -e "GIT_HASH=${GIT_HASH}" \
   "${DOCKER_CMDLINE_POST[@]}" \
   pi-gen \
   bash -e -o pipefail -c "
-    dpkg-reconfigure qemu-user-static &&
     # binfmt_misc is sometimes not mounted with debian bullseye image
     (mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true) &&
     cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
