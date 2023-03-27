@@ -4,10 +4,15 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 BUILD_OPTS="$*"
 
-DOCKER="docker"
+# Allow user to override docker command
+DOCKER=${DOCKER:-docker}
 
-if ! ${DOCKER} ps >/dev/null 2>&1; then
-	DOCKER="sudo docker"
+# Ensure that default docker command is not set up in rootless mode
+if \
+  ! ${DOCKER} ps    >/dev/null 2>&1 || \
+    ${DOCKER} info 2>/dev/null | grep -q rootless \
+; then
+	DOCKER="sudo ${DOCKER}"
 fi
 if ! ${DOCKER} ps >/dev/null; then
 	echo "error connecting to docker:"
