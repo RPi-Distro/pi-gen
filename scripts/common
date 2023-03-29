@@ -86,6 +86,14 @@ on_chroot() {
 		mount --bind /sys "${ROOTFS_DIR}/sys"
 	fi
 
+	if ! mount | grep -q "$(realpath "${ROOTFS_DIR}"/run)"; then
+		mount -t tmpfs  tmpfs "${ROOTFS_DIR}/run"
+	fi
+
+	if ! mount | grep -q "$(realpath "${ROOTFS_DIR}"/tmp)"; then
+		mount -t tmpfs  tmpfs "${ROOTFS_DIR}/tmp"
+	fi
+
 	setarch linux32 capsh $CAPSH_ARG "--chroot=${ROOTFS_DIR}/" -- -e "$@"
 }
 export -f on_chroot
