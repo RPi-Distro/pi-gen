@@ -166,6 +166,10 @@ time ${DOCKER} run \
 # Ensure that deploy/ is always owned by calling user
 echo "copying results from deploy/"
 ${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy - | tar -xf -
+
+echo "copying log from container ${CONTAINER_NAME} to depoy/"
+${DOCKER} logs --timestamps "${CONTAINER_NAME}" &>deploy/build-docker.log
+
 ls -lah deploy
 
 # cleanup
