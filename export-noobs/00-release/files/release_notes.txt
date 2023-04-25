@@ -1,4 +1,37 @@
 UNRELEASED:
+  * 64-bit Mathematica added to rp-prefapps
+  * Bug fix - occasional segfault in CPU temperature plugin
+  * Bug fix - X server crash when changing screen orientation
+  * Bug fix - X server DPMS not working
+  * Mathematica updated to 13.2.1
+  * Matlab updated to 23.1.0
+  * Chromium updated to 113.0.5672.59
+  * Raspberry Pi Imager updated to 1.7.4
+  * RealVNC server updated to 7.0.1.49073
+  * RealVNC viewer updated to 7.0.1.48981
+  * Updated VLC HW acceleration patch
+  * libcamera
+    - Add generalised statistics handling.
+    - Fix overflow that would cause incorrect calculations in the AGC algorithm.
+    - Improve IMX296 sensor tuning.
+  * libcamera-apps
+    - Improve handling of audio resampling and encoding using libav
+    - Improve performance of QT preview window rendering
+    - Add support for 16-bit Bayer in the DNG writer
+    - Fix for encoder lockup when framerate is set to 0
+    - Improved thumbnail rendering
+  * picamera2
+    - MJPEG server example that uses the hardware MJPEG encoder.
+    - Example showing preview from two cameras in a single Qt app.
+    - H264 encoder accepts frame time interval for SPS headers.
+    - H264 encoder should advertise correct profile/level.
+    - H264 encoder supports constant quality parameter.
+    - Exif DateTime and DateTimeOriginal tags are now added.
+    - Various bug fixes (check Picamera2 release notes for more details).
+  * Some translations added
+  * Raspberry Pi firmware 055e044d5359ded1aacc5a17a8e35365373d0b8b
+  * Linux kernel 6.1.21
+2023-02-21:
   * glamor now disabled on all platforms other than Raspberry Pi 4 with legacy video driver
   * msdri3 video driver support added
   * KiCad added to Recommended Software
