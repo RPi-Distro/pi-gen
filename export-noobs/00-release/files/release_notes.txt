@@ -1,4 +1,7 @@
 UNRELEASED:
+  * Raspberry Pi firmware 61f9175526443ff3bbc9a228b94d5a0f9eea5381
+  * Linux kernel 5.10.103
+2023-02-21:
   * Switch to Firefox, as Chromium is no longer receiving security updates
   * Raspberry Pi firmware 74c4307951701f93bd94b4fd37e6adc44910d6e0
   * Linux kernel 5.10.103
