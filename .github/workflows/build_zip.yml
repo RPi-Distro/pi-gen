@@ -28,9 +28,9 @@ jobs:
     outputs:
       zip-file-name: ${{ steps.get-zip-filename.outputs.zip-file-name }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: ${{ !inputs.ref }}
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: ${{ inputs.ref }}
       with:
         repository: learningequality/pi-gen
