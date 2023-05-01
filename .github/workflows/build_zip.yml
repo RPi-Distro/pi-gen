@@ -40,7 +40,7 @@ jobs:
       run: make get-deb deb=${{ github.event.inputs.deb-url }}
     - name: Download the debfile from artifacts
       if: ${{ inputs.deb-file-name }}
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: ${{ inputs.deb-file-name }}
         path: dist
