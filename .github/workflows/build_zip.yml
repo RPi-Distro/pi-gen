@@ -49,7 +49,7 @@ jobs:
     - name: Get ZIP filename
       id: get-zip-filename
       run: echo "::set-output name=zip-file-name::$(ls deploy | grep .zip | cat)"
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: ${{ steps.get-zip-filename.outputs.zip-file-name }}
         path: deploy/${{ steps.get-zip-filename.outputs.zip-file-name }}
