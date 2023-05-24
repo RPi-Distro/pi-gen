@@ -82,7 +82,7 @@ install -m 600 files/WiFiAP.nmconnection "${ROOTFS_DIR}/etc/NetworkManager/syste
 install -m 777 files/first-boot-rename "${ROOTFS_DIR}/etc/init.d/"
 # Using the code from raspi-config to enable NetworkManager and sense hat service
 on_chroot << EOF
-update-rc.d first-boot-rename default
+update-rc.d first-boot-rename defaults
 systemctl enable shui.service
 systemctl -q stop dhcpcd 2> /dev/null
 systemctl -q disable dhcpcd

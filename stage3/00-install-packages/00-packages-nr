@@ -5,3 +5,6 @@ zenity xdg-utils
 gvfs-backends gvfs-fuse
 lightdm gnome-themes-standard-data gnome-icon-theme
 gnome-keyring
+python3-picamera
+python3-pip
+sense-hat

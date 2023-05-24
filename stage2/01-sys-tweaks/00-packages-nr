@@ -2,3 +2,6 @@ cifs-utils
 libcamera-apps-lite
 mkvtoolnix
 python3-picamera2
+python3-picamera
+python3-pip
+sense-hat
