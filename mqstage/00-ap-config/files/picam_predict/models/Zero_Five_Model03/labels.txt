@@ -1,0 +1,7 @@
+0 One
+1 Zero
+2 Other
+3 Two
+4 Three
+5 Four
+6 Five

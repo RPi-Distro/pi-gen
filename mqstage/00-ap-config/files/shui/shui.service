@@ -1,0 +1,14 @@
+[Unit]
+Description=pick an action
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -u /home/pi/shui/shui.py
+RemainAfterExit=yes
+User=pi
+GuessMainPID=no
+
+[Install]
+WantedBy=multi-user.target

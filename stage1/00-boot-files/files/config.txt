@@ -53,13 +53,13 @@
 dtparam=audio=on
 
 # Automatically load overlays for detected cameras
-camera_auto_detect=1
+start_x=1
 
 # Automatically load overlays for detected DSI displays
 display_auto_detect=1
 
 # Enable DRM VC4 V3D driver
-dtoverlay=vc4-kms-v3d
+#dtoverlay=vc4-kms-v3d
 max_framebuffers=2
 
 # Disable compensation for displays with overscan
@@ -74,7 +74,12 @@ otg_mode=1
 [all]
 
 [pi4]
+dtoverlay=vc4-fkms-v3d
 # Run as fast as firmware / board allows
 arm_boost=1
 
 [all]
+enable_uart=1
+dtoverlay=disable-bt
+gpu_mem=128
+dtoverlay=rpi-sense

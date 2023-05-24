@@ -1,0 +1,5 @@
+0 bag
+1 hand
+2 pen
+3 phone
+4 14sco
