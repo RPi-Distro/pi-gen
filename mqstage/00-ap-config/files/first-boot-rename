@@ -1,0 +1,27 @@
+#!/bin/sh
+#/etc/init.d/first-boot-rename
+### BEGIN INIT INFO
+# Provides:          first-boot-rename
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: randomise access point SSID
+# Description: On the first boot, this script will randomise the access point SSID broadcast by the Pi. To not cause undue confusion, it only does this once before self-destructing. Your mission, should you choose to accept it...
+### END INIT INFO
+
+/home/pi/shui/refresh_ssid.sh
+update-rc.d -f first-boot-rename remove
+rm -f first-boot-rename
+
+case "$1" in
+    start)
+        /home/pi/shui/refresh_ssid.sh
+    ;;
+    stop)
+        killall refresh_ssid.sh
+    ;;
+    *)
+exit 1
+;;
+esac

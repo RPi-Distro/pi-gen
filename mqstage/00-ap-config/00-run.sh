@@ -71,19 +71,20 @@ index_a=$(($RANDOM % $size_a))
 index_b=$(($RANDOM % $size_b))
 SSID="${a[$index_a]} ${b[$index_b]}"
 
-find files/shui -type f -exec install -Dm 777 "{}" "${ROOTFS_DIR}/home/pi/shui"
-find files/picam_predict -type f -exec install -Dm 777 "{}" "${ROOTFS_DIR}/home/pi/picam_predict" 
-find files/.ap_conf_sh -type f -exec install -Dm 777 "{}" "${ROOTFS_DIR}/home/pi/.ap_conf_sh" 
-sudo mv "${ROOTFS_DIR}/home/pi/shui/shui.service" "${ROOTFS_DIR}/lib/systemd/system/shui.service"
-sudo systemctl enable shui.service
-sudo systemctl start shui.service
-
-# Using the code from raspi-config to hopefully properly set NetworkManager 
-sudo systemctl -q stop dhcpcd 2> /dev/null
-sudo systemctl -q disable dhcpcd
-sudo systemctl -q enable NetworkManager
-sudo systemctl -q start NetworkManager
-sudo systemctl -q daemon-reload
-# Copy preconfigured NetworkManager configuration file to directory and activate it
-install -m 600 files/WiFiAP.nmconnection "${ROOTFS_DIR}/etc/NetworkManager/systemconnections/"
-sudo nmcli con up "WiFiAP"
+sudo cp -a files/shui "${ROOTFS_DIR}/home/pi/shui"
+sudo cp -a files/picam_predict "${ROOTFS_DIR}/home/pi/picam_predict"
+#find files/picam_predict -type f -exec install -Dm 777 "{}" "${ROOTFS_DIR}/home/pi/picam_predict" 
+#find files/.ap_conf_sh -type f -exec install -Dm 777 "{}" "${ROOTFS_DIR}/home/pi/.ap_conf_sh" 
+sudo rm "${ROOTFS_DIR}/lib/systemd/system/shui.service"
+install -m 644 files/shui/shui.service "${ROOTFS_DIR}/lib/systemd/system/"
+# Copy preconfigured NetworkManager access point to directory
+install -m 600 files/WiFiAP.nmconnection "${ROOTFS_DIR}/etc/NetworkManager/system-connections/"
+install -m 777 files/first-boot-rename "${ROOTFS_DIR}/etc/init.d/"
+# Using the code from raspi-config to enable NetworkManager and sense hat service
+on_chroot << EOF
+update-rc.d first-boot-rename default
+systemctl enable shui.service
+systemctl -q stop dhcpcd 2> /dev/null
+systemctl -q disable dhcpcd
+systemctl -q enable NetworkManager
+EOF
