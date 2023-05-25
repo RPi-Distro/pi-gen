@@ -1,3 +1,8 @@
+# Modified Usage
+
+To build a Pi OS lite-based image, run litebuilder.sh as sudo from the top directory of the repository. Currently configured to be run on Linux based systems, not through docker although that will be sorted in the near future. Currently need to work a way to ensure that image is built with latest version of the stem_club repository, and I'm sure there are other QOL changes that can be made. For now however, this works as I want it to. 
+
+
 # pi-gen
 
 Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
