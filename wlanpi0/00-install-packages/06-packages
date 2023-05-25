@@ -10,7 +10,6 @@ wlanpi-wconsole
 wlanpi-server
 wlanpi-wipry
 wlanpi-misc-firmware
-wlanpi-grafana
 libpcap0.8/bullseye-backports
 wpasupplicant/bullseye-backports
 hostapd/bullseye-backports
