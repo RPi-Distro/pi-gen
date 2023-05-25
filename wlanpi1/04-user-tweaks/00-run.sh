@@ -14,5 +14,5 @@ on_chroot <<CHEOF
 	passwd -e wlanpi
 	
 	# Install Grafana later than other packages
-	apt install wlanpi-grafana
+	apt -y install wlanpi-grafana
 CHEOF
