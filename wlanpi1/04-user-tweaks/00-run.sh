@@ -12,7 +12,5 @@ on_chroot <<CHEOF
 	
 	# Make the wlanpi user change their password at first login
 	passwd -e wlanpi
-	
-	# Install Grafana later than other packages
-	apt -y install wlanpi-grafana
+
 CHEOF

@@ -17,5 +17,6 @@ wlanpi-librespeed-cli
 #wiperf
 #wlanpi-core
 cockpit/bullseye-backports
-cockpit-packagekit 
-cockpit-storaged 
+cockpit-packagekit
+cockpit-storaged
+wlanpi-grafana
