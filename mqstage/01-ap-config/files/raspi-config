@@ -3106,12 +3106,6 @@ do_advanced_menu() {
 # This is pretty much useless except for this one very specific use case. It's probably written like arse too but I couldn't be bothered to clean much up after seeing everything in here. Okay maybe I did a little tidying. 
 ##### Jasper waz 'ere
 
-fixpsk() {
-	sudo nmcli connection down "WiFiAP"
-	sudo nmcli connection modify "WiFiAP" psk "piisgood"
-	sudo nmcli connection up "WiFiAP"
-}
-
 do_accesspoint_menu() {
   HASHAT=$(has_sensehat)
   FUN=$(whiptail --title "Customised Raspberry Pi Software Configuration Tool (raspi-config)" --menu "Access Point Settings" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Back --ok-button Select \
@@ -3119,8 +3113,7 @@ do_accesspoint_menu() {
    "AP2 Show SSID" "Display the name of your access point" \
    "AP3 Randomise SSID" "Set a new, random SSID for the Pi" \
    "AP4 Show password" "Display the password to access the Pi" \
-   "AP5 Fix password" "Fix issues connecting to the Pi on Windows devices" \
-   "AP6 Show IP" "Display the ip used to connect to this device" \
+   "AP5 Show IP" "Display the ip used to connect to this device" \
    3>&1 1>&2 2>&3)
  RET=$?
  if [ $RET -eq 1 ]; then
@@ -3166,18 +3159,7 @@ do_accesspoint_menu() {
         else
           whiptail --title "Show password" --msgbox "$(sudo grep ^psk /etc/NetworkManager/system-connections/WiFiAP.nmconnection | sed 's!^psk=!!')" $WT_HEIGHT $WT_WIDTH 
         fi;;
-      "AP5 Fix password")
-        whiptail --title "Fix psk" --yesno "This action will result in the password to the access point changing and all users being disconnected. Continue?" $WT_HEIGHT $WT_WIDTH
-	      if [[ $? -eq 0 ]]; then
-	    	  whiptail --title "Continuing..." --msgbox "Very well then. The new password is piisgood" $WT_HEIGHT $WT_WIDTH
-	    	  fixpsk
-          #		sudo nmcli connection down "WiFiAP" && sudo nmcli connection modify "WiFiAP" psk "piisgood" && sudo nmcli connection up "WiFiAP"
-	      elif [[ $? -eq 1 ]]; then
-		      whiptail --title "INTERRUPT" --msgbox "User called an interrupt on process. Returning to main menu." $WT_HEIGHT $WT_WIDTH
-	      elif [[ $? -eq 255 ]]; then
-		      whiptail --title "INTERRUPT" --msgbox "User pressed escape key, process interupted." $WT_HEIGHT $WT_WIDTH
-        fi;;
-      "AP6 Show IP")
+      "AP5 Show IP")
         if [ "$HASHAT" = "Sense HAT" ]
         then
           python3 /home/pi/.ap_conf_sh/hat_ip.py &
