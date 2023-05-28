@@ -2,6 +2,8 @@ deploy/*
 work/*
 config
 postrun.sh
+mqstage/01-ap-config/stem_club/*
+mqstage/02-raspi-config/raspi-config/*
 .pc
 *-pc
 apt-cacher-ng/
