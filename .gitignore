@@ -2,8 +2,14 @@ deploy/*
 work/*
 config
 postrun.sh
-mqstage/01-ap-config/stem_club/*
-mqstage/02-raspi-config/raspi-config/*
+mqstage/01-ap-config/stem_club/
+mqstage/02-raspi-config/raspi-config/
+mqstage/02-raspi-config/raspi-config*
+mqstage/02-raspi-config/*.tar.xz
+mqstage/02-raspi-config/*.buildinfo
+mqstage/02-raspi-config/*.changes
+mqstage/02-raspi-config/*.deb
+mqstage/02-raspi-config/*.dsc
 .pc
 *-pc
 apt-cacher-ng/
