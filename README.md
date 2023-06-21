@@ -46,6 +46,28 @@ Upon execution, `build.sh` will source the file `config` in the current
 working directory.  This bash shell fragment is intended to set needed
 environment variables.
 
+You can use your own configs with the command line switch 
+`sudo ./build.sh -c config.path.secret`. If the suffix is `.secret` 
+it'll be ignored by git, via .gitignore.
+
+A sample config is as follows:
+
+```bash
+. config
+
+IMG_NAME="${IMG_NAME}-sample"
+
+TARGET_HOSTNAME=sth-pi
+FIRST_USER_NAME=pi
+ENABLE_SSH=1
+# PUBKEY_SSH_FIRST_USER="<your ssh key>"
+PUBKEY_ONLY_SSH=1
+
+WPA_ESSID="<ESSID>"
+WPA_PASSWORD="<password>"
+WPA_COUNTRY=PL
+```
+
 The following environment variables are supported:
 
  * `IMG_NAME` **required** (Default: unset)
