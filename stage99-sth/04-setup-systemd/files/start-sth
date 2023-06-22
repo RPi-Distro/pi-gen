@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sth --config=/etc/sth/sth-config.json \
+    --runtime-adapter=process \
+    --safe-operation-limit=64 \
+    --sequences-root=/usr/lib/sth/sequences
