@@ -1,2 +1,2 @@
 IMG_NAME="rasppi-os-sth"
-STAGE_LIST="stage0 stage1 stage2 stage99-sth"
+STAGE_LIST="stage0 stage1 stage2"

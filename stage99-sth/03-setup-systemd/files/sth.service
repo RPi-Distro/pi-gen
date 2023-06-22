@@ -6,7 +6,7 @@ After=network.target
 [Service]
 Type=simple
 User=sth
-ExecStart=/usr/bin/sth --runtime-adapter=process --safe-operation-limit=64 --sequences-root=/usr/lib/sth/sequences
+ExecStart=/usr/bin/sth --config=/boot/sth-config.json --runtime-adapter=process --safe-operation-limit=64 --sequences-root=/usr/lib/sth/sequences
 WorkingDirectory=/usr/lib/sth
 Restart=on-failure
 
