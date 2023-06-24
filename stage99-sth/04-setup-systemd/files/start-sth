@@ -1,3 +1,18 @@
 #!/bin/bash
 
-sth --config=/etc/sth/sth-config.json
+DEPLOY_PATH=/opt/sth/deploy
+WORK_PATH=/srv/sth
+CONFIG_LOCATION=/etc/sth/sth-config.json
+DEPLOY_CONFIG_LOCATION="${DEPLOY_PATH}/conf/sth-config.json"
+RUNTIME_CONFIG_LOCATION="${WORK_PATH}/sth-config.json"
+
+if [[ -e "${DEPLOY_CONFIG_LOCATION}" ]]; then
+    jq -s '.[0] * .[1]' "${CONFIG_LOCATION}" "${DEPLOY_CONFIG_LOCATION}"
+else
+    cp "${CONFIG_LOCATION}" "${RUNTIME_CONFIG_LOCATION}"
+fi
+
+
+
+sth --config="${RUNTIME_CONFIG_LOCATION}" 2>&1 | logger -e
+

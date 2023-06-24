@@ -27,13 +27,14 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 
 	BOOT_PART_START=$((ALIGN))
 	BOOT_PART_SIZE=$(((BOOT_SIZE + ALIGN - 1) / ALIGN * ALIGN))
-	ROOT_PART_START=$((BOOT_PART_START + BOOT_PART_SIZE))
-	ROOT_PART_SIZE=$(((ROOT_SIZE + ROOT_MARGIN + ALIGN  - 1) / ALIGN * ALIGN))
-	DEPLOY_PART_START=$((ROOT_PART_START + ROOT_PART_SIZE))
+	DEPLOY_PART_START=$((BOOT_PART_START + BOOT_PART_SIZE))
 	DEPLOY_PART_SIZE=$(((DEPLOY_SIZE + ALIGN  - 1) / ALIGN * ALIGN))
 	WORK_PART_START=$((DEPLOY_PART_START + DEPLOY_PART_SIZE))
 	WORK_PART_SIZE=$(((WORK_SIZE + ALIGN  - 1) / ALIGN * ALIGN))
-	IMG_SIZE=$((BOOT_PART_START + BOOT_PART_SIZE + ROOT_PART_SIZE + DEPLOY_PART_SIZE + WORK_PART_SIZE))
+	ROOT_PART_START=$((WORK_PART_START + WORK_PART_SIZE))
+	ROOT_PART_SIZE=$(((ROOT_SIZE + ROOT_MARGIN + ALIGN  - 1) / ALIGN * ALIGN))
+
+	IMG_SIZE=$((BOOT_PART_START + BOOT_PART_SIZE + DEPLOY_PART_SIZE + WORK_PART_SIZE + ROOT_PART_SIZE))
 
 	echo Creating paritions:
 	
@@ -42,12 +43,12 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	parted --script "${IMG_FILE}" mklabel msdos
 	echo BOOT: start="$(($BOOT_PART_START / $MEGABYTE))"MB size="$(( (BOOT_PART_SIZE - 1 ) / $MEGABYTE))"MB
 	parted --script "${IMG_FILE}" unit B mkpart primary fat32 "${BOOT_PART_START}" "$((BOOT_PART_START + BOOT_PART_SIZE - 1))"
-	echo ROOT: start="$(($ROOT_PART_START / $MEGABYTE))"MB size="$(( (ROOT_PART_SIZE - 1 ) / $MEGABYTE))"MB
-	parted --script "${IMG_FILE}" unit B mkpart primary ext4 "${ROOT_PART_START}" "$((ROOT_PART_START + ROOT_PART_SIZE - 1))"
 	echo DEPLOY: start="$(($DEPLOY_PART_START / $MEGABYTE))"MB size="$(( (DEPLOY_PART_SIZE - 1 ) / $MEGABYTE))"MB
 	parted --script "${IMG_FILE}" unit B mkpart primary fat32 "${DEPLOY_PART_START}" "$((DEPLOY_PART_START + DEPLOY_PART_SIZE - 1))"
 	echo WORK: start="$(($WORK_PART_START / $MEGABYTE))"MB size="$(( (WORK_PART_SIZE - 1 ) / $MEGABYTE))"MB
 	parted --script "${IMG_FILE}" unit B mkpart primary ext4 "${WORK_PART_START}" "$((WORK_PART_START + WORK_PART_SIZE - 1))"
+	echo ROOT: start="$(($ROOT_PART_START / $MEGABYTE))"MB size="$(( (ROOT_PART_SIZE - 1 ) / $MEGABYTE))"MB
+	parted --script "${IMG_FILE}" unit B mkpart primary ext4 "${ROOT_PART_START}" "$((ROOT_PART_START + ROOT_PART_SIZE - 1))"
 
 	echo TOTAL IMAGE SIZE: $(($IMG_SIZE / $MEGABYTE))MB
 
@@ -65,9 +66,9 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	done
 
 	BOOT_DEV="${LOOP_DEV}p1"
-	ROOT_DEV="${LOOP_DEV}p2"
-	DEPLOY_DEV="${LOOP_DEV}p3"
-	WORK_DEV="${LOOP_DEV}p4"
+	ROOT_DEV="${LOOP_DEV}p4"
+	DEPLOY_DEV="${LOOP_DEV}p2"
+	WORK_DEV="${LOOP_DEV}p3"
 
 	ROOT_FEATURES="^huge_file"
 	for FEATURE in 64bit; do
@@ -78,14 +79,24 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 
 	echo "Formatting filesystems..."
 	mkdosfs -n bootfs -F 32 -s 4 -v "$BOOT_DEV" > /dev/null
+	mkdosfs -n deploy -F 32 -s 4 -v "$DEPLOY_DEV" > /dev/null
+	mkfs.ext4 -L work -O "$ROOT_FEATURES" "$WORK_DEV" > /dev/null
 	mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" > /dev/null
-	mkdosfs -n bootfs -F 32 -s 4 -v "$DEPLOY_DEV" > /dev/null
-	mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$WORK_DEV" > /dev/null
 
 	mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t ext4
 	mkdir -p "${ROOTFS_DIR}/boot"
 	mount -v "$BOOT_DEV" "${ROOTFS_DIR}/boot" -t vfat
-
-	rsync -aHAXx --exclude /var/cache/apt/archives --exclude /boot "${EXPORT_ROOTFS_DIR}/" "${ROOTFS_DIR}/"
+	
+	rsync -aHAXx --exclude /var/cache/apt/archives --exclude /boot --exclude /srv/sth --exclude /opt/sth/deploy "${EXPORT_ROOTFS_DIR}/" "${ROOTFS_DIR}/"
 	rsync -rtx "${EXPORT_ROOTFS_DIR}/boot/" "${ROOTFS_DIR}/boot/"
+
+	if [[ -d "${EXPORT_ROOTFS_DIR}/srv/sth" ]]; then
+		mkdir "${ROOTFS_DIR}/srv/sth" 
+		mkdir "${ROOTFS_DIR}/opt/sth/deploy"
+
+		mount -v "$WORK_DEV" "${ROOTFS_DIR}/srv/sth" -t ext4
+		mount -v "$DEPLOY_DEV" "${ROOTFS_DIR}/opt/sth/deploy" -t vfat
+		rsync -rtx "${EXPORT_ROOTFS_DIR}/srv/sth" "${ROOTFS_DIR}/srv/sth/"
+		rsync -rtx "${EXPORT_ROOTFS_DIR}/srv/sth" "${ROOTFS_DIR}/opt/sth/deploy/"
+	fi
 fi

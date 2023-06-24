@@ -1,0 +1,10 @@
+{
+    "safeOperationLimit": 64,
+    "instanceRequirements": {
+        "freeMem": 128
+    },
+    "telemetry": {
+        "status": true,
+        "environment": "raspberry-pi-sth"
+    }
+}
