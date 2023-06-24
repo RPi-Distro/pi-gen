@@ -96,7 +96,7 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 
 		mount -v "$WORK_DEV" "${ROOTFS_DIR}/srv/sth" -t ext4
 		mount -v "$DEPLOY_DEV" "${ROOTFS_DIR}/opt/sth/deploy" -t vfat
-		rsync -rtx "${EXPORT_ROOTFS_DIR}/srv/sth" "${ROOTFS_DIR}/srv/sth/"
-		rsync -rtx "${EXPORT_ROOTFS_DIR}/srv/sth" "${ROOTFS_DIR}/opt/sth/deploy/"
+		rsync -rtx "${EXPORT_ROOTFS_DIR}/srv/sth/" "${ROOTFS_DIR}/srv/sth"
+		rsync -rtx "${EXPORT_ROOTFS_DIR}/opt/sth/deploy/" "${ROOTFS_DIR}/opt/sth/deploy"
 	fi
 fi
