@@ -1,3 +1,12 @@
 {
-    
+    "logColors": false,
+    "safeOperationLimit": 64,
+    "instanceRequirements": {
+        "freeMem": 128
+    },
+    "runtimeAdapter": "process",
+    "sequencesRoot": "/srv/sth/sequences",
+    "telemetry": {
+        "environment": "raspberry-pi-sth"
+    }
 }

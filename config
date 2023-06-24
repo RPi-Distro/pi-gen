@@ -1,2 +1,7 @@
-IMG_NAME="rasppi-os-sth"
-STAGE_LIST="stage0 stage1 stage2"
+IMG_NAME="rasppi-os"
+STAGE_LIST=${STAGE_LIST:-"stage0 stage1 stage2 stage99-sth"}
+
+WORK_PARTITION_SIZE=16384
+DEPLOY_PARTITION_SIZE=8192
+
+DEPLOY_COMPRESSION=none

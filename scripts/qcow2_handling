@@ -232,6 +232,14 @@ function make_bootable_image() {
 	PARTITION=1
 	mount "${EXPORT_IMAGE}" "$MOUNTPT" -o loop,offset=$[ `/sbin/sfdisk -d "${EXPORT_IMAGE}" | grep "start=" | head -n $PARTITION | tail -n1 | sed 's/.*start=[ ]*//' | sed 's/,.*//'` * 512 ],sizelimit=$[ `/sbin/sfdisk -d "${EXPORT_IMAGE}" | grep "start=" | head -n $PARTITION | tail -n1 | sed 's/.*size=[ ]*//' | sed 's/,.*//'` * 512 ] || exit 1
 
+	MOUNTPT=$MOUNTROOT/opt/sth/deploy
+	PARTITION=3
+	mount "${EXPORT_IMAGE}" "$MOUNTPT" -o loop,offset=$[ `/sbin/sfdisk -d "${EXPORT_IMAGE}" | grep "start=" | head -n $PARTITION | tail -n1 | sed 's/.*start=[ ]*//' | sed 's/,.*//'` * 512 ],sizelimit=$[ `/sbin/sfdisk -d "${EXPORT_IMAGE}" | grep "start=" | head -n $PARTITION | tail -n1 | sed 's/.*size=[ ]*//' | sed 's/,.*//'` * 512 ] || exit 1
+
+	MOUNTPT=$MOUNTROOT/srv/sth
+	PARTITION=4
+	mount "${EXPORT_IMAGE}" "$MOUNTPT" -o loop,offset=$[ `/sbin/sfdisk -d "${EXPORT_IMAGE}" | grep "start=" | head -n $PARTITION | tail -n1 | sed 's/.*start=[ ]*//' | sed 's/,.*//'` * 512 ],sizelimit=$[ `/sbin/sfdisk -d "${EXPORT_IMAGE}" | grep "start=" | head -n $PARTITION | tail -n1 | sed 's/.*size=[ ]*//' | sed 's/,.*//'` * 512 ] || exit 1
+
 	if [ ! -d "${MOUNTROOT}/root" ]; then
 		echo "Image damaged or not mounted. Exit."
 		exit 1
@@ -242,6 +250,8 @@ function make_bootable_image() {
 		echo "Set UUIDs to make it bootable"
 		sed -i "s/BOOTDEV/PARTUUID=${BOOT_PARTUUID}/" "${MOUNTROOT}/etc/fstab"
 		sed -i "s/ROOTDEV/PARTUUID=${ROOT_PARTUUID}/" "${MOUNTROOT}/etc/fstab"
+		sed -i "s/DEPLOYDEV/PARTUUID=${DEPLOY_PARTUUID}/" "${ROOTFS_DIR}/etc/fstab"
+		sed -i "s/WORKDEV/PARTUUID=${WORK_PARTUUID}/" "${ROOTFS_DIR}/etc/fstab"
 		sed -i "s/ROOTDEV/PARTUUID=${ROOT_PARTUUID}/" "${MOUNTROOT}/boot/cmdline.txt"
 	fi
 
