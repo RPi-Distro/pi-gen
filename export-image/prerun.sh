@@ -87,16 +87,16 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	mkdir -p "${ROOTFS_DIR}/boot"
 	mount -v "$BOOT_DEV" "${ROOTFS_DIR}/boot" -t vfat
 	
-	rsync -aHAXx --exclude /var/cache/apt/archives --exclude /boot --exclude /srv/sth --exclude /opt/sth/deploy "${EXPORT_ROOTFS_DIR}/" "${ROOTFS_DIR}/"
+	rsync -aHAXx --exclude /var/cache/apt/archives --exclude /boot --exclude /srv --exclude /opt/sth/deploy "${EXPORT_ROOTFS_DIR}/" "${ROOTFS_DIR}/"
 	rsync -rtx "${EXPORT_ROOTFS_DIR}/boot/" "${ROOTFS_DIR}/boot/"
 
 	if [[ -d "${EXPORT_ROOTFS_DIR}/srv/sth" ]]; then
-		mkdir "${ROOTFS_DIR}/srv/sth" 
+		mkdir "${ROOTFS_DIR}/srv" 
 		mkdir "${ROOTFS_DIR}/opt/sth/deploy"
 
-		mount -v "$WORK_DEV" "${ROOTFS_DIR}/srv/sth" -t ext4
+		mount -v "$WORK_DEV" "${ROOTFS_DIR}/srv" -t ext4
 		mount -v "$DEPLOY_DEV" "${ROOTFS_DIR}/opt/sth/deploy" -t vfat
-		rsync -rtx "${EXPORT_ROOTFS_DIR}/srv/sth/" "${ROOTFS_DIR}/srv/sth"
+		rsync -artx "${EXPORT_ROOTFS_DIR}/srv/" "${ROOTFS_DIR}/srv"
 		rsync -rtx "${EXPORT_ROOTFS_DIR}/opt/sth/deploy/" "${ROOTFS_DIR}/opt/sth/deploy"
 	fi
 fi
