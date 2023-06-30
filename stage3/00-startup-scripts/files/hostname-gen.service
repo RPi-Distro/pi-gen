@@ -1,0 +1,12 @@
+[Unit]
+Description=Hostname Generation
+After=network-online.target
+Before=docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/farm-environment
+ExecStart=/home/core/scripts/get-config-script hostname-gen
+ExecStart=/home/core/scripts/hostname-gen ${MACHINE_TYPE}

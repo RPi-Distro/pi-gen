@@ -1,0 +1,9 @@
+#!/bin/bash -x
+
+source /etc/farm-environment
+SCRIPT_NAME=$1
+while true; do
+    timeout 10 wget -nv -O /home/core/scripts/${SCRIPT_NAME} ${CONFIG_URL}/${SCRIPT_NAME} && break
+    sleep 5
+done
+chmod +x "/tmp/${SCRIPT_NAME}"

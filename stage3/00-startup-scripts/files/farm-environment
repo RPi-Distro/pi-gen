@@ -1,0 +1,3 @@
+MACHINE_TYPE=node-raspi-testbench
+CONFIG_URL=https://swifarmusw2.blob.core.windows.net/config/rdDeaXh9X2kWGcGc
+JENKINS_AGENT_MODE=ssh
