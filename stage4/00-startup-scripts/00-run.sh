@@ -23,7 +23,7 @@ popd
 
 on_chroot << EOF
 # Install Global VPN
-sudo bash -c "yes | dpkg -i /home/${FIRST_USER_NAME}/scripts/$(basename $deb_file)"
+# sudo bash -c "yes | dpkg -i /home/${FIRST_USER_NAME}/scripts/$(basename $deb_file)"
 
 # Configure group for minicom
 sudo usermod -a -G dialout core
@@ -34,21 +34,21 @@ sudo sh /tmp/get-docker.sh
 sudo usermod -a -G docker core
 EOF
 
-tee "${ROOTFS_DIR}/opt/paloaltonetworks/globalprotect/pangps.xml" <<CONFIG
-<?xml version="1.0" encoding="UTF-8"?>
-<GlobalProtect>
-  <Settings>
-    <disable-globalprotect>0</disable-globalprotect>
-    <default-browser>yes</default-browser>
-  </Settings>
-  <PanSetup>
-    <InstallHistory>Fresh Install</InstallHistory>
-    <CurrentVersion>6.0.1-6</CurrentVersion>
-    <PreviousVersion/>
-  </PanSetup>
-  <PanGPS>
-    <UserProfileType>0</UserProfileType>
-    <disable-globalprotect>0</disable-globalprotect>
-  </PanGPS>
-</GlobalProtect>
-CONFIG
+# tee "${ROOTFS_DIR}/opt/paloaltonetworks/globalprotect/pangps.xml" <<CONFIG
+# <?xml version="1.0" encoding="UTF-8"?>
+# <GlobalProtect>
+#   <Settings>
+#     <disable-globalprotect>0</disable-globalprotect>
+#     <default-browser>yes</default-browser>
+#   </Settings>
+#   <PanSetup>
+#     <InstallHistory>Fresh Install</InstallHistory>
+#     <CurrentVersion>6.0.1-6</CurrentVersion>
+#     <PreviousVersion/>
+#   </PanSetup>
+#   <PanGPS>
+#     <UserProfileType>0</UserProfileType>
+#     <disable-globalprotect>0</disable-globalprotect>
+#   </PanGPS>
+# </GlobalProtect>
+# CONFIG
