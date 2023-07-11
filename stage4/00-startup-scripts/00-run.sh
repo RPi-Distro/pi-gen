@@ -13,15 +13,25 @@ sed -i 's:CONF_SWAPSIZE=.*:CONF_SWAPSIZE=2048:g' "${ROOTFS_DIR}/etc/dphys-swapfi
 ln -sv "/etc/systemd/system/hostname-gen.service" "$ROOTFS_DIR/etc/systemd/system/multi-user.target.wants/hostname-gen.service"
 ln -sv "/usr/lib/systemd/system/vncserver-x11-serviced.service" "$ROOTFS_DIR/etc/systemd/system/multi-user.target.wants/vncserver-x11-serviced.service"
 
-rm -rf global-vpn
+pushd "${WORK_DIR}" > /dev/null
 mkdir global-vpn
-curl http://cdn.get.legato/tools/testbench/vpn/global/latest/global-vpn.tgz -o "global-vpn/global-vpn.tgz"
+curl http://get.prod.legato/tools/testbench/vpn/global/latest/global-vpn.tgz -o "global-vpn/global-vpn.tgz"
 tar zxvf global-vpn/global-vpn.tgz --directory "global-vpn"
 deb_file=$(ls global-vpn/GlobalProtect_deb_arm*.deb)
 install -m 644 $deb_file "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/scripts/$(basename $deb_file)"
+popd
 
 on_chroot << EOF
+# Install Global VPN
 sudo bash -c "yes | dpkg -i /home/${FIRST_USER_NAME}/scripts/$(basename $deb_file)"
+
+# Configure group for minicom
+sudo usermod -a -G dialout core
+
+# Install Docker
+curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+sudo sh /tmp/get-docker.sh
+sudo usermod -a -G docker core
 EOF
 
 tee "${ROOTFS_DIR}/opt/paloaltonetworks/globalprotect/pangps.xml" <<CONFIG

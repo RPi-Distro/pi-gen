@@ -3,3 +3,14 @@ libqt5webkit5
 xmlstarlet
 firefox-esr
 realvnc-vnc-server
+vim
+build-essential
+strace
+nfs-kernel-server
+jq
+minicom
+lsb-release
+apt-transport-https
+ca-certificates
+software-properties-common
+gnupg
