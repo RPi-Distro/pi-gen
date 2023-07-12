@@ -1,0 +1,17 @@
+[Unit]
+Description=Check-in to farm.legato
+After=network-online.target hostname-gen.service
+Requires=network-online.target hostname-gen.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/farm-environment
+ExecStart=/bin/sh -c "host_ip=$(hostname -I | awk '{print $$1}') && \
+                      host_os=$(. /etc/os-release && echo $VERSION | tr -s ' ' '_' | sed 's/[()]//g') && \
+                      curl -L -k \
+                           --retry 10 \
+                           --retry-delay 60 \
+                           --retry-all-errors \
+                           --fail \
+                           \"https://api.farm.legato/v1/hosts/$(hostname)/check-in?ip=$${host_ip}&os_version=$${host_os}\""
