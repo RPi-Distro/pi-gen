@@ -2,9 +2,10 @@ alsa-utils
 policykit-1
 rfkill
 fonts-droid-fallback
-fonts-liberation2
+fonts-liberation2 fonts-font-awesome
 arandr
-udevil
+udevil systemd-timesyncd
 libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
 g++ git scons libportmidi-dev libopusfile-dev ffmpeg
 debhelper markdown docbook-to-man devscripts
+unclutter
