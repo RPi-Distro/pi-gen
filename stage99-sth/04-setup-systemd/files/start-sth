@@ -1,18 +1,78 @@
 #!/bin/bash
 
-DEPLOY_PATH=/opt/sth/deploy
-WORK_PATH=/srv/sth
-CONFIG_LOCATION=/etc/sth/sth-config.json
-DEPLOY_CONFIG_LOCATION="${DEPLOY_PATH}/conf/sth-config.json"
-RUNTIME_CONFIG_LOCATION="${WORK_PATH}/sth-config.json"
+. /etc/sth/sth-config
 
-if [[ -e "${DEPLOY_CONFIG_LOCATION}" ]]; then
-    jq -s '.[0] * .[1]' "${CONFIG_LOCATION}" "${DEPLOY_CONFIG_LOCATION}"
-else
-    cp "${CONFIG_LOCATION}" "${RUNTIME_CONFIG_LOCATION}"
+shopt -s extglob
+
+findfirstconf () {
+    TARGET=$1
+    for FILE in "${TARGET%%/}".{json,yaml,yml}; do
+        [[ -e "$FILE" ]] && echo $FILE && break;
+    done
+}
+
+findsequences() {
+    TARGET=$1
+    for FILE in "${TARGET%%/}"/*.{tgz,tar.gz}; do
+        [[ -e "$FILE" ]] && echo $FILE
+    done
+}
+
+settargetname () {
+    BASE=$(basename "$1")
+    TARGET=$2
+
+    echo ${TARGET%%/}/$BASE
+}
+
+DEPLOY_CONFIG_LOCATION=$(findfirstconf "${DEPLOY_PATH}/conf/sth-config")
+HAS_SEQUENCES=0
+EXTRA_OPTS=("--no-colors" "-D" "$WORK_PATH/sequences")
+
+if [[ -n "${DEPLOY_CONFIG_LOCATION}" ]]; then
+    RUNTIME_CONFIG_LOCATION=$(settargetname "$DEPLOY_CONFIG_LOCATION" "$WORK_PATH")
+    cp "${DEPLOY_CONFIG_LOCATION}" "${RUNTIME_CONFIG_LOCATION}"
+    EXTRA_OPTS+=("--config=${RUNTIME_CONFIG_LOCATION}")
+
+    echo "Using STH config from ${DEPLOY_CONFIG_LOCATION}" | logger -e
 fi
 
+if [[ -e "${DEPLOY_PATH}/conf/purge.txt" ]]; then
+    echo "Purging all sequences" | logger -e
+    rm -rf "$WORK_PATH/sequences"
+    mkdir "$WORK_PATH/sequences"
+fi
+
+SEQUENCES="$(findsequences ${DEPLOY_PATH}/sequences/)"
+if [[ -n "$SEQUENCES" ]]; then
+    function unpack() {
+        PACKAGE=$1
+        TARGET=$2
+
+        mkdir -p "$TARGET"
+        tar -C "$TARGET" -zxf "$PACKAGE"
+    }
+
+    STARTUP_CONFIG=$(findfirstconf "${DEPLOY_PATH}/conf/startup-config")
+    if [[ -n "${STARTUP_CONFIG}" ]]; then
+        RUNTIME_CONFIG_LOCATION=$(settargetname "$STARTUP_CONFIG" "$WORK_PATH")
+        cp "${STARTUP_CONFIG}" "${RUNTIME_CONFIG_LOCATION}"
+        EXTRA_OPTS+=("--startup-config=${RUNTIME_CONFIG_LOCATION}")
+
+        echo "Using startup config from ${DEPLOY_CONFIG_LOCATION}" | logger -e
+    fi
 
 
-sth --config="${RUNTIME_CONFIG_LOCATION}" 2>&1 | logger -e
+    for SEQ_FILE in "$(findsequences ${DEPLOY_PATH}/sequences/)"; do
+        BASENAME=`basename "${SEQ_FILE}"`
+        TARGET="${BASENAME%.@(tar.gz|tgz)}"
 
+        echo "Unpacking sequence '${BASENAME}' to '$WORK_PATH/sequences/$TARGET'" | logger -e
+        unpack "$SEQ_FILE" "$WORK_PATH/sequences/$TARGET"
+
+        EXTRA_OPTS+=("-E")
+    done
+fi
+
+echo Running STH with opts: "${EXTRA_OPTS[@]}"
+sth "${EXTRA_OPTS[@]}" 2>&1 | logger -e

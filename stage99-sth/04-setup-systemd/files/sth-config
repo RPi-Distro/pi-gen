@@ -1,0 +1,4 @@
+LOGCOLORS="--no-colors"
+SEQUENCES_ROOT="/srv/sth/sequences"
+DEPLOY_PATH=/opt/sth/deploy
+WORK_PATH=/srv/sth
