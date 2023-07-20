@@ -364,7 +364,7 @@ for EXPORT_DIR in ${EXPORT_DIRS}; do
 				continue
 			fi
 		echo "Rebasing image-${CURR_STAGE}.qcow2 onto ${PREV_IMG}.qcow2"
-			qemu-img rebase -f qcow2 -u -b ${PREV_IMG}.qcow2 image-${CURR_STAGE}.qcow2
+			qemu-img rebase -F qcow2 -f qcow2 -u -b ${PREV_IMG}.qcow2 image-${CURR_STAGE}.qcow2
 			if [ "${CURR_STAGE}" = "${EXPORT_STAGE}" ]; then
 				break
 			fi
@@ -382,7 +382,7 @@ for EXPORT_DIR in ${EXPORT_DIRS}; do
 				continue
 			fi
 		echo "Rebasing back image-${CURR_STAGE}.qcow2 onto ${PREV_IMG}.qcow2"
-			qemu-img rebase -f qcow2 -u -b ${PREV_IMG}.qcow2 image-${CURR_STAGE}.qcow2
+			qemu-img rebase -F qcow2 -f qcow2 -u -b ${PREV_IMG}.qcow2 image-${CURR_STAGE}.qcow2
 			if [ "${CURR_STAGE}" = "${EXPORT_STAGE}" ]; then
 				break
 			fi
