@@ -1,0 +1,56 @@
+on:
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: install-deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y quilt qemu-user-static debootstrap libarchive-tools qemu-utils
+
+      - name: generate-config
+        run: |
+          cat > config <<EOF
+          ARCH="armhf"
+          RELEASE=bullseye
+          IMG_NAME="raspios-bullseye-armhf"
+          LOCALE_DEFAULT=en_US.UTF-8
+          TARGET_HOSTNAME=raspberrypi
+          KEYBOARD_KEYMAP=us
+          KEYBOARD_LAYOUT="English (US)"
+          TIMEZONE_DEFAULT=US/Pacific
+          FIRST_USER_NAME="${{ secrets.FIRST_USER_NAME }}"
+          FIRST_USER_PASS="${{ secrets.FIRST_USER_PASS }}"
+          DISABLE_FIRST_BOOT_USER_RENAME=1
+          ENABLE_SSH=1
+          #PUBKEY_SSH_FIRST_USER="${{ secrets.PUBKEY_SSH_FIRST_USER }}"
+          #PUBKEY_ONLY_SSH=1
+          WPA_COUNTRY=US     # needed so wifi is not disabled
+          USE_QCOW2=1
+          USE_QEMU=1
+          STAGE_LIST="stage0 stage1 stage2"
+          DEPLOY_COMPRESSION="xz"
+          EOF
+
+      - name: build
+        run: |
+          sudo ./build.sh
+
+      - name: upload-artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: image
+          path: deploy/*.img.xz
+          
+      - name: upload-artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: info
+          path: deploy/*.info
+      
