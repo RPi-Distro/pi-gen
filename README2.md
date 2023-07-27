@@ -33,9 +33,9 @@ We then proceed to build the image. The whole process is done with the command, 
 ```
 
 ## Burning disc image 
-After the successful build, deploy folder will appear with the images. Using the raspberry imager select custom OS and enter director
+After the successful build, "deploy" folder will appear with the images.
 
-Now use the raspberry imager and under "Select OS" select "Custom OS" and then select the "<date>-rasppi-os-sth.img" file from the deploy folder you created.
+Now use the [Imager](https://www.raspberrypi.com/software/) and under "Select OS" select "Custom OS" and then select the "<date>-rasppi-os-sth.img" file from the deploy folder you created.
 Also, remember to set your network access for the device in the imager options.
 
 Once the process is complete, two partitions should appear on your drive - boot and deploy.
