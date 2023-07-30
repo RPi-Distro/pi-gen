@@ -1,0 +1,78 @@
+#cloud-config
+
+hostname: raspberry-0
+# update /etc/hosts according to hostname (otherwise sudo will complain)
+manage_etc_hosts: true
+locale: en_US.UTF-8
+timezone: US/Pacific
+
+users:
+- default # pi user
+- name: user
+  gecos: "Main User"
+  groups: sudo,users,docker,video,input
+  sudo: "ALL=(ALL) NOPASSWD:ALL"
+  # set to false to allow password login for this user
+  # only for verifying with dockerpi, passwd auth over SSH should be disabled
+  lock_passwd: false
+  ssh_pwauth: true
+  shell: /bin/bash
+  # salt + hashed password, generate with `mkpasswd` or `openssl passwd -6`
+  passwd: $6$KoO.dgnOFD.nMKmj$QK7YqZFvFOpAnreGhqwUOyUZjc2VoUT/vSq2NpGphxMGZgFuAtG22bWWVKHG2kBLBBwne19DzbDiY3c4aFmFL1
+  chpasswd: { expire: false }
+  #ssh_authorized_keys:
+  #- ssh-ed25519 AAAA...
+
+# # authorized ssh keys for default user (pi)
+# ssh_authorized_keys:
+# - ssh-rsa AAAA...
+
+# set to true to allow ssh password authentication (disabled by default)
+ssh_pwauth: true
+
+# # Update apt packages on first boot
+#package_update: true
+#package_upgrade: true
+#package_reboot_if_required: true
+
+# # Install any additional apt packages you need here
+# packages:
+#  - ntp
+
+write_files:
+# - path: /var/lib/cloud/scripts/per-boot/01-hello-world.sh
+#   permissions: "0744"
+#   content: |
+#     #!/bin/bash
+#     echo "Hello cloud-init on Raspberry Pi!"
+#     date > /tmp/per-boot-was-here
+# - path: /var/lib/cloud/scripts/per-once/01-hello-world.sh
+#   permissions: "0744"
+#   content: |
+#     #!/bin/bash
+#     echo "Hello cloud-init on Raspberry Pi!"
+#     date > /tmp/per-once-was-here
+  - path: /etc/network/interfaces.d/wlan0
+    content: |
+      allow-hotplug wlan0
+      iface wlan0 inet dhcp
+      wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+      iface default inet dhcp
+  - path: /etc/wpa_supplicant/wpa_supplicant.conf
+    permissions: "0600"
+    content: |
+      country=us
+      ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+      update_config=1
+      network={
+        ssid="..."
+        psk=deadbeaf...
+        proto=RSN WPA
+      }
+
+# These commands will be ran once on first boot only
+runcmd:
+  # Pickup the hostname changes
+  - 'systemctl restart avahi-daemon'
+  # Activate WiFi interface
+  - 'ifup wlan0'
