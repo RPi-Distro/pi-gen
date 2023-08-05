@@ -38,7 +38,7 @@ cloud_init_modules:
 - migrator
 - seed_random
 - bootcmd
-- write-files
+- [write-files, always]
 - growpart
 - resizefs
 - disk_setup
@@ -48,7 +48,7 @@ cloud_init_modules:
 - update_etc_hosts
 - ca-certs
 - rsyslog
-- users-groups
+- [users-groups, always]
 - ssh
 
 # The modules that run in the 'config' stage
@@ -58,14 +58,14 @@ cloud_config_modules:
 - emit_upstart
 - ssh-import-id
 - locale
-- set-passwords
+- [set-passwords, always]
 - grub-dpkg
 - apt-pipelining
 - apt-configure
 - ntp
 - timezone
 - disable-ec2-metadata
-- runcmd
+- [runcmd, always]
 - byobu
 
 # The modules that run in the 'final' stage
