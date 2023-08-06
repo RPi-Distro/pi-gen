@@ -1,0 +1,75 @@
+#!/bin/bash
+# CUSTOM ACCESS POINT MODULE 
+# This is pretty much useless except for this one very specific use case. It's probably written like arse too but I couldn't be bothered to clean much up after seeing everything in here. Okay maybe I did a little tidying. 
+##### Jasper waz 'ere
+
+has_sensehat () {
+  tr -d '\0' < /proc/device-tree/hat/product
+}
+
+HASHAT=$(has_sensehat)
+
+FUN=$(whiptail --title "Customised Raspberry Pi Software Configuration Tool (raspi-config)" --menu "Access Point Settings" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Exit --ok-button Select \
+   "AP1 Set SSID" "Set a new name for your access point" \
+   "AP2 Show SSID" "Display the name of your access point" \
+   "AP3 Randomise SSID" "Set a new, random SSID for the Pi" \
+   "AP4 Show password" "Display the password to access the Pi" \
+   "AP5 Show IP" "Display the ip used to connect to this device" \
+   3>&1 1>&2 2>&3)
+echo $FUN
+
+RET=$?
+if [ $RET -eq 1 ]; then
+  return 0
+elif [ $RET -eq 0 ]; then
+  case "$FUN" in
+    "AP1 Set SSID")
+       SSID=$(whiptail --inputbox "Enter new SSID: " $WT_HEIGHT $WT_WIDTH --title "SSID Entry" 3>&2 2>&1 1>&3)
+       if [ ! -z "${SSID}" ]
+	      then
+		    sudo nmcli connection down "WiFiAP"
+		    sudo nmcli connection modify "WiFiAP" ssid "${SSID}"
+		    sudo nmcli connection up "WiFiAP"
+	      else
+		    whiptail --title "Warning"  --msgbox "You must enter a new SSID Name" 20 78
+	      fi;;
+      "AP2 Show SSID")
+      if [ "$HASHAT" = "Sense HAT" ]
+      then
+        python3 /home/pi/.ap_conf_sh/hat_show_ssid.py &
+        whiptail --title "Show SSID" --msgbox "$(sudo grep -w ssid /etc/NetworkManager/system-connections/WiFiAP.nmconnection | sed 's!^ssid=!!')" $WT_HEIGHT $WT_WIDTH 1
+      else
+        whiptail --title "Show SSID" --msgbox "$(sudo grep -w ssid /etc/NetworkManager/system-connections/WiFiAP.nmconnection | sed 's!^ssid=!!')" $WT_HEIGHT $WT_WIDTH 1
+      fi;;
+      "AP3 Randomise SSID")
+        whiptail --title "Randomise SSID" --yesno "Randomising the SSID will disconnect all network users. Continue?" $WT_HEIGHT $WT_WIDTH 1
+	      if [ $? -eq 0 ]
+		then
+		      whiptail --title "Randomising..." --msgbox "All users will be disconnected and SSID will change when you leave this screen" $WT_HEIGHT $WT_WIDTH
+		      sudo /home/pi/shui/refresh_ssid.sh
+	      elif [ $? -eq 1 ]
+		then
+		      whiptail --title "INTERRUPT" --msgbox "User called an interrupt on process. Returning to main menu." $WT_HEIGHT $WT_WIDTH
+	      elif [ $? -eq 255 ]
+		then
+		      whiptail --title "INTERRUPT" --msgbox "User pressed escape key, process interupted." 20 78
+        fi;;
+      "AP4 Show password")
+        if [ "$HASHAT" = "Sense HAT" ]
+        then
+          python3 /home/pi/.ap_conf_sh/hat_psk.py &
+          whiptail --title "Show password" --msgbox "$(sudo grep ^psk /etc/NetworkManager/system-connections/WiFiAP.nmconnection | sed 's!^psk=!!')" $WT_HEIGHT $WT_WIDTH 
+        else
+          whiptail --title "Show password" --msgbox "$(sudo grep ^psk /etc/NetworkManager/system-connections/WiFiAP.nmconnection | sed 's!^psk=!!')" $WT_HEIGHT $WT_WIDTH 
+        fi;;
+      "AP5 Show IP")
+        if [ "$HASHAT" = "Sense HAT" ]
+        then
+          python3 /home/pi/.ap_conf_sh/hat_ip.py &
+          whiptail --title "Show SSH IP" --msgbox "$(hostname -I | sed 's/^1/pi@1/' | sed 's/f.*//')" $WT_HEIGHT $WT_WIDTH
+          #    whiptail --title "Show SSH IP" --msgbox "$(sudo grep -w address1 /etc/NetworkManager/system-connections/WiFiAP.nmconnection | sed 's!^address1=!pi@!' |sed 's!/24$!!')" 20 78;;
+        else
+          whiptail --title "Show SSH IP" --msgbox "$(hostname -I | sed 's/^1/pi@1/' | sed 's/f.*//')" $WT_HEIGHT $WT_WIDTH
+        fi;;
+    esac
+  fi

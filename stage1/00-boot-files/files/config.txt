@@ -83,3 +83,4 @@ enable_uart=1
 dtoverlay=disable-bt
 gpu_mem=128
 dtoverlay=rpi-sense
+ssid=stem_club
