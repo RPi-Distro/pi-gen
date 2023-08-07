@@ -10,23 +10,6 @@
 # Description: On boot this script takes an SSID value set in config.txt and changes the Network Manager profile to this value. This may be a rather blunt solution but if it works it works.
 ### END INIT INFO
 
-ssid_rename () {
-APNAME="WiFiAP"
 SSID=$(grep -oP "ssid=\K.*" /boot/config.txt)
 
-sudo nmcli connection down $APNAME
-sudo nmcli connection modify $APNAME ssid "$SSID"
-sudo nmcli connection up $APNAME
-}
-
-case "$1" in
-    start)
-        ssid_rename
-    ;;
-    stop)
-       stop 
-    ;;
-    *)
-exit 1
-;;
-esac
+sed -i "s,$(grep -oP "ssid=\K.*" /etc/NetworkManager/system-connections/WiFiAP.nmconnection),$SSID," /etc/NetworkManager/system-connections/WiFiAP.nmconnection

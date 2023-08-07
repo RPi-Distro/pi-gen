@@ -12,7 +12,7 @@ $(uname -srmo)
 $(tput sgr0)- Uptime.............: $UPTIME
 $(tput sgr0)- IP Addresses.......: $(hostname -I | awk '{print $1}')
 $(tput sgr0)- Shui status........: $(systemctl list-units | awk '/shui/{print $3",",$4}')
-$(tput sgr0)- SSID...............: $(nmcli connection show "WiFiAP" | grep "\.ssid:" | awk '{print $2 " " $3}')
+$(tput sgr0)- SSID...............: $(sudo grep -oP "ssid=\K.*" /etc/NetworkManager/system-connections/WiFiAP.nmconnection)
 
 To view output from the sense hat program, run the command journalctl -b -f -u shui.service 
 

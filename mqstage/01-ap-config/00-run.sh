@@ -10,7 +10,6 @@ install -m 644 files/shui/shui.service "${ROOTFS_DIR}/lib/systemd/system/"
 install -m 600 files/*.nmconnection "${ROOTFS_DIR}/etc/NetworkManager/system-connections/"
 # Load the first-boot service to randomise the SSID
 install -m 777 files/first-boot-rename "${ROOTFS_DIR}/etc/init.d/"
-install -m 777 files/random_ssid.sh "${ROOTFS_DIR}/home/pi/"
 # Load the service to rename the SSID on boot
 install -m 777 files/rename-on-boot "${ROOTFS_DIR}/etc/init.d/"
 # Custom MOTD when logging in. Will provide IP address, shui status, system uptime, journalctl command
