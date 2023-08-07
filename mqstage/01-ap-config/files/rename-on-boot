@@ -7,9 +7,10 @@
 # Default-Start: 1 2 3 4 5
 # Default-Stop: 
 # Short-Description: Change AP SSID on boot
-# Description: On boot this script takes an SSID value set in config.txt and changes the Network Manager profile to this value. This may be a rather blunt solution but if it works it works.
+# Description: Takes SSID from config.txt and changes AP name. This may be a rather blunt solution but if it works it works. Also should copy any .nmconnection files from the /boot folder
 ### END INIT INFO
 
 SSID=$(grep -oP "ssid=\K.*" /boot/config.txt)
 
 sed -i "s,$(grep -oP "ssid=\K.*" /etc/NetworkManager/system-connections/WiFiAP.nmconnection),$SSID," /etc/NetworkManager/system-connections/WiFiAP.nmconnection
+sudo mv /boot/*.nmconnection /etc/NetworkManager/system-connections/
