@@ -1,3 +1,0 @@
-glasses
-no_glasses
-nothing

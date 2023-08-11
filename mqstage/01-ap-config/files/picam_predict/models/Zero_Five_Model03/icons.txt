@@ -1,7 +1,0 @@
-one
-zero
-other
-two
-three
-four
-five
