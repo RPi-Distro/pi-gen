@@ -13,4 +13,4 @@ RUN apt-get -y update && \
 
 COPY . /mq-pi-gen/
 
-VOLUME [ "/pi-gen/work", "/pi-gen/deploy"]
+VOLUME [ "/mq-pi-gen/work", "/mq-pi-gen/deploy"]

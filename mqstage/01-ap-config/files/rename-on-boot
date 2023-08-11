@@ -11,6 +11,12 @@
 ### END INIT INFO
 
 SSID=$(grep -oP "ssid=\K.*" /boot/config.txt)
+NETCON=/boot/*.nmconnection
 
 sed -i "s,$(grep -oP "ssid=\K.*" /etc/NetworkManager/system-connections/WiFiAP.nmconnection),$SSID," /etc/NetworkManager/system-connections/WiFiAP.nmconnection
-sudo mv /boot/*.nmconnection /etc/NetworkManager/system-connections/
+
+if [ -f "$NETCON" ]; then
+    sudo mv /boot/*.nmconnection /etc/NetworkManager/system-connections/
+else
+    echo "No .nmconnection files to move"
+fi
