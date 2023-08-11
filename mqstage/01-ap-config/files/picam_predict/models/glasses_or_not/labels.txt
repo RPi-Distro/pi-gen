@@ -1,3 +1,0 @@
-0 No Glasses
-1 Glasses
-2 No person detected

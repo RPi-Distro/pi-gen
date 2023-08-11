@@ -1,5 +1,0 @@
-bag
-hand
-pen
-phone
-unknown
