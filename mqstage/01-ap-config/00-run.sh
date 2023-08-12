@@ -2,7 +2,7 @@
 # Clone the latest version of the stem_club repository
 cd files/ && rm -r stem_club && git clone https://github.com/altmattr/stem_club.git
 cd ..
-sudo cp -a files/stem_club/shui "${ROOTFS_DIR}/home/pi/stem_club/"
+sudo cp -a files/stem_club "${ROOTFS_DIR}/home/pi/stem_club/"
 # Install all the services included in the stem_club repository. Only the interface is enabled from boot. 
 install -m 644 "${ROOTFS_DIR}/home/pi/stem_club/services/interface.service" "${ROOTFS_DIR}/lib/systemd/system/"
 install -m 644 "${ROOTFS_DIR}/home/pi/stem_club/services/prediction.service" "${ROOTFS_DIR}/lib/systemd/system/"
