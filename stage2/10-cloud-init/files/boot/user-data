@@ -35,9 +35,9 @@ ssh_pwauth: true
 #package_upgrade: true
 #package_reboot_if_required: true
 
-# # Install any additional apt packages you need here
-# packages:
-#  - ntp
+# Install any additional apt packages you need here
+packages:
+ - watchdog
 
 write_files:
 # - path: /var/lib/cloud/scripts/per-boot/01-hello-world.sh
@@ -69,6 +69,14 @@ write_files:
         psk=deadbeaf...
         proto=RSN WPA
       }
+  - path: /etc/watchdog.conf
+    content: |
+      realtime = yes
+      priority = 1
+      watchdog-timeout=15
+      max-load-1 = 24
+      min-memory = 1
+      #ping = 8.8.8.8
 
 # These commands will be ran once on first boot only
 runcmd:
