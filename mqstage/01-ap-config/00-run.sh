@@ -27,7 +27,7 @@ systemctl enable interface.service
 systemctl -q stop dhcpcd 2> /dev/null
 systemctl -q disable dhcpcd
 systemctl -q enable NetworkManager
-cat /home/pi/motd | tee --append /home/pi/.bashrc
+cat /home/pi/motd | tee --append /home/pi/.bashrc > /dev/null
 rm /home/pi/motd
 sudo chmod -R 777 /home/pi/
 EOF
