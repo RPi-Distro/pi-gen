@@ -15,10 +15,7 @@ SSID=$(grep -oP "ssid=\K.*" /boot/config.txt)
 sed -i "s,$(grep -oP "ssid=\K.*" /etc/NetworkManager/system-connections/WiFiAP.nmconnection),$SSID," /etc/NetworkManager/system-connections/WiFiAP.nmconnection
 
 if ls /boot/*.nmconnection 1> /dev/null 2>&1; then
-    #sudo mv /boot/*.nmconnection /etc/NetworkManager/system-connections/
-    for f in /boot/*.nmconnection; do
-	    sudo install -m 777 /etc/NetworkManager/system-connections $$f; 
-    done
+    sudo rsync --remove-source-files --chmod=F600 /boot/*.nmconnection /etc/NetworkManager/system-connections/
 else
     echo "No .nmconnection files to move"
 fi
