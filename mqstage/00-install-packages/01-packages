@@ -1,0 +1,6 @@
+libatlas-base-dev
+libhdf5-dev
+libhdf5-serial-dev
+libjasper-dev 
+libqtgui4 
+libqt4-test
