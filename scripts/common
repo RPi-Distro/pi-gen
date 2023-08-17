@@ -102,3 +102,11 @@ update_issue() {
 	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }
 export -f update_issue
+
+ensure_next_loopdev() {
+	local loopdev
+	loopdev="$(losetup -f)"
+	loopmaj="$(echo "$loopdev" | sed -E 's/.*[^0-9]*?([0-9]+)$/\1/')"
+	[[ -b "$loopdev" ]] || mknod "$loopdev" b 7 "$loopmaj"
+}
+export -f ensure_next_loopdev
