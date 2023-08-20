@@ -30,4 +30,5 @@ systemctl -q enable NetworkManager
 cat /home/pi/motd | tee --append /home/pi/.bashrc > /dev/null
 rm /home/pi/motd
 sudo chmod -R 777 /home/pi/
+sudo chown -R pi:pi /home/pi/
 EOF
