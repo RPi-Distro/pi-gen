@@ -8,6 +8,9 @@ on_chroot <<CHEOF
 	# Add packagecloud wlanpi/main repository
 	curl -s https://packagecloud.io/install/repositories/wlanpi/main/script.deb.sh | bash
 
+	# Temporarily add packagecloud wlanpi/dev repository
+ 	curl -s https://packagecloud.io/install/repositories/wlanpi/dev/script.deb.sh | bash
+
 	# Add Bullseye Backports repository
 	echo 'deb http://deb.debian.org/debian bullseye-backports main' | tee /etc/apt/sources.list.d/bullseye-backports.list
 	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138
@@ -17,8 +20,13 @@ on_chroot <<CHEOF
 		echo "Adding grafana repository"
 		wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
 		echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
-		sudo apt update >/dev/null
 	fi
 
-	apt-get update
+	# Add InfluxData repository (influxdb, influxdb2, telegraf, chronograf)
+	if [ ! -f /etc/apt/sources.list.d/influxdb.list ]; then
+		curl https://repos.influxdata.com/influxdata-archive.key | gpg --dearmor | sudo tee /usr/share/keyrings/influxdb-archive-keyring.gpg >/dev/null
+		echo "deb [signed-by=/usr/share/keyrings/influxdb-archive-keyring.gpg] https://repos.influxdata.com/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+	fi
+
+	apt update
 CHEOF
