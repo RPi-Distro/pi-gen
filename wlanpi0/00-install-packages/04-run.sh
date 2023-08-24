@@ -26,7 +26,7 @@ on_chroot <<CHEOF
 	if [ ! -f /etc/apt/sources.list.d/influxdb.list ]; then
 		echo "Adding InfluxData repository"
 		curl https://repos.influxdata.com/influxdata-archive.key | gpg --dearmor | sudo tee /usr/share/keyrings/influxdb-archive-keyring.gpg >/dev/null
-		echo "deb [signed-by=/usr/share/keyrings/influxdb-archive-keyring.gpg] https://repos.influxdata.com/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+		echo "deb [signed-by=/usr/share/keyrings/influxdb-archive-keyring.gpg] https://repos.influxdata.com/debian $(grep "VERSION_CODENAME=" /etc/os-release |awk -F= {'print $2'} | sed s/\"//g) stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
 	fi
  	
   	echo "--tshoot"
