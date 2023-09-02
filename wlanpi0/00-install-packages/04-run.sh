@@ -18,8 +18,8 @@ on_chroot <<CHEOF
 	# Add Grafana repository
 	if [ ! -f /etc/apt/sources.list.d/grafana.list ]; then
 		echo "Adding grafana repository"
-		wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
-		echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+		wget -q -O /usr/share/keyrings/grafana.key https://apt.grafana.com/gpg.key
+		echo "deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com stable main" | tee /etc/apt/sources.list.d/grafana.list
 	fi
 
 	# Add InfluxData repository (influxdb, influxdb2, telegraf, chronograf)
