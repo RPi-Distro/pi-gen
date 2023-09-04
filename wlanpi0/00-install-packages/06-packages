@@ -10,13 +10,18 @@ wlanpi-wconsole
 wlanpi-server
 wlanpi-wipry
 wlanpi-misc-firmware
+wlanpi-grafana
 scandump
 libpcap0.8/bullseye-backports
 wpasupplicant/bullseye-backports
 hostapd/bullseye-backports
 wlanpi-librespeed-cli
-#wiperf
-#wlanpi-core
 cockpit/bullseye-backports
 cockpit-packagekit
 cockpit-storaged
+
+# In development
+#wlanpi-core
+
+# No longer supported
+#wiperf
