@@ -2,7 +2,7 @@
 # Note: Avoid usage of arrays as MacOS users have an older version of bash (v3.x) which does not supports arrays
 set -eu
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)"
 
 BUILD_OPTS="$*"
 
