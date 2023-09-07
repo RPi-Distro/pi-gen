@@ -7,7 +7,7 @@ python3-sense-emu sense-emu-tools python-sense-emu-doc
 
 wolfram-engine
 claws-mail
-greenfoot-unbundled bluej-unbundled
+#greenfoot-unbundled bluej-unbundled
 realvnc-vnc-viewer
 
 code-the-classics
