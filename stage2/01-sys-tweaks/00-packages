@@ -1,4 +1,4 @@
-ssh less fbset sudo psmisc strace ed ncdu crda
+ssh less fbset sudo psmisc strace ed ncdu
 console-setup keyboard-configuration debconf-utils parted
 build-essential manpages-dev bash-completion gdb pkg-config
 python-is-python3
@@ -7,7 +7,7 @@ python3-gpiozero
 avahi-daemon
 lua5.1
 luajit
-hardlink ca-certificates curl
+ca-certificates curl
 fake-hwclock nfs-common usbutils
 libraspberrypi-dev libraspberrypi-doc libfreetype6-dev
 dosfstools
@@ -29,7 +29,7 @@ ethtool
 ntfs-3g
 pciutils
 rpi-eeprom
-raspinfo
+raspi-utils
 udisks2
 unzip zip p7zip-full
 file
