@@ -1,4 +1,4 @@
-# Install our custom repos
+# Install our custom packages
 wlanpi-common
 wlanpi-profiler
 wlanpi-webui
