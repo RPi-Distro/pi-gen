@@ -12,7 +12,6 @@ libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
 geany
 piclone
 python3-twython
-python3-smbus
 python3-flask
 pprompt
 piwiz
