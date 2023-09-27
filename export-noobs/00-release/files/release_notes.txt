@@ -1,4 +1,26 @@
 UNRELEASED:
+  * Based on Debian bookworm release
+  * Support for Raspberry Pi 5
+  * Desktop now runs on the Wayfire Wayland compositing window manager on Raspberry Pi 4 and 5 platforms; on X11 using the openbox window manager on older platforms
+  * lxpanel replaced with new wf-panel-pi application when running Wayland; existing lxpanel plugins migrated; gpu performance and power plugins added
+  * pcmanfm modified to use Wayland backend when running on Wayland
+  * PipeWire used instead of PulseAudio as audio control subsystem; various changes made to volume control plugin to support this
+  * NetworkManager used instead of dhcpcd as networking interface; various changes made to networking plugin to support this
+  * Firefox browser added as alternative to Chromium; selection of default browser added to Raspberry Pi Configuration tool
+  * WayVNC VNC server used instead of RealVNC when running on Wayland
+  * All customisation and configuration applications modified to customise Wayfire environment as appropriate
+  * grim used as screenshot tool instead of scrot when running on Wayland
+  * eom image viewer used instead of gpicview
+  * evince document viewer used instead of qpdfview
+  * Chromium web browser updated to version 116
+  * VLC media player updated to version 3.0.18
+  * Magnifier program not available when running Wayland; Wayfire includes screen zoom capabilities
+  * CustomPC and Wireframe removed from Bookshelf
+  * Numerous small changes and bug fixes
+  * Switched from raspberrypi-kernel to Debian-based kernel packaging (linux-image-rpi-*)
+  * Switched from raspberrypi-bootloader to Debian based firmware packaging (raspi-firmware)
+  * /boot mount point moved to /boot/firmware
+2023-05-03:
   * 64-bit Mathematica added to rp-prefapps
   * Bug fix - occasional segfault in CPU temperature plugin
   * Bug fix - X server crash when changing screen orientation

@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-BOOKSHELF_URL="https://magpi.raspberrypi.org/bookshelf.xml"
+BOOKSHELF_URL="https://magpi.raspberrypi.com/bookshelf.xml"
 GUIDE_URL="$(curl -s "$BOOKSHELF_URL" | awk -F '[<>]' "/<TITLE>Raspberry Pi Beginner's Guide 4th Edition<\/TITLE>/ {f=1; next} f==1 && /PDF/ {print \$3; exit}")"
 OUTPUT="$(basename "$GUIDE_URL" | cut -f1 -d'?')"
 
