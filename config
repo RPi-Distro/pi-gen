@@ -1,0 +1,6 @@
+IMG_NAME=EffectiveRange
+DEPLOY_COMPRESSION=none
+ENABLE_SSH=1
+WPA_ESSID=Diablo
+WPA_PASSWORD=UnikorniS69
+STAGE_LIST="stage0 stage1 stage2 stage3"
