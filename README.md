@@ -78,7 +78,7 @@ The following environment variables are supported:
     that the network block device is not disconnected correctly after the Docker process has
     ended abnormally. In that case see [Disconnect an image if something went wrong](#Disconnect-an-image-if-something-went-wrong)
 
-* `RELEASE` (Default: bullseye)
+* `RELEASE` (Default: bookworm)
 
    The release version to build images against. Valid values are any supported
    Debian release. However, since different releases will have different sets of
