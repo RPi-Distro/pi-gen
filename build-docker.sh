@@ -87,7 +87,7 @@ ${DOCKER} build --build-arg BASE_IMAGE=debian:bullseye -t pi-gen "${DIR}"
 if [ "${CONTAINER_EXISTS}" != "" ]; then
   DOCKER_CMDLINE_NAME="${CONTAINER_NAME}_cont"
   DOCKER_CMDLINE_PRE="--rm"
-  DOCKER_CMDLINE_POST="--volumes-from=\"${CONTAINER_NAME}\""
+  DOCKER_CMDLINE_POST="--volumes-from=${CONTAINER_NAME}"
 else
   DOCKER_CMDLINE_NAME="${CONTAINER_NAME}"
   DOCKER_CMDLINE_PRE=""
