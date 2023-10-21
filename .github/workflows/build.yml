@@ -19,8 +19,8 @@ jobs:
         run: |
           cat > config <<EOF
           ARCH="armhf"
-          RELEASE=bullseye
-          IMG_NAME="raspios-bullseye-armhf"
+          RELEASE=bookworm
+          IMG_NAME="raspios-bookworm-armhf"
           LOCALE_DEFAULT=en_US.UTF-8
           TARGET_HOSTNAME=raspberrypi
           KEYBOARD_KEYMAP=us
@@ -48,10 +48,9 @@ jobs:
         with:
           name: image
           path: deploy/*.img.xz
-          
+
       - name: upload-artifacts
         uses: actions/upload-artifact@v3
         with:
           name: info
           path: deploy/*.info
-      
