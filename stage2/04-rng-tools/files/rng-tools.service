@@ -1,0 +1,22 @@
+#  SPDX-License-Identifier: LGPL-2.1+
+#
+#  This file is provided by pi-gen.
+#
+
+[Unit]
+Description=Start rng-tools
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=fake-hwclock.service systemd-journald.service
+Before=sysinit.target shutdown.target
+ConditionVirtualization=!container
+
+[Service]
+EnvironmentFile=-/etc/default/rng-tools
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/etc/init.d/rng-tools start
+ExecStop=/etc/init.d/rng-tools stop
+
+[Install]
+WantedBy=systemd-random-seed.service
