@@ -33,7 +33,7 @@ jobs:
           #PUBKEY_SSH_FIRST_USER="${{ secrets.PUBKEY_SSH_FIRST_USER }}"
           #PUBKEY_ONLY_SSH=1
           WPA_COUNTRY=US     # needed so wifi is not disabled
-          USE_QCOW2=1
+          USE_QCOW2=0
           USE_QEMU=0
           STAGE_LIST="stage0 stage1 stage2"
           DEPLOY_COMPRESSION="xz"
