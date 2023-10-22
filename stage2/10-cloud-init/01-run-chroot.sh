@@ -28,10 +28,10 @@ datasource_list: [ NoCloud, None ]
 datasource:
   NoCloud:
     # read from boot partition instead of partition with cidata label as
-    # boot is FAT formatted and can easily be edited on all OSes,
+    # bootfs is FAT formatted and can easily be edited on all OSes,
     # remove or comment if you want to use a cidata partition
     # (e.g. iso created via genisoimage)
-    fs_label: boot
+    fs_label: bootfs
 
 # The modules that run in the 'init' stage
 cloud_init_modules:
