@@ -15,11 +15,9 @@ users:
   # set to false to allow password login for this user
   # only for verifying with dockerpi, passwd auth over SSH should be disabled
   lock_passwd: false
-  ssh_pwauth: true
   shell: /bin/bash
   # salt + hashed password, generate with `mkpasswd` or `openssl passwd -6`
   passwd: $6$KoO.dgnOFD.nMKmj$QK7YqZFvFOpAnreGhqwUOyUZjc2VoUT/vSq2NpGphxMGZgFuAtG22bWWVKHG2kBLBBwne19DzbDiY3c4aFmFL1
-  chpasswd: { expire: false }
   #ssh_authorized_keys:
   #- ssh-ed25519 AAAA...
 
