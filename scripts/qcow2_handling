@@ -117,7 +117,7 @@ EOF
 					exit 1;
 				fi
 				echo "Creating backing image: image-${STAGE}.qcow2 <- ${WORK_DIR}/image-${PREV_STAGE}.qcow2"
-				qemu-img create -F qcow2 -f qcow2 \
+				qemu-img create -f qcow2 \
 					-o backing_file=${WORK_DIR}/image-${PREV_STAGE}.qcow2 \
 					${WORK_DIR}/image-${STAGE}.qcow2
 				sync
