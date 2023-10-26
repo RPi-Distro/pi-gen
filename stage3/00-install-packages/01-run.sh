@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
 on_chroot << EOF
-  pip install netifaces dbus-python PyGObject
+  systemctl unmask hostapd.service
+  systemctl enable hostapd.service
+  pip install flask waitress netifaces dbus-python PyGObject gpiozero
 EOF

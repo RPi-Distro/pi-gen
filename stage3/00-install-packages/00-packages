@@ -2,4 +2,4 @@ hostapd
 dnsmasq
 dbus libdbus-glib-1-dev libdbus-1-dev
 libgirepository1.0-dev libcairo2-dev
-python3-gi pip
+python3-pip python3-gi
