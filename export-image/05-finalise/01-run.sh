@@ -95,6 +95,8 @@ if [ "${USE_QCOW2}" = "0" ] && [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 
 	unmount_image "${IMG_FILE}"
 else
+	unload_qimage
+	make_bootable_image "${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.qcow2" "$IMG_FILE"
 	cp "$IMG_FILE" "$DEPLOY_DIR"
 fi
 
