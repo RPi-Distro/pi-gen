@@ -1,4 +1,3 @@
-lightdm xterm i3 i3status
 libasound-dev ccache cmake clazy clang-tidy debhelper devscripts 
 docbook-to-man dput fonts-open-sans fonts-ubuntu g++
 libavformat-dev

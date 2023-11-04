@@ -1,7 +1,7 @@
 git
 #omxplayer
 alsa-utils
-raspberrypi-artwork
+raspberrypi-ui-mods
 policykit-1
 rfkill
 fonts-droid-fallback
@@ -19,7 +19,7 @@ libgl-dev liblilv-dev
 libjack-dev libjack0 portaudio19-dev
 libfaad-dev
 libmp3lame-dev libebur128-dev
-qt5-default qt5keychain-dev qtdeclarative5-dev libqt5opengl5-dev qtscript5-dev
+qt5keychain-dev qtdeclarative5-dev libqt5opengl5-dev qtscript5-dev
 libqt5svg5-dev libqt5x11extras5-dev libvamp-sdk2v5 libhidapi-libusb0 libqt5sql5-sqlite libmodplug-dev
 libglu1-mesa-dev
 cmake ccache

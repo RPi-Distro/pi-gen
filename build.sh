@@ -225,7 +225,7 @@ export TARGET_HOSTNAME=${TARGET_HOSTNAME:-mixxxpi}
 
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS=${FIRST_USER_PASS:-mixxx}
-export RELEASE=${RELEASE:-buster}
+export RELEASE=${RELEASE:-bookworm}
 export WPA_ESSID
 export WPA_PASSWORD
 export WPA_COUNTRY

@@ -6,6 +6,7 @@ mount --bind ${BASE_DIR}/.ccache  "${ROOTFS_DIR}/ccache"
 on_chroot << EOF
     git clone --branch 2.4 https://github.com/mixxxdj/mixxx.git /code/
     cd /code/
+    tools/debian_buildenv.sh setup
     git rev-parse HEAD > /opt/mixxx.version
     export CCACHE_DIR=/ccache
     ccache -M 5G
