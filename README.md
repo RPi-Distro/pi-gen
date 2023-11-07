@@ -12,7 +12,7 @@ Included:
 - irqthreads enabled on standard kernel and performance CPU governer as standard
 - i3 window manager with autostart to Mixxx
 - Working OpenGL waveforms
-- Extra minimal skin included for small screen by @dennisdebel
+- Extra skins included for small screen by @dennisdebel and @timewasternl
 
 ## How to install on your Raspberry Pi 4
 
