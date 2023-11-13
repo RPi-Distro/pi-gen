@@ -194,6 +194,7 @@ trap term EXIT INT TERM
 
 export PI_GEN=${PI_GEN:-pi-gen}
 export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
+export PI_GEN_RELEASE=${PI_GEN_RELEASE:-Raspberry Pi reference}
 
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set" 1>&2
@@ -226,9 +227,7 @@ export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS
 export DISABLE_FIRST_BOOT_USER_RENAME=${DISABLE_FIRST_BOOT_USER_RENAME:-0}
-export RELEASE=${RELEASE:-bullseye} # Don't forget to update stage0/prerun.sh
-export WPA_ESSID
-export WPA_PASSWORD
+export RELEASE=${RELEASE:-bookworm} # Don't forget to update stage0/prerun.sh
 export WPA_COUNTRY
 export ENABLE_SSH="${ENABLE_SSH:-0}"
 export PUBKEY_ONLY_SSH="${PUBKEY_ONLY_SSH:-0}"
