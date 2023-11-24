@@ -11,4 +11,7 @@ dpkg-buildpackage -us -uc -b
 # Install wifi-manager
 apt-get install /tmp/wifi-manager_0.0.1_all.deb
 
+# Cleanup
+apt-get remove -y dh-virtualenv devscripts
+
 EOF
