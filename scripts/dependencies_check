@@ -43,7 +43,7 @@ dependencies_check()
 	esac
 
 	if [[ "${binfmt_misc_required}" == "1" ]]; then
-		if ! grep -q "/proc/sys/fs/binfmt_misc" /proc/mounts; then
+		if ! lsmod | grep -wq binfmt_misc; then
 			echo "Module binfmt_misc not loaded in host"
 			echo "Please run:"
 			echo "  sudo modprobe binfmt_misc"

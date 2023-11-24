@@ -1,0 +1,11 @@
+debhelper
+python3
+python3-pip
+dbus
+libdbus-1-dev
+libdbus-glib-1-dev
+libgirepository1.0-dev
+libcairo2-dev
+python3-gi
+dh-virtualenv
+devscripts
