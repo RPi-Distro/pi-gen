@@ -3,7 +3,7 @@ console-setup keyboard-configuration debconf-utils parted
 build-essential manpages-dev bash-completion gdb pkg-config
 python-is-python3
 v4l-utils
-python3-libgpiod
+gpiod python3-libgpiod
 python3-gpiozero
 pigpio python3-pigpio raspi-gpio python3-rpi.gpio
 python3-spidev

@@ -55,6 +55,11 @@ The following environment variables are supported:
    but you should use something else for a customized version.  Export files
    in stages may add suffixes to `IMG_NAME`.
 
+ * `PI_GEN_RELEASE` (Default: `Raspberry Pi reference`)
+
+   The release name to use in `/etc/issue.txt`. The default should only be used
+   for official Raspberry Pi builds.
+
 * `USE_QCOW2` **EXPERIMENTAL** (Default: `0` )
 
     Instead of using traditional way of building the rootfs of every stage in

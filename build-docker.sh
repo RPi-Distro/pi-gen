@@ -156,7 +156,7 @@ time ${DOCKER} run \
 echo "copying results from deploy/"
 ${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy - | tar -xf -
 
-echo "copying log from container ${CONTAINER_NAME} to depoy/"
+echo "copying log from container ${CONTAINER_NAME} to deploy/"
 ${DOCKER} logs --timestamps "${CONTAINER_NAME}" &>deploy/build-docker.log
 
 ls -lah deploy
