@@ -1,4 +1,39 @@
 UNRELEASED:
+  * Serial port switching in rc_gui and raspi-config modified to support Raspberry Pi 5
+  * Touch screens now identified with unique per-device strings to enable correct association with display devices
+  * Compatibility with RP1 displays added
+  * Theme files monitored by pixdecor plugin to load changes on the fly
+  * Main menu shortcut to The Magpi website restored
+  * GTK+2 theme harmonised with GTK+3 theme to enable more uniform theming of Qt applications
+  * Battery monitor plugin enabled
+  * Taskbar Preferences menu item added to panel right-click menu
+  * Better reloading of on-the-fly theme changes
+  * Various improvements to Wayfire rendering
+  * Dark GTK theme added
+  * Bug fix - suppressed warning notifications when removing USB devices without mounted filesystems
+  * Bug fix - volume keyboard shortcuts locked up on some devices
+  * Bug fix - correctly handling multiple USB audio devices with same name
+  * Bug fix - some translations not loading in panel plugins
+  * Bug fix - window titlebars disappearing when tiled
+  * Bug fix - local installer service failing to install local deb files
+  * Bug fix - wizard not correctly setting locale when explicit UTF-8 character set required
+  * Bug fix - system updates could fail if an update required the removal of an installed package
+  * Bug fix - prevent file manager windows opening larger than screen size
+  * Bug fix - GPU plugin displaying load percentage as -1
+  * Bug fix - various window manager crashes associated with shadows on certain window types
+  * Bug fix - allow VNC to be enabled if either RealVNC or WayVNC are installed
+  * WayVNC - improved support for encrypted connections
+  * Mathematica now works on Raspberry Pi 5 and 64-bit
+  * Scratch 3 now works on Raspberry Pi 5 and 64-bit
+  * Thonny updated to version 4.1.4
+  * Chromium updated to 119.0.6045.171
+  * Firefox updated to 119.0
+  * gpiod binary tools included in lite images
+  * Japanese translations updated
+  * German translation added to Appearance Settings
+  * Raspberry Pi firmware 12af703dd07d7721c1f2f58c6f71d9fe66270838
+  * Linux kernel 6.1.63
+2023-10-10:
   * Based on Debian bookworm release
   * Support for Raspberry Pi 5
   * Desktop now runs on the Wayfire Wayland compositing window manager on Raspberry Pi 4 and 5 platforms; on X11 using the openbox window manager on older platforms
