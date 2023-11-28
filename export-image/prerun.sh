@@ -46,6 +46,16 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 		fi
 	done
 
+	PARTITIONS=$(lsblk --raw --output "MAJ:MIN" --noheadings ${LOOP_DEV} | tail -n +2)
+	COUNTER=1
+	for i in $PARTITIONS; do
+		echo "Creating node file for partition $i..."
+	    MAJ=$(echo $i | cut -d: -f1)
+	    MIN=$(echo $i | cut -d: -f2)
+	    if [ ! -e "${LOOP_DEV}p${COUNTER}" ]; then mknod ${LOOP_DEV}p${COUNTER} b $MAJ $MIN; fi
+	    COUNTER=$((COUNTER + 1))
+	done
+
 	BOOT_DEV="${LOOP_DEV}p1"
 	ROOT_DEV="${LOOP_DEV}p2"
 
