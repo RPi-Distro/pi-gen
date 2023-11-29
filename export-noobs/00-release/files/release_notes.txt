@@ -29,6 +29,7 @@ UNRELEASED:
   * Chromium updated to 119.0.6045.171
   * Firefox updated to 119.0
   * gpiod binary tools included in lite images
+  * python3-venv included in lite images
   * Japanese translations updated
   * German translation added to Appearance Settings
   * Raspberry Pi firmware 12af703dd07d7721c1f2f58c6f71d9fe66270838
