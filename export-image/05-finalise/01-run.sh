@@ -57,6 +57,10 @@ rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
 
 update_issue "$(basename "${EXPORT_DIR}")"
 install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/firmware/issue.txt"
+if ! [ -L "${ROOTFS_DIR}/boot/issue.txt" ]; then
+	ln -s firmware/issue.txt "${ROOTFS_DIR}/boot/issue.txt"
+fi
+
 
 cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 
