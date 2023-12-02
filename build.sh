@@ -183,15 +183,6 @@ do
 	esac
 done
 
-term() {
-	if [ "${USE_QCOW2}" = "1" ]; then
-		log "Unloading image"
-		unload_qimage
-	fi
-}
-
-trap term EXIT INT TERM
-
 export PI_GEN=${PI_GEN:-pi-gen}
 export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
 export PI_GEN_RELEASE=${PI_GEN_RELEASE:-Raspberry Pi reference}
@@ -201,6 +192,8 @@ if [ -z "${IMG_NAME}" ]; then
 	exit 1
 fi
 
+export ENABLE_CACHING="${ENABLE_CACHING:-0}"
+export USE_CACHED_DATA="${USE_CACHED_DATA:-0}"
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
 export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
@@ -270,6 +263,8 @@ source "${SCRIPT_DIR}/common"
 # shellcheck source=scripts/dependencies_check
 source "${SCRIPT_DIR}/dependencies_check"
 
+source "${SCRIPT_DIR}/acng_handling"
+
 export NO_PRERUN_QCOW2="${NO_PRERUN_QCOW2:-1}"
 export USE_QCOW2="${USE_QCOW2:-0}"
 export BASE_QCOW2_SIZE=${BASE_QCOW2_SIZE:-12G}
@@ -285,6 +280,22 @@ export NO_PRERUN_QCOW2="${NO_PRERUN_QCOW2:-1}"
 if [ "$SETFCAP" != "1" ]; then
 	export CAPSH_ARG="--drop=cap_setfcap"
 fi
+
+if [ "${ENABLE_CACHING}" = "1" ]; then
+	init_acng
+fi
+
+term() { 
+	if [ "${USE_QCOW2}" = "1" ]; then
+		log "Unloading image"
+		unload_qimage
+	fi
+	if [ "${ENABLE_CACHING}" = "1" ]; then
+		shutdown_acng
+	fi
+}
+
+trap term EXIT INT TERM
 
 dependencies_check "${BASE_DIR}/depends"
 
