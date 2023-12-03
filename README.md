@@ -114,7 +114,7 @@ The following environment variables are supported:
 
    `USE_CACHED_DATA` (Default: 0)
 
-   **CAUTION**: Please note that when `USE_CACHED_DATA` is set to `1`, the `APT_PROXY` variable is 
+   **CAUTION**: Please note that when `ENABLE_CACHING` is set to `1`, the `APT_PROXY` variable is 
    overridden and is not available for use during the build.
        
  * `BASE_DIR`  (Default: location of `build.sh`)
