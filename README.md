@@ -103,6 +103,22 @@ The following environment variables are supported:
        docker-compose up -d
        echo 'APT_PROXY=http://172.17.0.1:3142' >> config
 
+* `ENABLE_CACHING` (Default: 0)
+
+   `pi-gen` now supports offline builds with the introduction of two new options: `ENABLE_CACHING` and `USE_CACHED_DATA`. 
+
+   Setting `ENABLE_CACHING` to `1` enables caching during the build process. 
+   Cached data is stored in the `cache/` directory, allowing you to build the system with an internet connection and cache the required packages.
+
+   To perform an offline build, set `USE_CACHED_DATA` to `1`. 
+   This instructs `pi-gen` to use the cached packages stored in the `cache/` directory during the build, 
+   eliminating the need for an internet connection.
+
+   `USE_CACHED_DATA` (Default: 0)
+
+   **CAUTION**: Please note that when `USE_CACHED_DATA` is set to `1`, the `APT_PROXY` variable is 
+   overridden and is not available for use during the build.
+       
  * `BASE_DIR`  (Default: location of `build.sh`)
 
    **CAUTION**: Currently, changing this value will probably break build.sh
