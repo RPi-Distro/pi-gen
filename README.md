@@ -15,7 +15,7 @@ To install the required dependencies for `pi-gen` you should run:
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-qemu-utils kpartx gpg pigz
+qemu-utils kpartx gpg pigz apt-cacher-ng
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -104,8 +104,6 @@ The following environment variables are supported:
        echo 'APT_PROXY=http://172.17.0.1:3142' >> config
 
 * `ENABLE_CACHING` (Default: 0)
-
-   `pi-gen` now supports offline builds with the introduction of two new options: `ENABLE_CACHING` and `USE_CACHED_DATA`. 
 
    Setting `ENABLE_CACHING` to `1` enables caching during the build process. 
    Cached data is stored in the `cache/` directory, allowing you to build the system with an internet connection and cache the required packages.
