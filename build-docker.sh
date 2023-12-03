@@ -56,6 +56,8 @@ CONTAINER_NAME=${CONTAINER_NAME:-pigen_work}
 CONTINUE=${CONTINUE:-0}
 PRESERVE_CONTAINER=${PRESERVE_CONTAINER:-0}
 PIGEN_DOCKER_OPTS=${PIGEN_DOCKER_OPTS:-""}
+ENABLE_CACHING=${ENABLE_CACHING:-0}
+USE_CACHED_DATA=${USE_CACHED_DATA:-0}
 
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set in 'config'" 1>&2
@@ -91,7 +93,21 @@ case "$(uname -m)" in
     BASE_IMAGE=debian:bullseye
     ;;
 esac
-${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
+
+if [ "${USE_CACHED_DATA}" -eq 0 ]; then 
+  ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
+fi
+
+if [ "${USE_CACHED_DATA}" = "1" ]; then 
+  image_found=$("${DOCKER}" images | grep -q 'pi-gen' && echo 1 || echo 0)
+  if [ "${image_found}" -eq 0 ]; then 
+    echo "Local pi-gen image not found"
+    if [ ! -e cache/docker/pi-gen.tar ]; then
+      echo "No cached image found"
+    fi
+    "${DOCKER}" load -i cache/docker/pi-gen.tar
+  fi
+fi
 
 if [ "${CONTAINER_EXISTS}" != "" ]; then
   DOCKER_CMDLINE_NAME="${CONTAINER_NAME}_cont"
@@ -147,6 +163,7 @@ time ${DOCKER} run \
   --cap-add=ALL \
   -v /dev:/dev \
   -v /lib/modules:/lib/modules \
+  -v .:/pi-gen \
   ${PIGEN_DOCKER_OPTS} \
   --volume "${CONFIG_FILE}":/config:ro \
   -e "GIT_HASH=${GIT_HASH}" \
@@ -161,14 +178,15 @@ time ${DOCKER} run \
   " &
   wait "$!"
 
-# Ensure that deploy/ is always owned by calling user
-echo "copying results from deploy/"
-${DOCKER} cp "${CONTAINER_NAME}":/pi-gen/deploy - | tar -xf -
+# echo "copying log from container ${CONTAINER_NAME} to deploy/"
+# ${DOCKER} logs --timestamps "${CONTAINER_NAME}" & > deploy/build-docker.log
 
-echo "copying log from container ${CONTAINER_NAME} to deploy/"
-${DOCKER} logs --timestamps "${CONTAINER_NAME}" &>deploy/build-docker.log
-
-ls -lah deploy
+# export image for offline usage
+if [ "${ENABLE_CACHING}" = "1" ] && [ "$USE_CACHED_DATA" = "0" ]; then 
+  echo "Exporting pi-gen image"
+  mkdir -p cache/docker
+  ${DOCKER} save -o cache/docker/pi-gen.tar pi-gen
+fi
 
 # cleanup
 if [ "${PRESERVE_CONTAINER}" != "1" ]; then
