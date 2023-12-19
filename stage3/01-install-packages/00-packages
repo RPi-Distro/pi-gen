@@ -25,3 +25,4 @@ libglu1-mesa-dev
 cmake ccache
 debhelper markdown docbook-to-man devscripts
 unclutter
+lightdm foot sway i3blocks i3status wvkbd

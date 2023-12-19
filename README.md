@@ -10,7 +10,7 @@ Included:
 - Mixxx 2.4 beta built from the [Mixxx](https://mixxx.org) repo
 - 64 bit Raspberry Pi OS (Debian 12 "bookworm")
 - irqthreads enabled on standard kernel and performance CPU governer as standard
-- i3 window manager with autostart to Mixxx
+- sway (i3 for wayland) window manager with autostart to Mixxx
 - Working OpenGL waveforms
 - Extra skins included for small screen by @dennisdebel and @timewasternl
 

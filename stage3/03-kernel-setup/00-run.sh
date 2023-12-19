@@ -1,6 +1,6 @@
-# Add threadirqs kernel command line argument
+# Add preempt=full kernel command line argument
 on_chroot << EOF
-    sed -i 's/$/ threadirqs/' /boot/cmdline.txt
+    sed -i 's/$/ preempt=full/' /boot/cmdline.txt
 EOF
 
 # Use the performance governor instead of ondemand which is default
