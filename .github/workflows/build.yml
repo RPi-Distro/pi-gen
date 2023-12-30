@@ -35,7 +35,7 @@ jobs:
           WPA_COUNTRY=US     # needed so wifi is not disabled
           #USE_QCOW2=1
           USE_QEMU=0
-          STAGE_LIST="stage0 stage1 stage2"
+          STAGE_LIST="stage0 stage1 stage2 stage2-custom"
           DEPLOY_COMPRESSION="xz"
           EOF
 
