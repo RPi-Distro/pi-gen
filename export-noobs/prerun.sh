@@ -22,6 +22,7 @@ until ensure_next_loopdev && LOOP_DEV="$(losetup --show --find --partscan "$IMG_
 	fi
 done
 
+ensure_loopdev_partitions "$LOOP_DEV"
 BOOT_DEV="${LOOP_DEV}p1"
 ROOT_DEV="${LOOP_DEV}p2"
 
