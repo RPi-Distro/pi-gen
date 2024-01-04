@@ -111,3 +111,17 @@ ensure_next_loopdev() {
 	[[ -b "$loopdev" ]] || mknod "$loopdev" b 7 "$loopmaj"
 }
 export -f ensure_next_loopdev
+
+ensure_loopdev_partitions() {
+	local line
+	local partition
+	local majmin
+	lsblk -r -n -o "NAME,MAJ:MIN" "$1" | grep -v "^${1#/dev/} " | while read -r line; do
+		partition="${line%% *}"
+		majmin="${line#* }"
+		if [ ! -b "/dev/$partition" ]; then
+			mknod "/dev/$partition" b "${majmin%:*}" "${majmin#*:}"
+		fi
+	done
+}
+export -f ensure_loopdev_partitions
