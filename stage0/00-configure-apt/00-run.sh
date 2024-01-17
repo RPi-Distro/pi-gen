@@ -14,8 +14,13 @@ fi
 
 cat files/raspberrypi.gpg.key | gpg --dearmor > "${STAGE_WORK_DIR}/raspberrypi-archive-stable.gpg"
 install -m 644 "${STAGE_WORK_DIR}/raspberrypi-archive-stable.gpg" "${ROOTFS_DIR}/etc/apt/trusted.gpg.d/"
-on_chroot << EOF
-dpkg --add-architecture armhf
-apt-get update
-apt-get dist-upgrade -y
+on_chroot <<- \EOF
+	ARCH="$(dpkg --print-architecture)"
+	if [ "$ARCH" = "armhf" ]; then
+		dpkg --add-architecture arm64
+	elif [ "$ARCH" = "arm64" ]; then
+		dpkg --add-architecture armhf
+	fi
+	apt-get update
+	apt-get dist-upgrade -y
 EOF

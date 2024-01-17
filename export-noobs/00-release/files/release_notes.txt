@@ -1,4 +1,6 @@
 UNRELEASED:
+  * Fix Raspberry Pi Imager's WLAN configuration for lite images
+2023-12-05:
   * Serial port switching in rc_gui and raspi-config modified to support Raspberry Pi 5
   * Touch screens now identified with unique per-device strings to enable correct association with display devices
   * Compatibility with RP1 displays added
