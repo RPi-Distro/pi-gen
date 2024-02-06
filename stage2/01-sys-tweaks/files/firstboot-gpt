@@ -1,0 +1,53 @@
+#!/bin/sh
+
+set -e
+
+case "${1}" in
+  prereqs)
+    exit 0
+    ;;
+esac
+
+if ! grep -q firstboot /proc/cmdline; then
+  exit 0
+fi
+
+get_variables () {
+  set +e # This function does not work as intended with -e
+  local_device_setup "$ROOT" "root file system"
+  set -e
+  ROOT_PART_NAME="$(lsblk -no kname "$DEV")"
+
+  ROOT_DEV_NAME="$(lsblk -no pkname "$DEV")"
+  ROOT_DEV="/dev/$ROOT_DEV_NAME"
+
+  ROOT_PART_NUM=$(cat "/sys/block/$ROOT_DEV_NAME/$ROOT_PART_NAME/partition")
+}
+
+do_resize () {
+  # Increase GPT to maximum size
+  if ! sgdisk -e "$ROOT_DEV"; then
+    FAIL_REASON="Moving GPT backup header failed\n$FAIL_REASON"
+    return 1
+  fi
+
+  # Increase root partition to maximum size
+  if ! parted -s "$ROOT_DEV" "resizepart $ROOT_PART_NUM 100%"; then
+    FAIL_REASON="Resize of the root partition ($DEV) failed\n$FAIL_REASON"
+    return 1
+  fi
+
+  # Filesystem cannot be resized when it's not mounted. It's done by resizefs_once
+}
+
+. /scripts/functions
+. /scripts/local
+
+log_begin_msg "Resizing root partition..."
+
+get_variables
+do_resize
+
+log_end_msg
+
+exit 0

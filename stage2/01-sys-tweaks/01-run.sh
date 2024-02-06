@@ -8,6 +8,10 @@ install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
 
 install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
 
+install -m 755 files/sgdisk-hook		"${ROOTFS_DIR}/etc/initramfs-tools/hooks/sgdisk"
+# This override firstboot from /usr/share/initramfs-tools because it does not support gpt (and btrfs)
+install -m 755 files/firstboot-gpt		"${ROOTFS_DIR}/etc/initramfs-tools/scripts/local-premount/firstboot"
+
 if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
 	install -v -m 0700 -o 1000 -g 1000 -d "${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh
 	echo "${PUBKEY_SSH_FIRST_USER}" >"${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh/authorized_keys
