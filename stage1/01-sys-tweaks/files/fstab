@@ -1,3 +1,5 @@
 proc            /proc           proc    defaults          0       0
 BOOTDEV  /boot/firmware  vfat    defaults          0       2
-ROOTDEV  /               ext4    defaults,noatime  0       1
+ROOTDEV  /               btrfs   subvol=@,defaults,noatime  0       1
+ROOTDEV  /home           btrfs   subvol=@home,defaults,noatime  0       1
+ROOTDEV  /var/lib        btrfs   subvol=@var-lib,defaults,noatime  0       1

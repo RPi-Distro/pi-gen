@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          resize2fs_once
+# Provides:          resizefs_once
 # Required-Start:
 # Required-Stop:
 # Default-Start: 3
@@ -11,11 +11,10 @@
 . /lib/lsb/init-functions
 case "$1" in
   start)
-    log_daemon_msg "Starting resize2fs_once"
-    ROOT_DEV=$(findmnt / -o source -n) &&
-    resize2fs $ROOT_DEV &&
-    update-rc.d resize2fs_once remove &&
-    rm /etc/init.d/resize2fs_once &&
+    log_daemon_msg "Starting resizefs_once"
+    btrfs filesystem resize max / &&
+    update-rc.d resizefs_once remove &&
+    rm /etc/init.d/resizefs_once &&
     log_end_msg $?
     ;;
   *)

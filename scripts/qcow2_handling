@@ -56,9 +56,13 @@ export -f disconnect_blkdev
 # mount qcow2 image: mount_image <image file> <mountpoint>
 mount_qimage() {
 	connect_blkdev "$1"
-	mount -v -t ext4 $MAP_ROOT_DEV "$2"
-	mkdir -p "${ROOTFS_DIR}/boot"
+	mount -v -t btrfs -o subvol=@ $MAP_ROOT_DEV "$2"
+	mkdir -p "${ROOTFS_DIR}/home" "${ROOTFS_DIR}/var/lib" "${ROOTFS_DIR}/boot"
+
+	mount -v -t btrfs -o subvol=@home $MAP_ROOT_DEV "${$2}/home"
+	mount -v -t btrfs -o subvol=@var-lib $MAP_ROOT_DEV "${$2}/var/lib"
 	mount -v -t vfat $MAP_BOOT_DEV "$2/boot"
+
 	CURRENT_MOUNTPOINT="$2"
 }
 export -f mount_qimage
@@ -110,7 +114,7 @@ EOF
 				sync
 				kpartx -as $NBD_DEV
 				mkdosfs -n boot -F 32 -s 4 -v $MAP_BOOT_DEV
-				mkfs.ext4 -L rootfs -O "^huge_file,^64bit" $MAP_ROOT_DEV
+				mkfs.btrfs -L rootfs $MAP_ROOT_DEV
 				sync
 			else
 				if [ ! -f "${WORK_DIR}/image-${PREV_STAGE}.qcow2" ]; then
@@ -126,9 +130,21 @@ EOF
 				kpartx -as $NBD_DEV
 			fi
 
-			mount -v -t ext4 $MAP_ROOT_DEV "${ROOTFS_DIR}"
-			mkdir -p "${ROOTFS_DIR}/boot"
+			mount -v -t btrfs $MAP_ROOT_DEV "${ROOTFS_DIR}"
+			cd "${ROOTFS_DIR}"
+			btrfs subvolume create @
+			btrfs subvolume create @home
+			btrfs subvolume create @var-lib
+			cd -
+			umount "${ROOTFS_DIR}"
+
+			mount -v -t btrfs -o subvol=@ $MAP_ROOT_DEV "${ROOTFS_DIR}"
+			mkdir -p "${ROOTFS_DIR}/home" "${ROOTFS_DIR}/var/lib" "${ROOTFS_DIR}/boot"
+
+			mount -v -t btrfs $MAP_ROOT_DEV "${ROOTFS_DIR}/home" -o subvol=@home
+			mount -v -t btrfs $MAP_ROOT_DEV "${ROOTFS_DIR}/var/lib" -o subvol=@var-lib
 			mount -v -t vfat $MAP_BOOT_DEV "${ROOTFS_DIR}/boot"
+
 			CURRENT_IMAGE=${WORK_DIR}/image-${STAGE}.qcow2
 			CURRENT_MOUNTPOINT=${ROOTFS_DIR}
 			popd > /dev/null
@@ -160,17 +176,17 @@ function resize_qcow2() {
 	# ROOT_MARGIN=$((800*1024*1024))
 	ROOT_MARGIN=$((1*1024*1024))
 	PARTED_OUT=`parted -s -m "$NBD_DEV" unit B print`
-	PART_NO=`echo "$PARTED_OUT" | grep ext4 | awk -F: ' { print $1 } '`
-	PART_START=`echo "$PARTED_OUT" | grep ext4 | awk -F: ' { print substr($2,1,length($2)-1) } '`
+	PART_NO=`echo "$PARTED_OUT" | grep btrfs | awk -F: ' { print $1 } '`
+	PART_START=`echo "$PARTED_OUT" | grep btrfs | awk -F: ' { print substr($2,1,length($2)-1) } '`
 
-	e2fsck -y -f $MAP_ROOT_DEV || true
+	btrfs check $MAP_ROOT_DEV || true
 
-	DATA_SIZE=`resize2fs -P $MAP_ROOT_DEV | awk -F': ' ' { print $2 } '`
-	BLOCK_SIZE=$(dumpe2fs -h $MAP_ROOT_DEV | grep 'Block size' | awk -F': ' ' { print $2 }')
-	BLOCK_SIZE=${BLOCK_SIZE// /}
+	FREE_SIZE=`btrfs filesystem usage -b $MAP_ROOT_DEV | grep "Free (estimated)" | awk '{ print $5 }' | tr -d ')'`
 
-	let DATA_SIZE=$DATA_SIZE+$ROOT_MARGIN/$BLOCK_SIZE
-	resize2fs -p $MAP_ROOT_DEV $DATA_SIZE
+	let FREE_SIZE=$FREE_SIZE-$ROOT_MARGIN
+	mount -v -t btrfs $MAP_ROOT_DEV "${ROOTFS_DIR}"
+	btrfs filesystem resize -$FREE_SIZE "${ROOTFS_DIR}"
+	umount "${ROOTFS_DIR}"
 	sleep 1
 
 	let PART_NEW_SIZE=$DATA_SIZE*$BLOCK_SIZE

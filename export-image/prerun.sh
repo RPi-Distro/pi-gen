@@ -31,7 +31,7 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 
 	parted --script "${IMG_FILE}" mklabel msdos
 	parted --script "${IMG_FILE}" unit B mkpart primary fat32 "${BOOT_PART_START}" "$((BOOT_PART_START + BOOT_PART_SIZE - 1))"
-	parted --script "${IMG_FILE}" unit B mkpart primary ext4 "${ROOT_PART_START}" "$((ROOT_PART_START + ROOT_PART_SIZE - 1))"
+	parted --script "${IMG_FILE}" unit B mkpart primary btrfs "${ROOT_PART_START}" "$((ROOT_PART_START + ROOT_PART_SIZE - 1))"
 
 	echo "Creating loop device..."
 	cnt=0
@@ -50,17 +50,23 @@ if [ "${NO_PRERUN_QCOW2}" = "0" ]; then
 	BOOT_DEV="${LOOP_DEV}p1"
 	ROOT_DEV="${LOOP_DEV}p2"
 
-	ROOT_FEATURES="^huge_file"
-	for FEATURE in 64bit; do
-	if grep -q "$FEATURE" /etc/mke2fs.conf; then
-		ROOT_FEATURES="^$FEATURE,$ROOT_FEATURES"
-	fi
-	done
 	mkdosfs -n bootfs -F 32 -s 4 -v "$BOOT_DEV" > /dev/null
-	mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" > /dev/null
+	mkfs.btrfs -L rootfs "$ROOT_DEV" > /dev/null
 
-	mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t ext4
-	mkdir -p "${ROOTFS_DIR}/boot/firmware"
+	# Create subvolumes for common directories
+	mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t btrfs
+	cd "${ROOTFS_DIR}"
+	btrfs subvolume create @
+	btrfs subvolume create @home
+	btrfs subvolume create @var-lib
+	cd -
+	umount "${ROOTFS_DIR}"
+
+	mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t btrfs -o subvol=@
+	mkdir -p "${ROOTFS_DIR}/home" "${ROOTFS_DIR}/var/lib" "${ROOTFS_DIR}/boot/firmware"
+
+	mount -v "$ROOT_DEV" "${ROOTFS_DIR}/home" -t btrfs -o subvol=@home
+	mount -v "$ROOT_DEV" "${ROOTFS_DIR}/var/lib" -t btrfs -o subvol=@var-lib
 	mount -v "$BOOT_DEV" "${ROOTFS_DIR}/boot/firmware" -t vfat
 
 	rsync -aHAXx --exclude /var/cache/apt/archives --exclude /boot/firmware "${EXPORT_ROOTFS_DIR}/" "${ROOTFS_DIR}/"
