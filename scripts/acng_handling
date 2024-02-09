@@ -1,0 +1,45 @@
+#!/bin/bash
+
+source "${SCRIPT_DIR}/common"
+
+function write_config() {
+	echo \
+		"CacheDir: $(pwd)/cache/apt-cacher-ng/data 
+LogDir: $(pwd)/cache/apt-cacher-ng/log
+SupportDir: /usr/lib/apt-cacher-n
+ReportPage: acng-report.html
+Offlinemode: ${USE_CACHED_DATA}
+Port:3143
+ExThreshold: 4
+LocalDirs: acng-doc /usr/share/doc/apt-cacher-ng" \
+		> cache/apt-cacher-ng/conf/acng.conf
+}
+
+function init_acng() {
+	mkdir -p cache/apt-cacher-ng/conf 
+	mkdir -p cache/apt-cacher-ng/log
+	mkdir -p cache/apt-cacher-ng/data
+	write_config
+	apt-cacher-ng -c cache/apt-cacher-ng/conf  &
+	sleep 1
+	pid_acng=$(ps -A | grep 'apt-cacher-ng' | awk '{print $1}')
+
+	if [ -z "${pid_acng}" ]; then
+		echo "apt-cacher-ng failed to start correctly"
+		exit 1
+	fi
+	echo "Started apt-cacher-ng PID: ${pid_acng}"
+
+	APT_PROXY="http://localhost:3143"
+}
+
+export -f init_acng
+
+function shutdown_acng() {
+	if [ -n "${pid_acng}" ]; then
+		log "Stopping apt-cacher-ng"
+		kill ${pid_acng}
+	fi
+}
+
+export -f shutdown_acng

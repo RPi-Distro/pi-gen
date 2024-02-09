@@ -15,7 +15,7 @@ To install the required dependencies for `pi-gen` you should run:
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-qemu-utils kpartx gpg pigz
+qemu-utils kpartx gpg pigz apt-cacher-ng
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -103,6 +103,20 @@ The following environment variables are supported:
        docker-compose up -d
        echo 'APT_PROXY=http://172.17.0.1:3142' >> config
 
+* `ENABLE_CACHING` (Default: 0)
+
+   Setting `ENABLE_CACHING` to `1` enables caching during the build process. 
+   Cached data is stored in the `cache/` directory, allowing you to build the system with an internet connection and cache the required packages.
+
+   To perform an offline build, set `USE_CACHED_DATA` to `1`. 
+   This instructs `pi-gen` to use the cached packages stored in the `cache/` directory during the build, 
+   eliminating the need for an internet connection.
+
+   `USE_CACHED_DATA` (Default: 0)
+
+   **CAUTION**: Please note that when `ENABLE_CACHING` is set to `1`, the `APT_PROXY` variable is 
+   overridden and is not available for use during the build.
+       
  * `BASE_DIR`  (Default: location of `build.sh`)
 
    **CAUTION**: Currently, changing this value will probably break build.sh
