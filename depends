@@ -19,6 +19,7 @@ lsmod:kmod
 bc
 qemu-nbd:qemu-utils
 kpartx
+sgdisk:gdisk
 gpg
 pigz
 btrfs:btrfs-progs

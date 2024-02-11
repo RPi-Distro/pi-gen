@@ -88,6 +88,11 @@ The following environment variables are supported:
    The type of the root file system. By default an _ext4_ file system is created. Other supported root
    file systems are _btrfs_.
 
+* `PARTITION_TABLE_TYPE` (Default: msdos)
+
+   The type of the partition table. By default an _msdos_ (MBR) table is created. Other supported partition table
+   types are _gpt_. Use the latter if your device is larger than 2TB.
+
 * `RELEASE` (Default: bookworm)
 
    The release version to build images against. Valid values are any supported

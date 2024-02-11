@@ -22,17 +22,20 @@ get_variables () {
   ROOT_DEV="/dev/$ROOT_DEV_NAME"
 
   ROOT_PART_NUM=$(cat "/sys/block/$ROOT_DEV_NAME/$ROOT_PART_NAME/partition")
-
-  ROOT_DEV_SIZE=$(cat "/sys/block/$ROOT_DEV_NAME/size")
-  TARGET_END="$((ROOT_DEV_SIZE - 1))"
-  if [ "$TARGET_END" -gt 4294967295 ]; then
-    TARGET_END=4294967295
-  fi
 }
 
 do_resize () {
-  if ! parted -m "$ROOT_DEV" u s resizepart "$ROOT_PART_NUM" "$TARGET_END"; then
-    FAIL_REASON="Partition table resize of the root partition ($DEV) failed\n$FAIL_REASON"
+  if parted -s -m -l "$ROOT_DEV" | grep -q ':gpt:'; then
+    # Increase GPT to maximum size
+    if ! sgdisk -e "$ROOT_DEV"; then
+      FAIL_REASON="Moving GPT backup header failed\n$FAIL_REASON"
+      return 1
+    fi
+  fi
+
+  # Increase root partition to maximum size
+  if ! parted -s "$ROOT_DEV" "resizepart $ROOT_PART_NUM 100%"; then
+    FAIL_REASON="Resize of the root partition ($DEV) failed\n$FAIL_REASON"
     return 1
   fi
 
