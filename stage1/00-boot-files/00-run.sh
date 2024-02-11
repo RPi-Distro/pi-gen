@@ -7,6 +7,12 @@ if ! [ -L "${ROOTFS_DIR}/boot/overlays" ]; then
 fi
 
 install -m 644 files/cmdline.txt "${ROOTFS_DIR}/boot/firmware/"
+sed -i "s|FILE_SYSTEM_TYPE|${FILE_SYSTEM_TYPE}|" "${ROOTFS_DIR}/boot/firmware/cmdline.txt"
+if [ "${FILE_SYSTEM_TYPE}" == "btrfs" ]; then
+	ROOT_FLAGS="rootflags=subvol=@"
+fi
+sed -i "s|ROOT_FLAGS|${ROOT_FLAGS}|" "${ROOTFS_DIR}/boot/firmware/cmdline.txt"
+
 install -m 644 files/config.txt "${ROOTFS_DIR}/boot/firmware/"
 
 for file in cmdline.txt config.txt; do

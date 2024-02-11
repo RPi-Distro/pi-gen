@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# Resizes the root BTRFS file system to maximum size.
+#
+
+set -e
+
+case "${1}" in
+  prereqs)
+    exit 0
+    ;;
+esac
+
+if ! grep -q firstboot /proc/cmdline; then
+  exit 0
+fi
+
+. /scripts/functions
+. /scripts/local
+
+if [ "$ROOTFSTYPE" == "btrfs" ]; then
+  log_begin_msg "Resizing BTRFS root filesystem...\n\nDepending on storage size and speed, this may take a while."
+
+  mount -o remount,rw ${rootmnt}
+  btrfs filesystem resize max ${rootmnt}
+  if [ "$readonly" == "y" ]; then
+    mount -o remount,ro ${rootmnt}
+  fi
+
+  log_end_msg
+fi
+
+exit 0

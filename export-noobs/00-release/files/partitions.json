@@ -10,9 +10,9 @@
             "sha256sum": "BOOT_SHASUM"
         },
         {
-            "filesystem_type": "ext4",
+            "filesystem_type": "FILE_SYSTEM_TYPE",
             "label": "root",
-            "mkfs_options": "-O ^huge_file",
+            "mkfs_options": "MKFS_OPTIONS",
             "partition_size_nominal": ROOT_NOM,
             "uncompressed_tarball_size": ROOT_SIZE,
             "want_maximised": true,

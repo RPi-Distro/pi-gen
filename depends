@@ -21,3 +21,4 @@ qemu-nbd:qemu-utils
 kpartx
 gpg
 pigz
+btrfs:btrfs-progs

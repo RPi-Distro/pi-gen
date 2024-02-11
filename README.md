@@ -14,7 +14,7 @@ To install the required dependencies for `pi-gen` you should run:
 
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
-dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
+dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc btrfs-progs \
 qemu-utils kpartx gpg pigz
 ```
 
@@ -82,6 +82,11 @@ The following environment variables are supported:
     **CAUTION:**  Although the qcow2 build mechanism will run fine inside Docker, it can happen
     that the network block device is not disconnected correctly after the Docker process has
     ended abnormally. In that case see [Disconnect an image if something went wrong](#Disconnect-an-image-if-something-went-wrong)
+
+* `FILE_SYSTEM_TYPE` (Default: ext4)
+
+   The type of the root file system. By default an _ext4_ file system is created. Other supported root
+   file systems are _btrfs_.
 
 * `RELEASE` (Default: bookworm)
 

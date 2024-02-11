@@ -1,0 +1,63 @@
+#!/bin/sh
+
+set -e
+
+case "${1}" in
+  prereqs)
+    exit 0
+    ;;
+esac
+
+if ! grep -q firstboot /proc/cmdline; then
+  exit 0
+fi
+
+get_variables () {
+  set +e # This function does not work as intended with -e
+  local_device_setup "$ROOT" "root file system"
+  set -e
+  ROOT_PART_NAME="$(lsblk -no kname "$DEV")"
+
+  ROOT_DEV_NAME="$(lsblk -no pkname "$DEV")"
+  ROOT_DEV="/dev/$ROOT_DEV_NAME"
+
+  ROOT_PART_NUM=$(cat "/sys/block/$ROOT_DEV_NAME/$ROOT_PART_NAME/partition")
+
+  ROOT_DEV_SIZE=$(cat "/sys/block/$ROOT_DEV_NAME/size")
+  TARGET_END="$((ROOT_DEV_SIZE - 1))"
+  if [ "$TARGET_END" -gt 4294967295 ]; then
+    TARGET_END=4294967295
+  fi
+}
+
+do_resize () {
+  if ! parted -m "$ROOT_DEV" u s resizepart "$ROOT_PART_NUM" "$TARGET_END"; then
+    FAIL_REASON="Partition table resize of the root partition ($DEV) failed\n$FAIL_REASON"
+    return 1
+  fi
+
+  if [ "$ROOTFSTYPE" == "ext4" ]; then
+    resize2fs -f -p "$DEV"
+    RET="$?"
+    if [ "$RET" -ne 0 ]; then
+      FAIL_REASON="Root partition resize failed\n$FAIL_REASON"
+    fi
+    return "$RET"
+  fi
+}
+
+. /scripts/functions
+. /scripts/local
+
+if [ "$ROOTFSTYPE" == "ext4" ]; then
+  log_begin_msg "Resizing root partition and filesystem...\n\nDepending on storage size and speed, this may take a while."
+else
+  log_begin_msg "Resizing root partition..."
+fi
+
+get_variables
+do_resize
+
+log_end_msg
+
+exit 0

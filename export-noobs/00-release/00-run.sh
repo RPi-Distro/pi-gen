@@ -24,6 +24,12 @@ ROOT_NOM="$(echo "$ROOT_SIZE" | awk '{printf "%.0f", (($1 + 400) * 1.2) + 0.5 }'
 
 mv "${NOOBS_DIR}/OS.png" "${NOOBS_DIR}/${NOOBS_NAME// /_}.png"
 
+sed "${NOOBS_DIR}/partitions.json" -i -e "s|FILE_SYSTEM_TYPE|${FILE_SYSTEM_TYPE}|"
+if [ "${FILE_SYSTEM_TYPE}" == "ext4" ]; then
+	MKFS_OPTIONS="-O ^huge_file"
+fi
+sed "${NOOBS_DIR}/partitions.json" -i -e "s|MKFS_OPTIONS|${MKFS_OPTIONS}|"
+
 sed "${NOOBS_DIR}/partitions.json" -i -e "s|BOOT_SHASUM|${BOOT_SHASUM}|"
 sed "${NOOBS_DIR}/partitions.json" -i -e "s|ROOT_SHASUM|${ROOT_SHASUM}|"
 

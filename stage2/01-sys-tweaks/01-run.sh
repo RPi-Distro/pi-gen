@@ -1,12 +1,16 @@
 #!/bin/bash -e
 
-install -m 755 files/resize2fs_once	"${ROOTFS_DIR}/etc/init.d/"
+# This overrides firstboot from /usr/share/initramfs-tools because it only supports ext4
+install -m 755 files/firstboot	"${ROOTFS_DIR}/etc/initramfs-tools/scripts/local-premount/"
+install -m 755 files/resize-btrfs-once	"${ROOTFS_DIR}/etc/initramfs-tools/scripts/local-bottom/"
 
 install -m 644 files/50raspi		"${ROOTFS_DIR}/etc/apt/apt.conf.d/"
 
 install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
 
 install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
+
+sed -i "s| rootwait| rootwait quiet init=/usr/lib/raspberrypi-sys-mods/firstboot|" "${ROOTFS_DIR}/boot/firmware/cmdline.txt"
 
 if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
 	install -v -m 0700 -o 1000 -g 1000 -d "${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh
@@ -35,14 +39,7 @@ EOF
 if [ "${USE_QEMU}" = "1" ]; then
 	echo "enter QEMU mode"
 	install -m 644 files/90-qemu.rules "${ROOTFS_DIR}/etc/udev/rules.d/"
-	on_chroot << EOF
-systemctl disable resize2fs_once
-EOF
 	echo "leaving QEMU mode"
-else
-	on_chroot << EOF
-systemctl enable resize2fs_once
-EOF
 fi
 
 on_chroot <<EOF
