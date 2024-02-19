@@ -90,7 +90,7 @@ The following environment variables are supported:
    Debian release. However, since different releases will have different sets of
    packages available, you'll need to either modify your stages accordingly, or
    checkout the appropriate branch. For example, if you'd like to build a
-   `bookworm` image, you should do so from the `bookworm` branch.
+   `bullseye` image, you should do so from the `bullseye` branch.
 
  * `APT_PROXY` (Default: unset)
 
