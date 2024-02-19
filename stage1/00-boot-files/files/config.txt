@@ -33,11 +33,6 @@ dvfs=1
 dtoverlay=disable-wifi
 dtoverlay=disable-bt
 
-# Disable PCIe
-# This is a workaround to an M4 crash that occurs when loading PCIe
-# drivers at boot. PCIe will be enabled after boot by "pcie.service".
-dtparam=pcie=off
-
 [pi4]
 # Enable DRM VC4 V3D driver on top of the dispmanx display stack
 dtoverlay=vc4-fkms-v3d
