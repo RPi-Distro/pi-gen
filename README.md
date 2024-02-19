@@ -235,7 +235,7 @@ The following environment variables are supported:
 A simple example for building Raspberry Pi OS:
 
 ```bash
-IMG_NAME='Raspberry Pi OS'
+IMG_NAME='raspios'
 ```
 
 The config file can also be specified on the command line as an argument the `build.sh` or `build-docker.sh` scripts.
