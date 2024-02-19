@@ -1,14 +1,18 @@
 # pi-gen
 
-Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
+Tool used to create Raspberry Pi OS images, and custom images based on Raspberry Pi OS,
+which was in turn derived from the Raspbian project.
 
+**Note**: Raspberry Pi OS 32 bit images are based primarily on Raspbian, while
+Raspberry Pi OS 64 bit images are based primarily on Debian.
 
 ## Dependencies
 
-pi-gen runs on Debian-based operating systems. Currently it is only supported on
-either Debian Buster or Ubuntu Xenial and is known to have issues building on
-earlier releases of these systems. On other Linux distributions it may be possible
-to use the Docker build described below.
+pi-gen runs on Debian-based operating systems released after 2017, and we
+always advise you use the latest OS for security reasons.
+
+On other Linux distributions it may be possible to use the Docker build described
+below.
 
 To install the required dependencies for `pi-gen` you should run:
 
@@ -50,17 +54,16 @@ The following environment variables are supported:
 
  * `IMG_NAME` **required** (Default: unset)
 
-   The name of the image to build with the current stage directories.  Setting
-   `IMG_NAME=Raspbian` is logical for an unmodified RPi-Distro/pi-gen build,
-   but you should use something else for a customized version.  Export files
-   in stages may add suffixes to `IMG_NAME`.
+   The name of the image to build with the current stage directories. Use this
+   variable to set the root name of your OS, eg `IMG_NAME=Frobulator`.
+   Export files in stages may add suffixes to `IMG_NAME`.
 
  * `PI_GEN_RELEASE` (Default: `Raspberry Pi reference`)
 
    The release name to use in `/etc/issue.txt`. The default should only be used
    for official Raspberry Pi builds.
 
-* `USE_QCOW2` **EXPERIMENTAL** (Default: `0` )
+ * `USE_QCOW2` **EXPERIMENTAL** (Default: `0` )
 
     Instead of using traditional way of building the rootfs of every stage in
     single subdirectories and copying over the previous one to the next one,
@@ -73,14 +76,12 @@ The following environment variables are supported:
     * `BASE_QCOW2_SIZE` (Default: 12G)
 
         Size of the virtual qcow2 disk.
-        Note: it will not actually use that much of space at once but defines the
-        maximum size of the virtual disk. If you change the build process by adding
-        a lot of bigger packages or additional build stages, it can be necessary to
-        increase the value because the virtual disk can run out of space like a normal
-        hard drive would.
+        Note: This is a maximum size - not a guaranteed allocation size. You may need
+        to increase the default size if you are building a particularly full image, containing
+        many packages or pre-built artefacts.
 
-    **CAUTION:**  Although the qcow2 build mechanism will run fine inside Docker, it can happen
-    that the network block device is not disconnected correctly after the Docker process has
+    **CAUTION:**  Although the qcow2 build mechanism will run inside Docker, there is a known issue
+    where the network block device is not disconnected correctly after the Docker process has
     ended abnormally. In that case see [Disconnect an image if something went wrong](#Disconnect-an-image-if-something-went-wrong)
 
 * `RELEASE` (Default: bookworm)
@@ -89,7 +90,7 @@ The following environment variables are supported:
    Debian release. However, since different releases will have different sets of
    packages available, you'll need to either modify your stages accordingly, or
    checkout the appropriate branch. For example, if you'd like to build a
-   `buster` image, you should do so from the `buster` branch.
+   `bullseye` image, you should do so from the `bullseye` branch.
 
  * `APT_PROXY` (Default: unset)
 
@@ -231,10 +232,10 @@ The following environment variables are supported:
 
     If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
 
-A simple example for building Raspbian:
+A simple example for building Raspberry Pi OS:
 
 ```bash
-IMG_NAME='Raspbian'
+IMG_NAME='raspios'
 ```
 
 The config file can also be specified on the command line as an argument the `build.sh` or `build-docker.sh` scripts.
@@ -249,17 +250,17 @@ This is parsed after `config` so can be used to override values set there.
 
 The following process is followed to build images:
 
- * Loop through all of the stage directories in alphanumeric order
+ * Interate through all of the stage directories in alphanumeric order
 
- * Move on to the next directory if this stage directory contains a file called
+ * Bypass a stage directory if it contains a file called
    "SKIP"
 
  * Run the script ```prerun.sh``` which is generally just used to copy the build
    directory between stages.
 
- * In each stage directory loop through each subdirectory and then run each of the
-   install scripts it contains, again in alphanumeric order. These need to be named
-   with a two digit padded number at the beginning.
+ * In each stage directory iterate through each subdirectory and then run each of the
+   install scripts it contains, again in alphanumeric order. **These need to be named
+   with a two digit padded number at the beginning.**
    There are a number of different files and directories which can be used to
    control different parts of the build process:
 
@@ -294,7 +295,7 @@ It is recommended to examine build.sh for finer details.
 
 Docker can be used to perform the build inside a container. This partially isolates
 the build from the host system, and allows using the script on non-debian based
-systems (e.g. Fedora Linux). The isolate is not complete due to the need to use
+systems (e.g. Fedora Linux). The isolation is not complete due to the need to use
 some kernel level services for arm emulation (binfmt) and loop devices (losetup).
 
 To build:
@@ -307,7 +308,7 @@ vi config         # Edit your config file. See above.
 If everything goes well, your finished image will be in the `deploy/` folder.
 You can then remove the build container with `docker rm -v pigen_work`
 
-If something breaks along the line, you can edit the corresponding scripts, and
+If you encounter errors during the build, you can edit the corresponding scripts, and
 continue:
 
 ```bash
@@ -351,43 +352,36 @@ maintenance and allows for more easy customization.
    `debootstrap`, which creates a minimal filesystem suitable for use as a
    base.tgz on Debian systems.  This stage also configures apt settings and
    installs `raspberrypi-bootloader` which is missed by debootstrap.  The
-   minimal core is installed but not configured, and the system will not quite
-   boot yet.
+   minimal core is installed but not configured. As a result, this stage will not boot.
 
  - **Stage 1** - truly minimal system.  This stage makes the system bootable by
    installing system files like `/etc/fstab`, configures the bootloader, makes
    the network operable, and installs packages like raspi-config.  At this
    stage the system should boot to a local console from which you have the
    means to perform basic tasks needed to configure and install the system.
-   This is as minimal as a system can possibly get, and its arguably not
-   really usable yet in a traditional sense yet.  Still, if you want minimal,
-   this is minimal and the rest you could reasonably do yourself as sysadmin.
 
- - **Stage 2** - lite system.  This stage produces the Raspbian-Lite image.  It
-   installs some optimized memory functions, sets timezone and charmap
+ - **Stage 2** - lite system.  This stage produces the Raspberry Pi OS Lite image.
+   Stage 2 installs some optimized memory functions, sets timezone and charmap
    defaults, installs fake-hwclock and ntp, wireless LAN and bluetooth support,
    dphys-swapfile, and other basics for managing the hardware.  It also
    creates necessary groups and gives the pi user access to sudo and the
    standard console hardware permission groups.
 
-   There are a few tools that may not make a whole lot of sense here for
-   development purposes on a minimal system such as basic Python and Lua
-   packages as well as the `build-essential` package.  They are lumped right
-   in with more essential packages presently, though they need not be with
-   pi-gen.  These are understandable for Raspbian's target audience, but if
-   you were looking for something between truly minimal and Raspbian-Lite,
-   here's where you start trimming.
+   Note: Raspberry Pi OS Lite contains a number of tools for development,
+   including `Python`, `Lua` and the `build-essential` package. If you are
+   creating an image to deploy in products, be sure to remove extraneous development
+   tools before deployment.
 
  - **Stage 3** - desktop system.  Here's where you get the full desktop system
-   with X11 and LXDE, web browsers, git for development, Raspbian custom UI
+   with X11 and LXDE, web browsers, git for development, Raspberry Pi OS custom UI
    enhancements, etc.  This is a base desktop system, with some development
    tools installed.
 
- - **Stage 4** - Normal Raspbian image. System meant to fit on a 4GB card. This is the
-   stage that installs most things that make Raspbian friendly to new
-   users like system documentation.
+ - **Stage 4** - Normal Raspberry Pi OS image. System meant to fit on a 4GB card.
+   This is the    stage that installs most things that make Raspberry Pi OS friendly
+   to new users - e.g. system documentation.
 
- - **Stage 5** - The Raspbian Full image. More development
+ - **Stage 5** - The Raspberry Pi OS Full image. More development
    tools, an email client, learning tools like Scratch, specialized packages
    like sonic-pi, office productivity, etc.
 
@@ -402,7 +396,7 @@ to `./stage2` (if building a minimal system).
 
 ```bash
 # Example for building a lite system
-echo "IMG_NAME='Raspbian'" > config
+echo "IMG_NAME='raspios'" > config
 touch ./stage3/SKIP ./stage4/SKIP ./stage5/SKIP
 touch ./stage4/SKIP_IMAGES ./stage5/SKIP_IMAGES
 sudo ./build.sh  # or ./build-docker.sh
