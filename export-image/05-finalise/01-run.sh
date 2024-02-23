@@ -83,24 +83,17 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 	dpkg -l --root "$ROOTFS_DIR"
 } >> "$INFO_FILE"
 
+ROOT_DEV="$(mount | grep "${ROOTFS_DIR} " | cut -f1 -d' ')"
+
+unmount "${ROOTFS_DIR}"
+zerofree "${ROOT_DEV}"
+
+unmount_image "${IMG_FILE}"
+
 mkdir -p "${DEPLOY_DIR}"
 
 rm -f "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.*"
 rm -f "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
-
-mv "$INFO_FILE" "$DEPLOY_DIR/"
-
-if [ "${USE_QCOW2}" = "0" ] && [ "${NO_PRERUN_QCOW2}" = "0" ]; then
-	ROOT_DEV="$(mount | grep "${ROOTFS_DIR} " | cut -f1 -d' ')"
-
-	unmount "${ROOTFS_DIR}"
-	zerofree "${ROOT_DEV}"
-
-	unmount_image "${IMG_FILE}"
-else
-	unload_qimage
-	make_bootable_image "${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.qcow2" "$IMG_FILE"
-fi
 
 case "${DEPLOY_COMPRESSION}" in
 zip)
@@ -121,3 +114,5 @@ none | *)
 	cp "$IMG_FILE" "$DEPLOY_DIR/"
 ;;
 esac
+
+cp "$INFO_FILE" "$DEPLOY_DIR/"

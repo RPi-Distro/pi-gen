@@ -19,7 +19,7 @@ To install the required dependencies for `pi-gen` you should run:
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-qemu-utils kpartx gpg pigz
+gpg pigz
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -62,27 +62,6 @@ The following environment variables are supported:
 
    The release name to use in `/etc/issue.txt`. The default should only be used
    for official Raspberry Pi builds.
-
- * `USE_QCOW2` **EXPERIMENTAL** (Default: `0` )
-
-    Instead of using traditional way of building the rootfs of every stage in
-    single subdirectories and copying over the previous one to the next one,
-    qcow2 based virtual disks with backing images are used in every stage.
-    This speeds up the build process and reduces overall space consumption
-    significantly.
-
-    <u>Additional optional parameters regarding qcow2 build:</u>
-
-    * `BASE_QCOW2_SIZE` (Default: 12G)
-
-        Size of the virtual qcow2 disk.
-        Note: This is a maximum size - not a guaranteed allocation size. You may need
-        to increase the default size if you are building a particularly full image, containing
-        many packages or pre-built artefacts.
-
-    **CAUTION:**  Although the qcow2 build mechanism will run inside Docker, there is a known issue
-    where the network block device is not disconnected correctly after the Docker process has
-    ended abnormally. In that case see [Disconnect an image if something went wrong](#Disconnect-an-image-if-something-went-wrong)
 
 * `RELEASE` (Default: bookworm)
 
@@ -422,71 +401,6 @@ follows:
  * Rebuild just the last stage using ```sudo CLEAN=1 ./build.sh```
  * Once you're happy with the image you can remove the SKIP_IMAGES files and
    export your image to test
-
-# Regarding Qcow2 image building
-
-### Get infos about the image in use
-
-If you issue the two commands shown in the example below in a second command shell while a build
-is running you can find out, which network block device is currently being used and which qcow2 image
-is bound to it.
-
-Example:
-
-```bash
-root@build-machine:~/$ lsblk | grep nbd
-nbd1      43:32   0    10G  0 disk
-├─nbd1p1  43:33   0    10G  0 part
-└─nbd1p1 253:0    0    10G  0 part
-
-root@build-machine:~/$ ps xa | grep qemu-nbd
- 2392 pts/6    S+     0:00 grep --color=auto qemu-nbd
-31294 ?        Ssl    0:12 qemu-nbd --discard=unmap -c /dev/nbd1 image-stage4.qcow2
-```
-
-Here you can see, that the qcow2 image `image-stage4.qcow2` is currently connected to `/dev/nbd1` with
-the associated partition map `/dev/mapper/nbd1p1`. Don't worry that `lsblk` shows two entries. It is totally fine, because the device map is accessible via `/dev/mapper/nbd1p1` and also via `/dev/dm-0`. This is all part of the device mapper functionality of the kernel. See `dmsetup` for further information.
-
-### Mount a qcow2 image
-
-If you want to examine the content of a a single stage, you can simply mount the qcow2 image found in the `WORK_DIR` directory with the tool `./imagetool.sh`.
-
-See `./imagetool.sh -h` for further details on how to use it.
-
-### Disconnect an image if something went wrong
-
-It can happen, that your build stops in case of an error. Normally `./build.sh` should handle image disconnection appropriately, but in rare cases, especially during a Docker build, this may not work as expected. If that happens, starting a new build will fail and you may have to disconnect the image and/or device yourself.
-
-A typical message indicating that there are some orphaned device mapper entries is this:
-
-```
-Failed to set NBD socket
-Disconnect client, due to: Unexpected end-of-file before all bytes were read
-```
-
-If that happens go through the following steps:
-
-1. First, check if the image is somehow mounted to a directory entry and umount it as you would any other block device, like i.e. a hard disk or USB stick.
-
-2. Second, to disconnect an image from `qemu-nbd`, the QEMU Disk Network Block Device Server, issue the following command (be sure to change the device name to the one actually used):
-
-   ```bash
-   sudo qemu-nbd -d /dev/nbd1
-   ```
-
-   Note: if you use Docker build, normally no active `qemu-nbd` process exists anymore as it will be terminated when the Docker container stops.
-
-3. To disconnect a device partition map from the network block device, execute:
-
-   ```bash
-   sudo kpartx -d /dev/nbd1
-   or
-   sudo ./imagetool.sh --cleanup
-   ```
-
-   Note: The `imagetool.sh` command will cleanup any /dev/nbdX that is not connected to a running `qemu-nbd` daemon. Be careful if you use network block devices for other tasks utilizing NBDs on your build machine as well.
-
-Now you should be able to start a new build without running into troubles again. Most of the time, especially when using Docker build, you will only need no. 3 to get everything up and running again.
 
 # Troubleshooting
 

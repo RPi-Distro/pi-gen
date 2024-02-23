@@ -41,8 +41,4 @@ bsdtar --numeric-owner --format gnutar -C "${STAGE_WORK_DIR}/rootfs/boot" -cpf -
 umount "${STAGE_WORK_DIR}/rootfs/boot"
 bsdtar --numeric-owner --format gnutar -C "${STAGE_WORK_DIR}/rootfs" --one-file-system -cpf - . | xz -T0 > "${NOOBS_DIR}/root.tar.xz"
 
-if [ "${USE_QCOW2}" = "1" ]; then
-	rm "$ROOTFS_DIR/etc/systemd/system/multi-user.target.wants/apply_noobs_os_config.service"
-fi
-
 unmount_image "${IMG_FILE}"
