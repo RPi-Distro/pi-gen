@@ -123,5 +123,7 @@ ensure_loopdev_partitions() {
 			mknod "/dev/$partition" b "${majmin%:*}" "${majmin#*:}"
 		fi
 	done
+	command -v udevadm >/dev/null 2>&1 || return 0
+	udevadm settle 10
 }
 export -f ensure_loopdev_partitions
