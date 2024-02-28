@@ -1,5 +1,7 @@
---- a/rootfs/etc/skel/.bashrc
-+++ b/rootfs/etc/skel/.bashrc
+Index: stage1/rootfs/etc/skel/.bashrc
+===================================================================
+--- stage1.orig/rootfs/etc/skel/.bashrc
++++ stage1/rootfs/etc/skel/.bashrc
 @@ -43,7 +43,7 @@
  # uncomment for a colored prompt, if the terminal has the capability; turned
  # off by default to not distract the user: the focus in a terminal window

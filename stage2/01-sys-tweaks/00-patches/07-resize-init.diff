@@ -1,3 +1,5 @@
+Index: stage2/rootfs/boot/firmware/cmdline.txt
+===================================================================
 --- stage2.orig/rootfs/boot/firmware/cmdline.txt
 +++ stage2/rootfs/boot/firmware/cmdline.txt
 @@ -1 +1 @@
