@@ -1,6 +1,4 @@
 deploy/*
-stage2-cstm/*
-stage2-klpr/*
 work/*
 config
 postrun.sh
