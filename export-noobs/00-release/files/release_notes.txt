@@ -1,4 +1,31 @@
 UNRELEASED:
+  * Added setting of headless resolution to Screen Configuration
+  * Removed setting of headless resolution for Wayland from Raspberry Pi Configuration
+  * Improved handling of power button on Raspberry Pi 5
+  * Popover windows from taskbar replaced with conventional windows
+  * Shutdown assistant now closes all user processes when logging out
+  * Wayvnc updated to improve compatibility with various VNC clients
+  * Wayvnc now controlled by systemd
+  * Audio icon on taskbar hidden if no audio devices connected
+  * Alternative mouse cursor shown during drag-and-drop operations
+  * raspi-config now allows EEPROM to be upgraded
+  * Speed improvement when opening bluetooth and network menus
+  * Tweaks to display of some widgets under dark theme
+  * Improved compatibility with alternative window managers
+  * Bug fix - prevent multiple file manager confirm dialogs being overlaid
+  * Bug fix - drag-and-drop in file manager causing incorrect files to move
+  * Bug fix - memory leaks in volume and bluetooth menus
+  * Bug fix - GPU load sometimes not correctly reported in plugin and task manager
+  * Bug fix - crash when closing windows with non-GTK headerbars
+  * Bug fix - spurious button hover highlights on touchscreens
+  * Bug fix - windows on other monitors being hidden from taskbar
+  * Bug fix - corrected power monitoring brownout detection
+  * Bug fix - wayfire keyboard layout settings sometimes not loading
+  * Chromium updated to 122.0.6261.89
+  * Firefox updated to 123.0
+  * Raspberry Pi firmware 6e0ae774407d68659b50cfbeb9f493ed16718866
+  * Linux kernel 6.6.20 - 6f16847710cc0502450788b9f12f0a14d3429668
+2023-12-11:
   * Fix Raspberry Pi Imager's WLAN configuration for lite images
 2023-12-05:
   * Serial port switching in rc_gui and raspi-config modified to support Raspberry Pi 5
