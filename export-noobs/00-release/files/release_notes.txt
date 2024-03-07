@@ -1,4 +1,10 @@
 UNRELEASED:
+  * Raspberry Pi firmware 055e044d5359ded1aacc5a17a8e35365373d0b8b
+  * Linux kernel 6.1.21
+2023-12-05:
+  * Raspberry Pi firmware 055e044d5359ded1aacc5a17a8e35365373d0b8b
+  * Linux kernel 6.1.21
+2023-05-03:
   * 64-bit Mathematica added to rp-prefapps
   * Bug fix - occasional segfault in CPU temperature plugin
   * Bug fix - X server crash when changing screen orientation
