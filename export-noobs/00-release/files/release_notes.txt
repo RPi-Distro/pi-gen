@@ -21,6 +21,7 @@ UNRELEASED:
   * Bug fix - windows on other monitors being hidden from taskbar
   * Bug fix - corrected power monitoring brownout detection
   * Bug fix - wayfire keyboard layout settings sometimes not loading
+  * Removed fbturbo xorg video driver as it is no longer useful
   * Chromium updated to 122.0.6261.89
   * Firefox updated to 123.0
   * Raspberry Pi firmware 6e0ae774407d68659b50cfbeb9f493ed16718866
