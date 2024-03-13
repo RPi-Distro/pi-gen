@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2024-03-12:
   * Added setting of headless resolution to Screen Configuration
   * Removed setting of headless resolution for Wayland from Raspberry Pi Configuration
   * Improved handling of power button on Raspberry Pi 5
