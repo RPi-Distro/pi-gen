@@ -19,3 +19,6 @@ rp-prefapps
 ffmpeg
 vlc
 rpi-imager
+
+# ninja-build needed for vscode pico extension
+meson
