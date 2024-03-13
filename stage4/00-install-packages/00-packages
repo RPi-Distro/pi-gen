@@ -20,5 +20,5 @@ ffmpeg
 vlc
 rpi-imager
 
-# ninja-build needed for vscode pico extension
-meson
+# ninja-build and openocd needed for vscode pico extension
+meson openocd
