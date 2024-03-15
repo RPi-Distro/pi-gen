@@ -1,5 +1,11 @@
 UNRELEASED:
-  *
+  * Audio streams will now not be interrupted when other audio devices are connected or disconnected
+  * Keyboard shortcut to install Orca no longer prompts for password, and will now wait for clock synchronisation rather than failing silently
+  * Orca screen reader updated to version 45 with various additional small bug fixes
+  * Obsolete fbturbo video driver removed
+  * Bug fix - saved display resolution settings not reloading under X
+  * Raspberry Pi firmware 6e0ae774407d68659b50cfbeb9f493ed16718866
+  * Linux kernel 6.6.20 - 6f16847710cc0502450788b9f12f0a14d3429668
 2024-03-12:
   * Added setting of headless resolution to Screen Configuration
   * Removed setting of headless resolution for Wayland from Raspberry Pi Configuration
