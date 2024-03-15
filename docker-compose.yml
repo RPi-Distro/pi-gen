@@ -3,6 +3,7 @@ version: '2'
 services:
   apt-cacher-ng:
     restart: unless-stopped
+    network_mode: "bridge"
     image: sameersbn/apt-cacher-ng:latest
     ports:
     - "3142:3142"
