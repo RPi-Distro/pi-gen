@@ -1,0 +1,53 @@
+name: Build Pi image for PRs
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  pre_job:
+    name: Path match check
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          github_token: ${{ github.token }}
+          paths_ignore: '["**.po", "**.json"]'
+  latest_kolibri_release:
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    runs-on: ubuntu-latest
+    outputs:
+      deb-url: ${{ steps.get_latest_kolibri_release.outputs.result }}
+    steps:
+      - name: Get latest Kolibri release
+        id: get_latest_kolibri_release
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+
+            const { data: releases } = await github.rest.repos.listReleases({
+              owner: 'learningequality',
+              repo: 'kolibri',
+              per_page: 1,
+              page: 1,
+            });
+
+            const latestRelease = releases[0];
+            const debAsset = latestRelease.assets.find(asset => asset.name.endsWith('.deb'));
+            const debUrl = debAsset.browser_download_url;
+            return debUrl;
+
+  build_zip:
+    name: Build Image
+    needs: [pre_job, latest_kolibri_release]
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    uses: ./.github/workflows/build_zip.yml
+    with:
+      deb-url: ${{ needs.latest_kolibri_release.outputs.deb-url }}

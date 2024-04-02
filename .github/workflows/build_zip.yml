@@ -10,11 +10,15 @@ on:
   workflow_call:
     inputs:
       deb-file-name:
-        required: true
+        required: false
+        type: string
+      deb-url:
+        description: 'URL for Kolibri deb file'
+        required: false
         type: string
       ref:
         description: 'A ref for this workflow to check out its own repo'
-        required: true
+        required: false
         type: string
     outputs:
       zip-file-name:
@@ -28,6 +32,11 @@ jobs:
     outputs:
       zip-file-name: ${{ steps.get-zip-filename.outputs.zip-file-name }}
     steps:
+    - name: Validate deb reference inputs
+      if: ${{ (inputs.deb-file-name && inputs.deb-url) || (!inputs.deb-file-name && !inputs.deb-url) }}
+      run: |
+        echo "Must specify only one reference for the deb file to build the image with."
+        exit 1
     - uses: actions/checkout@v4
       if: ${{ !inputs.ref }}
     - uses: actions/checkout@v4
@@ -36,8 +45,8 @@ jobs:
         repository: learningequality/pi-gen
         ref: ${{ inputs.ref }}
     - name: Download the debfile from URL and install
-      if: ${{ github.event.inputs.deb-url }}
-      run: make get-deb deb=${{ github.event.inputs.deb-url }}
+      if: ${{ inputs.deb-url }}
+      run: make get-deb deb=${{ inputs.deb-url }}
     - name: Download the debfile from artifacts
       if: ${{ inputs.deb-file-name }}
       uses: actions/download-artifact@v4
