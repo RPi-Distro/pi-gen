@@ -55,6 +55,8 @@ jobs:
         path: dist
     - name: Build the pi image
       run: ./build-docker.sh
+    - name: Rename the pi image and zip file
+      run: make rename-zip
     - name: Get ZIP filename
       id: get-zip-filename
       run: echo "::set-output name=zip-file-name::$(ls deploy | grep .zip | cat)"

@@ -1,5 +1,6 @@
 deploy/*
 work/*
+dist/*
 postrun.sh
 .pc
 *-pc
