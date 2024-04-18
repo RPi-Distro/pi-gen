@@ -24,3 +24,5 @@ keyboard-configuration	keyboard-configuration/ctrl_alt_bksp	boolean	true
 # Keyboard layout:
 # Choices: English (UK), English (UK) - English (UK\, Colemak), English (UK) - English (UK\, Dvorak with UK punctuation), English (UK) - English (UK\, Dvorak), English (UK) - English (UK\, Macintosh international), English (UK) - English (UK\, Macintosh), English (UK) - English (UK\, extended WinKeys), English (UK) - English (UK\, international with dead keys), Other
 keyboard-configuration  keyboard-configuration/variant  select  ${KEYBOARD_LAYOUT}
+# for internal use
+keyboard-configuration  keyboard-configuration/optionscode      string  PLACEHOLDER
