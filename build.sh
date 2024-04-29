@@ -283,6 +283,7 @@ mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
+export STAGE_LIST
 
 for STAGE_DIR in $STAGE_LIST; do
 	STAGE_DIR=$(realpath "${STAGE_DIR}")
