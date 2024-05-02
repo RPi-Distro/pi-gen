@@ -1,0 +1,72 @@
+name: "pi-gen"
+arch: arm64
+platform: "linux"
+version: "1.0.0"
+section: "devel"
+priority: "extra"
+maintainer: "Raspberry Pi Applications Team <applications@raspberrypi.com>"
+description: |
+  pi-gen is a tool for building pre-installd images for Raspberry Pi Devices.
+  .
+  Using pi-gen, you can create a completely customised Raspberry Pi OS-based distro,
+  catered to your specific application or hardware.
+vendor: "Raspberry Pi Ltd"
+homepage: "https://www.raspberrypi.com/software"
+license: "BSD-3-Clause"
+changelog: "changelog.yaml"
+depends:
+- coreutils 
+- quilt
+- parted 
+- qemu-user-static
+- debootstrap
+- zerofree
+- zip
+- dosfstools
+- libarchive-tools
+- libcap2-bin
+- grep
+- rsync
+- xz-utils
+- file
+- git
+- curl
+- bc
+- qemu-utils
+- kpartx
+- gpg
+- pigz
+contents:
+- src: ./export-image
+  dst: /usr/share/pi-gen/export-image
+  type: tree
+- src: ./export-noobs
+  dst: /usr/share/pi-gen/export-noobs
+  type: tree
+- src: ./scripts
+  dst: /usr/share/pi-gen/scripts
+  type: tree
+- src: ./stage0
+  dst: /usr/share/pi-gen/stage0
+  type: tree
+- src: ./stage1
+  dst: /usr/share/pi-gen/stage1
+  type: tree
+- src: ./stage2
+  dst: /usr/share/pi-gen/stage2
+  type: tree
+- src: ./stage3
+  dst: /usr/share/pi-gen/stage3
+  type: tree
+- src: ./stage4
+  dst: /usr/share/pi-gen/stage4
+  type: tree
+- src: ./stage5
+  dst: /usr/share/pi-gen/stage5
+  type: tree
+- src: ./build.sh
+  dst: /usr/share/pi-gen/build.sh
+- src: ./LICENSE
+  dst: /usr/share/pi-gen/LICENSE
+- src: ./README.md
+  dst: /usr/share/doc/pi-gen/README.md
