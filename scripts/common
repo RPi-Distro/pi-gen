@@ -101,6 +101,33 @@ on_chroot() {
 }
 export -f on_chroot
 
+off_chroot() {
+	if mount | grep -q "$(realpath "${ROOTFS_DIR}"/proc)"; then
+		umount "${ROOTFS_DIR}/proc"
+	fi
+
+	if mount | grep -q "$(realpath "${ROOTFS_DIR}"/dev)"; then
+		umount "${ROOTFS_DIR}/dev"
+	fi
+	
+	if mount | grep -q "$(realpath "${ROOTFS_DIR}"/dev/pts)"; then
+		umount "${ROOTFS_DIR}/dev/pts"
+	fi
+
+	if mount | grep -q "$(realpath "${ROOTFS_DIR}"/sys)"; then
+		umount "${ROOTFS_DIR}/sys"
+	fi
+
+	if mount | grep -q "$(realpath "${ROOTFS_DIR}"/run)"; then
+		umount "${ROOTFS_DIR}/run"
+	fi
+
+	if mount | grep -q "$(realpath "${ROOTFS_DIR}"/tmp)"; then
+		umount "${ROOTFS_DIR}/tmp"
+	fi
+}
+export -f off_chroot
+
 update_issue() {
 	echo -e "${PI_GEN_RELEASE} ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }

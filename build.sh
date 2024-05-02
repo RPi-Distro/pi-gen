@@ -158,7 +158,12 @@ do
 done
 
 term() {
-	true; #TODO: Cleanup
+	if [ -n "${IMG_FILE}" ]; then
+		unmount_image "${IMG_FILE}"
+	fi
+	unmount "${WORK_DIR}/${STAGE}"
+	off_chroot
+	true;
 }
 
 trap term EXIT INT TERM
