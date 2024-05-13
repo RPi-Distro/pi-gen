@@ -167,10 +167,9 @@ export PI_GEN=${PI_GEN:-pi-gen}
 export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
 export PI_GEN_RELEASE=${PI_GEN_RELEASE:-Raspberry Pi reference}
 
-if [ -z "${IMG_NAME}" ]; then
-	echo "IMG_NAME not set" 1>&2
-	exit 1
-fi
+export ARCH=armhf
+export RELEASE=${RELEASE:-bookworm} # Don't forget to update stage0/prerun.sh
+export IMG_NAME="${IMG_NAME:-raspios-$RELEASE-$ARCH}"
 
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
@@ -198,7 +197,6 @@ export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
 export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
 export FIRST_USER_PASS
 export DISABLE_FIRST_BOOT_USER_RENAME=${DISABLE_FIRST_BOOT_USER_RENAME:-0}
-export RELEASE=${RELEASE:-bookworm} # Don't forget to update stage0/prerun.sh
 export WPA_COUNTRY
 export ENABLE_SSH="${ENABLE_SSH:-0}"
 export PUBKEY_ONLY_SSH="${PUBKEY_ONLY_SSH:-0}"
@@ -215,7 +213,6 @@ export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 export PUBKEY_SSH_FIRST_USER
 
 export CLEAN
-export IMG_NAME
 export APT_PROXY
 
 export STAGE
