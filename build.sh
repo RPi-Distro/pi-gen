@@ -244,6 +244,15 @@ fi
 
 dependencies_check "${BASE_DIR}/depends"
 
+echo "Checking native $ARCH executable support..."
+if ! arch-test -n "$ARCH"; then
+	echo "WARNING: Only a native build environment is supported. Checking emulated support..."
+	if ! arch-test "$ARCH"; then
+		echo "No fallback mechanism found. Ensure your OS has binfmt_misc support enabled and configured."
+		exit 1
+	fi
+fi
+
 #check username is valid
 if [[ ! "$FIRST_USER_NAME" =~ ^[a-z][-a-z0-9_]*$ ]]; then
 	echo "Invalid FIRST_USER_NAME: $FIRST_USER_NAME"
