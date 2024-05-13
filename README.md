@@ -19,7 +19,7 @@ To install the required dependencies for `pi-gen` you should run:
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-gpg pigz xxd
+gpg pigz xxd arch-test
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -52,7 +52,7 @@ environment variables.
 
 The following environment variables are supported:
 
- * `IMG_NAME` **required** (Default: unset)
+ * `IMG_NAME` (Default: raspios-$RELEASE-$ARCH, for example: "raspios-bookworm-armhf")
 
    The name of the image to build with the current stage directories. Use this
    variable to set the root name of your OS, eg `IMG_NAME=Frobulator`.
