@@ -58,9 +58,12 @@ unmount(){
 export -f unmount
 
 unmount_image(){
-	sync
-	sleep 1
-	LOOP_DEVICE=$(losetup --list | grep "$1" | cut -f1 -d' ')
+	if command -v udevadm >/dev/null 2>&1; then
+		udevadm settle 10
+	else
+		sleep 1
+	fi
+	LOOP_DEVICE=$(losetup -n -O NAME -j "$1")
 	if [ -n "$LOOP_DEVICE" ]; then
 		for part in "$LOOP_DEVICE"p*; do
 			if DIR=$(findmnt -n -o target -S "$part"); then
