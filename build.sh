@@ -158,12 +158,17 @@ do
 done
 
 term() {
-	if [ -n "${IMG_FILE}" ]; then
-		unmount_image "${IMG_FILE}"
+	if [ "$?" -ne 0 ]; then
+		log "Build failed"
+	else
+		log "Build finished"
 	fi
-	unmount "${WORK_DIR}/${STAGE}"
-	off_chroot
-	true;
+	unmount "${STAGE_WORK_DIR}"
+	if [ "$STAGE" = "export-image" ]; then
+		for img in "${STAGE_WORK_DIR}/"*.img; do
+			unmount_image "$img"
+		done
+	fi
 }
 
 trap term EXIT INT TERM
