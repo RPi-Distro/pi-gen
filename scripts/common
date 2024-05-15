@@ -44,12 +44,15 @@ unmount(){
 		DIR=$1
 	fi
 
-	while mount | grep -q "$DIR"; do
-		local LOCS
-		LOCS=$(mount | grep "$DIR" | cut -f 3 -d ' ' | sort -r)
-		for loc in $LOCS; do
-			umount "$loc"
-		done
+	for i in {1..6}; do
+		if awk "\$2 ~ /^${DIR//\//\\/}/ {print \$2}" /etc/mtab | sort -r | xargs -r umount; then
+			break
+		elif [ "$i" -eq 6 ]; then
+			log "Failed to unmount ${DIR}. Do not try to delete this directory while it contains mountpoints!"
+			return 1
+		fi
+		log "Retrying ($i/5)..."
+		sleep 1
 	done
 }
 export -f unmount
