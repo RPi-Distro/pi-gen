@@ -158,7 +158,17 @@ do
 done
 
 term() {
-	true; #TODO: Cleanup
+	if [ "$?" -ne 0 ]; then
+		log "Build failed"
+	else
+		log "Build finished"
+	fi
+	unmount "${STAGE_WORK_DIR}"
+	if [ "$STAGE" = "export-image" ]; then
+		for img in "${STAGE_WORK_DIR}/"*.img; do
+			unmount_image "$img"
+		done
+	fi
 }
 
 trap term EXIT INT TERM

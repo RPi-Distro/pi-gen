@@ -45,20 +45,26 @@ unmount(){
 		DIR=$1
 	fi
 
-	while mount | grep -q "$DIR"; do
-		local LOCS
-		LOCS=$(mount | grep "$DIR" | cut -f 3 -d ' ' | sort -r)
-		for loc in $LOCS; do
-			umount "$loc"
-		done
+	for i in {1..6}; do
+		if awk "\$2 ~ /^${DIR//\//\\/}/ {print \$2}" /etc/mtab | sort -r | xargs -r umount; then
+			break
+		elif [ "$i" -eq 6 ]; then
+			log "Failed to unmount ${DIR}. Do not try to delete this directory while it contains mountpoints!"
+			return 1
+		fi
+		log "Retrying ($i/5)..."
+		sleep 1
 	done
 }
 export -f unmount
 
 unmount_image(){
-	sync
-	sleep 1
-	LOOP_DEVICE=$(losetup --list | grep "$1" | cut -f1 -d' ')
+	if command -v udevadm >/dev/null 2>&1; then
+		udevadm settle 10
+	else
+		sleep 1
+	fi
+	LOOP_DEVICE=$(losetup -n -O NAME -j "$1")
 	if [ -n "$LOOP_DEVICE" ]; then
 		for part in "$LOOP_DEVICE"p*; do
 			if DIR=$(findmnt -n -o target -S "$part"); then
