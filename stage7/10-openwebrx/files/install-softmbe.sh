@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail
+set -euo pipefail
 
 BUILD_PACKAGES="git build-essential debhelper cmake libprotobuf-dev protobuf-compiler"
 
@@ -41,7 +41,9 @@ driver=softmbe
 _EOF_
 
 
+systemctl restart codecserver.service
+systemctl restart openwebrx.service
 echo;echo;echo
-echo "Installation successful. Please reboot."
+echo "Installation successful. OpenWebRX+ has been restarted."
 
 popd
