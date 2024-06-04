@@ -23,7 +23,7 @@ get_owrxp_version() {
 VER=$(get_owrxp_version)
 
 echo "Building RPI-64bit image for OpenWebRX+ v${VER}"
-echo "IMG_SUFFIX=\"-${VER}\"" > stage7/EXPORT_IMAGE
+echo "IMG_SUFFIX=\"-64bit-v${VER}\"" > stage7/EXPORT_IMAGE
 
 # preserve the container after the build, so we can add new stuff after a successful build
 echo
