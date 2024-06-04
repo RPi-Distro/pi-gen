@@ -1,0 +1,40 @@
+diff -ur sdrplay-orig/install_lib.sh sdrplay/install_lib.sh
+--- sdrplay-orig/install_lib.sh	2020-05-24 14:13:04.561271707 +0000
++++ sdrplay/install_lib.sh	2020-05-24 14:16:20.068329040 +0000
+@@ -4,19 +4,6 @@
+ MAJVERS="3"
+ 
+ echo "Installing SDRplay RSP API library ${VERS}..."
+-read -p "Press RETURN to view the license agreement" ret
+-
+-more sdrplay_license.txt
+-
+-while true; do
+-    echo "Press y and RETURN to accept the license agreement and continue with"
+-    read -p "the installation, or press n and RETURN to exit the installer [y/n] " yn
+-    case $yn in
+-        [Yy]* ) break;;
+-        [Nn]* ) exit;;
+-        * ) echo "Please answer y or n";;
+-    esac
+-done
+ 
+ ARCH=`uname -m`
+ 
+@@ -141,16 +128,6 @@
+ echo "SDRplay API ${VERS} Installation Finished"
+ echo " "
+ 
+-while true; do
+-    echo "Would you like to add SDRplay USB IDs to the local database for easier
+-"
+-    read -p "identification in applications such as lsusb? [y/n] " yn
+-    case $yn in
+-        [Yy]* ) break;;
+-        [Nn]* ) exit;;
+-        * ) echo "Please answer y or n";;
+-    esac
+-done
+ sudo cp scripts/sdrplay_usbids.sh ${INSTALLBINDIR}/.
+ sudo chmod 755 ${INSTALLBINDIR}/sdrplay_usbids.sh
+ sudo cp scripts/sdrplay_ids.txt ${INSTALLBINDIR}/.

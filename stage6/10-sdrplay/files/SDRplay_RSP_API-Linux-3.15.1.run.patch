@@ -1,0 +1,75 @@
+--- 1/install_lib.sh	2024-05-07 10:33:29.000000000 +0300
++++ sdrplay/install_lib.sh	2024-05-13 01:23:47.238098681 +0300
+@@ -17,18 +17,6 @@
+ echo "the system files."
+ echo " "
+
+-read -p "Press RETURN to view the license agreement" ret
+-more -d sdrplay_license.txt
+-while true; do
+-    echo "Press y and RETURN to accept the license agreement and continue with"
+-    read -p "the installation, or press n and RETURN to exit the installer [y/n] " yn
+-    case $yn in
+-        [Yy]* ) break;;
+-        [Nn]* ) exit;;
+-        * ) echo "Please answer y or n";;
+-    esac
+-done
+-
+ echo " "
+ echo "A copy of the license agreement can be found here: ${HOME}/sdrplay_license.txt"
+ cp sdrplay_license.txt ${HOME}/.
+@@ -36,7 +24,8 @@
+ echo " "
+
+ ARCH=$(uname -m|sed -e 's/x86_64/64/' -e 's/aarch64/64/' -e 's/arm64/64/' -e 's/i.86/32/')
+-INIT=$(file -L /sbin/init|sed -e 's/^.* \(32\|64\)-bit.*$/\1/')
++#INIT=$(file -L /sbin/init|sed -e 's/^.* \(32\|64\)-bit.*$/\1/')
++INIT=64
+ COMPILER=$(getconf LONG_BIT)
+ ARCHM=$(uname -m)
+ INSTALLARCH=$(uname -m)
+@@ -266,43 +255,6 @@
+ echo " "
+
+ #         0--------1---------2---------3---------4---------5---------6---------7---------8
+-while true; do
+-    echo "To continue the installation with these defaults press y and RETURN"
+-    read -p "or press n and RETURN to change them [y/n] " yn
+-    case $yn in
+-        [Yy]* ) change="n";break;;
+-        [Nn]* ) change="y";break;;
+-        * ) echo "Please answer y or n";;
+-    esac
+-done
+-
+-if [ "${change}" == "y" ]; then
+-    echo "Changing default locations..."
+-    read -p "API service location [${locservice}]: " newloc
+-    if [ "${newloc}" != "" ]; then
+-        locservice=${newloc}
+-    fi
+-    read -p "API header files location [${locheader}]: " newloc
+-    if [ "${newloc}" != "" ]; then
+-        locheader=${newloc}
+-    fi
+-    read -p "API shared library location [${loclib}]: " newloc
+-    if [ "${newloc}" != "" ]; then
+-        loclib=${newloc}
+-    fi
+-
+-    echo "API service : ${locservice}"
+-    echo "API header files : ${locheader}"
+-    echo "API shared library : ${loclib}"
+-    while true; do
+-        read -p "Please confirm these are correct [y/n] " yn
+-        case $yn in
+-            [Yy]* ) break;;
+-            [Nn]* ) echo "paths not confirmed. Exiting...";exit 1;;
+-            * ) echo "Please answer y or n";;
+-        esac
+-    done
+-fi
+
+ sudo mkdir -p -m 755 ${locservice} >> /dev/null 2>&1
+ sudo mkdir -p -m 755 ${locheader} >> /dev/null 2>&1

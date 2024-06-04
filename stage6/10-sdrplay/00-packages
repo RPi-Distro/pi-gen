@@ -1,0 +1,9 @@
+soapysdr-tools
+soapysdr-module-all
+soapysdr-module-sdrplay3
+libhidapi-libusb0
+libhidapi-hidraw0
+libiio0
+libad9361-0
+libfaad2
+libusb-1.0

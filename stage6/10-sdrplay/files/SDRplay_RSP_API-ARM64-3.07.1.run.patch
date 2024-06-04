@@ -1,0 +1,23 @@
+diff -ur sdrplay-orig/install_lib.sh sdrplay/install_lib.sh
+--- sdrplay-orig/install_lib.sh	2020-05-24 14:30:06.022483867 +0000
++++ sdrplay/install_lib.sh	2020-05-24 14:30:49.093435726 +0000
+@@ -4,19 +4,6 @@
+ export MAJVERS="3"
+ 
+ echo "Installing SDRplay RSP API library ${VERS}..."
+-read -p "Press RETURN to view the license agreement" ret
+-
+-more sdrplay_license.txt
+-
+-while true; do
+-    echo "Press y and RETURN to accept the license agreement and continue with"
+-    read -p "the installation, or press n and RETURN to exit the installer [y/n] " yn
+-    case $yn in
+-        [Yy]* ) break;;
+-        [Nn]* ) exit;;
+-        * ) echo "Please answer y or n";;
+-    esac
+-done
+ 
+ export ARCH=`uname -m`
+ 

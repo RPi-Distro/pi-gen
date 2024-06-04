@@ -1,0 +1,7 @@
+https://wiki.archlinux.org/title/Systemd-nspawn
+
+This method will not work, because we cannot use loop-devices (losetup) in the
+container. The kernel will create the loop-device in the host, but the
+container cannot know about it (unless restarted).
+Perhaps someday, when the loop-devices have the right kernel interface to
+virtualize then for containers, this could work.

@@ -1,0 +1,58 @@
+--- stage3.orig/rootfs/etc/varnish/default.vcl	2019-10-05 23:52:57.084429607 +0200
++++ stage3/rootfs/etc/varnish/default.vcl	2019-10-05 23:59:11.517818140 +0200
+@@ -13,23 +13,22 @@
+ vcl 4.1;
+ 
+ # Default backend definition. Set this to point to your content server.
+-backend default {
++backend openwebrx {
+     .host = "127.0.0.1";
+-    .port = "8080";
++    .port = "8073";
+ }
+ 
+ sub vcl_recv {
+-    # Happens before we check if we have this in cache already.
+-    #
+-    # Typically you clean up the request here, removing cookies you don't need,
+-    # rewriting the request, etc.
++    set req.backend_hint = openwebrx;
++    if (req.http.upgrade ~ "(?i)websocket") {
++        return (pipe);
++    }
+ }
+ 
+ sub vcl_backend_response {
+-    # Happens after we have read the response headers from the backend.
+-    #
+-    # Here you clean the response headers, removing silly Set-Cookie headers
+-    # and other mistakes your backend does.
++    if (beresp.http.content-type ~ "(text|javascript)") {
++        set beresp.do_gzip = true;
++    }
+ }
+ 
+ sub vcl_deliver {
+@@ -38,3 +37,10 @@
+     #
+     # You can do accounting or modifying the final object here.
+ }
++
++sub vcl_pipe {
++    if (req.http.upgrade) {
++        set bereq.http.upgrade = req.http.upgrade;
++        set bereq.http.connection = req.http.upgrade;
++    }
++}
+diff -ur stage3.orig/rootfs/lib/systemd/system/varnish.service stage3/rootfs/lib/systemd/system/varnish.service
+--- stage3.orig/rootfs/lib/systemd/system/varnish.service	2019-10-05 23:52:57.301094337 +0200
++++ stage3/rootfs/lib/systemd/system/varnish.service	2019-10-05 23:55:15.786547902 +0200
+@@ -16,7 +16,7 @@
+ ExecStart=/usr/sbin/varnishd \
+           -j unix,user=vcache \
+           -F \
+-          -a :6081 \
++          -a localhost:6081 \
+           -T localhost:6082 \
+           -f /etc/varnish/default.vcl \
+           -S /etc/varnish/secret \

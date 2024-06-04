@@ -99,6 +99,7 @@ fi
 
 ROOT_DEV="$(awk "\$2 == \"${ROOTFS_DIR}\" {print \$1}" /etc/mtab)"
 
+mount -o remount,ro "${ROOTFS_DIR}"
 unmount "${ROOTFS_DIR}"
 zerofree "${ROOT_DEV}"
 

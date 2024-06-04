@@ -1,0 +1,2 @@
+# set this to avoid the question being asked during package installation
+openwebrx openwebrx/admin_user_configured boolean true

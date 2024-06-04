@@ -1,5 +1,7 @@
-deploy/*
-work/*
+deploy/
+artefacts/
+old/
+owrx/
 config
 postrun.sh
 SKIP
