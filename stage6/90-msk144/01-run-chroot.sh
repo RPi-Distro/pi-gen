@@ -8,7 +8,8 @@ pushd /tmp
 
 git clone https://github.com/alexander-sholohov/msk144decoder.git
 # this will fail with multiple jobs compiling
-MAKEFLAGS= cmakebuild msk144decoder
+# MAKEFLAGS= cmakebuild msk144decoder
+cmakebuild msk144decoder
 ldconfig
 
 rm -rf msk144decoder
