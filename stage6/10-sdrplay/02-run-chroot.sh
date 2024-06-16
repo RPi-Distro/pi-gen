@@ -12,11 +12,13 @@ pushd SDRPlay
 case `uname -m` in
 	arm*)
 		echo;echo ":::   ARMv7 32bit"
-		BINARY=SDRplay_RSP_API-ARM32-3.07.2.run
+		#BINARY=SDRplay_RSP_API-ARM32-3.07.2.run
+		BINARY=SDRplay_RSP_API-Linux-3.15.2.run
 		;;
 	*)
 		echo;echo ":::   64bit"
-		BINARY=SDRplay_RSP_API-Linux-3.15.1.run
+		#BINARY=SDRplay_RSP_API-Linux-3.15.1.run
+		BINARY=SDRplay_RSP_API-Linux-3.15.2.run
 		;;
 esac
 
