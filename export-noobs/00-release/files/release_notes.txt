@@ -1,4 +1,43 @@
 UNRELEASED:
+  * pipanel - allow customisation of more than 2 desktops
+  * pipanel - add customisation for labwc
+  * gui-pkinst - add whitelist to restrict installation to specified packages only
+  * pixflat-theme - add theme settings for labwc
+  * pishutdown - revert to original use of pkill to close desktop
+  * piclone - fix for potential buffer overflow vulnerability (that would never have actually happened…)
+  * lp-connection-editor - fix dialog icons on taskbar
+  * rp-prefapps - add Raspberry Pi Connect; remove SmartSim
+  * piwiz - add page to enable / disable Raspberry Pi Connect
+  * wf-panel-pi - constrain main menu to fit on small screens
+  * wf-panel-pi - fix dialog icons on taskbar
+  * wf-panel-pi - fix keyboard handling and icon highlighting for taskbar buttons
+  * raspberrypi-ui-mods - add configuration for labwc
+  * raspberrypi-ui-mods - add support for new touchscreens
+  * raspberrypi-ui-mods - systemd-inhibit used to override hardware power key on Pi 5
+  * rc-gui - add configuration of alternate keyboard layout
+  * rc-gui - add switching for Raspberry Pi Connect
+  * arandr - add brightness control for DSI displays
+  * arandr - more reliable method to detect virtual displays
+  * raspi-config - add setting of keyboard options
+  * raspi-config - add setting of PCIe speed
+  * raspi-config - add switching for Raspberry Pi Connect
+  * wayvnc - better handling for virtual displays
+  * wayvnc - improved encryption support
+  * GTK-3 - add keyboard shortcuts in combo boxes
+  * pcmanfm - allow customisation of more than 2 desktops
+  * pcmanfm - fix bug causing crash and inconsistent behaviour on certain drag and drop operations
+  * raspberrypi-sys-mods - add udev rule to allow backlight change
+  * raspberrypi-sys-mods - increase swapfile size
+  * raspberrypi-sys-mods - remove symlinks from paths in initramfs scripts
+  * wayfire - fix for crash when opening multiple Xwayland windows
+  * wayfire - fix for touchscreen bug when touching areas without windows
+  * labwc compositor installed as an alternative to wayfire; can be enabled in raspi-config
+  * various small bug fixes and tweaks
+  * Chromium updated to 125.0.6422.133
+  * Firefox updated to 126.0
+  * Raspberry Pi firmware 3590de0c181d433af368a95f15bc480bdaff8b47
+  * Linux kernel 6.6.31 - c1432b4bae5b6582f4d32ba381459f33c34d1424
+2024-03-15:
   * Audio streams will now not be interrupted when other audio devices are connected or disconnected
   * Keyboard shortcut to install Orca no longer prompts for password, and will now wait for clock synchronisation rather than failing silently
   * Orca screen reader updated to version 45 with various additional small bug fixes
