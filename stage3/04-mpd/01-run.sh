@@ -6,5 +6,5 @@ sed -i "s/TARGET_HOSTNAME/${TARGET_HOSTNAME}/g" "${ROOTFS_DIR}/etc/mpd.conf"
 
 on_chroot << EOF
   systemctl disable mpd
-  SUDO_USER="${FIRST_USER_NAME}" systemctl --user enable mpd
+  /bin/su - "${FIRST_USER_NAME}" -c 'systemctl --user enable mpd'
 EOF
