@@ -22,8 +22,6 @@ fi
 
 on_chroot << EOF
 systemctl disable hwclock.sh
-systemctl disable nfs-common
-systemctl disable rpcbind
 if [ "${ENABLE_SSH}" == "1" ]; then
 	systemctl enable ssh
 else
@@ -49,7 +47,7 @@ on_chroot <<EOF
 for GRP in input spi i2c gpio; do
 	groupadd -f -r "\$GRP"
 done
-for GRP in adm dialout cdrom audio users sudo video games plugdev input gpio spi i2c netdev render; do
+for GRP in adm dialout cdrom audio users sudo video games plugdev input gpio spi i2c netdev render bluetooth; do
   adduser $FIRST_USER_NAME \$GRP
 done
 EOF

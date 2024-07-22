@@ -1,3 +1,23 @@
-cifs-utils
-rpicam-apps-lite
-mkvtoolnix
+ssh less fbset sudo psmisc ed
+console-setup keyboard-configuration debconf-utils parted
+bash-completion
+raspi-gpio
+avahi-daemon
+lua5.1
+ca-certificates curl
+fake-hwclock usbutils
+dosfstools
+raspberrypi-sys-mods
+pi-bluetooth
+apt-listchanges
+usb-modeswitch
+libpam-chksshpwd
+rpi-update
+htop
+policykit-1
+ssh-import-id
+ntfs-3g
+pciutils
+rpi-eeprom
+raspi-utils
+kms++-utils
