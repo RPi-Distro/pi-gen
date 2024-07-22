@@ -1,0 +1,3 @@
+# MPD CD
+KERNEL=="sr0", SUBSYSTEM=="block", ACTION=="change", ENV{ID_CDROM_MEDIA_TRACK_COUNT_AUDIO}=="[0-9]*", MODE="0664", RUN+="/bin/systemctl start cd-mount.service"
+KERNEL=="sr0", SUBSYSTEM=="block", ACTION=="change", ENV{DISK_EJECT_REQUEST}=="1", RUN+="/bin/systemctl stop cd-mount.service"
