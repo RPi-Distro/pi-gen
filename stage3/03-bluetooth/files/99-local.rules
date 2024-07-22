@@ -1,0 +1,2 @@
+# BLUETOOTH NOTIFICATION
+ACTION=="add", SUBSYSTEM=="bluetooth", RUN+="/usr/local/bin/bt-connection.sh"
