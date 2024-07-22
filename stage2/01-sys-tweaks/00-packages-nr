@@ -21,3 +21,4 @@ pciutils
 rpi-eeprom
 raspi-utils
 kms++-utils
+zstd
