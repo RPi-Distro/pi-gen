@@ -12,8 +12,8 @@ install -v -m 755 files/bt-connection.sh "${ROOTFS_DIR}/usr/local/bin/bt-connect
 install -v -m 644 files/99-local.rules "${ROOTFS_DIR}/etc/udev/rules.d/99-local.rules"
 
 on_chroot << EOF
-	SUDO_USER="${FIRST_USER_NAME}" systemctl --user restart pulseaudio
-	udevadm control --reload-rules
-	systemctl daemon-reload
+#	SUDO_USER="${FIRST_USER_NAME}" systemctl --user restart pulseaudio
+#	udevadm control --reload-rules
+#	systemctl daemon-reload
 	systemctl enable bt-agent
 EOF

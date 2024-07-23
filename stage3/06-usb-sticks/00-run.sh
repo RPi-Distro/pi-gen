@@ -8,6 +8,6 @@ install -v -m 644 'files/99-usb.rules' "${ROOTFS_DIR}/etc/udev/rules.d/99-usb.ru
 install -v -m 644 'files/.mpdignore' "${ROOTFS_DIR}/media/USB/.mpdignore"
 
 on_chroot << EOF
-	udevadm control --reload-rules
-	systemctl daemon-reload
+#	udevadm control --reload-rules
+#	systemctl daemon-reload
 EOF
