@@ -6,7 +6,8 @@ sed -i "s/TARGET_HOSTNAME/${TARGET_HOSTNAME}/g" "${ROOTFS_DIR}/etc/bluetooth/mai
 install -v -m 600 files/bluetooth/pin.conf "${ROOTFS_DIR}/etc/bluetooth/pin.conf"
 install -v -m 644 files/bt-agent.service "${ROOTFS_DIR}/etc/systemd/system/bt-agent.service"
 
-install -v -m 644 files/success.wav "${ROOTFS_DIR}/usr/local/share/success.wav"
+install -v -m 755 -d "${ROOTFS_DIR}/usr/local/share/sounds/"
+install -v -m 644 files/success.wav "${ROOTFS_DIR}/usr/local/share/sounds/success.wav"
 install -v -m 755 files/bt-connection.sh "${ROOTFS_DIR}/usr/local/bin/bt-connection.sh"
 install -v -m 644 files/99-local.rules "${ROOTFS_DIR}/etc/udev/rules.d/99-local.rules"
 
