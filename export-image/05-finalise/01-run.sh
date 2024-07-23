@@ -2,6 +2,7 @@
 
 IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.info"
+SBOM_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.sbom"
 
 sed -i 's/^update_initramfs=.*/update_initramfs=all/' "${ROOTFS_DIR}/etc/initramfs-tools/update-initramfs.conf"
 
@@ -61,9 +62,7 @@ if ! [ -L "${ROOTFS_DIR}/boot/issue.txt" ]; then
 	ln -s firmware/issue.txt "${ROOTFS_DIR}/boot/issue.txt"
 fi
 
-
 cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
-
 
 {
 	if [ -f "$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" ]; then
@@ -82,6 +81,14 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 	printf "\nPackages:\n"
 	dpkg -l --root "$ROOTFS_DIR"
 } >> "$INFO_FILE"
+
+if hash syft 2>/dev/null; then
+	syft scan dir:"${ROOTFS_DIR}" \
+		--base-path="${ROOTFS_DIR}" \
+		--source-name="${IMG_NAME}${IMG_SUFFIX}" \
+		--source-version="${IMG_DATE}" \
+		-o spdx-json="${SBOM_FILE}"
+fi
 
 ROOT_DEV="$(awk "\$2 == \"${ROOTFS_DIR}\" {print \$1}" /etc/mtab)"
 
@@ -115,4 +122,7 @@ none | *)
 ;;
 esac
 
+if [ -f "${SBOM_FILE}" ]; then
+	xz -c "${SBOM_FILE}" > "$DEPLOY_DIR/image_$(basename "${SBOM_FILE}").xz"
+fi
 cp "$INFO_FILE" "$DEPLOY_DIR/"
