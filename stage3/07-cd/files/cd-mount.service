@@ -1,0 +1,8 @@
+[Unit]
+Description=Play Audio CD
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/local/bin/mpc-cd.sh add
+ExecStop=/usr/local/bin/mpc-cd.sh remove

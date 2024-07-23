@@ -1,7 +1,7 @@
 pcm.!default {
-  type pulse
+    type pulse
 }
 
 ctl.!default {
-  type pulse
+    type pulse
 }
