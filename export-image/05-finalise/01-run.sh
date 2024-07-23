@@ -2,6 +2,7 @@
 
 IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.info"
+SBOM_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.sbom"
 
 on_chroot << EOF
 if [ -x /etc/init.d/fake-hwclock ]; then
@@ -57,7 +58,6 @@ install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/issue.txt"
 
 cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 
-
 {
 	if [ -f "$ROOTFS_DIR/usr/share/doc/raspberrypi-kernel/changelog.Debian.gz" ]; then
 		firmware=$(zgrep "firmware as of" \
@@ -76,11 +76,22 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 	dpkg -l --root "$ROOTFS_DIR"
 } >> "$INFO_FILE"
 
+if hash syft 2>/dev/null; then
+	syft scan dir:"${ROOTFS_DIR}" \
+		--base-path="${ROOTFS_DIR}" \
+		--source-name="${IMG_NAME}${IMG_SUFFIX}" \
+		--source-version="${IMG_DATE}" \
+		-o spdx-json="${SBOM_FILE}"
+fi
+
 mkdir -p "${DEPLOY_DIR}"
 
 rm -f "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.*"
 rm -f "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 
+if [ -f "${SBOM_FILE}" ]; then
+	xz -c "${SBOM_FILE}" > "$DEPLOY_DIR/image_$(basename "${SBOM_FILE}").xz"
+fi
 mv "$INFO_FILE" "$DEPLOY_DIR/"
 
 if [ "${USE_QCOW2}" = "0" ] && [ "${NO_PRERUN_QCOW2}" = "0" ]; then
