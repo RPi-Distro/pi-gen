@@ -11,7 +11,7 @@ fi
 echo "${FIRST_USER_NAME}:${FIRST_USER_PASS}" | chpasswd
 echo "root:Wlanpi!" | chpasswd
 
-# Enable i2c bus
+# Enable i2c module
 echo "i2c-dev" >> /etc/modules
 
 EOF
