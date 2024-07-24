@@ -10,6 +10,10 @@ if ! id -u ${FIRST_USER_NAME} >/dev/null 2>&1; then
 fi
 echo "${FIRST_USER_NAME}:${FIRST_USER_PASS}" | chpasswd
 echo "root:Wlanpi!" | chpasswd
+
+# Enable i2c bus
+echo "i2c-dev" >> /etc/modules
+
 EOF
 
 
