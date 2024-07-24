@@ -52,9 +52,9 @@ on_chroot <<CHEOF
 	echo "denyinterfaces usb* pan*" | tee -a /etc/dhcpcd.conf
 
 	# Install wireless-regdb which supports Wi-Fi 6E
-	wget -O /tmp/wireless-regdb_2024.05.08-1_all.deb http://ftp.us.debian.org/debian/pool/main/w/wireless-regdb/wireless-regdb_2024.05.08-1_all.deb
-	dpkg -i /tmp/wireless-regdb_2024.05.08-1_all.deb
-	rm -f /tmp/wireless-regdb_2024.05.08-1_all.deb
+	wget -O /tmp/wireless-regdb_2024.07.04-1_all.deb http://ftp.us.debian.org/debian/pool/main/w/wireless-regdb/wireless-regdb_2024.07.04-1_all.deb
+	dpkg -i /tmp/wireless-regdb_2024.07.04-1_all.deb
+	rm -f /tmp/wireless-regdb_2024.07.04-1_all.deb
 	update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
 
 	# Fix sntp permission error
