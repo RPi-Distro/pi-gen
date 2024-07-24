@@ -11,6 +11,9 @@ otg_mode=1
 # Enable OTG
 dtoverlay=dwc2,dr_mode=host
 
+# Enable i2c
+dtparam=i2c_arm=on
+
 # Fan Controller
 dtoverlay=gpio-fan,gpiopin=26,temp=70000
 
@@ -52,9 +55,6 @@ dtoverlay=disable-wifi
 dtoverlay=dwc2,dr_mode=otg
 
 [all]
-# Enable i2c
-dtparam=i2c_arm=on
-
 # Enable spi (required for OLED Display)
 dtparam=spi=on
 
