@@ -19,8 +19,8 @@ on:
           - Release
         default: Auto
 
-  schedule:
-    - cron: '37 5 * * *'
+#  schedule:
+#    - cron: '37 5 * * *'
   push:
     branches:
       - force-build
