@@ -38,10 +38,11 @@ jobs:
     - name: Create Config File
       id: config
       run: |
-        touch config
         NOW=$(date +"%Y-%m-%d-%H%M")
         IMAGE=Raspbian-${GITHUB_REF##*/}-$NOW
-        echo "image=$IMAGE"                        >> $GITHUB_OUTPUT
+        touch config
+        echo IMG_NAME=$IMAGE >> config
+        echo "image=$IMAGE"  >> $GITHUB_OUTPUT
 
     # Greatly speed up our build because we don't need a desktop
     # or anything more advanced for our little IoT devices.
