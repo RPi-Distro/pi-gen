@@ -34,13 +34,10 @@ jobs:
 
     - name: Checkout PiGen
       uses: actions/checkout@v3
-      with:
-        path: PiGen
 
     - name: Create Config File
       id: config
       run: |
-        cd PiGen
         NOW=$(date +"%Y-%m-%d-%H%M")
         IMAGE=Raspbian-${GITHUB_REF##*/}-$NOW
         echo "image=$IMAGE"                        >> $GITHUB_OUTPUT
@@ -60,7 +57,6 @@ jobs:
     - name: Get Image Name
       id: imagefile
       run: |
-        cd PiGen
         cd deploy
         ls
         IMAGE_FILE=$(ls *.img)
@@ -70,4 +66,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: ${{ steps.config.outputs.image }}
-        path: PiGen/deploy/${{ steps.imagefile.outputs.imagefile }}
+        path: deploy/${{ steps.imagefile.outputs.imagefile }}
