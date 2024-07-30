@@ -52,7 +52,7 @@ jobs:
 
     - name: Build Image
       run: |
-        ls
+        chmod a+x build-docker.sh 
         ./build-docker.sh
 
     - name: Get Image Name
