@@ -38,6 +38,7 @@ jobs:
     - name: Create Config File
       id: config
       run: |
+        touch config
         NOW=$(date +"%Y-%m-%d-%H%M")
         IMAGE=Raspbian-${GITHUB_REF##*/}-$NOW
         echo "image=$IMAGE"                        >> $GITHUB_OUTPUT
@@ -52,7 +53,6 @@ jobs:
 
     - name: Build Image
       run: |
-        chmod a+x build-docker.sh 
         ./build-docker.sh
 
     - name: Get Image Name
