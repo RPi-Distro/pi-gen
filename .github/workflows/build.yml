@@ -50,10 +50,10 @@ jobs:
     # space to support building normal Raspberry Pi OS (Stage 4)
     # or Full Raspberry Pi OS (Stage 5) builds.
     # Uncomment this to build them in a future where they do!
-   - name: Disable Full Build
-     run: |
-       touch ./stage5/SKIP
-       touch ./stage5/SKIP_IMAGES
+    - name: Disable Full Build
+      run: |
+        touch ./stage5/SKIP
+        touch ./stage5/SKIP_IMAGES
 
     - name: Build Image
       run: |
