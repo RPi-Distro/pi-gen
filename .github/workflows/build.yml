@@ -16,11 +16,13 @@ jobs:
     - name: Maximize Build Space
       uses: easimon/maximize-build-space@master
       with:
-        root-reserve-mb: 10240 
+#        root-reserve-mb: 10240
         swap-size-mb: 1024
         remove-dotnet: 'true'
         remove-android: 'true'
         remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
 
     - name: List Available Space
       run: |
@@ -44,12 +46,13 @@ jobs:
         echo IMG_NAME=$IMAGE >> config
         echo "image=$IMAGE"  >> $GITHUB_OUTPUT
 
-    # Greatly speed up our build because we don't need a desktop
-    # or anything more advanced for our little IoT devices.
+    # At this time the GitHub runners don't have enough
+    # space to support building normal Raspberry Pi OS (Stage 4)
+    # or Full Raspberry Pi OS (Stage 5) builds.
+    # Uncomment this to build them in a future where they do!
 #    - name: Disable Non-Lite Builds
 #      run: |
-#        cd PiGen
-#        touch ./stage3/SKIP ./stage4/SKIP ./stage5/SKIP
+#        touch ./stage4/SKIP ./stage5/SKIP
 #        touch ./stage4/SKIP_IMAGES ./stage5/SKIP_IMAGES
 
     - name: Build Image
