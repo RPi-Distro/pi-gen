@@ -16,7 +16,7 @@ jobs:
     - name: Maximize Build Space
       uses: easimon/maximize-build-space@master
       with:
-        root-reserve-mb: 20000 
+        root-reserve-mb: 10000 
         swap-size-mb: 1024
         remove-dotnet: 'true'
         remove-android: 'true'
@@ -49,11 +49,11 @@ jobs:
     # At this time the GitHub runners don't have enough
     # space to support building normal Raspberry Pi OS (Stage 4)
     # or Full Raspberry Pi OS (Stage 5) builds.
-    # Uncomment this to build them in a future where they do!
-    - name: Disable Full Build
+    # Remove this to build them in a future where they do!
+    - name: Disable Stage4 and Stage5 Builds
       run: |
-        touch ./stage5/SKIP
-        touch ./stage5/SKIP_IMAGES
+        touch ./stage5/SKIP ./stage4/SKIP
+        touch ./stage5/SKIP_IMAGES ./stage4/SKIP_IMAGES
 
     - name: Build Image
       run: |
