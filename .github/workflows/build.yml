@@ -32,7 +32,7 @@ jobs:
                             kpartx gpg
 
     - name: Checkout PiGen
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Create Config File
       id: config
@@ -65,7 +65,7 @@ jobs:
 
     # The image now exists in deploy/. 
     # Make the artifact available from the action.
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       with:
         name: ${{ steps.config.outputs.image }}
         path: deploy/${{ steps.imagefile.outputs.imagefile }}
