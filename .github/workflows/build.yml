@@ -47,13 +47,12 @@ jobs:
         echo "image=$IMAGE"  >> $GITHUB_OUTPUT
 
     # At this time the GitHub runners don't have enough
-    # space to support building normal Raspberry Pi OS (Stage 4)
-    # or Full Raspberry Pi OS (Stage 5) builds.
+    # space to support building non-Lite builds.
     # Remove this to build them in a future where they do!
-    - name: Disable Stage4 and Stage5 Builds
+    - name: Disable Non-Lite Builds
       run: |
-        touch ./stage5/SKIP ./stage4/SKIP
-        touch ./stage5/SKIP_IMAGES ./stage4/SKIP_IMAGES
+        touch ./stage5/SKIP ./stage4/SKIP ./stage3/SKIP
+        touch ./stage5/SKIP_IMAGES ./stage4/SKIP_IMAGES ./stage3/SKIP_IMAGES
 
     - name: Build Image
       run: |
