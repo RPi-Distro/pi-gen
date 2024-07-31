@@ -28,6 +28,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt update
+        sudo apt install -y qemu-user-static
         sudo apt install -y < depends
 
     - name: Create Config File
