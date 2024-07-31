@@ -63,7 +63,7 @@ jobs:
       run: |
         cd deploy
         ls
-        IMAGE_FILE=$(ls *.img)
+        IMAGE_FILE=$(ls *.zip)
         echo "imagefile=$IMAGE_FILE" >> $GITHUB_OUTPUT
 
     # The image now exists in deploy/.  Let's save it somewhere.
