@@ -1,14 +1,7 @@
 name: Build Image
 
-on:
-  repository_dispatch:
-  workflow_dispatch:
-  push:
-  schedule: 
-    - cron: '0 0 1 * *'
+on: [push]
 
-# TODO:  These jobs are so similar except for just ssh.
-#        I'd love to find a way to not have so much repetition between these configurations.
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,7 +25,11 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt install -y coreutils quilt parted qemu-user-static debootstrap zerofree zip dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc qemu-utils kpartx gpg
+        sudo apt install -y coreutils quilt parted qemu-user-static \
+                            debootstrap zerofree zip dosfstools     \
+                            libarchive-tools libcap2-bin grep rsync \
+                            xz-utils file git curl bc qemu-utils    \
+                            kpartx gpg
 
     - name: Checkout PiGen
       uses: actions/checkout@v3
@@ -66,7 +63,8 @@ jobs:
         IMAGE_FILE=$(ls *.zip)
         echo "imagefile=$IMAGE_FILE" >> $GITHUB_OUTPUT
 
-    # The image now exists in deploy/.  Let's save it somewhere.
+    # The image now exists in deploy/. 
+    # Make the artifact available from the action.
     - uses: actions/upload-artifact@v1
       with:
         name: ${{ steps.config.outputs.image }}
