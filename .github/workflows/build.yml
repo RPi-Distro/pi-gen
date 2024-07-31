@@ -22,17 +22,13 @@ jobs:
         echo "Free space:"
         df -h
 
+    - name: Checkout PiGen
+      uses: actions/checkout@v4
+
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt install -y coreutils quilt parted qemu-user-static \
-                            debootstrap zerofree zip dosfstools     \
-                            libarchive-tools libcap2-bin grep rsync \
-                            xz-utils file git curl bc qemu-utils    \
-                            kpartx gpg
-
-    - name: Checkout PiGen
-      uses: actions/checkout@v4
+        sudo apt install -y < depends
 
     - name: Create Config File
       id: config
