@@ -256,6 +256,8 @@ The following process is followed to build images:
        be interrupted with a bash session, allowing an opportunity to create/revise
        the patches.
 
+ * Run the script ```postrun.sh``` to help finalise any stage operations.
+
   * If the stage directory contains files called "EXPORT_NOOBS" or "EXPORT_IMAGE" then
     add this stage to a list of images to generate
 

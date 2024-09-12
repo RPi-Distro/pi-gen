@@ -112,6 +112,11 @@ run_stage(){
 				run_sub_stage
 			fi
 		done
+		if [ -x postrun.sh ]; then
+			log "Begin ${STAGE_DIR}/postrun.sh"
+			./postrun.sh
+			log "End ${STAGE_DIR}/postrun.sh"
+		fi
 	fi
 
 	unmount "${WORK_DIR}/${STAGE}"
