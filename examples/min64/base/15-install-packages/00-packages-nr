@@ -1,0 +1,15 @@
+systemd
+systemd-sysv
+systemd-timesyncd
+cryptsetup
+procps
+less
+sudo
+wget
+pciutils
+raspi-utils
+rpi-eeprom
+ca-certificates
+bash-completion
+debconf-utils
+fake-hwclock
