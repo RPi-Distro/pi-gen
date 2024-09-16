@@ -12,24 +12,21 @@ setup_version() {
     chmod +x /tmp/semver
 }
 
-# Print version with "v" prefix
-get_latest_tag() {
-    tag="$(git describe --tags --abbrev=0 --match="v[0-9].[0-9].[0-9]*")"
-    echo "${tag}"
-}
-
 update_version() {
     setup_version
+
+    LAST_VERSION=${LAST_VERSION:-"$(git describe --tags --abbrev=0 --match="v[0-9].[0-9].[0-9]*")"}
+    LAST_VERSION_HASH=${LAST_VERSION_HASH:-"$(git rev-parse "${LAST_VERSION}")"}$
 
     last_version="${LAST_VERSION}"
     # if hash of previous version matches current git hash, we don't update!
     if [ "${GIT_HASH}" == "${LAST_VERSION_HASH}" ]; then
+        echo "Hash of previous version matches the current. So, we're not bumping. Create a new empty commit with the appropriate tag"
         echo "${last_version}"
         exit 0
     fi
 
     REQUEST_BUMP="$(echo "${REQUEST_BUMP}" | tr '[:upper:]' '[:lower:]')"
-
     case "${REQUEST_BUMP}" in
         break|major) is_breaking=1 ;;
         feat|minor) is_feature=1 ;;
