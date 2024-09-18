@@ -5,7 +5,7 @@ python-is-python3
 v4l-utils
 gpiod python3-libgpiod
 python3-gpiozero
-pigpio python3-pigpio raspi-gpio python3-rpi.gpio
+pigpio python3-pigpio raspi-gpio python3-rpi-lgpio
 python3-spidev
 python3-smbus2
 avahi-daemon
