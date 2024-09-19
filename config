@@ -1,1 +1,2 @@
 IMG_NAME='sugarOS'
+DEPLOY_COMPRESSION='zip'
