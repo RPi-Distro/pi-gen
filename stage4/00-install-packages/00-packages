@@ -21,6 +21,7 @@ vlc
 rpi-connect
 rpi-imager
 labwc
+squeekboard
 
 # ninja-build and openocd needed for vscode pico extension
 meson openocd
