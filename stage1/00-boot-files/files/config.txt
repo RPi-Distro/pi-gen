@@ -8,11 +8,6 @@
 # (e.g. for USB device mode) or if USB support is not required.
 otg_mode=1
 
-# Enable WLAN Pi Go Discovery and Go model detection
-dtoverlay=uart0
-dtoverlay=uart2
-dtoverlay=uart3
-
 # Enable OTG
 dtoverlay=dwc2,dr_mode=host
 
