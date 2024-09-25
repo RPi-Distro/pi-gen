@@ -11,7 +11,7 @@ gldriver-test
 fonts-droid-fallback
 fonts-liberation2
 obconf
-arandr
+raindrop
 libcamera-tools
 rpicam-apps
 python3-picamera2
