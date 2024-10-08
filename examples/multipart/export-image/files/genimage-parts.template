@@ -1,0 +1,56 @@
+image config.vfat {
+	vfat {
+		file "autoboot.txt" { image = "autoboot.txt" }
+	}
+	size = 32M
+}
+
+image bootA.vfat {
+	exec-post = "<SLOTP> A"
+	empty = true
+	vfat {
+		label = "BOOTA"
+	}
+	size = <FW_SIZE>
+}
+
+image rootA.ext4 {
+	exec-post = "<SLOTP> A"
+	empty = true
+	ext4 {
+		use-mke2fs = true
+		features = <ROOT_FEATURES>
+		label = "ROOTA"
+	}
+	size = <ROOT_SIZE>
+}
+
+image bootB.vfat {
+	exec-post = "<SLOTP> B"
+	empty = true
+	vfat {
+		label = "BOOTB"
+	}
+	size = <FW_SIZE>
+}
+
+image rootB.ext4 {
+	exec-post = "<SLOTP> B"
+	empty = true
+	ext4 {
+		use-mke2fs = true
+		features = <ROOT_FEATURES>
+		label = "ROOTB"
+	}
+	size = <ROOT_SIZE>
+}
+
+image data.ext4 {
+	empty = true
+	ext4 {
+		use-mke2fs = true
+		features = <ROOT_FEATURES>
+		label = "DATA"
+	}
+	size = 64M
+}

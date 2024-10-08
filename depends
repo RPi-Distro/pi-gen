@@ -20,3 +20,6 @@ bc
 gpg
 pigz
 arch-test
+genimage
+mtools
+genfstab:arch-install-scripts
