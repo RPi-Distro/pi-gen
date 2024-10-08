@@ -1,0 +1,44 @@
+image <STAGE_WORK_DIR>/<IMG_FILENAME><IMG_SUFFIX>.img {
+	hdimage {
+		partition-table-type = "gpt"
+	}
+
+	partition config {
+		in-partition-table = true
+		partition-type-uuid = F
+		bootable = true
+		image = config.vfat
+	}
+
+	partition bootA {
+		in-partition-table = true
+		partition-type-uuid = F
+		bootable = true
+		image = bootA.vfat
+	}
+
+	partition rootA {
+		in-partition-table = true
+		partition-type-uuid = L
+		image = rootA.ext4
+	}
+
+	partition bootB {
+		in-partition-table = true
+		partition-type-uuid = F
+		bootable = true
+		image = bootB.vfat
+	}
+
+	partition rootB {
+		in-partition-table = true
+		partition-type-uuid = L
+		image = rootB.ext4
+	}
+
+	partition data {
+		in-partition-table = true
+		partition-type-uuid = L
+		image = data.ext4
+	}
+}
