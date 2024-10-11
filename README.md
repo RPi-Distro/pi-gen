@@ -1,20 +1,23 @@
-# pi-gen
+# rpi-image-gen
 
-Tool used to create Raspberry Pi OS images, and custom images based on Raspberry Pi OS,
-which was in turn derived from the Raspbian project.
+rpi-image-gen is a tool used to create custom images based on Raspberry Pi OS.
 
-**Note**: Raspberry Pi OS 32 bit images are based primarily on Raspbian, while
-Raspberry Pi OS 64 bit images are based primarily on Debian.
+For 32-bit userspace images, these are derived from the Raspbian project.
+
+For 64-bit userspace images, these are derived from the Debian project.
+
+**For the tool used to create Raspberry Pi OS, look at https://github.com/RPi-Distro/pi-gen**
 
 ## Dependencies
 
-pi-gen runs on Debian-based operating systems released after 2017, and we
-always advise you use the latest OS for security reasons.
+rpi-image-gen runs best on Raspberry Pi 5 with Raspberry Pi OS, however it may also run on
+Debian-based operating systems released after 2017, and we always advise you use the latest
+OS for security reasons.
 
 On other Linux distributions it may be possible to use the Docker build described
 below.
 
-To install the required dependencies for `pi-gen` you should run:
+To install the required dependencies for `rpi-image-gen` you should run:
 
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
@@ -31,15 +34,11 @@ Getting started is as simple as cloning this repository on your build machine. Y
 can do so with:
 
 ```bash
-git clone https://github.com/RPI-Distro/pi-gen.git
+git clone https://github.com/raspberrypi/rpi-image-gen.git
 ```
-
-`--depth 1` can be added afer `git clone` to create a shallow clone, only containing
-the latest revision of the repository. Do not do this on your development machine.
-
-Also, be careful to clone the repository to a base path **NOT** containing spaces.
-This configuration is not supported by debootstrap and will lead to `pi-gen` not
-running.
+Be careful to clone the repository to a base path **NOT** containing spaces.
+This configuration is not supported by `debootstrap` and will lead to `rpi-image-gen`
+failing.
 
 After cloning the repository, you can move to the next step and start configuring
 your build.
@@ -81,12 +80,12 @@ The following environment variables are supported:
 
    **CAUTION**: Currently, changing this value will probably break build.sh
 
-   Top-level directory for `pi-gen`.  Contains stage directories, build
+   Top-level directory for `rpi-image-gen`.  Contains stage directories, build
    scripts, and by default both work and deployment directories.
 
  * `WORK_DIR`  (Default: `$BASE_DIR/work`)
 
-   Directory in which `pi-gen` builds the target system.  This value can be
+   Directory in which `rpi-image-gen` builds the target system.  This value can be
    changed if you have a suitably large, fast storage location for stages to
    be built and cached.  Note, `WORK_DIR` stores a complete copy of the target
    system for each build stage, amounting to tens of gigabytes in the case of
@@ -196,14 +195,14 @@ The following environment variables are supported:
 
  * `SETFCAP` (Default: unset)
 
-   * Setting to `1` will prevent pi-gen from dropping the "capabilities"
+   * Setting to `1` will prevent rpi-image-gen from dropping the "capabilities"
    feature. Generating the root filesystem with capabilities enabled and running
    it from a filesystem that does not support capabilities (like NFS) can cause
    issues. Only enable this if you understand what it is.
 
  * `STAGE_LIST` (Default: `stage*`)
 
-    If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
+    If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the rpi-image-gen directory.
 
 A simple example for building Raspberry Pi OS:
 
@@ -291,7 +290,7 @@ CONTINUE=1 ./build-docker.sh
 To examine the container after a failure you can enter a shell within it using:
 
 ```bash
-sudo docker run -it --privileged --volumes-from=pigen_work pi-gen /bin/bash
+sudo docker run -it --privileged --volumes-from=pigen_work rpi-image-gen /bin/bash
 ```
 
 After successful build, the build container is by default removed. This may be undesired when making incremental changes to a customized build. To prevent the build script from remove the container add
@@ -399,28 +398,10 @@ follows:
 
 # Troubleshooting
 
-## `64 Bit Systems`
-Please note there is currently an issue when compiling with a 64 Bit OS. See
-https://github.com/RPi-Distro/pi-gen/issues/271
-
-A 64 bit image can be generated from the `arm64` branch in this repository. Just
-replace the command from [this section](#getting-started-with-building-your-images)
-by the one below, and follow the rest of the documentation:
-```bash
-git clone --branch arm64 https://github.com/RPI-Distro/pi-gen.git
-```
-
-If you want to generate a 64 bits image from a Raspberry Pi running a 32 bits
-version, you need to add `arm_64bit=1` to your `config.txt` file and reboot your
-machine. This will restart your machine with a 64 bits kernel. This will only
-work from a Raspberry Pi with a 64-bit capable processor (i.e. Raspberry Pi Zero
-2, Raspberry Pi 3 or Raspberry Pi 4).
-
-
 ## `binfmt_misc`
 
 Linux is able execute binaries from other architectures, meaning that it should be
-possible to make use of `pi-gen` on an x86_64 system, even though it will be running
+possible to make use of `rpi-image-gen` on an x86_64 system, even though it will be running
 ARM binaries. This requires support from the [`binfmt_misc`](https://en.wikipedia.org/wiki/Binfmt_misc)
 kernel module.
 
@@ -430,7 +411,7 @@ You may see one of the following errors:
 update-binfmts: warning: Couldn't load the binfmt_misc module.
 ```
 ```
-W: Failure trying to run: chroot "/pi-gen/work/test/stage0/rootfs" /bin/true
+W: Failure trying to run: chroot "/rpi-image-gen/work/test/stage0/rootfs" /bin/true
 and/or
 chroot: failed to run command '/bin/true': Exec format error
 ```
@@ -443,5 +424,3 @@ To resolve this, ensure that the following files are available (install them if 
 ```
 
 You may also need to load the module by hand - run `modprobe binfmt_misc`.
-
-If you are using WSL to build you may have to enable the service `sudo update-binfmts --enable`
