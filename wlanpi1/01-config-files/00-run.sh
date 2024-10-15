@@ -112,5 +112,8 @@ copy_overlay /etc/systemd/network/eth1.network -o root -g root -m 664
 # Copy config file: kismet_site.conf
 copy_overlay /etc/kismet/kismet_site.conf -o root -g root -m 644
 
-# Copy config file: systemd/system/kismet.service.d/override.conf
+# Copy config file: kismet.service.d/override.conf
 copy_overlay /etc/systemd/system/kismet.service.d/override.conf -o root -g root -m 644
+
+# Copy config file: systemd-networkd-wait-online.service.d/override.conf
+copy_overlay /etc/systemd/system/systemd-networkd-wait-online.service.d/override.conf -o root -g root -m 644
