@@ -1,12 +1,11 @@
 # Install WLAN Pi packages
 wlanpi-common
 wlanpi-profiler
+wlanpi-core
 wlanpi-webui
-# wlanpi-webui depends on wlanpi-core and installs it
+wlanpi-bluetooth
 wlanpi-fpms
 wlanpi-kernel
-# Temporarily uninstalled wlanpi-bluetooth for testing
-# wlanpi-bluetooth
 wlanpi-hotspot
 wlanpi-wconsole
 wlanpi-server
