@@ -4,7 +4,7 @@ wlanpi-profiler
 wlanpi-webui
 wlanpi-fpms
 wlanpi-kernel
-wlanpi-bluetooth
+#wlanpi-bluetooth
 wlanpi-hotspot
 wlanpi-wconsole
 wlanpi-server
