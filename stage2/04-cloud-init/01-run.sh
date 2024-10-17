@@ -15,7 +15,7 @@ install -v -m 755 files/network-config "${ROOTFS_DIR}/boot/firmware/network-conf
 # setup default netplan config which will instruct netplan to pass control over to network-manager
 # at boot time. This will make NetworkManager manage all devices and by default. 
 # Any Ethernet device will come up with DHCP, once carrier is detected
-install -v -D -m 644 -t "${ROOTFS_DIR}/usr/lib/netplan/" files/00-network-manager-all.yaml
+install -v -D -m 600 -t "${ROOTFS_DIR}/usr/lib/netplan/" files/00-network-manager-all.yaml
 
 # still does not solve the conflict, maybe some kind of race cond.
 # make sure config stage is run before userconfig service
