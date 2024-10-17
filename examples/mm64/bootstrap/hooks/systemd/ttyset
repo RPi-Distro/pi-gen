@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case $1 in
+   noclear)
+      cat << EOF
+[Service]
+TTYVTDisallocate=no
+EOF
+      ;;
+   *);;
+esac

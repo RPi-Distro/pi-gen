@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cat << EOF
+[Match]
+Name=$1
+
+[Network]
+DHCP=yes
+
+[DHCPv4]
+RoutesToDNS=false
+EOF
+

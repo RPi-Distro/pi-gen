@@ -1,0 +1,11 @@
+---
+name: bookworm-rpi
+mmdebstrap:
+  mirrors:
+    - deb http://archive.raspberrypi.com/debian bookworm main
+  setup-hooks:
+    - mkdir -p $1/etc/apt/apt.conf.d $1/etc/apt/trusted.gpg.d
+    - if [ -n "$APT_PROXY" ]; then echo "Acquire::http { Proxy $APT_PROXY; };" > $1/etc/apt/apt.conf.d/51cache; fi
+    - cat keydir/raspberrypi.gpg.key | gpg --dearmor > $1/etc/apt/trusted.gpg.d/raspberrypi-archive-stable.gpg
+  packages:
+    - raspberrypi-archive-keyring

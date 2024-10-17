@@ -1,0 +1,32 @@
+---
+name: trixie-arm64
+mmdebstrap:
+  architectures:
+    - arm64
+  mode: auto
+  variant: apt
+  suite: trixie
+  mirrors:
+    - deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
+    - deb http://deb.debian.org/debian-security trixie-security main
+  essential-hooks:
+    - echo $TIMEZONE_DEFAULT > $1/etc/timezone
+    - dpkg-reconfigure -f noninteractive tzdata
+    - echo $LOCALE_DEFAULT > $1/etc/locale.gen
+    - dpkg-reconfigure --frontend=noninteractive locales && update-locale LANG=$LOCALE_DEFAULT
+  aptopts:
+    - APT::Install-Suggests "false"
+    - APT::Install-Recommends "false"
+  dpkgopts:
+    - path-exclude=/usr/share/man/*
+    - path-include=/usr/share/man/man[1-9]/*
+    - path-exclude=/usr/share/locale/*
+    - path-include=/usr/share/locale/locale.alias
+    - path-exclude=/usr/share/doc/*
+    - path-include=/usr/share/doc/*/copyright
+    - path-include=/usr/share/doc/*/changelog.Debian.*
+    - path-exclude=/usr/share/{doc,info,man,omf,help,gnome/help}/*
+  customize-hooks:
+    - chroot $1 apt update
+    - chroot $1 apt-get -y dist-upgrade --auto-remove --purge
+    - chroot $1 apt-get clean

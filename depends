@@ -23,3 +23,5 @@ arch-test
 genimage
 mtools
 genfstab:arch-install-scripts
+mmdebstrap
+bdebstrap

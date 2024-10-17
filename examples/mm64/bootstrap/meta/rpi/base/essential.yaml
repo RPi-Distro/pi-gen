@@ -1,0 +1,10 @@
+---
+name: rpi-essential-base
+mmdebstrap:
+  packages:
+    - cryptsetup
+    - e2fsprogs
+    - wget
+    - ca-certificates
+    - net-tools
+    - procps

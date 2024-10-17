@@ -1,0 +1,9 @@
+---
+name: rpi-utils
+mmdebstrap:
+  packages:
+    - raspi-config
+    - rpi-eeprom
+    - raspi-utils
+    - raspi-utils-core
+    - raspi-utils-dt

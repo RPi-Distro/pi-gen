@@ -1,0 +1,6 @@
+---
+name: rpi-linux-v8
+mmdebstrap:
+  packages:
+    - initramfs-tools
+    - linux-image-rpi-v8

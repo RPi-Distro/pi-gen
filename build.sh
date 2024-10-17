@@ -87,6 +87,7 @@ run_stage(){
 	pushd "${STAGE_DIR}" > /dev/null
 
 	STAGE_WORK_DIR="${WORK_DIR}/${STAGE}"
+	mkdir -p ${STAGE_WORK_DIR}
 	ROOTFS_DIR="${STAGE_WORK_DIR}"/rootfs
 
 	unmount "${WORK_DIR}/${STAGE}"
