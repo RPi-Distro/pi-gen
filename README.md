@@ -205,6 +205,10 @@ The following environment variables are supported:
 
     If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
 
+  * `ENABLE_CLOUD_INIT` (Default: `1`)
+
+    If set to `1`, cloud-init and netplan will be installed and configured. This will allow you to configure your Raspberry Pi using cloud-init configuration files. The cloud-init configuration files should be placed in the bootfs or by editing the files in `stage2/04-cloud-init/files`. Cloud-init will be configured to read them on first boot.
+
 A simple example for building Raspberry Pi OS:
 
 ```bash

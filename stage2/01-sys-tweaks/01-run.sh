@@ -1,12 +1,16 @@
 #!/bin/bash -e
 
-install -m 755 files/resize2fs_once	"${ROOTFS_DIR}/etc/init.d/"
+if [ "${ENABLE_CLOUD_INIT}" != "1" ]; then
+	# if cloud-init is enabled, it will take care of resizing the rootfs
+	install -m 755 files/resize2fs_once	"${ROOTFS_DIR}/etc/init.d/"
+fi
+
+# TODO: move into conditional block above when cloud-init adds support for commands in final message
+install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
 
 install -m 644 files/50raspi		"${ROOTFS_DIR}/etc/apt/apt.conf.d/"
 
 install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
-
-install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
 
 if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
 	install -v -m 0700 -o 1000 -g 1000 -d "${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh
@@ -39,10 +43,6 @@ if [ "${USE_QEMU}" = "1" ]; then
 systemctl disable resize2fs_once
 EOF
 	echo "leaving QEMU mode"
-else
-	on_chroot << EOF
-systemctl enable resize2fs_once
-EOF
 fi
 
 on_chroot <<EOF
