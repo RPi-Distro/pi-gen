@@ -9,21 +9,6 @@ sed -i "s/ROOTDEV/UUID=$(lsblk -no UUID $(df -P ${ROOTFS_DIR} | awk 'END{print $
 	"${ROOTFS_DIR}/boot/firmware/cmdline.txt"
 genfstab -U -p ${ROOTFS_DIR} > ${ROOTFS_DIR}/etc/fstab
 
-sed -i 's/^update_initramfs=.*/update_initramfs=all/' "${ROOTFS_DIR}/etc/initramfs-tools/update-initramfs.conf"
-
-on_chroot << EOF
-update-initramfs -k all -c
-if [ -x /etc/init.d/fake-hwclock ]; then
-	/etc/init.d/fake-hwclock stop
-fi
-if hash hardlink 2>/dev/null; then
-	hardlink -t /usr/share/doc
-fi
-apt-get update
-apt-get -y dist-upgrade --auto-remove --purge
-apt-get clean
-EOF
-
 # prune / cleanup
 if [ -d "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config" ]; then
 	chmod 700 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config"
