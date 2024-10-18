@@ -8,7 +8,7 @@ rm -rf ${ROOTFS_DIR}
 mkdir -p ${ROOTFS_DIR}
 
 ROOT_DU=$(du -x --apparent-size -s "${EXPORT_ROOTFS_DIR}" --exclude var/cache/apt/archives --exclude boot/firmware --block-size=1 | cut -f 1)
-ROOT_MARGIN="$(echo "($ROOT_DU * 0.2 + 50 * 1024 * 1024) / 1" | bc)"
+ROOT_MARGIN="$(echo "($ROOT_DU * 0.2 + 200 * 1024 * 1024) / 1" | bc)"
 ROOT_SIZE=$(numfmt --to=none --to-unit=1000 --format=%f --suffix=K $((ROOT_DU + ROOT_MARGIN)))
 
 FW_DU=$(du -x --apparent-size -s "${EXPORT_ROOTFS_DIR}/boot/firmware" --block-size=1 | cut -f 1)
