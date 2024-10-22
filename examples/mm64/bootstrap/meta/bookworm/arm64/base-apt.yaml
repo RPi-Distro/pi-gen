@@ -11,10 +11,14 @@ mmdebstrap:
     - deb http://deb.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
     - deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
   essential-hooks:
-    - echo $TIMEZONE_DEFAULT > $1/etc/timezone
-    - dpkg-reconfigure -f noninteractive tzdata
-    - echo $LOCALE_DEFAULT > $1/etc/locale.gen
-    - dpkg-reconfigure --frontend=noninteractive locales && update-locale LANG=$LOCALE_DEFAULT
+    - echo tzdata tzdata/Areas select Europe
+        | chroot $1 debconf-set-selections
+    - echo tzdata tzdata/Zones/Europe select London
+        | chroot $1 debconf-set-selections
+    - echo locales locales/locales_to_be_generated multiselect $LOCALE_DEFAULT
+        | chroot $1 debconf-set-selections
+    - echo locales locales/default_environment_locale select $LOCALE_DEFAULT
+        | chroot $1 debconf-set-selections
   aptopts:
     - APT::Install-Suggests "false"
     - APT::Install-Recommends "false"

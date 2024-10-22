@@ -1,0 +1,109 @@
+image <STAGE_WORK_DIR>/<IMG_FILENAME><IMG_SUFFIX>.img {
+   hdimage {
+      partition-table-type = "gpt"
+   }
+
+   partition config {
+      in-partition-table = true
+      image = config.vfat
+      partition-type-uuid = F
+      bootable = true
+      size = 32M
+   }
+
+   partition bootA {
+      in-partition-table = true
+      image = bootA.vfat
+      partition-type-uuid = F
+      bootable = true
+      size = <FW_SIZE>
+   }
+
+   partition rootA {
+      in-partition-table = true
+      image = rootA.ext4
+      partition-type-uuid = L
+      size = <ROOT_SIZE>
+   }
+
+   partition bootB {
+      in-partition-table = true
+      image = bootB.vfat
+      partition-type-uuid = F
+      bootable = true
+      size = <FW_SIZE>
+   }
+
+   partition rootB {
+      in-partition-table = true
+      image = rootB.ext4
+      partition-type-uuid = L
+      size = <ROOT_SIZE>
+   }
+
+#   partition data {
+#      in-partition-table = true
+#      partition-type-uuid = L
+#   }
+}
+
+#image <STAGE_WORK_DIR>/<IMG_FILENAME><IMG_SUFFIX>-sparse.img {
+#   android-sparse {
+#        image = <STAGE_WORK_DIR>/<IMG_FILENAME><IMG_SUFFIX>.img
+#    }
+#}
+
+image config.vfat {
+   vfat {
+      file "autoboot.txt" { image = "autoboot.txt" }
+   }
+   size = 32M
+}
+
+image bootA.vfat {
+   vfat {
+      label = "BOOTA"
+   }
+   size = <FW_SIZE>
+   mountpoint = "/boot/firmware"
+   exec-pre = "<SLOTP> A BOOTA"
+}
+
+image rootA.ext4 {
+   ext4 {
+      use-mke2fs = true
+      label = "ROOTA"
+   }
+   size = <ROOT_SIZE>
+   mountpoint = "/"
+   exec-pre = "<SLOTP> A ROOTA"
+}
+
+image bootB.vfat {
+   vfat {
+      label = "BOOTB"
+   }
+   size = <FW_SIZE>
+   mountpoint = "/boot/firmware"
+   exec-pre = "<SLOTP> B BOOTB"
+}
+
+image rootB.ext4 {
+   ext4 {
+      use-mke2fs = true
+      label = "ROOTB"
+   }
+   size = <ROOT_SIZE>
+   mountpoint = "/"
+   exec-pre = "<SLOTP> B ROOTB"
+}
+
+#image data.ext4 {
+#   empty = true
+#   ext4 {
+#      use-mke2fs = true
+#      label = "DATA"
+#   }
+#   size = 64M
+#   mountpoint = "/data"
+#}

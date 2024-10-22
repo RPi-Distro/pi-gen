@@ -130,8 +130,8 @@ run_stage(){
 }
 
 if [ "$(id -u)" != "0" ]; then
-	echo "Please run as root" 1>&2
-	exit 1
+	echo "Not running as root" 1>&2
+	#exit 1
 fi
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

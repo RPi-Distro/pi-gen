@@ -7,4 +7,5 @@ mmdebstrap:
     - wget
     - ca-certificates
     - net-tools
+    - iputils-ping
     - procps

@@ -2,4 +2,3 @@ IMG_NAME=mm64
 FIRST_USER_NAME=pi
 FIRST_USER_PASS=removeme
 STAGE_LIST="examples/mm64/bootstrap"
-EXPORT_CONFIG_DIR=examples/multipart/export-image
