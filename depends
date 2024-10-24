@@ -24,3 +24,4 @@ genimage
 mtools
 mmdebstrap
 bdebstrap
+podman

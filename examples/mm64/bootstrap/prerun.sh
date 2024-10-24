@@ -80,9 +80,9 @@ rm -rf ${STAGE_WORK_DIR}/genimage.tmp
 rm -rf ${STAGE_WORK_DIR}/rootfs
 mkdir ${STAGE_WORK_DIR}/rootfs
 
-fakeroot tar -C ${STAGE_WORK_DIR}/rootfs --same-owner --preserve-permissions -xzf ${STAGE_WORK_DIR}/rootfs.tar.gz
+podman --log-level debug unshare fakeroot tar -C ${STAGE_WORK_DIR}/rootfs -xzf ${STAGE_WORK_DIR}/rootfs.tar.gz
 
-fakeroot genimage \
+podman --log-level debug unshare genimage \
    --rootpath ${STAGE_WORK_DIR}/rootfs \
    --tmppath ${STAGE_WORK_DIR}/genimage.tmp \
    --inputpath ${STAGE_WORK_DIR}   \
