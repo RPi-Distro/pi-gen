@@ -67,11 +67,22 @@ jobs:
           sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
           sudo ./build-docker.sh -v ${{ github.event.inputs.version-bump }}
 
+      - name: Generate checksum
+        id: generate-checksum
+        run: |
+          cd deploy; for file in *.zip; do sha256sum --binary $file | sudo tee "${file}.sha256"; done; cd ../
+
       - name: Upload image
         uses: actions/upload-artifact@v3
         with:
           name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}
           path: deploy/*.zip
+
+      - name: Upload image checksum
+        uses: actions/upload-artifact@v3
+        with:
+          name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}-sha256
+          path: deploy/*.sha256
 
       - name: Upload image info
         uses: actions/upload-artifact@v3
