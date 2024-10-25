@@ -70,7 +70,7 @@ jobs:
       - name: Generate checksum
         id: generate-checksum
         run: |
-          cd deploy; for file in *.zip; do echo $(sha256sum --binary $file) > "${file}.sha256"; done; cd ../
+          cd deploy; for file in *.zip; do sha256sum --binary $file | sudo tee "${file}.sha256"; done; cd ../
 
       - name: Upload image
         uses: actions/upload-artifact@v3
