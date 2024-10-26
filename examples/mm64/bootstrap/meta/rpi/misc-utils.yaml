@@ -7,3 +7,4 @@ mmdebstrap:
     - raspi-utils
     - raspi-utils-core
     - raspi-utils-dt
+    - flashrom

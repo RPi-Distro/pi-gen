@@ -1,4 +1,4 @@
-image <STAGE_WORK_DIR>/<IMG_FILENAME><IMG_SUFFIX>.img {
+image <DEPLOY_DIR>/<IMAGE_NAME>.img {
    hdimage {
       partition-table-type = "gpt"
    }
@@ -47,9 +47,9 @@ image <STAGE_WORK_DIR>/<IMG_FILENAME><IMG_SUFFIX>.img {
 #   }
 }
 
-#image <STAGE_WORK_DIR>/<IMG_FILENAME><IMG_SUFFIX>-sparse.img {
+#image <DEPLOY_DIR>/<IMG_NAME>-sparse.img {
 #   android-sparse {
-#        image = <STAGE_WORK_DIR>/<IMG_FILENAME><IMG_SUFFIX>.img
+#        image = <DEPLOY_DIR>/<IMAGE_NAME>.img
 #    }
 #}
 

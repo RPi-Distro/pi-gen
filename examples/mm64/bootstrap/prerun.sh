@@ -4,6 +4,7 @@ set -eo pipefail
 
 # TODO need top level selectors for:
 #  build artifact top dir
+WORKROOT=${STAGE_WORK_DIR}
 #  deploy dir
 #  external meta dir
 #  external namespace for meta dir
@@ -44,16 +45,15 @@ for l in $LAYERS ; do
    ARGS_LAYERS+=('--config' $META/$l.yaml)
 done
 
-bdebstrap \
+podman unshare bdebstrap \
    "${ARGS_LAYERS[@]}" \
    "${ARGS_ENV[@]}" \
    --name $IMG_NAME \
    --hostname $TARGET_HOSTNAME \
-   --output-base-dir ${STAGE_WORK_DIR}/bdebstrap \
-   --target ${STAGE_WORK_DIR}/rootfs.tar.gz
+   --output-base-dir ${WORKROOT}/bdebstrap \
+   --target ${WORKROOT}/rootfs
 
-
-cat << EOF > "${STAGE_WORK_DIR}/autoboot.txt"
+cat << EOF > "${WORKROOT}/autoboot.txt"
 [ALL]
 boot_partition=2
 EOF
@@ -64,8 +64,8 @@ FW_SIZE=60M
 ROOT_SIZE=700M
 
 cat image/genimage.cfg.in | sed \
-   -e "s|<STAGE_WORK_DIR>|$STAGE_WORK_DIR|g" \
-   -e "s|<IMG_NAME>|$IMG_NAME|g" \
+   -e "s|<DEPLOY_DIR>|$WORKROOT|g" \
+   -e "s|<IMAGE_NAME>|test|g" \
    -e "s|<IMG_SUFFIX>|$IMG_SUFFIX|g" \
    -e "s|<IMG_FILENAME>|$IMG_FILENAME|g" \
    -e "s|<ARCHIVE_FILENAME>|$ARCHIVE_FILENAME|g" \
@@ -73,19 +73,16 @@ cat image/genimage.cfg.in | sed \
    -e "s|<ROOT_SIZE>|$ROOT_SIZE|g" \
    -e "s|<ROOT_FEATURES>|'$ROOT_FEATURES'|g" \
    -e "s|<SLOTP>|'$SLOTP_PROCESS'|g" \
-   > ${STAGE_WORK_DIR}/genimage.cfg
+   > ${WORKROOT}/genimage.cfg
 
 
-rm -rf ${STAGE_WORK_DIR}/genimage.tmp
-rm -rf ${STAGE_WORK_DIR}/rootfs
-mkdir ${STAGE_WORK_DIR}/rootfs
+GTMP=$(mktemp -d)
+trap 'rm -rf $GTMP' EXIT
 
-podman --log-level debug unshare fakeroot tar -C ${STAGE_WORK_DIR}/rootfs -xzf ${STAGE_WORK_DIR}/rootfs.tar.gz
-
-podman --log-level debug unshare genimage \
-   --rootpath ${STAGE_WORK_DIR}/rootfs \
-   --tmppath ${STAGE_WORK_DIR}/genimage.tmp \
-   --inputpath ${STAGE_WORK_DIR}   \
-   --outputpath ${STAGE_WORK_DIR} \
+podman unshare genimage \
+   --rootpath ${WORKROOT}/rootfs \
+   --tmppath $GTMP \
+   --inputpath ${WORKROOT}   \
+   --outputpath ${WORKROOT} \
    --loglevel=10 \
-   --config ${STAGE_WORK_DIR}/genimage.cfg
+   --config ${WORKROOT}/genimage.cfg
