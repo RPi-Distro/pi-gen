@@ -30,24 +30,8 @@ jobs:
     runs-on: 'ubuntu-22.04'
 
     steps:
-      - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@main
-        with:
-          # this might remove tools that are actually needed,
-          # if set to "true" but frees about 6 GB
-          tool-cache: false
-        
-          # all of these default to true, but feel free to set to
-          # "false" if necessary for your workflow
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: true
-          swap-storage: true
-        
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: '0'
 
@@ -72,25 +56,33 @@ jobs:
         run: |
           cd deploy; for file in *.zip; do sha256sum --binary $file | sudo tee "${file}.sha256"; done; cd ../
 
+      - name: Get current date
+        id: date
+        run: echo "date=$(date -u +'%Y%m%d')" >> $GITHUB_ENV
+
+      - name: Set nightly artifact name
+        id: set-nightly-artifact-name
+        run: echo "ARTIFACT_NAME=wlanpi-nightly-${{ steps.build-image.outputs.version }}~gha${{ env.date }}" >> $GITHUB_ENV
+
       - name: Upload image
         uses: actions/upload-artifact@v3
         with:
-          name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}
+          name: ${{ env.ARTIFACT_NAME }}
           path: deploy/*.zip
 
-      - name: Upload image checksum
+      - name: Upload zipped image checksum
         uses: actions/upload-artifact@v3
         with:
-          name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}-sha256
+          name: ${{ env.ARTIFACT_NAME }}-sha256
           path: deploy/*.sha256
 
       - name: Upload image info
         uses: actions/upload-artifact@v3
         with:
-          name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}-info
+          name: ${{ env.ARTIFACT_NAME }}-info
           path: deploy/*.info
 
-      - name: Create Pre-Release
+      - name: Create pre-release from default branch
         if: ${{ github.event.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -101,17 +93,18 @@ jobs:
             deploy/*.zip
             deploy/*.info
             deploy/wlanpi-os/os.json
+            deploy/*.sha256
 
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: wlanpi-nightly-release-${{ steps.build-image.outputs.version }}-buildlogs
+          name: ${{ env.ARTIFACT_NAME }}-buildlogs
           path: deploy/*.log
 
   slack-workflow-status:
-    if: always()
-    name: Post Workflow Status to Slack
+    if: ${{ always() && (github.repository_owner == 'WLAN-Pi') && (! github.event.pull_request.head.repo.fork) }}
+    name: Post Workflow Status to WLAN-Pi Slack
     needs:
       - build
     runs-on: 'ubuntu-22.04'
@@ -121,5 +114,3 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          channel: '#pi-gen'
-          name: 'WLAN Pi CI Bot'
