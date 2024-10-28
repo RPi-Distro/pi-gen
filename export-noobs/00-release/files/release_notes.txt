@@ -2,20 +2,30 @@ UNRELEASED:
   * labwc compositor now used as the default on all models of Raspberry Pi
   * wf-panel-pi now loads plugins dynamically at runtime
   * New raindrop screen configuration tool to replace arandr
-  * squeekboard on-screen keyboard installed; will automatically run on systems with touchscreens, and can be manually enabled in rc-gui for others
+  * squeekboard on-screen keyboard installed; will automatically run on systems
+    with touchscreens, and can be manually enabled in rc-gui for others
+  * Improved support for touchscreens - long press for right-click, and
+    double-tap for double-click
   * Update installer moved out of panel code into separate gui-updater package
   * Missing cursors added to icon theme
-  * Wizard no longer auto-pairs Bluetooth HID devices by default - create the file "/boot/firmware/btautopair" to enable, or reboot wizard after first run
+  * Wizard no longer auto-pairs Bluetooth HID devices by default - create the
+    file "/boot/firmware/btautopair" to enable, or reboot wizard after first run
+  * Modified handling of Pi 5 power button to reduce CPU load when in shutdown
+    dialog
+  * Raspberry Pi Connect now controlled by dedicated panel plugin instead of
+    system tray icon and option in rc-gui
+  * Screen sharing in Raspberry Pi Connect now available as soon as a running
+    WayVNC server is detected
   * Safety info URL added to main menu
+  * Chromium package renamed from chromium-browser to chromium
   * Various memory leaks in pcmanfm fixed
   * Bug fix - crash when running Appearance Settings on headless systems
   * Bug fix - crash when opening icon chooser in application properties dialog
   * Translations updated
-  * RPi.GPIO replaced with rpi-lgpio
-  * Chromium updated to 129.0.6668.89
-  * Firefox updated to 131.0
+  * Chromium updated to 130.0.6723.58
+  * Firefox updated to 131.0.3
   * Raspberry Pi firmware a2e586ba98ce68f7d11b1c717ad8329b95dcb3b6
-  * Linux kernel 6.6.51 - 82a50e430ef1d6eb37d78e25aa572c1f6ea56160
+  * Linux kernel 6.6.51 - 5aeecea9f4a45248bcf564dec924965e066a7bfd
 2024-07-04:
   * pipanel - allow customisation of more than 2 desktops
   * pipanel - add customisation for labwc
