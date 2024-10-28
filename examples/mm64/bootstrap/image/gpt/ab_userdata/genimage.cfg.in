@@ -41,13 +41,15 @@ image <DEPLOY_DIR>/<IMAGE_NAME>.img {
       size = <ROOT_SIZE>
    }
 
-#   partition data {
-#      in-partition-table = true
-#      partition-type-uuid = L
-#   }
+   partition data {
+      in-partition-table = true
+      image = data.ext4
+      partition-type-uuid = L
+      size = 64M
+   }
 }
 
-#image <DEPLOY_DIR>/<IMG_NAME>-sparse.img {
+#image <DEPLOY_DIR>/<IMAGE_NAME>-sparse.img {
 #   android-sparse {
 #        image = <DEPLOY_DIR>/<IMAGE_NAME>.img
 #    }
@@ -55,7 +57,10 @@ image <DEPLOY_DIR>/<IMAGE_NAME>.img {
 
 image config.vfat {
    vfat {
+      label = "BOOTFS"
       file "autoboot.txt" { image = "autoboot.txt" }
+      file "tryboot.txt" { image = "tryboot.txt" }
+      extraargs = "-s 1"
    }
    size = 32M
 }
@@ -98,12 +103,12 @@ image rootB.ext4 {
    exec-pre = "<SLOTP> B ROOTB"
 }
 
-#image data.ext4 {
-#   empty = true
-#   ext4 {
-#      use-mke2fs = true
-#      label = "DATA"
-#   }
-#   size = 64M
-#   mountpoint = "/data"
-#}
+image data.ext4 {
+   empty = true
+   ext4 {
+      use-mke2fs = true
+      label = "USERDATA"
+   }
+   size = 64M
+   mountpoint = "/data"
+}

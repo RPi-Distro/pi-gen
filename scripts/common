@@ -157,3 +157,16 @@ ensure_loopdev_partitions() {
 	udevadm settle 10
 }
 export -f ensure_loopdev_partitions
+
+cfg_read_section() {
+   local section=$1
+   local cfg=$2
+   local attrs=$(crudini --get --format=sh $cfg $section)
+   if [ $? -ne 0 ] ; then
+      echo "cfg: $cfg does not specify $section"
+   fi
+   for a in $attrs ; do
+      eval "IGconf_$a"
+   done
+}
+export -f cfg_read_section

@@ -9,5 +9,5 @@ mmdebstrap:
     - $BDEBSTRAP_HOOKS/enable-units "$1" systemd-networkd
     - $BDEBSTRAP_HOOKS/enable-units "$1" systemd-timesyncd
     - mkdir -p $1/etc/systemd/network $1/etc/systemd/system/getty@tty1.service.d
-    - $RPI_HOOKS/systemd/netgen end0 > $1/etc/systemd/network/01-end0.network
-    - $RPI_HOOKS/systemd/ttyset noclear > $1/etc/systemd/system/getty@tty1.service.d/noclear.conf
+    - $META_HOOKS/systemd/netgen end0 > $1/etc/systemd/network/01-end0.network
+    - $META_HOOKS/systemd/ttyset noclear > $1/etc/systemd/system/getty@tty1.service.d/noclear.conf
