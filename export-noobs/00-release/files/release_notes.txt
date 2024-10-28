@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2024-10-22:
   * labwc compositor now used as the default on all models of Raspberry Pi
   * wf-panel-pi now loads plugins dynamically at runtime
   * New raindrop screen configuration tool to replace arandr
