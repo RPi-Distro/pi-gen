@@ -301,8 +301,11 @@ log "Begin ${BASE_DIR}"
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
 export STAGE_LIST
 
-EXPORT_CONFIG_DIR=$(realpath ${EXPORT_CONFIG_DIR:-"${BASE_DIR}/export-image"})
-if [ ! -d ${EXPORT_CONFIG_DIR} ]; then echo "EXPORT_CONFIG_DIR invalid" 1>&2; exit 1; fi
+EXPORT_CONFIG_DIR=$(realpath "${EXPORT_CONFIG_DIR:-"${BASE_DIR}/export-image"}")
+if [ ! -d "${EXPORT_CONFIG_DIR}" ]; then
+	echo "EXPORT_CONFIG_DIR invalid: ${EXPORT_CONFIG_DIR} does not exist"
+	exit 1
+fi
 export EXPORT_CONFIG_DIR
 
 for STAGE_DIR in $STAGE_LIST; do
