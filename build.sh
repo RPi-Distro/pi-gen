@@ -260,6 +260,13 @@ if ! arch-test -n "$ARCH"; then
 	echo "WARNING: Only a native build environment is supported. Checking emulated support..."
 	if ! arch-test "$ARCH"; then
 		echo "No fallback mechanism found. Ensure your OS has binfmt_misc support enabled and configured."
+		PAGESIZE=$(getconf PAGESIZE)
+		if [ "$ARCH" == "armhf" ] && [ "$PAGESIZE" != "4096" ]; then
+			echo
+			echo "Building an $ARCH image requires a kernel with a 4k page size"
+			echo "Current pagesize: $PAGESIZE"
+			echo "On Raspberry Pi OS, you can switch to a suitable kernel by adding kernel=kernel8.img to /boot/firmware/config.txt and rebooting"
+		fi
 		exit 1
 	fi
 fi
