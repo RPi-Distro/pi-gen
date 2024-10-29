@@ -19,19 +19,19 @@ image <DEPLOY_DIR>/<IMAGE_NAME>.img {
       size = <FW_SIZE>
    }
 
-   partition rootA {
-      in-partition-table = true
-      image = rootA.ext4
-      partition-type-uuid = L
-      size = <ROOT_SIZE>
-   }
-
    partition bootB {
       in-partition-table = true
       image = bootB.vfat
       partition-type-uuid = F
       bootable = true
       size = <FW_SIZE>
+   }
+
+   partition rootA {
+      in-partition-table = true
+      image = rootA.ext4
+      partition-type-uuid = L
+      size = <ROOT_SIZE>
    }
 
    partition rootB {

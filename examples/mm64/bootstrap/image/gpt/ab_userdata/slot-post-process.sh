@@ -17,7 +17,7 @@ case $DISKLABEL in
 EOF
       ;;
    BOOT*)
-      sed -i "s|ROOTDEV|\/dev\/disk\/by-label\/ROOT$SLOT|" $IMAGEMOUNTPATH/cmdline.txt
+      sed -i "s|root=\([^ ]*\)|root=\/dev\/disk\/by-label\/ROOT$SLOT|" $IMAGEMOUNTPATH/cmdline.txt
       ;;
    *)
       ;;

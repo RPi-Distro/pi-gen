@@ -7,19 +7,19 @@ genimg_in=$2
 # This disk layout requires two files which are pulled in via genimage cfg:
 #  autoboot.txt - used for indicating the default boot partition
 #  tryboot.txt - used for tryboot
+# Both relate directly to the layout in genimage.cfg.in
 
 cat << EOF > "${genimg_in}/autoboot.txt"
 [ALL]
 boot_partition=2
 EOF
 
-# Relates directly to the layout in genimage.cfg.in
 cat << EOF > "${genimg_in}/tryboot.txt"
-[all]
+[ALL]
 tryboot_a_b=1
 boot_partition=2
 [tryboot]
-boot_partition=4
+boot_partition=3
 EOF
 
 
@@ -37,4 +37,3 @@ cat $image_top/genimage.cfg.in | sed \
    -e "s|<ROOT_SIZE>|$ROOT_SIZE|g" \
    -e "s|<SLOTP>|'$SLOTP_PROCESS'|g" \
    > ${genimg_in}/genimage.cfg
-
