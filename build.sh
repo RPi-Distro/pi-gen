@@ -123,6 +123,20 @@ run_stage(){
 	log "End ${STAGE_DIR}"
 }
 
+term() {
+	if [ "$?" -ne 0 ]; then
+		log "Build failed"
+	else
+		log "Build finished"
+	fi
+	unmount "${STAGE_WORK_DIR}"
+	if [ "$STAGE" = "export-image" ]; then
+		for img in "${STAGE_WORK_DIR}/"*.img; do
+			unmount_image "$img"
+		done
+	fi
+}
+
 if [ "$(id -u)" != "0" ]; then
 	echo "Please run as root" 1>&2
 	exit 1
@@ -156,22 +170,6 @@ do
 			;;
 	esac
 done
-
-term() {
-	if [ "$?" -ne 0 ]; then
-		log "Build failed"
-	else
-		log "Build finished"
-	fi
-	unmount "${STAGE_WORK_DIR}"
-	if [ "$STAGE" = "export-image" ]; then
-		for img in "${STAGE_WORK_DIR}/"*.img; do
-			unmount_image "$img"
-		done
-	fi
-}
-
-trap term EXIT INT TERM
 
 export PI_GEN=${PI_GEN:-pi-gen}
 export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
@@ -252,6 +250,9 @@ if [ "$SETFCAP" != "1" ]; then
 	export CAPSH_ARG="--drop=cap_setfcap"
 fi
 
+mkdir -p "${WORK_DIR}"
+trap term EXIT INT TERM
+
 dependencies_check "${BASE_DIR}/depends"
 
 echo "Checking native $ARCH executable support..."
@@ -295,7 +296,6 @@ if [[ "${PUBKEY_ONLY_SSH}" = "1" && -z "${PUBKEY_SSH_FIRST_USER}" ]]; then
 	exit 1
 fi
 
-mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
