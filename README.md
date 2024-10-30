@@ -407,9 +407,6 @@ follows:
 # Troubleshooting
 
 ## `64 Bit Systems`
-Please note there is currently an issue when compiling with a 64 Bit OS. See
-https://github.com/RPi-Distro/pi-gen/issues/271
-
 A 64 bit image can be generated from the `arm64` branch in this repository. Just
 replace the command from [this section](#getting-started-with-building-your-images)
 by the one below, and follow the rest of the documentation:
