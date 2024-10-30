@@ -6,6 +6,9 @@ which was in turn derived from the Raspbian project.
 **Note**: Raspberry Pi OS 32 bit images are based primarily on Raspbian, while
 Raspberry Pi OS 64 bit images are based primarily on Debian.
 
+**Note**: 32 bit images should be built from the `master` branch.
+64 bit images should be built from the `arm64` branch.
+
 ## Dependencies
 
 pi-gen runs on Debian-based operating systems released after 2017, and we
@@ -152,7 +155,7 @@ The following environment variables are supported:
 
  * `TIMEZONE_DEFAULT` (Default: 'Europe/London' )
 
-   Default keyboard layout.
+   Default time zone.
 
    To get the current value from a running system, look in
    `/etc/timezone`.
