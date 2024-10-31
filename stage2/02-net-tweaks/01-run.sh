@@ -1,8 +1,5 @@
 #!/bin/bash -e
 
-install -v -d					"${ROOTFS_DIR}/etc/wpa_supplicant"
-install -v -m 600 files/wpa_supplicant.conf	"${ROOTFS_DIR}/etc/wpa_supplicant/"
-
 # Newer versions of raspberrypi-sys-mods set rfkill.default_state=0 to prevent
 # radiating on 5GHz bands until the WLAN regulatory domain is set.
 # Unfortunately, this also blocks bluetooth, so we whitelist the known
