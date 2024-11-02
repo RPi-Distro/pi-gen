@@ -1,5 +1,6 @@
-# For more options and information see
-# http://rptl.io/configtxt
+# For more options and information see:
+# https://www.raspberrypi.com/documentation/computers/config_txt.html
+
 # Some settings may impact device functionality. See link above for details
 
 # Uncomment some or all of these to enable the optional hardware interfaces
@@ -11,7 +12,7 @@
 dtparam=audio=on
 
 # Additional overlays and parameters are documented
-# /boot/firmware/overlays/README
+# /boot/overlays/README
 
 # Automatically load overlays for detected cameras
 camera_auto_detect=1
