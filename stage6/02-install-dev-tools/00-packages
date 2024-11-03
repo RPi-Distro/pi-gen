@@ -20,6 +20,8 @@ libowrx-connector-dev
 libcodec2-dev
 libboost-dev
 libboost-program-options-dev
+libblas-dev
+liblapack-dev
 gfortran
 libcurl4-openssl-dev
 libfftw3-dev
