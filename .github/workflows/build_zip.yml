@@ -59,7 +59,7 @@ jobs:
       run: make rename-zip
     - name: Get ZIP filename
       id: get-zip-filename
-      run: echo "::set-output name=zip-file-name::$(ls deploy | grep .zip | cat)"
+      run: echo "zip-file-name=$(ls deploy | grep .zip | cat)" >> $GITHUB_OUTPUT
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ steps.get-zip-filename.outputs.zip-file-name }}
