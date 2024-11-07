@@ -1,7 +1,10 @@
 [Unit]
-Description=Mount USB Drive on %i
+Description=Mount USB Device
+After=dev-%i.device
+
 [Service]
 Type=oneshot
-RemainAfterExit=true
-ExecStart=/usr/local/bin/usb-mount.sh add %i
-ExecStop=/usr/local/bin/usb-mount.sh remove %i
+ExecStart=/usr/local/bin/usb-mount.sh %I
+
+[Install]
+WantedBy=multi-user.target

@@ -26,9 +26,9 @@
 - name: Add the Kolibri PPA
   become: yes
   apt_repository:
-    repo: deb http://ppa.launchpad.net/learningequality/kolibri/ubuntu bionic main
+    repo: deb http://ppa.launchpad.net/learningequality/kolibri/ubuntu noble main
     state: present
-    filename: learningequality-ubuntu-kolibri-bionic.list
+    filename: learningequality-ubuntu-kolibri-noble.list
 
 - name: Update repository cache, and upgrade everything
   become: yes

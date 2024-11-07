@@ -1,0 +1,4 @@
+allow-hotplug wlan0
+iface wlan0 inet static
+    address 10.10.10.10
+    netmask 255.255.255.0

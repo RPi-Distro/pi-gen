@@ -2,11 +2,11 @@
 Description=FirstBoot
 After=network.target
 Before=rc-local.service
-ConditionFileNotEmpty=/boot/firstboot.sh
+ConditionFileNotEmpty=/etc/init.d/firstboot.sh
 
 [Service]
-ExecStart=/boot/firstboot.sh
-ExecStartPost=/bin/mv /boot/firstboot.sh /boot/firstboot.sh.done
+ExecStart=/etc/init.d/firstboot.sh
+ExecStartPost=/bin/mv /etc/init.d/firstboot.sh /boot/firstboot.sh.done
 Type=oneshot
 RemainAfterExit=no
 
