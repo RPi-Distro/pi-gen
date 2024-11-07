@@ -35,6 +35,10 @@ jobs:
         with:
           fetch-depth: '0'
 
+      - name: Prepare docker output
+        run: |
+          touch output.env
+          
       - name: Build image
         id: build-image
         run: |
@@ -48,8 +52,18 @@ jobs:
             exit 0
           fi
 
-          sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-          sudo ./build-docker.sh -v ${{ github.event.inputs.version-bump }}
+          sudo docker run --rm --privileged \
+            multiarch/qemu-user-static --reset -p yes
+
+          sudo ./build-docker.sh -v ${{ github.workspace }}/output.env:/output.env
+
+      - name: Load and export docker output
+        run: |
+          while IFS='=' read -r key value; do
+            echo "Processing $key with value $value"
+            echo "$key=$value" >> $GITHUB_ENV
+          done < output.env
+          echo "All variables from output.env have been added to GITHUB_ENV."
 
       - name: Generate checksum
         id: generate-checksum
@@ -62,32 +76,32 @@ jobs:
 
       - name: Set nightly artifact name
         id: set-nightly-artifact-name
-        run: echo "ARTIFACT_NAME=wlanpi-nightly-${{ steps.build-image.outputs.version }}~gha${{ env.date }}" >> $GITHUB_ENV
+        run: echo "ARTIFACT_NAME=wlanpi-nightly-${{ env.version }}~gha${{ env.date }}" >> $GITHUB_ENV
 
       - name: Upload image
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: deploy/*.zip
 
       - name: Upload zipped image checksum
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_NAME }}-sha256
           path: deploy/*.sha256
 
       - name: Upload image info
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_NAME }}-info
           path: deploy/*.info
 
       - name: Create pre-release from default branch
         if: ${{ github.event.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: "joshschmelzle/action-automatic-releases@1c60c2dcfeb5382b81099310bdb4a376dc7753a0"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: ${{ steps.build-image.outputs.version }}
+          automatic_release_tag: ${{ env.version }}
           prerelease: true
           files: |
             deploy/*.zip
@@ -97,7 +111,7 @@ jobs:
 
       - name: Upload logs
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_NAME }}-buildlogs
           path: deploy/*.log

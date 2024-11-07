@@ -83,15 +83,21 @@ cp "$ROOTFS_DIR/etc/rpi-issue" "$INFO_FILE"
 	dpkg -l --root "$ROOTFS_DIR"
 } >> "$INFO_FILE"
 
-# new_version=$(source "${SCRIPT_DIR}/update_version.sh" "${VERSION_BUMP}")
-# echo "VERSION=${new_version#v}" > "${ROOTFS_DIR}/etc/wlanpi-release"
-# echo "::set-output name=version::${new_version}"
-
 echo "VERSION=${NEW_VERSION#v}" > "${ROOTFS_DIR}/etc/wlanpi-release"
-echo "::set-output name=version::${NEW_VERSION}"
-# echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
-# ./01-run.sh: line 92: $GITHUB_OUTPUT: ambiguous redirect
+
+##########################################
+# OLD method to bubble up version to GHA #
+##########################################
+# echo "::set-output name=version::${NEW_VERSION}"
+# set-output has been deprecated by GH
 # https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+
+##############################################
+# UPDATED method to bubble up version to GHA #
+##############################################
+
+echo "version=${NEW_VERSION}" >> /output.env
+echo "DEBUG: version in output.env is set to ${NEW_VERSION}"
 
 mkdir -p "${DEPLOY_DIR}"
 

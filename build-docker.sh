@@ -26,6 +26,9 @@ do
 		c)
 			CONFIG_FILE="${OPTARG}"
 			;;
+		v)
+			VOLUME="${OPTARG}"
+			;;
 		*)
 			;;
 	esac
@@ -101,6 +104,7 @@ if [ "${CONTAINER_EXISTS}" != "" ]; then
 		-e "LAST_VERSION=${LAST_VERSION}" \
 		-e "LAST_VERSION_HASH=${LAST_VERSION_HASH}" \
 		-e "COMMITS_FROM_LAST=${COMMITS_FROM_LAST}" \
+		-v $VOLUME \
 		--volumes-from="${CONTAINER_NAME}" --name "${CONTAINER_NAME}_cont" \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
@@ -122,6 +126,7 @@ else
 		-e "LAST_VERSION=${LAST_VERSION}" \
 		-e "LAST_VERSION_HASH=${LAST_VERSION_HASH}" \
 		-e "COMMITS_FROM_LAST=${COMMITS_FROM_LAST}" \
+		-v $VOLUME \
 		pi-gen \
 		bash -e -o pipefail -c "dpkg-reconfigure qemu-user-static &&
 	# binfmt_misc is sometimes not mounted with debian bullseye image
@@ -130,6 +135,12 @@ else
 	rsync -av work/*/build.log deploy/;
 	rsync -av work/wlanpi/stage0/debootstrap.log deploy/ || true" &
 	wait "$!"
+fi
+
+if grep -q "version=" "$VOLUME"; then
+    echo "Debug: version was written to VOLUME: $(cat "$VOLUME")"
+else
+    echo "Error: Failed to find version in VOLUME"
 fi
 
 echo "copying results from deploy/"
