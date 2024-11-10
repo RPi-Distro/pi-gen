@@ -37,7 +37,7 @@ can do so with:
 git clone https://github.com/RPI-Distro/pi-gen.git
 ```
 
-`--depth 1` can be added afer `git clone` to create a shallow clone, only containing
+`--depth 1` can be added after `git clone` to create a shallow clone, only containing
 the latest revision of the repository. Do not do this on your development machine.
 
 Also, be careful to clone the repository to a base path **NOT** containing spaces.
@@ -230,12 +230,12 @@ This is parsed after `config` so can be used to override values set there.
 
 The following process is followed to build images:
 
- * Interate through all of the stage directories in alphanumeric order
+ * Iterate through all of the stage directories in alphanumeric order
 
  * Bypass a stage directory if it contains a file called
    "SKIP"
 
- * Run the script ```prerun.sh``` which is generally just used to copy the build
+ * Run the script `prerun.sh` which is generally just used to copy the build
    directory between stages.
 
  * In each stage directory iterate through each subdirectory and then run each of the
@@ -256,7 +256,7 @@ The following process is followed to build images:
        separated, per line.
 
      - **00-packages-nr** - As 00-packages, except these will be installed using
-       the ```--no-install-recommends -y``` parameters to apt-get.
+       the `--no-install-recommends -y` parameters to apt-get.
 
      - **00-patches** - A directory containing patch files to be applied, using quilt.
        If a file named 'EDIT' is present in the directory, the build process will
@@ -399,8 +399,8 @@ follows:
  * Run build.sh to build all stages
  * Add SKIP files to the earlier successfully built stages
  * Modify the last stage
- * Rebuild just the last stage using ```sudo CLEAN=1 ./build.sh``` (or, for docker builds
-   ```PRESERVE_CONTAINER=1 CONTINUE=1 CLEAN=1 ./build-docker.sh```)
+ * Rebuild just the last stage using `sudo CLEAN=1 ./build.sh` (or, for docker builds
+   `PRESERVE_CONTAINER=1 CONTINUE=1 CLEAN=1 ./build-docker.sh`)
  * Once you're happy with the image you can remove the SKIP_IMAGES files and
    export your image to test
 
