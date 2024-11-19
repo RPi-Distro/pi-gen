@@ -5,9 +5,6 @@ if [ "${ENABLE_CLOUD_INIT}" != "1" ]; then
 	install -m 755 files/resize2fs_once	"${ROOTFS_DIR}/etc/init.d/"
 fi
 
-# TODO: move into conditional block above when cloud-init adds support for commands in final message
-install -m 755 files/rc.local		"${ROOTFS_DIR}/etc/"
-
 install -m 644 files/50raspi		"${ROOTFS_DIR}/etc/apt/apt.conf.d/"
 
 install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
