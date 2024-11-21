@@ -72,3 +72,7 @@ DEBIAN_FRONTEND=noninteractive dpkg-reconfigure keyboard-configuration
 EOF
 
 sed -i 's/^#?Storage=.*/Storage=volatile/' "${ROOTFS_DIR}/etc/systemd/journald.conf"
+
+if [ -e "${ROOTFS_DIR}/etc/avahi/avahi-daemon.conf" ]; then
+  sed -i 's/^#?publish-workstation=.*/publish-workstation=yes/' "${ROOTFS_DIR}/etc/avahi/avahi-daemon.conf"
+fi
