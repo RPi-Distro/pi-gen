@@ -82,6 +82,9 @@ copy_overlay /etc/ufw/user.rules -o root -g root -m 640
 # Copy config file: avahi-daemon
 copy_overlay /etc/avahi/avahi-daemon.conf -o root -g root -m 644
 
+# Copy config file: wlanpi_api.service
+copy_overlay /etc/avahi/services/wlanpi_announce.service -o root -g root -m 644
+
 # Copy config file: wpa_supplicant.conf
 copy_overlay /etc/wpa_supplicant/wpa_supplicant.conf -o root -g root -m 600
 

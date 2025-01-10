@@ -1,0 +1,11 @@
+<?xml version="1.0" standalone='no'?><!--*-nxml-*-->
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+<name replace-wildcards="yes">WLAN Pi (%h)</name>
+<service>
+<type>_http._tcp</type>
+<port>31415</port>
+<txt-record>model=WLAN Pi Go</txt-record>
+<txt-record>ver=3.2.0</txt-record>
+</service>
+</service-group>
