@@ -20,6 +20,7 @@ install -v -D -m 600 -t "${ROOTFS_DIR}/usr/lib/netplan/" files/00-network-manage
 install -v -m 755 files/cloud-init-custom.deb "${ROOTFS_DIR}/tmp/cloud-init.deb"
 
 # remove cloud-init if already installed for rebuild support while working with custom deb
+# TODO: replace apt-get install -y /tmp/cloud-init.deb once patched cloud-init is in pub repos
 on_chroot << EOF
 	dpkg -i /tmp/cloud-init.deb || true
 	apt-get install -f -y
