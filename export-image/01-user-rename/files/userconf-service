@@ -1,0 +1,131 @@
+#!/bin/sh -e
+
+if ! FWLOC=$(/usr/lib/raspberrypi-sys-mods/get_fw_loc 2> /dev/null); then
+    FWLOC=/boot
+fi
+
+validate_user() {
+    RET=0
+    MSG="Entered username is invalid:"
+    if [ -z "$NEW_USER" ] || [ ${#NEW_USER} -gt 32 ]; then
+        MSG="$MSG\nLength be between 1 and 32 characters."
+        RET=1
+    fi
+    if ! echo "$NEW_USER" | grep -q '^[a-z]\{1\}[a-z0-9\-]*$'; then
+        MSG="$MSG\nMust only contain lower-case letters, digits and hyphens, and must start with a letter."
+        RET=1
+    fi
+    if [ "$NEW_USER" = "root" ] ; then
+        MSG="$MSG\nCannot be root."
+        RET=1
+    fi
+    if [ "$RET" -ne 0 ]; then
+        echo "$MSG"
+    fi
+    return "$RET"
+}
+
+validate_password() {
+    if [ -z "$NEW_PASS" ]; then
+        echo "Password cannot be empty."
+        return 1
+    fi
+}
+
+# Check if cloud-init is installed, done and the default user has a password set
+# indicating that it is wanted to keep the default user as configured by cloud-init
+# no password set means that the user has probably been created by the distro cloud-init cfg
+if command -v cloud-init > /dev/null 2>&1; then
+    if systemctl is-active --quiet cloud-config.target; then
+        # Get the default user (UID 1000)
+        DEFAULT_USER="$(getent passwd 1000 | cut -d: -f1)"
+        if [ -n "$DEFAULT_USER" ] && [ "$DEFAULT_USER" != "pi" ]; then
+            # Check if the default user has a password set
+            PASSWORD_STATUS="$(passwd -S "$DEFAULT_USER" | awk '{print $2}')"
+            if [ "$PASSWORD_STATUS" = "P" ]; then
+                # call cancel-rename to stop the userconf subsystem and exit the script
+                /usr/bin/cancel-rename "$DEFAULT_USER"
+                exit 0
+            fi
+        fi
+    fi
+fi
+
+if [ "$(raspi-config nonint get_boot_cli)" -eq 0 ]; then
+    INTERACTIVE=True
+else
+    INTERACTIVE=False
+fi
+
+for BOOT_CONF_FILE in "$FWLOC/userconf" "$FWLOC/userconf.txt"; do
+    if [ ! -f "$BOOT_CONF_FILE" ]; then
+        continue
+    fi
+    LINE="$(head -n1 "$BOOT_CONF_FILE" | dos2unix)"
+    NEW_USER="$(echo "$LINE" | cut -f1 -d:)"
+    NEW_PASS="$(echo "$LINE" | cut -f2 -d:)"
+    if MSG=$(validate_user && validate_password); then
+        INTERACTIVE=False
+    else
+        echo "$MSG" | tee -a "$BOOT_CONF_FILE" >&2
+        mv "$BOOT_CONF_FILE" "$FWLOC/failed_$(basename "$BOOT_CONF_FILE")"
+        sync
+    fi
+    break
+done
+
+if [ "$INTERACTIVE" = "True" ]; then
+    VT="$(tty | sed 's|/dev/tty||')"
+    ORIG_VT="1"
+    if [ -t 0 ]; then
+        chvt "$VT"
+    fi
+    for FAILED_BOOT_CONF_FILE in "$FWLOC/failed_userconf" "$FWLOC/failed_userconf.txt"; do
+        if [ -f "$FAILED_BOOT_CONF_FILE" ]; then
+            MSG="$(tail -n+2 "$FAILED_BOOT_CONF_FILE")"
+            whiptail --msgbox "$FAILED_BOOT_CONF_FILE detected:\n$MSG" 20 60
+            break
+        fi
+    done
+    FIRST_USER="$(getent passwd 1000 | cut -d: -f1)"
+    dpkg-reconfigure -p critical keyboard-configuration
+    setupcon -k
+    while true; do
+        if [ "$(awk -F: '($3>=1000)&&($1!="nobody"){print $1}' /etc/passwd | wc -l)" -eq 1 ] && \
+                getent passwd "$FIRST_USER" >/dev/null; then
+            PREV_USER="$FIRST_USER"
+            break
+        fi
+        PREV_USER="$(whiptail --inputbox "Which user would you like to rename:" 20 60 "$FIRST_USER" 3>&1 1>&2 2>&3)"
+        if getent passwd "$PREV_USER" >/dev/null; then
+            break
+        else
+            whiptail --msgbox "'$PREV_USER' is not a valid user." 20 60
+        fi
+    done
+    while true; do
+        NEW_USER="$(whiptail --inputbox "Please enter new username:" 20 60 3>&1 1>&2 2>&3)"
+        if MSG=$(validate_user); then
+            break
+        else
+            whiptail --msgbox "$MSG" 20 60
+        fi
+    done
+    while true; do
+        NEW_PASS="$(whiptail --passwordbox "Please set a password for $NEW_USER:" 20 60 3>&1 1>&2 2>&3)"
+        if [ "$(whiptail --passwordbox "Please confirm the password:" 20 60 3>&1 1>&2 2>&3)" != "$NEW_PASS" ]; then
+            MSG="Passwords did not match"
+        elif MSG=$(validate_password); then
+            break
+        fi
+        whiptail --msgbox "$MSG" 20 60
+    done
+    /usr/lib/userconf-pi/userconf "$PREV_USER" "$NEW_USER" ""
+    echo "$NEW_USER:$NEW_PASS" | chpasswd
+    chvt "$ORIG_VT"
+elif [ -n "$NEW_USER" ] && [ -n "$NEW_PASS" ]; then
+    /usr/lib/userconf-pi/userconf "$NEW_USER" "$NEW_PASS"
+    rm "$BOOT_CONF_FILE"
+fi
+
+rm -f "$FWLOC/failed_userconf" "$FWLOC/failed_userconf.txt"
