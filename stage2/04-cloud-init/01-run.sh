@@ -17,18 +17,40 @@ install -v -m 755 files/network-config "${ROOTFS_DIR}/boot/firmware/network-conf
 # Any Ethernet device will come up with DHCP, once carrier is detected
 install -v -D -m 600 -t "${ROOTFS_DIR}/usr/lib/netplan/" files/00-network-manager-all.yaml
 
-# still does not solve the conflict, maybe some kind of race cond.
-# make sure config stage is run before userconfig service
-#sed -i '/^\[Unit\]/a Before=userconfig.service' "${ROOTFS_DIR}/lib/systemd/system/cloud-config.service"
-
 install -v -m 755 files/cloud-init-custom.deb "${ROOTFS_DIR}/tmp/cloud-init.deb"
 
 # remove cloud-init if already installed for rebuild support while working with custom deb
 on_chroot << EOF
-	SUDO_USER="${FIRST_USER_NAME}" dpkg -i /tmp/cloud-init.deb || true
-	SUDO_USER="${FIRST_USER_NAME}" apt-get install -f -y
+	dpkg -i /tmp/cloud-init.deb || true
+	apt-get install -f -y
 EOF
 
 rm -f "${ROOTFS_DIR}/tmp/cloud-init.deb"
 
-# userconfig service is deleted in export-image/01-user-rename stage
+# Generate cloud-init configuration based on build variables
+log "Configuring default cloud-init settings"
+
+cat << EOF > "${ROOTFS_DIR}/etc/cloud/cloud.cfg.d/99_default.cfg"
+#cloud-config
+keyboard:
+  layout: ${KEYBOARD_LAYOUT:-"English (UK)"}
+  keymap: "${KEYBOARD_KEYMAP:-gb}"
+timezone: ${TIMEZONE_DEFAULT:-"Europe/London"}
+users:
+  - name: ${FIRST_USER_NAME:-"pi"}
+    groups: [adm, dialout, cdrom, audio, users, sudo, video, games, plugdev, input, gpio, spi, i2c, netdev, render, lpadmin]
+    lock_passwd: $( [ -n "${FIRST_USER_PASS}" ] && echo "true" || echo "false" )
+    $( [ -n "${FIRST_USER_PASS}" ] || echo "plain_text_passwd: " )${FIRST_USER_PASS:-""}
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    shell: /bin/bash
+EOF
+
+if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
+	printf "    ssh_authorized_keys:\n	  - ${PUBKEY_SSH_FIRST_USER}" >> "${ROOTFS_DIR}/etc/cloud/cloud.cfg.d/99_default.cfg"
+fi
+
+cat << EOF >> "${ROOTFS_DIR}/etc/cloud/cloud.cfg.d/99_default.cfg"
+ssh_pwauth: $( [ "${PUBKEY_ONLY_SSH}" = "1" ] && echo "false" || echo "true")
+EOF
+
+log "Cloud-init configuration complete"

@@ -167,6 +167,8 @@ The following environment variables are supported:
    a name chosen by the final user. This security feature is designed to prevent shipping images
    with a default username and help prevent malicious actors from taking over your devices.
 
+  If the FIRST_USER_NAME is set to `pi` and no FIRST_USER_PASS is set, the setup wizard will be launched on first boot to allow the user to set the password.
+
  * `FIRST_USER_PASS` (Default: unset)
 
    Password for the first user. If unset, the account is locked.
@@ -184,6 +186,8 @@ The following environment variables are supported:
  * `ENABLE_SSH` (Default: `0`)
 
    Setting to `1` will enable ssh server for remote log in. Note that if you are using a common password such as the defaults there is a high risk of attackers taking over you Raspberry Pi.
+
+   If Cloud-Init support is enabled, the SSH server will be enabled regardless of this setting.
 
   * `PUBKEY_SSH_FIRST_USER` (Default: unset)
 
