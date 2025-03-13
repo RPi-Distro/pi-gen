@@ -3,6 +3,7 @@
 IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.info"
 SBOM_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.sbom"
+BMAP_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.bmap"
 
 on_chroot << EOF
 update-initramfs -k all -c
@@ -100,6 +101,12 @@ zerofree "${ROOT_DEV}"
 
 unmount_image "${IMG_FILE}"
 
+if hash bmaptool 2>/dev/null; then
+	bmaptool create \
+		-o "${BMAP_FILE}" \
+		"${IMG_FILE}"
+fi
+
 mkdir -p "${DEPLOY_DIR}"
 
 rm -f "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.*"
@@ -127,5 +134,8 @@ esac
 
 if [ -f "${SBOM_FILE}" ]; then
 	xz -c "${SBOM_FILE}" > "$DEPLOY_DIR/image_$(basename "${SBOM_FILE}").xz"
+fi
+if [ -f "${BMAP_FILE}" ]; then
+	xz -c "${BMAP_FILE}" > "$DEPLOY_DIR/image_$(basename "${BMAP_FILE}").xz"
 fi
 cp "$INFO_FILE" "$DEPLOY_DIR/"
