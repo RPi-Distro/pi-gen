@@ -24,3 +24,4 @@ udev
 binfmt-support
 ca-certificates
 fdisk
+bmap-tools
