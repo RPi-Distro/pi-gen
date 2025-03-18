@@ -22,7 +22,7 @@ To install the required dependencies for `pi-gen` you should run:
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-gpg pigz xxd arch-test
+gpg pigz xxd arch-test bmap-tools
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
