@@ -443,7 +443,7 @@ To resolve this, ensure that the following files are available (install them if 
 
 ```
 /lib/modules/$(uname -r)/kernel/fs/binfmt_misc.ko
-/usr/bin/qemu-arm-static
+/usr/bin/qemu-aarch64-static
 ```
 
 You may also need to load the module by hand - run `modprobe binfmt_misc`.
