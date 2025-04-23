@@ -1,8 +1,5 @@
-xserver-xorg-video-fbdev xserver-xorg xinit
-mousepad
-eom
-lxde lxtask menu-xdg
-zenity xdg-utils
-gvfs-backends gvfs-fuse
-lightdm gnome-themes-extra-data gnome-icon-theme
-gnome-keyring
+python3-pip
+python3-pyqt5
+python3-libcamera
+python3-kms++
+redis

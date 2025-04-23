@@ -1,0 +1,16 @@
+IMG_NAME="biomi-bullseye"
+RELEASE="bullseye"
+DEPLOY_ZIP=1
+LOCALE_DEFAULT="fr_FR.UTF-8"
+TARGET_HOSTNAME="biomi.local"
+KEYBOARD_KEYMAP="fr"
+KEYBOARD_LAYOUT="French"
+TIMEZONE_DEFAULT="Europe/Paris"
+FIRST_USER_NAME="pi"
+FIRST_USER_PASS="piomi"
+ENABLE_SSH=1
+
+# Dev specific config to run in emulation
+USE_QEMU=1
+ARCH="arm64"
+INSTALL_DEV_PACKAGES=1

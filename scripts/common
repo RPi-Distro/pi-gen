@@ -9,15 +9,16 @@ bootstrap(){
 
 	export http_proxy=${APT_PROXY}
 
-	BOOTSTRAP_ARGS+=(--arch armhf)
+	BOOTSTRAP_ARGS+=(--arch arm64)
+	BOOTSTRAP_ARGS+=(--include gnupg)
 	BOOTSTRAP_ARGS+=(--components "main,contrib,non-free")
-	BOOTSTRAP_ARGS+=(--keyring "${STAGE_DIR}/files/raspberrypi.gpg")
-	BOOTSTRAP_ARGS+=(--exclude=info,ifupdown)
+	#BOOTSTRAP_ARGS+=(--keyring "${STAGE_DIR}/files/raspberrypi.gpg")
+	BOOTSTRAP_ARGS+=(--exclude=info)
 	BOOTSTRAP_ARGS+=(--include=ca-certificates)
 	BOOTSTRAP_ARGS+=("$@")
 	printf -v BOOTSTRAP_STR '%q ' "${BOOTSTRAP_ARGS[@]}"
 
-	setarch linux32 capsh $CAPSH_ARG -- -c "'${BOOTSTRAP_CMD}' $BOOTSTRAP_STR" || true
+	capsh $CAPSH_ARG -- -c "'${BOOTSTRAP_CMD}' $BOOTSTRAP_STR" || true
 
 	if [ -d "$2/debootstrap" ] && ! rmdir "$2/debootstrap"; then
 		cp "$2/debootstrap/debootstrap.log" "${STAGE_WORK_DIR}"
@@ -44,26 +45,20 @@ unmount(){
 		DIR=$1
 	fi
 
-	for i in {1..6}; do
-		if awk "\$2 ~ /^${DIR//\//\\/}/ {print \$2}" /etc/mtab | sort -r | xargs -r umount; then
-			break
-		elif [ "$i" -eq 6 ]; then
-			log "Failed to unmount ${DIR}. Do not try to delete this directory while it contains mountpoints!"
-			return 1
-		fi
-		log "Retrying ($i/5)..."
-		sleep 1
+	while mount | grep -q "$DIR"; do
+		local LOCS
+		LOCS=$(mount | grep "$DIR" | cut -f 3 -d ' ' | sort -r)
+		for loc in $LOCS; do
+			umount "$loc"
+		done
 	done
 }
 export -f unmount
 
 unmount_image(){
-	if command -v udevadm >/dev/null 2>&1; then
-		udevadm settle 10
-	else
-		sleep 1
-	fi
-	LOOP_DEVICE=$(losetup -n -O NAME -j "$1")
+	sync
+	sleep 1
+	LOOP_DEVICE=$(losetup --list | grep "$1" | cut -f1 -d' ')
 	if [ -n "$LOOP_DEVICE" ]; then
 		for part in "$LOOP_DEVICE"p*; do
 			if DIR=$(findmnt -n -o target -S "$part"); then
@@ -100,12 +95,12 @@ on_chroot() {
 		mount -t tmpfs  tmpfs "${ROOTFS_DIR}/tmp"
 	fi
 
-	setarch linux32 capsh $CAPSH_ARG "--chroot=${ROOTFS_DIR}/" -- -e "$@"
+	capsh $CAPSH_ARG "--chroot=${ROOTFS_DIR}/" -- -e "$@"
 }
 export -f on_chroot
 
 update_issue() {
-	echo -e "${PI_GEN_RELEASE} ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
+	echo -e "Raspberry Pi reference ${IMG_DATE}\nGenerated using ${PI_GEN}, ${PI_GEN_REPO}, ${GIT_HASH}, ${1}" > "${ROOTFS_DIR}/etc/rpi-issue"
 }
 export -f update_issue
 
