@@ -1,0 +1,212 @@
+name: BIOMI-OS-IMAGE-BUILDER
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Debian release to use (bullseye, bookworm, etc.)'
+        required: true
+        default: 'bullseye'
+        type: choice
+        options:
+          - bullseye
+          - bookworm
+          - buster
+      architecture:
+        description: 'Target architecture'
+        required: true
+        default: 'arm64'
+        type: choice
+        options:
+          - arm64
+          - armhf
+      install_dev_packages:
+        description: 'Install development packages'
+        required: true
+        default: '0'
+        type: choice
+        options:
+          - '0'
+          - '1'
+      hostname:
+        description: 'Hostname for the image'
+        required: true
+        default: 'raspberrypi'
+        type: string
+      username:
+        description: 'Default username'
+        required: true
+        default: 'pi'
+        type: string
+      password:
+        description: 'Default password'
+        required: true
+        default: 'raspberry'
+        type: string
+      locale:
+        description: 'Default locale'
+        required: true
+        default: 'fr_FR.UTF-8'
+        type: string
+      timezone:
+        description: 'Default timezone'
+        required: true
+        default: 'Europe/Paris'
+        type: string
+      stage_list:
+        description: 'Stages to build (space-separated)'
+        required: true
+        default: 'stage0 stage1 stage2'
+        type: string
+      custom_packages:
+        description: 'Additional packages to install (space-separated)'
+        required: false
+        type: string
+      enable_wifi:
+        description: 'Enable WiFi configuration'
+        required: true
+        default: '0'
+        type: choice
+        options:
+          - '0'
+          - '1'
+      wifi_ssid:
+        description: 'WiFi SSID (network name)'
+        required: false
+        type: string
+      wifi_password:
+        description: 'WiFi Password'
+        required: false
+        type: string
+      wifi_country:
+        description: 'WiFi Country Code (FR, US, GB, etc.)'
+        required: false
+        default: 'FR'
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Create build directory
+        run: mkdir -p ${GITHUB_WORKSPACE}/deploy
+
+      - name: Create custom package list
+        if: "${{ inputs.custom_packages != '' }}"
+        run: |
+          mkdir -p ${GITHUB_WORKSPACE}/custom/00-packages
+          echo "${{ inputs.custom_packages }}" | tr ' ' '\n' > ${GITHUB_WORKSPACE}/custom/00-packages/00-packages
+
+      - name: Create config file
+        run: |
+          cat > ${GITHUB_WORKSPACE}/config << EOF
+          IMG_NAME="${{ inputs.hostname }}-${{ inputs.release }}-${{ inputs.architecture }}"
+          RELEASE="${{ inputs.release }}"
+          DEPLOY_ZIP=1
+          LOCALE_DEFAULT="${{ inputs.locale }}"
+          TARGET_HOSTNAME="${{ inputs.hostname }}"
+          KEYBOARD_KEYMAP="${{ inputs.locale == 'fr_FR.UTF-8' && 'fr' || 'gb' }}"
+          KEYBOARD_LAYOUT="${{ inputs.locale == 'fr_FR.UTF-8' && 'French' || 'English' }}"
+          TIMEZONE_DEFAULT="${{ inputs.timezone }}"
+          FIRST_USER_NAME="${{ inputs.username }}"
+          FIRST_USER_PASS="${{ inputs.password }}"
+          ENABLE_SSH=1
+          STAGE_LIST="${{ inputs.stage_list }}"
+          ARCH="${{ inputs.architecture }}"
+          INSTALL_DEV_PACKAGES="${{ inputs.install_dev_packages }}"
+          WPA_ESSID="${{ inputs.wifi_ssid }}"
+          WPA_PASSWORD="${{ inputs.wifi_password }}"
+          WPA_COUNTRY="${{ inputs.wifi_country }}"
+          EOF
+
+      - name: Configure WiFi
+        if: "${{ inputs.enable_wifi == '1' && inputs.wifi_ssid != '' && inputs.wifi_password != '' }}"
+        run: |
+          mkdir -p ${GITHUB_WORKSPACE}/stage2/02-net-tweaks/files/etc/wpa_supplicant
+          cat > ${GITHUB_WORKSPACE}/stage2/02-net-tweaks/files/etc/wpa_supplicant/wpa_supplicant.conf << EOF
+          ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+          update_config=1
+          country=${{ inputs.wifi_country }}
+          
+          network={
+            ssid="${{ inputs.wifi_ssid }}"
+            psk="${{ inputs.wifi_password }}"
+            key_mgmt=WPA-PSK
+          }
+          EOF
+          
+          # Create run script to copy WPA config if it doesn't exist
+          mkdir -p ${GITHUB_WORKSPACE}/stage2/02-net-tweaks
+          cat > ${GITHUB_WORKSPACE}/stage2/02-net-tweaks/01-run.sh << 'EOF'
+          #!/bin/bash -e
+          
+          install -m 644 files/etc/wpa_supplicant/wpa_supplicant.conf "${ROOTFS_DIR}/etc/wpa_supplicant/"
+          
+          on_chroot << EOT
+          # Enable WiFi on boot
+          systemctl enable wpa_supplicant.service
+          
+          # Configure country code
+          if [ -e /etc/default/crda ]; then
+            sed -i "s/^REGDOMAIN=.*/REGDOMAIN=${{ inputs.wifi_country }}/" /etc/default/crda
+          fi
+          
+          # Enable WiFi on boot (for bookworm and newer)
+          if [ -e /etc/default/raspi-firmware ]; then
+            sed -i "s/^#WIRELESS_REGDOM=.*/WIRELESS_REGDOM=${{ inputs.wifi_country }}/" /etc/default/raspi-firmware
+          fi
+          EOT
+          EOF
+          
+          chmod +x ${GITHUB_WORKSPACE}/stage2/02-net-tweaks/01-run.sh
+
+      - name: Build Image
+        run: |
+          sudo modprobe loop
+          docker pull debian:${{ inputs.release }}
+          DOCKER_BUILDKIT=1 ./build-docker.sh
+        env:
+          CONTINUE: 1
+          PRESERVE_CONTAINER: 0
+
+      - name: Create artifact name
+        id: artifact
+        run: |
+          ARTIFACT_NAME="biomi-os-${{ inputs.release }}-${{ inputs.architecture }}"
+          echo "name=$ARTIFACT_NAME" >> $GITHUB_OUTPUT
+
+      - name: Upload Image
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.artifact.outputs.name }}
+          path: deploy/*.zip
+          retention-days: 7
+
+      - name: Create Release
+        if: github.event_name == 'workflow_dispatch'
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.artifact.outputs.name }}-${{ github.run_number }}
+          name: ${{ steps.artifact.outputs.name }} build ${{ github.run_number }}
+          draft: false
+          prerelease: false
+          files: deploy/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup
+        if: always()
+        run: |
+          sudo rm -rf work
+          sudo rm -rf deploy
