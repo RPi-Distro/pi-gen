@@ -1,4 +1,0 @@
-include:
-  - project: serge/pi-gen
-    ref: ci
-    file: 'pi-gen.yml'
