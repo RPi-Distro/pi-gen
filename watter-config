@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export IMG_NAME="watter-rpi-aeger-rev1"
+export PI_GEN_RELEASE="WATTER RPi Build"
+export RELEASE="bookworm"
+export LOCALE_DEFAULT="en_US.UTF-8"
+export TARGET_HOSTNAME="watter-rpi"
+export KEYBOARD_KEYMAP="us"
+export KEYBOARD_LAYOUT="English (US)"
+export TIMEZONE_DEFAULT="GMT"
+export FIRST_USER_NAME="watter"
+export FIRST_USER_PASS='mine4coin$'
+export DISABLE_FIRST_BOOT_USER_RENAME="1"
+export WPA_COUNTRY="US"
+export ENABLE_SSH="1"
