@@ -222,6 +222,7 @@ export PUBKEY_SSH_FIRST_USER
 
 export CLEAN
 export APT_PROXY
+export TEMP_REPO
 
 export STAGE
 export STAGE_DIR

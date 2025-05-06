@@ -22,7 +22,7 @@ To install the required dependencies for `pi-gen` you should run:
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-gpg pigz xxd arch-test
+gpg pigz xxd arch-test bmap-tools
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -79,6 +79,13 @@ The following environment variables are supported:
    If you require the use of an apt proxy, set it here.  This proxy setting
    will not be included in the image, making it safe to use an `apt-cacher` or
    similar package for development.
+
+ * `TEMP_REPO` (Default: unset)
+
+   An additional temporary apt repo to be used during the build process. This
+   could be useful if you require pre-release software to be included in the
+   image. The variable should contain sources in [one-line-style format](https://manpages.debian.org/stable/apt/sources.list.5.en.html#ONE-LINE-STYLE_FORMAT).
+   "RELEASE" will be replaced with the RELEASE variable.
 
  * `BASE_DIR`  (Default: location of `build.sh`)
 
