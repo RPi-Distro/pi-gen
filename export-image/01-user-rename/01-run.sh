@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# TODO: remove
+# TODO: remove once changes are merged upstream
 install -v -m 755 files/userconf-service "${ROOTFS_DIR}/usr/lib/userconf-pi/userconf-service"
 
 if [[ "${DISABLE_FIRST_BOOT_USER_RENAME}" == "0" ]]; then

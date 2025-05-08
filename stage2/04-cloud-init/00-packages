@@ -1,2 +1,5 @@
 python3-yaml
 netcat-openbsd
+libnetplan0
+netplan.io
+libnetplan-dev

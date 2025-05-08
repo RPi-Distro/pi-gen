@@ -19,20 +19,6 @@ install -v -D -m 600 -t "${ROOTFS_DIR}/lib/netplan/" files/00-network-manager-al
 
 install -v -m 755 files/cloud-init-custom.deb "${ROOTFS_DIR}/tmp/cloud-init.deb"
 
-# Copy custom netplan .deb files into the image
-install -v -m 755 files/libnetplan0_*.deb "${ROOTFS_DIR}/tmp/"
-install -v -m 755 files/netplan.io_*.deb "${ROOTFS_DIR}/tmp/"
-install -v -m 755 files/libnetplan-dev_*.deb "${ROOTFS_DIR}/tmp/"  # optional
-# install -v -m 755 files/*-dbgsym_*.deb "${ROOTFS_DIR}/tmp/"      # optional
-
-# Install in correct order in chroot
-on_chroot << EOF
-	dpkg -i /tmp/libnetplan0_*.deb || true
-	dpkg -i /tmp/netplan.io_*.deb || true
-	dpkg -i /tmp/libnetplan-dev_*.deb || true  # optional
-	apt-get install -f -y
-EOF
-
 # remove cloud-init if already installed for rebuild support while working with custom deb
 # TODO: replace apt-get install -y /tmp/cloud-init.deb once patched cloud-init is in pub repos
 on_chroot << EOF
@@ -40,10 +26,6 @@ on_chroot << EOF
 	apt-get install -f -y
 EOF
 
-rm -f "${ROOTFS_DIR}/tmp/libnetplan0_*.deb"
-rm -f "${ROOTFS_DIR}/tmp/netplan.io_*.deb"
-rm -f "${ROOTFS_DIR}/tmp/libnetplan-dev_*.deb"
-# rm -f "${ROOTFS_DIR}/tmp/*-dbgsym_*.deb"
 rm -f "${ROOTFS_DIR}/tmp/cloud-init.deb"
 
 # Generate cloud-init configuration based on build variables
