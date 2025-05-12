@@ -1,4 +1,10 @@
 UNRELEASED:
+  * Setting touchscreen in Screen Configuration does not delete default associations for greeter
+  * Bug fix - wizard keyboard setting correctly transferred into desktop
+  * Chromium updated to 136.0.7103.92
+  * Raspberry Pi firmware bc7f439c234e19371115e07b57c366df59cc1bc7
+  * Linux kernel 6.12.25 - 3dd2c2c507c271d411fab2e82a2b3b7e0b6d3f16
+2025-05-06:
   * New mouse and keyboard settings application, rasputin, to replace lxinput
   * New printer application, rpinters, to replace system-config-printer
   * Added swaylock screen lock application for labwc - use ctrl-alt-L to lock, or access via new option in Shutdown Options
