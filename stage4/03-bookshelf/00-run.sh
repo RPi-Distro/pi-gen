@@ -11,5 +11,14 @@ fi
 
 file "files/$OUTPUT" | grep -q "PDF document"
 
-install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Bookshelf"
-install -v -o 1000 -g 1000 -m 644 "files/$OUTPUT" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Bookshelf/"
+if [[ "${ENABLE_CLOUD_INIT}" == "0" ]]; then
+
+	install -v -o 1000 -g 1000 -d "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Bookshelf"
+	install -v -o 1000 -g 1000 -m 644 "files/$OUTPUT" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/Bookshelf/"
+
+else
+
+	install -v -o 0 -g 0 -d "/etc/skel/Bookshelf"
+	install -v -o 0 -g 0 -m 644 "files/$OUTPUT" "/etc/skel/Bookshelf/"
+
+fi
