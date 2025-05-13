@@ -135,5 +135,7 @@ esac
 if [ -f "${SBOM_FILE}" ]; then
 	xz -c "${SBOM_FILE}" > "$DEPLOY_DIR/$(basename "${SBOM_FILE}").xz"
 fi
-cp "$BMAP_FILE" "$DEPLOY_DIR/"
+if [ -f "${BMAP_FILE}" ]; then
+	cp "$BMAP_FILE" "$DEPLOY_DIR/"
+fi
 cp "$INFO_FILE" "$DEPLOY_DIR/"
