@@ -85,10 +85,10 @@ BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 # Check the arch of the machine we're running on. If it's 64-bit, use a 32-bit base image instead
 case "$(uname -m)" in
   x86_64|aarch64)
-    BASE_IMAGE=i386/debian:bookworm
+    BASE_IMAGE=i386/debian:trixie
     ;;
   *)
-    BASE_IMAGE=debian:bookworm
+    BASE_IMAGE=debian:trixie
     ;;
 esac
 ${DOCKER} build --build-arg BASE_IMAGE=${BASE_IMAGE} -t pi-gen "${DIR}"
@@ -151,7 +151,7 @@ time ${DOCKER} run \
   pi-gen \
   bash -e -o pipefail -c "
     dpkg-reconfigure qemu-user-static &&
-    # binfmt_misc is sometimes not mounted with debian bookworm image
+    # binfmt_misc is sometimes not mounted with debian trixie image
     (mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true) &&
     cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
     rsync -av work/*/build.log deploy/
