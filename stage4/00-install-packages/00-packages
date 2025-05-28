@@ -6,7 +6,7 @@ debian-reference-en dillo
 raspberrypi-net-mods raspberrypi-ui-mods
 python3-pip
 python3-numpy
-alacarte rc-gui sense-hat
+rc-gui sense-hat
 tree
 libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
 geany
