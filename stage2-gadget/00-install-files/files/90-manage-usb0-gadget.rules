@@ -1,0 +1,1 @@
+SUBSYSTEM=="net", ACTION=="add", KERNEL=="usb0", ENV{NM_UNMANAGED}="0"

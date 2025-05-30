@@ -1,0 +1,14 @@
+[Unit]
+Description=Setup USB Gadget network device
+Before=network-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/usb-gadget-ctl.sh start
+ExecStop=/usr/local/sbin/usb-gadget-ctl.sh stop
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=sysinit.target
