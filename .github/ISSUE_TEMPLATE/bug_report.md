@@ -1,7 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
+title: Optionele extra items Standaardtitel van het probleem Dit zal worden voorgesteld
+  als de titel van het probleem Voeg een tijdelijke aanduiding toe voor de titel van
+  het probleem, bijvoorbeeld [BUG] Toegewezen personen Niemand- Etiketten Nog geen
 labels: ''
 assignees: ''
 
