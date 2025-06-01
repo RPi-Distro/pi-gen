@@ -1,5 +1,5 @@
 [connection]
-id=usb1-share
+id=usb1-link-local
 uuid=A537DD92-62F8-45F8-A7F7-97BD0A7A45F7
 type=ethernet
 interface-name=usb1
