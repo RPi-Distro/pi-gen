@@ -16,7 +16,6 @@ usbutils
 dosfstools
 rpi-swap rpi-loop-utils
 raspberrypi-sys-mods
-pi-bluetooth
 apt-listchanges
 usb-modeswitch
 libpam-chksshpwd
@@ -36,3 +35,4 @@ unzip zip p7zip-full
 file
 kms++-utils
 python3-venv
+bluez bluez-firmware
