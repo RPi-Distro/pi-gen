@@ -1,5 +1,0 @@
-# never use pdiffs. Current implementation is very slow on low-powered devices
-Acquire::PDiffs "0";
-
-# download up to 5 pdiffs:
-#Acquire::PDiffs::FileLimit "5";
