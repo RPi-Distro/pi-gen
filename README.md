@@ -214,10 +214,11 @@ The following environment variables are supported:
  * `STAGE_LIST` (Default: `stage*`)
 
     If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
-    Aliases:
-    - `STAGE_LIST='_lite'`    is an alias for `STAGE_LIST='stage0 stage1 stage2'`
-    - `STAGE_LIST='_desktop'` is an alias for `STAGE_LIST='stage0 stage1 stage2 stage3'`
-    - `STAGE_LIST='_full'`    is an alias for `STAGE_LIST='stage0 stage1 stage2 stage3 stage4 stage5'`
+
+    Aliases are:
+    * `STAGE_LIST='_lite'`    is an alias for `STAGE_LIST='stage0 stage1 stage2'`
+    * `STAGE_LIST='_desktop'` is an alias for `STAGE_LIST='stage0 stage1 stage2 stage3'`
+    * `STAGE_LIST='_full'`    is an alias for `STAGE_LIST='stage0 stage1 stage2 stage3 stage4 stage5'`
 
  * `EXPORT_CONFIG_DIR` (Default: `$BASE_DIR/export-image`)
 
