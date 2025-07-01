@@ -278,7 +278,7 @@ if ! arch-test -n "$ARCH"; then
 	fi
 fi
 
-#check username is valid
+# check username is valid
 if [[ ! "$FIRST_USER_NAME" =~ ^[a-z][-a-z0-9_]*$ ]]; then
 	echo "Invalid FIRST_USER_NAME: $FIRST_USER_NAME"
 	exit 1
@@ -311,6 +311,15 @@ if [[ "${PUBKEY_ONLY_SSH}" = "1" && -z "${PUBKEY_SSH_FIRST_USER}" ]]; then
 fi
 
 log "Begin ${BASE_DIR}"
+
+# expand STAGE_LIST aliases
+if [[ "${STAGE_LIST}" == '_lite' ]]; then
+	STAGE_LIST='stage0 stage1 stage2'
+elif [[ "${STAGE_LIST}" == '_desktop' ]]; then
+	STAGE_LIST='stage0 stage1 stage2 stage3'
+elif [[ "${STAGE_LIST}" == '_full' ]]; then
+	STAGE_LIST='stage0 stage1 stage2 stage3 stage4 stage5'
+fi
 
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
 export STAGE_LIST
