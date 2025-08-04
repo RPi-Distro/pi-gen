@@ -1,27 +1,8 @@
-python3-pygame
-python3-tk thonny
-python3-pgzero
-python3-serial
-debian-reference-en
-rpd-wayland-core rpd-x-core
+rpd-applications
+rpd-developer
+rpd-graphics
+rpd-preferences
 rpd-theme
-rpd-utilities rpd-preferences
-python3-pip
-python3-numpy
-rc-gui sense-hat
-tree
-libgl1-mesa-dri libgles1 xcompmgr
-geany
-piclone
-python3-flask
-pprompt
-piwiz
-rp-prefapps
-ffmpeg
-vlc
-rpi-connect
-labwc
-squeekboard
-
-# ninja-build and openocd needed for vscode pico extension
-meson openocd
+rpd-utilities
+rpd-wayland-extras
+rpd-x-extras
