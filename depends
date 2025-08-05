@@ -20,3 +20,8 @@ bc
 gpg
 pigz
 arch-test
+udev
+binfmt-support
+ca-certificates
+fdisk
+bmap-tools
