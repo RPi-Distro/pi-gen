@@ -1,4 +1,4 @@
-xserver-xorg-video-fbdev xserver-xorg xinit
+xserver-xorg xinit
 mousepad
 eom
 lxde lxtask menu-xdg

@@ -175,7 +175,7 @@ export PI_GEN=${PI_GEN:-pi-gen}
 export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
 export PI_GEN_RELEASE=${PI_GEN_RELEASE:-Raspberry Pi reference}
 
-export ARCH=armhf
+export ARCH=arm64
 export RELEASE=${RELEASE:-bookworm} # Don't forget to update stage0/prerun.sh
 export IMG_NAME="${IMG_NAME:-raspios-$RELEASE-$ARCH}"
 

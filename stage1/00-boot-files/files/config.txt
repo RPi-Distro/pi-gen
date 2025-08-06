@@ -30,6 +30,9 @@ max_framebuffers=2
 # Use the kernel's default instead.
 disable_fw_kms_setup=1
 
+# Run in 64-bit mode
+arm_64bit=1
+
 # Disable compensation for displays with overscan
 disable_overscan=1
 
