@@ -1,0 +1,11 @@
+--- stage2.orig/rootfs/etc/init.d/rng-tools	2020-09-20 17:48:03.967820377 +0100
++++ stage2/rootfs/etc/init.d/rng-tools	2020-09-21 04:30:07.379806813 +0100
+@@ -19,7 +19,7 @@
+ DAEMON=/usr/sbin/rngd
+ NAME=rngd
+ DESC="Hardware RNG entropy gatherer daemon"
+-PIDFILE=/var/run/rngd.pid
++PIDFILE=/run/rngd.pid
+ 
+ DEVICELIST="hwrng hw_random hwrandom intel_rng i810_rng"
+ 
