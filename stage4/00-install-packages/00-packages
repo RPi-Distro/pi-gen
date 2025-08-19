@@ -3,7 +3,6 @@ python3-tk thonny
 python3-pgzero
 python3-serial
 debian-reference-en dillo
-raspberrypi-net-mods
 rpd-wayland-core rpd-x-core
 rpd-theme
 rpd-utilities rpd-preferences
