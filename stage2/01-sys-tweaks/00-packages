@@ -14,7 +14,7 @@ luajit
 ca-certificates curl
 nfs-common usbutils
 dosfstools
-dphys-swapfile
+rpi-swap rpi-loop-utils
 raspberrypi-sys-mods
 pi-bluetooth
 apt-listchanges
