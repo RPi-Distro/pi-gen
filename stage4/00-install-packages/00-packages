@@ -8,10 +8,9 @@ python3-pip
 python3-numpy
 rc-gui sense-hat
 tree
-libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
+libgl1-mesa-dri libgles1 xcompmgr
 geany
 piclone
-python3-twython
 python3-flask
 pprompt
 piwiz
