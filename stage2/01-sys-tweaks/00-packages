@@ -12,7 +12,7 @@ avahi-daemon
 lua5.1
 luajit
 ca-certificates curl
-nfs-common usbutils
+usbutils
 dosfstools
 rpi-swap rpi-loop-utils
 raspberrypi-sys-mods
