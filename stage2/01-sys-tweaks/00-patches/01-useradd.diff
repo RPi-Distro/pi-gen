@@ -1,9 +1,7 @@
-Index: jessie-stage2/rootfs/etc/default/useradd
-===================================================================
---- jessie-stage2.orig/rootfs/etc/default/useradd
-+++ jessie-stage2/rootfs/etc/default/useradd
+--- stage2.orig/rootfs/etc/default/useradd
++++ stage2/rootfs/etc/default/useradd
 @@ -5,7 +5,7 @@
- # Similar to DHSELL in adduser. However, we use "sh" here because
+ # Similar to DSHELL in adduser. However, we use "sh" here because
  # useradd is a low level utility and should be as general
  # as possible
 -SHELL=/bin/sh
