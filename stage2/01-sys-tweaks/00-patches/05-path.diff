@@ -1,8 +1,6 @@
-Index: jessie-stage2/rootfs/etc/login.defs
-===================================================================
---- jessie-stage2.orig/rootfs/etc/login.defs
-+++ jessie-stage2/rootfs/etc/login.defs
-@@ -100,7 +100,7 @@ HUSHLOGIN_FILE	.hushlogin
+--- stage2.orig/rootfs/etc/login.defs
++++ stage2/rootfs/etc/login.defs
+@@ -60,7 +60,7 @@ HUSHLOGIN_FILE	.hushlogin
  #
  # (they are minimal, add the rest in the shell startup files)
  ENV_SUPATH	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -10,13 +8,11 @@ Index: jessie-stage2/rootfs/etc/login.defs
 +ENV_PATH        PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
  
  #
- # Terminal permissions
-Index: jessie-stage2/rootfs/etc/profile
-===================================================================
---- jessie-stage2.orig/rootfs/etc/profile
-+++ jessie-stage2/rootfs/etc/profile
+ # Terminal permissions for terminals after login(1).
+--- stage2.orig/rootfs/etc/profile
++++ stage2/rootfs/etc/profile
 @@ -4,7 +4,7 @@
- if [ "`id -u`" -eq 0 ]; then
+ if [ "$(id -u)" -eq 0 ]; then
    PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
  else
 -  PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"

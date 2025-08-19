@@ -1,11 +1,5 @@
 #!/bin/bash -e
 
-install -m 755 files/resize2fs_once	"${ROOTFS_DIR}/etc/init.d/"
-
-install -m 644 files/50raspi		"${ROOTFS_DIR}/etc/apt/apt.conf.d/"
-
-install -m 644 files/console-setup   	"${ROOTFS_DIR}/etc/default/"
-
 if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
 	install -v -m 0700 -o 1000 -g 1000 -d "${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh
 	echo "${PUBKEY_SSH_FIRST_USER}" >"${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh/authorized_keys
@@ -19,28 +13,17 @@ s/^#?[[:blank:]]*PasswordAuthentication[[:blank:]]*yes[[:blank:]]*$/PasswordAuth
 fi
 
 on_chroot << EOF
-systemctl disable hwclock.sh
-systemctl disable nfs-common
-systemctl disable rpcbind
 if [ "${ENABLE_SSH}" == "1" ]; then
 	systemctl enable ssh
 else
 	systemctl disable ssh
 fi
-systemctl enable regenerate_ssh_host_keys
 EOF
 
 if [ "${USE_QEMU}" = "1" ]; then
 	echo "enter QEMU mode"
 	install -m 644 files/90-qemu.rules "${ROOTFS_DIR}/etc/udev/rules.d/"
-	on_chroot << EOF
-systemctl disable resize2fs_once
-EOF
 	echo "leaving QEMU mode"
-else
-	on_chroot << EOF
-systemctl enable resize2fs_once
-EOF
 fi
 
 on_chroot <<EOF
@@ -66,12 +49,11 @@ EOF
 
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
 
+sed -i 's/^FONTFACE=.*/FONTFACE=""/;s/^FONTSIZE=.*/FONTSIZE=""/' "${ROOTFS_DIR}/etc/default/console-setup"
 sed -i "s/PLACEHOLDER//" "${ROOTFS_DIR}/etc/default/keyboard"
 on_chroot << EOF
-DEBIAN_FRONTEND=noninteractive dpkg-reconfigure keyboard-configuration
+DEBIAN_FRONTEND=noninteractive dpkg-reconfigure keyboard-configuration console-setup
 EOF
-
-sed -i 's/^#\?Storage=.*/Storage=volatile/' "${ROOTFS_DIR}/etc/systemd/journald.conf"
 
 if [ -e "${ROOTFS_DIR}/etc/avahi/avahi-daemon.conf" ]; then
   sed -i 's/^#\?publish-workstation=.*/publish-workstation=yes/' "${ROOTFS_DIR}/etc/avahi/avahi-daemon.conf"

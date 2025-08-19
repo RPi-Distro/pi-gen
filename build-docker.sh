@@ -82,7 +82,7 @@ fi
 # Modify original build-options to allow config file to be mounted in the docker container
 BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 
-${DOCKER} build --build-arg BASE_IMAGE=debian:bookworm -t pi-gen "${DIR}"
+${DOCKER} build --build-arg BASE_IMAGE=debian:trixie -t pi-gen "${DIR}"
 
 if [ "${CONTAINER_EXISTS}" != "" ]; then
   DOCKER_CMDLINE_NAME="${CONTAINER_NAME}_cont"
@@ -142,7 +142,7 @@ time ${DOCKER} run \
   pi-gen \
   bash -e -o pipefail -c "
     dpkg-reconfigure qemu-user-static &&
-    # binfmt_misc is sometimes not mounted with debian bookworm image
+    # binfmt_misc is sometimes not mounted with debian trixie image
     (mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true) &&
     cd /pi-gen; ./build.sh ${BUILD_OPTS} &&
     rsync -av work/*/build.log deploy/

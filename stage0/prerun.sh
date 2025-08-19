@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-if [ "$RELEASE" != "bookworm" ]; then
+if [ "$RELEASE" != "trixie" ]; then
 	echo "WARNING: RELEASE does not match the intended option for this branch."
 	echo "         Please check the relevant README.md section."
 fi

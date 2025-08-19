@@ -5,18 +5,17 @@ python-is-python3
 v4l-utils
 gpiod python3-libgpiod
 python3-gpiozero
-pigpio python3-pigpio raspi-gpio python3-rpi-lgpio
+python3-rpi-lgpio
 python3-spidev
 python3-smbus2
 avahi-daemon
 lua5.1
 luajit
 ca-certificates curl
-fake-hwclock nfs-common usbutils
+usbutils
 dosfstools
-dphys-swapfile
+rpi-swap rpi-loop-utils
 raspberrypi-sys-mods
-pi-bluetooth
 apt-listchanges
 usb-modeswitch
 libpam-chksshpwd
@@ -25,7 +24,6 @@ libmtp-runtime
 rsync
 htop
 man-db
-policykit-1
 ssh-import-id
 ethtool
 ntfs-3g
@@ -37,3 +35,4 @@ unzip zip p7zip-full
 file
 kms++-utils
 python3-venv
+bluez bluez-firmware

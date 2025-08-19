@@ -1,0 +1,5 @@
+Types: deb
+URIs: http://archive.raspberrypi.com/debian/
+Suites: RELEASE
+Components: main
+Signed-By: /usr/share/keyrings/raspberrypi-archive-keyring.pgp

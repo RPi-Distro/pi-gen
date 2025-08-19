@@ -2,16 +2,17 @@ python3-pygame
 python3-tk thonny
 python3-pgzero
 python3-serial
-debian-reference-en dillo
-raspberrypi-net-mods raspberrypi-ui-mods
+debian-reference-en
+rpd-wayland-core rpd-x-core
+rpd-theme
+rpd-utilities rpd-preferences
 python3-pip
 python3-numpy
 rc-gui sense-hat
 tree
-libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
+libgl1-mesa-dri libgles1 xcompmgr
 geany
 piclone
-python3-twython
 python3-flask
 pprompt
 piwiz
@@ -19,7 +20,6 @@ rp-prefapps
 ffmpeg
 vlc
 rpi-connect
-rpi-imager
 labwc
 squeekboard
 

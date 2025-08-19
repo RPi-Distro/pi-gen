@@ -1,6 +1,6 @@
---- a/rootfs/etc/skel/.bashrc
-+++ b/rootfs/etc/skel/.bashrc
-@@ -43,7 +43,7 @@
+--- stage1.orig/rootfs/etc/skel/.bashrc
++++ stage1/rootfs/etc/skel/.bashrc
+@@ -43,7 +43,7 @@ esac
  # uncomment for a colored prompt, if the terminal has the capability; turned
  # off by default to not distract the user: the focus in a terminal window
  # should be on the output of commands, not on the prompt
@@ -9,7 +9,7 @@
  
  if [ -n "$force_color_prompt" ]; then
      if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-@@ -57,7 +57,7 @@
+@@ -57,7 +57,7 @@ if [ -n "$force_color_prompt" ]; then
  fi
  
  if [ "$color_prompt" = yes ]; then
@@ -18,7 +18,7 @@
  else
      PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
  fi
-@@ -79,9 +79,9 @@
+@@ -79,9 +79,9 @@ if [ -x /usr/bin/dircolors ]; then
      #alias dir='dir --color=auto'
      #alias vdir='vdir --color=auto'
  
