@@ -1,0 +1,11 @@
+Types: deb
+URIs: http://deb.debian.org/debian/
+Suites: RELEASE RELEASE-updates
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.pgp
+
+Types: deb
+URIs: http://deb.debian.org/debian-security/
+Suites: RELEASE-security
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.pgp
