@@ -2,7 +2,7 @@ python3-pygame
 python3-tk thonny
 python3-pgzero
 python3-serial
-debian-reference-en dillo
+debian-reference-en
 rpd-wayland-core rpd-x-core
 rpd-theme
 rpd-utilities rpd-preferences
