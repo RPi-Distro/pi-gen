@@ -13,8 +13,6 @@ s/^#?[[:blank:]]*PasswordAuthentication[[:blank:]]*yes[[:blank:]]*$/PasswordAuth
 fi
 
 on_chroot << EOF
-systemctl disable hwclock.sh
-systemctl disable rpcbind
 if [ "${ENABLE_SSH}" == "1" ]; then
 	systemctl enable ssh
 else
