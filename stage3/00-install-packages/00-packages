@@ -1,19 +1,2 @@
-gstreamer1.0-x gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-alsa gstreamer1.0-libav
-evince gtk2-engines alsa-utils
-desktop-base
-git
-gvfs
-rfkill
-chromium rpi-chromium-mods libwidevinecdm0
-firefox rpi-firefox-mods
-gldriver-test
-fonts-droid-fallback
-fonts-liberation2
-obconf
-raindrop
-libcamera-tools
-rpicam-apps
-python3-picamera2
-python3-pyqt5
-python3-opengl
-vulkan-tools mesa-vulkan-drivers
+rpd-preferences
+rpd-theme
