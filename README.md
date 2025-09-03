@@ -174,6 +174,8 @@ The following environment variables are supported:
    a name chosen by the final user. This security feature is designed to prevent shipping images
    with a default username and help prevent malicious actors from taking over your devices.
 
+   If the FIRST_USER_NAME is set to `pi` and no `FIRST_USER_PASS` is set, the setup wizard will be launched on first boot to allow the user to set the password.
+
  * `FIRST_USER_PASS` (Default: unset)
 
    Password for the first user. If unset, the account is locked.
