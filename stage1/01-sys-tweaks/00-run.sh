@@ -12,5 +12,3 @@ if [ -n "${FIRST_USER_PASS}" ]; then
 fi
 echo "root:root" | chpasswd
 EOF
-
-
