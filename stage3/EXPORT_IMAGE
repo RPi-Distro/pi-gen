@@ -1,0 +1,7 @@
+# Read version from VERSION file
+if [ -f "${BASE_DIR}/VERSION" ]; then
+    VERSION=$(cat "${BASE_DIR}/VERSION")
+    IMG_SUFFIX="-${VERSION}"
+else
+    IMG_SUFFIX=""
+fi

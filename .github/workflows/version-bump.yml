@@ -1,0 +1,134 @@
+name: Version Bump and Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+  push:
+    branches:
+      - master
+      - arm64
+    paths-ignore:
+      - 'VERSION'
+      - '**.md'
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
+      tag: ${{ steps.bump.outputs.tag }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Get current version
+        id: current_version
+        run: |
+          VERSION=$(cat VERSION)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+
+      - name: Bump version
+        id: bump
+        run: |
+          CURRENT_VERSION=$(cat VERSION)
+          BUMP_TYPE="${{ github.event.inputs.bump_type || 'patch' }}"
+          
+          # Parse version components
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+          
+          # Bump version based on type
+          case $BUMP_TYPE in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+          
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "$NEW_VERSION" > VERSION
+          
+          # Determine architecture suffix
+          ARCH_SUFFIX=""
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            ARCH_SUFFIX="armv7l"
+          elif [[ "${{ github.ref }}" == "refs/heads/arm64" ]]; then
+            ARCH_SUFFIX="aarch64"
+          fi
+          
+          TAG="${NEW_VERSION}-${ARCH_SUFFIX}"
+          
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "arch_suffix=$ARCH_SUFFIX" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+          echo "Tag: $TAG"
+
+      - name: Commit version bump
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add VERSION
+          git commit -m "Bump version to ${{ steps.bump.outputs.version }}"
+          git push
+
+      - name: Create and push tag
+        run: |
+          git tag ${{ steps.bump.outputs.tag }}
+          git push origin ${{ steps.bump.outputs.tag }}
+
+  build-image:
+    needs: version-bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Pull latest changes
+        run: git pull origin ${{ github.ref_name }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Pi Image
+        run: |
+          # Make sure we have the latest VERSION file
+          VERSION=$(cat VERSION)
+          echo "Building with version: $VERSION"
+          
+          # Run the build
+          ./build-docker.sh
+        env:
+          BUILD_VERSION: ${{ needs.version-bump.outputs.version }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pi-image-${{ needs.version-bump.outputs.tag }}
+          path: deploy/*.img
+          retention-days: 30

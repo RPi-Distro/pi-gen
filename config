@@ -1,0 +1,18 @@
+# Base image name (version and architecture will be added automatically)
+IMG_NAME='armv7l'
+
+# Optional: Customize other settings
+# ENABLE_SSH=1
+# PUBKEY_SSH_FIRST_USER=""
+# FIRST_USER_NAME=myuser
+# FIRST_USER_PASS=mypassword
+
+# Optional: Set timezone
+# TIMEZONE_DEFAULT=UTC
+
+# Optional: Locale settings
+# LOCALE_DEFAULT=en_US.UTF-8
+
+# Optional: Keyboard layout
+# KEYBOARD_KEYMAP=us
+# KEYBOARD_LAYOUT="English (US)"
