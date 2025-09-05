@@ -1,6 +1,6 @@
 Types: deb
 URIs: http://raspbian.raspberrypi.com/raspbian/
-Arch: armhf
+Architectures: armhf
 Suites: RELEASE
 Components: main contrib non-free rpi
 Signed-By: /usr/share/keyrings/raspbian-archive-keyring.gpg
