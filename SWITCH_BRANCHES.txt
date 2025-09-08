@@ -1,0 +1,10 @@
+when you switch branches
+
+1. remove owrx/work folder
+2. remove docker images and volumes
+
+sudo rm -rf owrx; docker rm -v pigen_work
+
+3. switch the branch
+4. start the ./build-owrx.sh
+

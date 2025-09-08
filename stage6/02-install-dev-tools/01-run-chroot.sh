@@ -21,6 +21,7 @@ function cmakebuild() {
 	cmake \${@:3} ..
 	make
 	make install
+	ldconfig
 	popd
 	popd
 }
