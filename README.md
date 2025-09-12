@@ -20,9 +20,9 @@ below.
 To install the required dependencies for `pi-gen` you should run:
 
 ```bash
-apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+apt install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 dosfstools e2fsprogs libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-gpg pigz xxd arch-test bmap-tools
+gpg pigz xxd arch-test bmap-tools kmod
 ```
 
 The file `depends` contains a list of tools needed.  The format of this
@@ -173,6 +173,8 @@ The following environment variables are supported:
    `DISABLE_FIRST_BOOT_USER_RENAME` is set to `1`, this user will be renamed on the first boot with
    a name chosen by the final user. This security feature is designed to prevent shipping images
    with a default username and help prevent malicious actors from taking over your devices.
+
+   If the FIRST_USER_NAME is set to `pi` and no `FIRST_USER_PASS` is set, the setup wizard will be launched on first boot to allow the user to set the password.
 
  * `FIRST_USER_PASS` (Default: unset)
 
