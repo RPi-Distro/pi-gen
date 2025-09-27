@@ -313,13 +313,9 @@ fi
 log "Begin ${BASE_DIR}"
 
 # expand STAGE_LIST alias
-if [[ "${STAGE_LIST}" == '_lite' ]]; then
-	STAGE_LIST='stage0 stage1 stage2'
-elif [[ "${STAGE_LIST}" == '_desktop' ]]; then
-	STAGE_LIST='stage0 stage1 stage2 stage3'
-elif [[ "${STAGE_LIST}" == '_full' ]]; then
-	STAGE_LIST='stage0 stage1 stage2 stage3 stage4 stage5'
-fi
+STAGE_LIST=$(echo "${STAGE_LIST}" | sed -e 's/_full/stage0 stage1 stage2 stage3 stage4 stage5/g' \
+                                        -e 's/_desktop/stage0 stage1 stage2 stage3/g' \
+						                -e 's/_lite/stage0 stage1 stage2/g')
 
 STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
 export STAGE_LIST
