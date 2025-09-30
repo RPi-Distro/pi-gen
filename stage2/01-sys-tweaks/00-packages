@@ -36,3 +36,5 @@ file
 kms++-utils
 python3-venv
 bluez bluez-firmware
+rpi-keyboard-config
+rpi-keyboard-fw-update
