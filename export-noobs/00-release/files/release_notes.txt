@@ -1,5 +1,7 @@
 UNRELEASED:
-  *
+  * Added rpi-keyboard-config and rpi-keyboard-fw-update
+  * Raspberry Pi firmware 676efed1194de38975889a34276091da1f5aadd3
+  * Linux kernel 6.12.47 - 359f37f0faefb712add32a39f98751aea67d5c1f
 2025-05-13:
   * Setting touchscreen in Screen Configuration does not delete default associations for greeter
   * Bug fix - wizard keyboard setting correctly transferred into desktop
