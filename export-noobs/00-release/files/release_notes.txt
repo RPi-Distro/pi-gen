@@ -1,5 +1,39 @@
 UNRELEASED:
-  *
+  * Based on Debian Trixie release
+  * New plugin-based Control Centre application
+  * Plugins for same built from existing Raspberry Pi Configuration, Appearance
+    Settings, Mouse and Keyboard Settings, Screen Configuration and Printer
+    Settings applications; code and functionality identical
+  * New icon theme, PiXtrix
+  * New GTK themes, PiXtrix (standard) and PiXonyx (dark)
+  * New desktop wallpapers
+  * New system font, Nunito Sans Light
+  * lxpanel replaced with forked lxpanel-pi; unsupported plugins removed
+  * lxpanelctl replaced with lxpanelctl-pi command-line application
+  * New System Monitor plugin added to taskbar for power and other warnings
+  * New shared Clock plugin added for wf-panel-pi and lxpanel-pi taskbars
+  * Main menu shortcuts to Raspberry Pi website removed and replaced with
+    pre-loaded bookmarks in Chromium and Firefox
+  * Main menu shortcut to Raspberry Pi Beginner's Guide added
+  * Bookshelf application now displays contributor-only titles and includes
+    option to contribute to unlock them
+  * SenseHAT Emulator reinstated in Recommended Software
+  * labwc updated to version 0.8.4
+  * General keyboard control improvements in GTK applications
+  * International translations of user guides installed by startup wizard as
+    appropriate
+  * raspberrypi-ui-mods package removed - replaced with structured metapackage,
+    rpd-metas
+  * Shutdown helper does not offer lock screen option when invoked by a user
+    who has no password set
+  * Chromium updated to version 140.0.7339.185
+  * Firefox updated to version 142.0.1
+  * Debian Reference no longer included
+  * Alacarte menu editor no longer included
+  * Remote GPIO option removed from Control Centre
+  * Added rpi-keyboard-config and rpi-keyboard-fw-update
+  * Raspberry Pi firmware 676efed1194de38975889a34276091da1f5aadd3
+  * Linux kernel 6.12.47 - 359f37f0faefb712add32a39f98751aea67d5c1f
 2025-05-13:
   * Setting touchscreen in Screen Configuration does not delete default associations for greeter
   * Bug fix - wizard keyboard setting correctly transferred into desktop
