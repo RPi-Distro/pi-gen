@@ -221,6 +221,10 @@ The following environment variables are supported:
 
     If set, use this directory path as the location of scripts to run when generating images. An absolute or relative path can be given for a location outside the pi-gen directory.
 
+ * `ENABLE_CLOUD_INIT` (Default: `1`)
+
+    If set to `1`, cloud-init and netplan will be installed and configured. This will allow you to configure your Raspberry Pi using cloud-init configuration files. The cloud-init configuration files should be placed in the bootfs or by editing the files in `stage2/04-cloud-init/files`. Cloud-init will be configured to read them on first boot.
+
 A simple example for building Raspberry Pi OS:
 
 ```bash

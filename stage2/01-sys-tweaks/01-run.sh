@@ -26,14 +26,16 @@ if [ "${USE_QEMU}" = "1" ]; then
 	echo "leaving QEMU mode"
 fi
 
-on_chroot <<EOF
-for GRP in input spi i2c gpio; do
-	groupadd -f -r "\$GRP"
-done
 
-for GRP in adm dialout cdrom audio users sudo video games plugdev input gpio spi i2c netdev render; do
-  adduser $FIRST_USER_NAME \$GRP
-done
+on_chroot <<- EOF
+	systemctl enable rpi-resize
+
+	for GRP in input spi i2c gpio; do
+		groupadd -f -r "\$GRP"
+	done
+	for GRP in adm dialout cdrom audio users sudo video games plugdev input gpio spi i2c netdev render; do
+		adduser $FIRST_USER_NAME \$GRP
+	done
 EOF
 
 if [ -f "${ROOTFS_DIR}/etc/sudoers.d/010_pi-nopasswd" ]; then
