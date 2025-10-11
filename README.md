@@ -108,7 +108,7 @@ The following environment variables are supported:
 
    Output directory for target system images and NOOBS bundles.
 
- * `DEPLOY_COMPRESSION` (Default: `zip`)
+ * `DEPLOY_COMPRESSION` (Default: `none`)
 
    Set to:
    * `none` to deploy the actual image (`.img`).
