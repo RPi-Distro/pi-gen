@@ -17,6 +17,8 @@ install -v -D -m 644 -t "${ROOTFS_DIR}/etc/cloud/cloud.cfg.d/" files/99_raspberr
 # at boot time. This will make NetworkManager manage all devices and by default. 
 # Any Ethernet device will come up with DHCP, once carrier is detected
 install -v -D -m 600 -t "${ROOTFS_DIR}/lib/netplan/" files/00-network-manager-all.yaml
+# install the script to sync regulatory domain from netplan config to cmdline.txt
+install -v -D -m 600 -t "${ROOTFS_DIR}/etc/netplan/generate.d" files/20-rpi-sync-regdom
 
 if [ -n "${FIRST_USER_NAME}" ]; then
   # set the default user name to the one provided via FIRST_USER_NAME

@@ -1,0 +1,29 @@
+#!/bin/sh
+set -eu
+
+# Exit cleanly if Netplan cfg dir isn't present
+[ -d /etc/netplan ] || exit 0
+
+# Extract the first configured country/regulatory-domain from netplan YAML.
+COUNTRY="$(grep -Rho '^\s*\(regulatory-domain\|country\):\s*[A-Za-z0-9]\+' /etc/netplan \
+  | awk '{print $2}' | head -n1 || true)"
+
+[ -z "${COUNTRY:-}" ] && exit 0  # nothing to sync
+
+case "$COUNTRY" in
+  [A-Za-z][A-Za-z]|00) : ;;
+  *) exit 0 ;;
+esac
+
+CMDLINE="/boot/firmware/cmdline.txt"
+if [ -f "$CMDLINE" ]; then
+  if grep -q '\bcfg80211\.ieee80211_regdom=' "$CMDLINE"; then
+    # replace existing
+    sed -i -E "s/\bcfg80211\.ieee80211_regdom=\S+/cfg80211.ieee80211_regdom=${COUNTRY}/" "$CMDLINE"
+  else
+    # append (keep single line)
+    sed -i "s/$/ cfg80211.ieee80211_regdom=${COUNTRY}/" "$CMDLINE"
+  fi
+fi
+
+exit 0
