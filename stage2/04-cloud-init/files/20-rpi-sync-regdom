@@ -1,12 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 set -eu
 
 # Exit cleanly if Netplan cfg dir isn't present
 [ -d /etc/netplan ] || exit 0
 
-# Extract the first configured country/regulatory-domain from netplan YAML.
-COUNTRY="$(grep -Rho '^\s*\(regulatory-domain\|country\):\s*[A-Za-z0-9]\+' /etc/netplan \
-  | awk '{print $2}' | head -n1 || true)"
+# Extract the first configured regulatory-domain from netplan YAML,
+# checking highest-priority files first (reverse alphabetical, e.g. 99-* overrides 00-*).
+COUNTRY="$(
+  while IFS= read -r -d '' file; do
+    sed -nE 's/^[[:space:]]*regulatory-domain:[[:space:]]*"?(..)"?.*/\1/p' "$file" && exit 0
+  done < <(find /etc/netplan -maxdepth 1 -type f \( -name '*.yml' -o -name '*.yaml' \) -print0 | sort -z -r)
+)"
 
 [ -z "${COUNTRY:-}" ] && exit 0  # nothing to sync
 
@@ -25,5 +29,22 @@ if [ -f "$CMDLINE" ]; then
     sed -i "s/$/ cfg80211.ieee80211_regdom=${COUNTRY}/" "$CMDLINE"
   fi
 fi
+
+if systemctl is-active --quiet NetworkManager; then
+  nmcli radio wifi on
+else
+  rfkill unblock wifi
+  if [ -f /var/lib/NetworkManager/NetworkManager.state ]; then
+    sed -i 's/^WirelessEnabled=.*/WirelessEnabled=true/' /var/lib/NetworkManager/NetworkManager.state
+  fi
+fi
+
+# Clear any persistent rfkill blocks on wlan interfaces
+for filename in /var/lib/systemd/rfkill/*:wlan ; do
+  if ! [ -e "$filename" ]; then
+    continue
+  fi
+  echo 0 > "$filename"
+done
 
 exit 0
