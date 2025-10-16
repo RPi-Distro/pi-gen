@@ -39,3 +39,4 @@ bluez bluez-firmware
 rpi-keyboard-config
 rpi-keyboard-fw-update
 rpi-usb-gadget
+rpi-connect-lite
