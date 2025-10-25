@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 pi-gen is a tool for creating Raspberry Pi OS images and custom images based on Raspberry Pi OS. This repository builds 64-bit ARM images (from the `arm64` branch) while 32-bit images are built from the `master` branch.
 
+**This fork is customized for Computado Rita OS (CROS)**, a rebranded version configured for Costa Rica with Spanish localization. See `config` and `docs/` for branding details.
+
 ## Build Commands
 
 ### Standard Build
@@ -130,19 +132,59 @@ See `depends` file for complete list in format `<tool>[:<debian-package>]`.
 ## Directory Structure
 
 - `stage*/`: Build stages with numbered subdirectories
-- `export-image/`: Scripts for image finalization (set-partuuid, network config, user-rename)
+- `export-image/`: Scripts for image finalization (creates .img file from rootfs, set-partuuid, network config, user-rename)
 - `export-noobs/`: NOOBS bundle generation
-- `scripts/`: Common functions and utilities
+- `scripts/`: Common functions and utilities including scripts/common (core functions)
+- `rebrand/`: Rebranding scripts and utilities for Computado Rita customization
 - `docs/`: Documentation for Computado Rita rebranding and package information
 - `work/`: Build cache (gitignored, can be large - tens of GB)
 - `deploy/`: Output images (gitignored)
+
+## Image Generation Process
+
+After stages complete, the `export-image/` scripts run to create the final .img file:
+
+1. `prerun.sh`: Creates empty .img file, partitions it (bootfs + rootfs), mounts partitions
+2. Numbered subdirectories run (00-*, 01-*, etc.) to configure the image
+3. Final .img is compressed according to `DEPLOY_COMPRESSION` setting
+4. Output: `deploy/CROS-YYYY-MM-DD-arm64.img.xz` (or .zip/.gz depending on config)
+
+The image includes:
+- Boot partition (FAT32, 512MB): kernel, firmware, config.txt
+- Root partition (ext4): complete filesystem from final stage
+
+## Troubleshooting
+
+**Build fails with "binfmt_misc" error:**
+- Ensure qemu-user-static is installed: `apt install qemu-user-static`
+- Load kernel module: `modprobe binfmt_misc`
+- On WSL: `sudo update-binfmts --enable`
+
+**Permission errors during build:**
+- build.sh must run as root: `sudo ./build.sh`
+- Check WORK_DIR is on Linux filesystem (not NTFS)
+
+**Out of space errors:**
+- WORK_DIR stores complete copy per stage (can use 50GB+)
+- Clean up: `sudo rm -rf work/`
+- Set WORK_DIR to larger partition in config
+
+**Continue interrupted build:**
+- Docker: `CONTINUE=1 ./build-docker.sh`
+- Rebuild only last stage: `CLEAN=1 ./build.sh`
+
+**Debugging stage failures:**
+- Check logs: `cat work/*/build.log`
+- For chroot issues: Verify arm64 emulation with `arch-test arm64`
+- Add SKIP to failing stage, examine work/stageN/rootfs manually
 
 ## Additional Documentation
 
 Comprehensive documentation is available in the `docs/` directory:
 
+- **[docs/README.md](docs/README.md)** - Documentation index and quick reference for CROS
 - **[docs/REBRANDING_CHANGES.md](docs/REBRANDING_CHANGES.md)** - Complete rebranding summary from Raspberry Pi to Computado Rita
-- **[docs/RASPBERRY_PI_IMAGES_INVENTORY.md](docs/RASPBERRY_PI_IMAGES_INVENTORY.md)** - Inventory of all Pi-branded images and logos
-- **[docs/RASPBERRY_PI_TEXT_REPLACEMENT_GUIDE.md](docs/RASPBERRY_PI_TEXT_REPLACEMENT_GUIDE.md)** - Guide for text replacements
-- **[docs/RASPBERRY_PI_SPECIFIC_PACKAGES.md](docs/RASPBERRY_PI_SPECIFIC_PACKAGES.md)** - Documentation of Pi-specific packages
+- **[docs/IMAGE_REBRANDING_GUIDE.md](docs/IMAGE_REBRANDING_GUIDE.md)** - Guide to replacing visual assets and branding images
+- **[docs/RASPBERRY_PI_SPECIFIC_PACKAGES.md](docs/RASPBERRY_PI_SPECIFIC_PACKAGES.md)** - Documentation of Pi-specific packages (essential for understanding dependencies)
+- **[docs/RASPBERRY_PI_TEXT_REPLACEMENT_GUIDE.md](docs/RASPBERRY_PI_TEXT_REPLACEMENT_GUIDE.md)** - Guide for safe text replacements
 - **[docs/RASPBIAN_TO_CROS_REPLACEMENTS.md](docs/RASPBIAN_TO_CROS_REPLACEMENTS.md)** - Raspbian/RaspiOS to CROS replacement guide
