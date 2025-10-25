@@ -17,7 +17,7 @@ All instances of:
 - "Raspbian" → "CROS"
 
 **Total Changes**: 13 replacements in code and documentation
-**See Also**: `RASPBIAN_TO_CROS_REPLACEMENTS.md` for detailed Raspbian/RaspiOS replacement documentation
+**See Also**: [RASPBIAN_TO_CROS_REPLACEMENTS.md](RASPBIAN_TO_CROS_REPLACEMENTS.md) for detailed Raspbian/RaspiOS replacement documentation
 
 ---
 
@@ -78,7 +78,7 @@ All instances of:
 **File**: `CLAUDE.md` - AI documentation (1 instance)
 - Default value updated from `raspios-$RELEASE-$ARCH` to `cros-$RELEASE-$ARCH`
 
-**See**: `RASPBIAN_TO_CROS_REPLACEMENTS.md` for complete details
+**See**: [RASPBIAN_TO_CROS_REPLACEMENTS.md](RASPBIAN_TO_CROS_REPLACEMENTS.md) for complete details
 
 ---
 
@@ -98,7 +98,7 @@ All Raspberry Pi-specific package names **remain unchanged** because they must m
 - `rpi-connect-lite`
 - `rpi-update`
 - All `rpd-*` packages (desktop theme packages)
-- See `RASPBERRY_PI_SPECIFIC_PACKAGES.md` for complete list
+- See [RASPBERRY_PI_SPECIFIC_PACKAGES.md](RASPBERRY_PI_SPECIFIC_PACKAGES.md) for complete list
 
 #### Repository URLs
 Must remain unchanged to access Raspberry Pi package repositories:
@@ -119,7 +119,7 @@ Package-installed paths cannot be changed:
 ## 🎨 Additional Branding Opportunities
 
 ### Images & Visual Assets
-See `RASPBERRY_PI_IMAGES_INVENTORY.md` for detailed image replacement guide:
+See [RASPBERRY_PI_IMAGES_INVENTORY.md](RASPBERRY_PI_IMAGES_INVENTORY.md) for detailed image replacement guide:
 
 **Direct image files to replace:**
 1. `/export-noobs/00-release/files/OS.png` (1.8 KB) - NOOBS OS icon
@@ -153,7 +153,24 @@ Your current config creates an image with:
 
 ## 🚀 Next Steps for Complete Rebranding
 
-### 1. Replace Visual Assets (High Priority)
+### 1. Replace Visual Assets (High Priority) ⭐ AUTOMATED
+
+**AUTOMATED SOLUTION AVAILABLE!** We've created scripts to automatically generate branded images:
+
+```bash
+# One command to brand all images
+./setup_and_brand_images.sh
+```
+
+This will:
+- ✅ Convert `docs/CRIcon.svg` to OS icon (40x40)
+- ✅ Generate 7 marketing slides in Spanish (640x480)
+- ✅ Backup original Pi images
+- ✅ Replace all images with Computado Rita branding
+
+**See**: [IMAGE_REBRANDING_GUIDE.md](IMAGE_REBRANDING_GUIDE.md) for complete instructions
+
+**Or manually replace images:**
 ```bash
 # Replace NOOBS OS icon
 cp /path/to/your/os-icon.png export-noobs/00-release/files/OS.png
@@ -190,7 +207,7 @@ Or remove the password field entirely for maximum security.
 
 ### 4. Remove Raspberry Pi-Specific Packages (If Not Needed)
 If building for non-Pi hardware, remove Pi-specific packages:
-- See `RASPBERRY_PI_SPECIFIC_PACKAGES.md` for detailed removal guide
+- See [RASPBERRY_PI_SPECIFIC_PACKAGES.md](RASPBERRY_PI_SPECIFIC_PACKAGES.md) for detailed removal guide
 - Keep essential firmware if building for Raspberry Pi hardware
 
 ### 5. Create Custom Boot Splash (Optional)
@@ -207,13 +224,15 @@ Review and update:
 
 ## 📚 Reference Documents
 
-This repository now includes comprehensive documentation:
+This repository now includes comprehensive documentation in the `docs/` directory:
 
-1. **CLAUDE.md** - Guide for AI assistants working with this codebase
-2. **RASPBERRY_PI_IMAGES_INVENTORY.md** - Complete image asset inventory
-3. **RASPBERRY_PI_TEXT_REPLACEMENT_GUIDE.md** - Text replacement locations guide
-4. **RASPBERRY_PI_SPECIFIC_PACKAGES.md** - Pi-specific package documentation
-5. **REBRANDING_CHANGES.md** - This document
+1. **[CLAUDE.md](../CLAUDE.md)** - Guide for AI assistants working with this codebase (root directory)
+2. **[RASPBERRY_PI_IMAGES_INVENTORY.md](RASPBERRY_PI_IMAGES_INVENTORY.md)** - Complete image asset inventory
+3. **[RASPBERRY_PI_TEXT_REPLACEMENT_GUIDE.md](RASPBERRY_PI_TEXT_REPLACEMENT_GUIDE.md)** - Text replacement locations guide
+4. **[RASPBERRY_PI_SPECIFIC_PACKAGES.md](RASPBERRY_PI_SPECIFIC_PACKAGES.md)** - Pi-specific package documentation
+5. **[RASPBIAN_TO_CROS_REPLACEMENTS.md](RASPBIAN_TO_CROS_REPLACEMENTS.md)** - Raspbian/RaspiOS replacement details
+6. **[REBRANDING_CHANGES.md](REBRANDING_CHANGES.md)** - This document
+7. **[IMAGE_REBRANDING_GUIDE.md](IMAGE_REBRANDING_GUIDE.md)** - ⭐ NEW - Automated image replacement guide
 
 ---
 
@@ -226,6 +245,8 @@ Before building your Computado Rita image:
 - [x] Cloud-init config file renamed
 - [x] NOOBS URL updated to computadorita.cr
 - [x] Mathematica EULA comment updated
+- [x] Image branding scripts created (setup_and_brand_images.sh, create_branded_images.py)
+- [ ] ⭐ **RUN: ./setup_and_brand_images.sh** to create branded images
 - [ ] OS icon replaced (export-noobs/00-release/files/OS.png)
 - [ ] Marketing slides replaced (7 PNG files)
 - [ ] NOOBS default password changed or removed

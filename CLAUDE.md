@@ -133,5 +133,16 @@ See `depends` file for complete list in format `<tool>[:<debian-package>]`.
 - `export-image/`: Scripts for image finalization (set-partuuid, network config, user-rename)
 - `export-noobs/`: NOOBS bundle generation
 - `scripts/`: Common functions and utilities
+- `docs/`: Documentation for Computado Rita rebranding and package information
 - `work/`: Build cache (gitignored, can be large - tens of GB)
 - `deploy/`: Output images (gitignored)
+
+## Additional Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- **[docs/REBRANDING_CHANGES.md](docs/REBRANDING_CHANGES.md)** - Complete rebranding summary from Raspberry Pi to Computado Rita
+- **[docs/RASPBERRY_PI_IMAGES_INVENTORY.md](docs/RASPBERRY_PI_IMAGES_INVENTORY.md)** - Inventory of all Pi-branded images and logos
+- **[docs/RASPBERRY_PI_TEXT_REPLACEMENT_GUIDE.md](docs/RASPBERRY_PI_TEXT_REPLACEMENT_GUIDE.md)** - Guide for text replacements
+- **[docs/RASPBERRY_PI_SPECIFIC_PACKAGES.md](docs/RASPBERRY_PI_SPECIFIC_PACKAGES.md)** - Documentation of Pi-specific packages
+- **[docs/RASPBIAN_TO_CROS_REPLACEMENTS.md](docs/RASPBIAN_TO_CROS_REPLACEMENTS.md)** - Raspbian/RaspiOS to CROS replacement guide

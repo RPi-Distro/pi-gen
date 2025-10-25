@@ -203,7 +203,7 @@ grep -r "raspbian" /home/svvs/pi-gen --exclude-dir=.git --exclude-dir=work --exc
 
 These replacements complement the earlier rebranding changes:
 
-### Already Completed (See REBRANDING_CHANGES.md)
+### Already Completed (See [REBRANDING_CHANGES.md](REBRANDING_CHANGES.md))
 - ✅ "Raspberry Pi" → "Computado Rita" in error messages
 - ✅ "Raspberry Pi OS" → "Computado Rita OS" in build.sh
 - ✅ Cloud-init config renamed: `99_raspberry-pi.cfg` → `99_computado-rita.cfg`
