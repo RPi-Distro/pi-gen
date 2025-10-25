@@ -179,7 +179,7 @@ export PI_GEN_RELEASE=${PI_GEN_RELEASE:-Raspberry Pi reference}
 
 export ARCH=arm64
 export RELEASE=${RELEASE:-trixie} # Don't forget to update stage0/prerun.sh
-export IMG_NAME="${IMG_NAME:-raspios-$RELEASE-$ARCH}"
+export IMG_NAME="${IMG_NAME:-cros-$RELEASE-$ARCH}"
 
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
@@ -265,7 +265,7 @@ PAGESIZE=$(getconf PAGESIZE)
 if [ "$ARCH" == "armhf" ] && [ "$PAGESIZE" != "4096" ]; then
 	echo
 	echo "ERROR: Building an $ARCH image requires a kernel with a 4k page size (current: $PAGESIZE)"
-	echo "On Raspberry Pi OS (64-bit), you can switch to a suitable kernel by adding the following to /boot/firmware/config.txt and rebooting:"
+	echo "On Computado Rita OS (64-bit), you can switch to a suitable kernel by adding the following to /boot/firmware/config.txt and rebooting:"
 	echo
 	echo "kernel=kernel8.img"
 	echo "initramfs initramfs8 followkernel"

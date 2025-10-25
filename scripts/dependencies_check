@@ -23,7 +23,7 @@ dependencies_check()
 	if [[ "$missing" ]]; then
 		echo "Required dependencies not installed"
 		echo
-		echo "This can be resolved on Debian/Raspbian systems by installing:"
+		echo "This can be resolved on Debian/CROS systems by installing:"
 		echo "$missing"
 		false
 	fi

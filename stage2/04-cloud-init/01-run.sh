@@ -5,7 +5,7 @@ if [ "${ENABLE_CLOUD_INIT}" != "1" ]; then
 	exit 0
 fi
 
-install -v -D -m 644 -t "${ROOTFS_DIR}/etc/cloud/cloud.cfg.d/" files/99_raspberry-pi.cfg
+install -v -D -m 644 -t "${ROOTFS_DIR}/etc/cloud/cloud.cfg.d/" files/99_computado-rita.cfg
 
 # some preseeding without any runtime effect yet
 # install meta-data file for NoCloud data-source to work

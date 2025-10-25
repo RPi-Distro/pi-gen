@@ -55,7 +55,7 @@ environment variables.
 
 The following environment variables are supported:
 
- * `IMG_NAME` (Default: `raspios-$RELEASE-$ARCH`, for example: `raspios-trixie-armhf`)
+ * `IMG_NAME` (Default: `cros-$RELEASE-$ARCH`, for example: `cros-trixie-armhf`)
 
    The name of the image to build with the current stage directories. Use this
    variable to set the root name of your OS, eg `IMG_NAME=Frobulator`.
@@ -225,10 +225,10 @@ The following environment variables are supported:
 
     If set to `1`, cloud-init and netplan will be installed and configured. This will allow you to configure your Raspberry Pi using cloud-init configuration files. The cloud-init configuration files should be placed in the bootfs or by editing the files in `stage2/04-cloud-init/files`. Cloud-init will be configured to read them on first boot.
 
-A simple example for building Raspberry Pi OS:
+A simple example for building Computado Rita OS:
 
 ```bash
-IMG_NAME='raspios'
+IMG_NAME='cros'
 ```
 
 The config file can also be specified on the command line as an argument the `build.sh` or `build-docker.sh` scripts.
@@ -389,7 +389,7 @@ to `./stage2` (if building a minimal system).
 
 ```bash
 # Example for building a lite system
-echo "IMG_NAME='raspios'" > config
+echo "IMG_NAME='cros'" > config
 touch ./stage3/SKIP ./stage4/SKIP ./stage5/SKIP
 touch ./stage4/SKIP_IMAGES ./stage5/SKIP_IMAGES
 sudo ./build.sh  # or ./build-docker.sh
