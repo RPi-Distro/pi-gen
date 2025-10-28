@@ -14,7 +14,7 @@ on_chroot <<- EOF
 		python3 -m apt_listchanges.populate_database --profile apt
 		systemctl disable apt-listchanges.timer
 	fi
-	install -m 755 -o systemd-timesync -g systemd-timesync -d /var/lib/systemd/timesync/clock
+	install -m 755 -o systemd-timesync -g systemd-timesync -d /var/lib/systemd/timesync
 	install -m 644 -o systemd-timesync -g systemd-timesync /dev/null /var/lib/systemd/timesync/clock
 EOF
 
