@@ -197,7 +197,7 @@ The following environment variables are supported:
   * `PUBKEY_SSH_FIRST_USER` (Default: unset)
 
    Setting this to a value will make that value the contents of the FIRST_USER_NAME's ~/.ssh/authorized_keys.  Obviously the value should
-   therefore be a valid authorized_keys file.  Note that this does not
+   therefore be a valid authorized_keys file entry as a string - encapsulated by quotes in config.  Note that this does not
    automatically enable SSH.
 
   * `PUBKEY_ONLY_SSH` (Default: `0`)
