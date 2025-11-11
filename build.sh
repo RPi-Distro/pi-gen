@@ -218,7 +218,13 @@ export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"
 
 export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
 
-export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
+if [ -z "${GIT_HASH}" ]; then
+    if [ -d "${BASE_DIR}"/.git ]; then
+        export GIT_HASH=${GIT_HASH:-$(git rev-parse HEAD)}
+    else
+        export GIT_HASH=$(git ls-remote --tags "${PI_GEN_REPO}" | grep $(basename "${BASE_DIR}" | cut -d'-' -f3-) | awk '{print $1}')
+    fi
+fi
 
 export PUBKEY_SSH_FIRST_USER
 
