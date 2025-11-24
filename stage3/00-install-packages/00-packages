@@ -6,7 +6,7 @@ policykit-1
 gvfs
 rfkill
 chromium rpi-chromium-mods libwidevinecdm0
-firefox rpi-firefox-mods
+firefox-esr rpi-firefox-mods
 gldriver-test
 fonts-droid-fallback
 fonts-liberation2
