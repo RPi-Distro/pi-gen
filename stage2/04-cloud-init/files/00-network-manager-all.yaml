@@ -1,3 +1,0 @@
-network:
-  version: 2
-  renderer: NetworkManager
