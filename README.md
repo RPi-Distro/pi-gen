@@ -178,13 +178,15 @@ The following environment variables are supported:
 
  * `FIRST_USER_PASS` (Default: unset)
 
-   Password for the first user. If unset, the account is locked.
+   Password for the first user. If unset, the account cannot be logged into with a password.
 
  * `DISABLE_FIRST_BOOT_USER_RENAME` (Default: `0`)
 
-   Disable the renaming of the first user during the first boot. This make it so `FIRST_USER_NAME`
-   stays activated. `FIRST_USER_PASS` must be set for this to work. Please be aware of the implied
-   security risk of defining a default username and password for your devices.
+   Disable the renaming of the first user during the first boot. This makes it so `FIRST_USER_NAME` stays activated.  
+   `FIRST_USER_PASS` must be set in order to log in to the account with a password.  
+   Please be aware of the implied security risk of defining a default username and password for your devices.
+   
+   Alternatively, you may set `ENABLE_SSH`, `PUBKEY_SSH_FIRST_USER` and `PUBKEY_ONLY_SSH` to log in via public key authentication.
 
  * `WPA_COUNTRY` (Default: unset)
 
