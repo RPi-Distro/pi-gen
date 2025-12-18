@@ -3,6 +3,7 @@ deploy/
 artefacts/
 old/
 owrx/
+emu-data/
 postrun.sh
 SKIP
 SKIP_IMAGES
