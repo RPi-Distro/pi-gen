@@ -28,6 +28,12 @@ on_chroot <<- \EOF
 	elif [ "$ARCH" = "arm64" ]; then
 		dpkg --add-architecture armhf
 	fi
-	apt-get update
-	apt-get dist-upgrade -y
+	echo "Updating apt and trying to add debian keys"
+	apt update --allow-unauthenticated || true
+	apt install gnupg
+	gpg --batch --yes --keyserver keyserver.ubuntu.com --recv-keys 6ED0E7B82643E131 78DBA3BC47EF2265 F8D2585B8783D481 54404762BBB6E853 BDE6D2B9216EC7A8
+	gpg --batch --yes --pinentry-mode=loopback --export 6ED0E7B82643E131 78DBA3BC47EF2265 F8D2585B8783D481 54404762BBB6E853 BDE6D2B9216EC7A8 | gpg --batch --yes --dearmor -o /etc/apt/trusted.gpg.d/debian-archive.gpg
+	apt update
+	apt install debian-archive-keyring --reinstall
+	apt dist-upgrade -y
 EOF

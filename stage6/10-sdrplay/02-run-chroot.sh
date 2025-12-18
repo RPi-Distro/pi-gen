@@ -38,3 +38,4 @@ systemctl enable sdrplay
 
 popd
 
+apt install -y soapysdr0.8-module-sdrplay3
