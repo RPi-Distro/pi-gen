@@ -1,26 +1,36 @@
 #!/bin/bash
 set -euo pipefail
 
+error_exit() {
+  echo;echo;echo "Installation failed..."
+  echo "Downloading the latest version of this installer script"; echo
+  wget "https://raw.githubusercontent.com/0xAF/openwebrxplus-rpi-builder/refs/heads/owrx%2B-64bit/stage7/10-openwebrx/files/install-softmbe.sh" -O /tmp/install-softmbe.sh
+  echo;echo "You can try running the latest version with:"
+  echo "  sudo bash /tmp/install-softmbe.sh"; echo
+}
+trap error_exit ERR
+
 BUILD_PACKAGES="git build-essential debhelper cmake libprotobuf-dev protobuf-compiler"
 
 apt update
 apt -y install --no-install-recommends $BUILD_PACKAGES libcodecserver-dev
 
-
 pushd /tmp
 
 echo "+ Build MBELIB..."
+rm -rf mbelib
 git clone https://github.com/0xAF/mbelib
 cd mbelib
-dpkg-buildpackage
+dpkg-buildpackage -us -uc
 cd ..
 rm -rf mbelib
 dpkg -i libmbe1_1.3*.deb libmbe-dev_1.3*.deb
 
 echo "+ Build codecserver-softmbe..."
+rm -rf codecserver-softmbe
 git clone https://github.com/0xAF/codecserver-softmbe
 cd codecserver-softmbe
-dpkg-buildpackage
+dpkg-buildpackage -us -uc
 cd ..
 rm -rf codecserver-softmbe
 
