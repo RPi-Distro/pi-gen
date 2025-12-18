@@ -10,9 +10,9 @@ gpg --dearmor < files/openwebrx-plus.gpg.key > "${ROOTFS_DIR}/etc/apt/trusted.gp
 on_chroot << EOF
 
 repo_lines=(
-    'deb [ arch=armhf ] http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware'
-    'deb [ arch=armhf ] http://deb.debian.org/debian-security/ bookworm-security main contrib non-free non-free-firmware'
-    'deb [ arch=armhf ] http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware'
+    'deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware'
+    'deb http://deb.debian.org/debian-security/ bookworm-security main contrib non-free non-free-firmware'
+    'deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware'
 )
 
 # Remove existing entries to avoid duplicates
