@@ -1,0 +1,16 @@
+[Unit]
+Description=GardenBack API Service
+After=network.target mosquitto.service
+Requires=mosquitto.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/gardenback
+Environment="PATH=/opt/gardenback/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/opt/gardenback/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

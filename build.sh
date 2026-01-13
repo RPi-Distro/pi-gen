@@ -179,7 +179,7 @@ export PI_GEN_RELEASE=${PI_GEN_RELEASE:-Raspberry Pi reference}
 
 export ARCH=armhf
 export RELEASE=${RELEASE:-trixie} # Don't forget to update stage0/prerun.sh
-export IMG_NAME="${IMG_NAME:-raspios-$RELEASE-$ARCH}"
+export IMG_NAME="${IMG_NAME:-GardenPi}"
 
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
@@ -202,21 +202,21 @@ export DEPLOY_COMPRESSION=${DEPLOY_COMPRESSION:-zip}
 export COMPRESSION_LEVEL=${COMPRESSION_LEVEL:-6}
 export LOG_FILE="${WORK_DIR}/build.log"
 
-export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
+export TARGET_HOSTNAME=${TARGET_HOSTNAME:-gardenpi}
 
-export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
-export FIRST_USER_PASS
-export DISABLE_FIRST_BOOT_USER_RENAME=${DISABLE_FIRST_BOOT_USER_RENAME:-0}
-export WPA_COUNTRY
-export ENABLE_SSH="${ENABLE_SSH:-0}"
+export FIRST_USER_NAME=${FIRST_USER_NAME:-garden}
+export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
+export DISABLE_FIRST_BOOT_USER_RENAME=${DISABLE_FIRST_BOOT_USER_RENAME:-1}
+export WPA_COUNTRY=${WPA_COUNTRY:-US}
+export ENABLE_SSH="${ENABLE_SSH:-1}"
 export PUBKEY_ONLY_SSH="${PUBKEY_ONLY_SSH:-0}"
 
-export LOCALE_DEFAULT="${LOCALE_DEFAULT:-en_GB.UTF-8}"
+export LOCALE_DEFAULT="${LOCALE_DEFAULT:-en_US.UTF-8}"
 
-export KEYBOARD_KEYMAP="${KEYBOARD_KEYMAP:-gb}"
-export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"
+export KEYBOARD_KEYMAP="${KEYBOARD_KEYMAP:-us}"
+export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (US)}"
 
-export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
+export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-America/New_York}"
 
 export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
 
@@ -316,7 +316,7 @@ fi
 
 log "Begin ${BASE_DIR}"
 
-STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
+STAGE_LIST=${STAGE_LIST:-"${BASE_DIR}/stage0 ${BASE_DIR}/stage1 ${BASE_DIR}/stage2 ${BASE_DIR}/stage3"}
 export STAGE_LIST
 
 EXPORT_CONFIG_DIR=$(realpath "${EXPORT_CONFIG_DIR:-"${BASE_DIR}/export-image"}")
