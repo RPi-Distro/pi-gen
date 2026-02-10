@@ -186,6 +186,14 @@ The following environment variables are supported:
    stays activated. `FIRST_USER_PASS` must be set for this to work. Please be aware of the implied
    security risk of defining a default username and password for your devices.
 
+ * `PASSWORDLESS_SUDO` (Default: `0`)
+
+   Setting to `1` will enable passwordless sudo for the first user. This allows
+   the user to run commands with sudo without entering a password. Note that
+   this is a security risk and should only be enabled if you understand the
+   implications. The user will still be able to use sudo with a password even
+   when this is set to `0`.
+
  * `WPA_COUNTRY` (Default: unset)
 
    Sets the default WLAN regulatory domain and unblocks WLAN interfaces. This should be a 2-letter ISO/IEC 3166 country Code, i.e. `GB`
