@@ -38,8 +38,10 @@ on_chroot <<- EOF
 	done
 EOF
 
-if [ -f "${ROOTFS_DIR}/etc/sudoers.d/010_pi-nopasswd" ]; then
-  sed -i "s/^pi /$FIRST_USER_NAME /" "${ROOTFS_DIR}/etc/sudoers.d/010_pi-nopasswd"
+if [ "${PASSWORDLESS_SUDO}" = "1" ]; then
+	on_chroot <<- EOF
+		SUDO_USER="${FIRST_USER_NAME}" raspi-config do_sudo_pass 0
+	EOF
 fi
 
 on_chroot << EOF

@@ -20,7 +20,7 @@ below.
 To install the required dependencies for `pi-gen` you should run:
 
 ```bash
-apt install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+apt install coreutils quilt parted qemu-user-binfmt debootstrap zerofree zip \
 dosfstools e2fsprogs libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
 gpg pigz xxd arch-test bmap-tools kmod
 ```
@@ -185,6 +185,14 @@ The following environment variables are supported:
    Disable the renaming of the first user during the first boot. This make it so `FIRST_USER_NAME`
    stays activated. `FIRST_USER_PASS` must be set for this to work. Please be aware of the implied
    security risk of defining a default username and password for your devices.
+
+ * `PASSWORDLESS_SUDO` (Default: `0`)
+
+   Setting to `1` will enable passwordless sudo for the first user. This allows
+   the user to run commands with sudo without entering a password. Note that
+   this is a security risk and should only be enabled if you understand the
+   implications. The user will still be able to use sudo with a password even
+   when this is set to `0`.
 
  * `WPA_COUNTRY` (Default: unset)
 
