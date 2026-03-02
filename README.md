@@ -20,7 +20,7 @@ below.
 To install the required dependencies for `pi-gen` you should run:
 
 ```bash
-apt install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+apt install coreutils quilt parted qemu-user-binfmt debootstrap zerofree zip \
 dosfstools e2fsprogs libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
 gpg pigz xxd arch-test bmap-tools kmod
 ```

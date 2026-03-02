@@ -3,7 +3,7 @@
 #
 # Each dependency is in the form of a tool to test for, optionally followed by
 # a : and the name of a package if the package on a Debian-ish system is not
-# named for the tool (i.e., qemu-user-static).
+# named for the tool (i.e., qemu-user-binfmt).
 dependencies_check()
 {
 	local depfile deps missing
