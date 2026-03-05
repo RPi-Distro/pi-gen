@@ -40,7 +40,7 @@ EOF
 
 if [ "${PASSWORDLESS_SUDO}" = "1" ]; then
 	on_chroot <<- EOF
-		SUDO_USER="${FIRST_USER_NAME}" raspi-config do_sudo_pass 0
+		SUDO_USER="${FIRST_USER_NAME}" raspi-config do_sudo_pass 1
 	EOF
 fi
 
