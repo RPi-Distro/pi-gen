@@ -56,13 +56,7 @@ if grep -q "$FEATURE" /etc/mke2fs.conf; then
 fi
 done
 
-if [ "$BOOT_SIZE" -lt 134742016 ]; then
-	FAT_SIZE=16
-else
-	FAT_SIZE=32
-fi
-
-mkdosfs -n bootfs -F "$FAT_SIZE" -s 4 -v "$BOOT_DEV" > /dev/null
+mkdosfs -n bootfs -F 32 -s 4 -v "$BOOT_DEV" > /dev/null
 mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" > /dev/null
 
 mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t ext4
