@@ -5,6 +5,12 @@ if [ -n "${PUBKEY_SSH_FIRST_USER}" ]; then
 	echo "${PUBKEY_SSH_FIRST_USER}" >"${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh/authorized_keys
 	chown 1000:1000 "${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh/authorized_keys
 	chmod 0600 "${ROOTFS_DIR}"/home/"${FIRST_USER_NAME}"/.ssh/authorized_keys
+
+	# SSH login requires user to have a shell, see also stage1/01-sys-tweaks/00-run.sh
+	# build.sh ensures DISABLE_FIRST_BOOT_USER_RENAME == 0 when FIRST_USER_PASS is unset
+	if [ -z "${FIRST_USER_PASS}" ]; then
+		usermod -s /bin/bash "${FIRST_USER_NAME}"
+	fi
 fi
 
 if [ "${PUBKEY_ONLY_SSH}" = "1" ]; then
