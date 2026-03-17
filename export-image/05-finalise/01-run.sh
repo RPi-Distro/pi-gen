@@ -115,6 +115,7 @@ mkdir -p "${DEPLOY_DIR}"
 rm -f "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.*"
 rm -f "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 
+log "Compressing image ($(du -h "${IMG_FILE}" | cut -f1)) using ${DEPLOY_COMPRESSION}, level ${COMPRESSION_LEVEL}. This may take several minutes..."
 case "${DEPLOY_COMPRESSION}" in
 zip)
 	pushd "${STAGE_WORK_DIR}" > /dev/null
@@ -134,6 +135,7 @@ none | *)
 	cp "$IMG_FILE" "$DEPLOY_DIR/"
 ;;
 esac
+log "Compression complete"
 
 if [ -f "${SBOM_FILE}" ]; then
 	xz -c "${SBOM_FILE}" > "$DEPLOY_DIR/$(basename "${SBOM_FILE}").xz"
