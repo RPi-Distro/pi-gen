@@ -1,4 +1,27 @@
 UNRELEASED:
+  * Passwordless sudo now disabled by default
+  * Switch to enable passwordless sudo added to Control Centre System tab and to raspi-config
+  * New Main Menu tab added to Control Centre to allow editing of main menu; alacarte menu editor removed
+  * Main menu now launches applications using standard gtk-launch code
+  * Run and Shutdown options in main menu now packaged applications instead of hard-coded into menu
+  * New launcher and task list plugins for taskbar; launcher now supports drag and drop to reorganise icons
+  * uBlock Origin Lite and h264ify plugins installed in Chromium by default
+  * cups-browsed printer discovery service now starts and stops with Control Centre rather than running continuously
+  * libpam-gnome-keyring installed to integrate Chromium password management with system password
+  * Desktop tab in Control Centre now allows home folder to be displayed on desktop instead of documents folder
+  * Pulseaudio no longer installed by default; raspi-config option to use it also removed
+  * Direct control of pipewire audio integrated with first-boot wizard
+  * Improved mechanism to detect clicking away from panel popup windows, compatible with Connect
+  * More efficient method for detecting desktop being closed to re-enable power button
+  * Bug fix - keystrokes sometimes being missed when opening search box in main menu
+  * Bug fix - touchscreens not correctly configured by Control Centre under X
+  * Bug fix - opening Control Centre when an SD card was mounted caused the window to be too big
+  * Bug fix - some mouse cursors displaying incorrectly when screen scaling in use
+  * Bug fix - file manager crash when switching TTYs
+  * Bug fix - greeter crash when switching TTYs
+  * Raspberry Pi firmware 676efed1194de38975889a34276091da1f5aadd3
+  * Linux kernel 6.12.75 - 89050b1059997d38d55462b323b099a6436dc10d
+2025-12-04:
   * Added ability to safely eject HDD and NVMe drives connected via USB
   * Added Alt-F2 shortcut to open run dialog in labwc desktop
   * Screens control panel no longer creates a default kanshi config file when started
