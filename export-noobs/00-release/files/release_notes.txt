@@ -1,4 +1,6 @@
 UNRELEASED:
+  *
+2026-04-13:
   * Passwordless sudo now disabled by default
   * Switch to enable passwordless sudo added to Control Centre System tab and to raspi-config
   * New Main Menu tab added to Control Centre to allow editing of main menu; alacarte menu editor removed
@@ -19,7 +21,7 @@ UNRELEASED:
   * Bug fix - some mouse cursors displaying incorrectly when screen scaling in use
   * Bug fix - file manager crash when switching TTYs
   * Bug fix - greeter crash when switching TTYs
-  * Raspberry Pi firmware 676efed1194de38975889a34276091da1f5aadd3
+  * Raspberry Pi firmware dce3a7f35498e1a6340748f599e7d74d9001c1fe
   * Linux kernel 6.12.75 - 89050b1059997d38d55462b323b099a6436dc10d
 2025-12-04:
   * Added ability to safely eject HDD and NVMe drives connected via USB
