@@ -8,7 +8,7 @@
 mkdir -p "${ROOTFS_DIR}/var/lib/systemd/rfkill/"
 #           5                 miniuart 4      miniuart Zero   miniuart other  other
 for addr in 107d50c000.serial 3f215040.serial 20215040.serial fe215040.serial soc; do
-	echo 0 > "${ROOTFS_DIR}/var/lib/systemd/rfkill/platform-${addr}:bluetooth"
+	echo 1 > "${ROOTFS_DIR}/var/lib/systemd/rfkill/platform-${addr}:bluetooth"
 done
 
 if [ -v WPA_COUNTRY ]; then
@@ -22,3 +22,8 @@ elif [ -d "${ROOTFS_DIR}/var/lib/NetworkManager" ]; then
 		WirelessEnabled=false
 	EOF
 fi
+
+# Disable dhcpcd to remove internet capability
+on_chroot << EOF
+systemctl disable dhcpcd
+EOF
