@@ -70,19 +70,19 @@ jobs:
         run: |
           echo "Contents of deploy/:"
           find deploy/ -type f | sort
-          # pi-gen outputs .img inside a zip, or raw .img
-          FILE=$(find deploy/ -type f \( -name "*.img" -o -name "*.zip" -o -name "*.xz" \) | head -1)
+          # Find the image matching this variant's suffix
+          if [[ "${{ matrix.img_suffix }}" == "-lite" ]]; then
+            FILE=$(find deploy/ -type f -name "*-lite.img.xz" -o -name "*-lite.zip" | head -1)
+          else
+            FILE=$(find deploy/ -type f \( -name "*.img.xz" -o -name "*.zip" \) ! -name "*-lite*" | head -1)
+          fi
           if [[ -z "$FILE" ]]; then
-            echo "No image file found in deploy/"
+            echo "No image file found for variant '${{ matrix.variant }}'"
+            find deploy/ -type f
             exit 1
           fi
           echo "Found: $FILE"
           ls -lh "$FILE"
-          # If it's a .img, compress it
-          if [[ "$FILE" == *.img ]]; then
-            xz -9 -T0 "$FILE"
-            FILE="${FILE}.xz"
-          fi
           echo "path=$FILE" >> "$GITHUB_OUTPUT"
           echo "name=$(basename $FILE)" >> "$GITHUB_OUTPUT"
 
