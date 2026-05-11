@@ -127,9 +127,17 @@ jobs:
       - name: Build lite image
         run: sudo ./build.sh
 
-      - name: Verify output
+      - name: Find lite image
+        id: lite
         run: |
           FILE=$(find deploy/ -name "*-lite.img.xz" | head -1)
           echo "Lite image: $FILE"
           ls -lh "$FILE"
+          echo "path=$FILE" >> "$GITHUB_OUTPUT"
           echo "✓ Lite build succeeded"
+
+      - name: Upload artifact (90 days, no release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: cardputerzero-lite
+          path: ${{ steps.lite.outputs.path }}
