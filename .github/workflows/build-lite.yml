@@ -23,7 +23,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y coreutils quilt parted debootstrap zerofree zip \
             dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-            gpg pigz xxd arch-test qemu-user-static
+            gpg pigz xxd arch-test qemu-user-static qemu-user-binfmt kmod binfmt-support
 
       - name: Configure build
         run: |
