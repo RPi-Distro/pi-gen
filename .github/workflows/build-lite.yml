@@ -1,0 +1,75 @@
+name: Build Raspberry Pi OS Lite (arm64)
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build arm64 Lite image (stage0-2)
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y coreutils quilt parted debootstrap zerofree zip \
+            dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
+            gpg pigz xxd arch-test qemu-user-static
+
+      - name: Configure build
+        run: |
+          cat > config <<'EOF'
+          IMG_NAME=cardputerzero-trixie-arm64
+          RELEASE=trixie
+          TARGET_HOSTNAME=cardputerzero
+          FIRST_USER_NAME=pi
+          FIRST_USER_PASS=raspberry
+          ENABLE_SSH=1
+          LOCALE_DEFAULT=en_US.UTF-8
+          KEYBOARD_KEYMAP=us
+          KEYBOARD_LAYOUT="English (US)"
+          TIMEZONE_DEFAULT=Asia/Shanghai
+          EOF
+          sed -i 's/^          //' config
+
+          # Build only stage0-2 (Lite image)
+          touch stage3/SKIP stage4/SKIP stage5/SKIP
+          touch stage3/SKIP_IMAGES stage4/SKIP_IMAGES stage5/SKIP_IMAGES
+
+      - name: Build image
+        run: sudo ./build.sh
+
+      - name: Find and compress image
+        id: image
+        run: |
+          IMG=$(find deploy/ -name "*.img" -type f | head -1)
+          echo "Found: $IMG"
+          ls -lh "$IMG"
+          xz -9 -T0 "$IMG"
+          XZ="${IMG}.xz"
+          ls -lh "$XZ"
+          echo "path=$XZ" >> "$GITHUB_OUTPUT"
+          echo "name=$(basename $XZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cardputerzero-lite-image
+          path: ${{ steps.image.outputs.path }}
+
+      - name: Create prerelease
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          generate_release_notes: true
+          files: ${{ steps.image.outputs.path }}
