@@ -2,7 +2,7 @@ name: Build CardputerZero OS Image (arm64)
 
 on:
   push:
-    tags: ['v*']
+    branches: [arm64]
   workflow_dispatch:
 
 permissions:
@@ -79,12 +79,15 @@ jobs:
           path: ${{ steps.image.outputs.path }}
 
       - name: Create prerelease
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          prerelease: true
-          generate_release_notes: true
-          files: ${{ steps.image.outputs.path }}
+        run: |
+          TAG="$(date -u +%Y%m%d-%H%M%S)-${GITHUB_SHA::7}"
+          gh release create "$TAG" \
+            --prerelease \
+            --title "$TAG" \
+            --notes "Built from commit ${GITHUB_SHA}" \
+            "${{ steps.image.outputs.path }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   check-lite:
     name: Verify lite build (no upload)
