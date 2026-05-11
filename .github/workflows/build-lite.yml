@@ -1,4 +1,4 @@
-name: Build Raspberry Pi OS Images (arm64)
+name: Build CardputerZero OS Image (arm64)
 
 on:
   push:
@@ -9,20 +9,10 @@ permissions:
   contents: write
 
 jobs:
-  build:
-    name: Build ${{ matrix.variant }} (arm64)
+  build-desktop:
+    name: Build desktop image (arm64)
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 180
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - variant: lite
-            skip_stages: "stage3 stage4 stage5"
-            img_suffix: "-lite"
-          - variant: desktop
-            skip_stages: "stage5"
-            img_suffix: ""
 
     steps:
       - name: Checkout
@@ -42,6 +32,78 @@ jobs:
 
       - name: Configure build
         run: |
+          IMG_DATE=$(date +%Y-%m-%d)
+          cat > config <<CONFIG
+          IMG_NAME=cardputerzero-trixie-arm64
+          IMG_FILENAME=${IMG_DATE}-cardputerzero-trixie-arm64
+          ARCHIVE_FILENAME=${IMG_DATE}-cardputerzero-trixie-arm64
+          RELEASE=trixie
+          DEPLOY_COMPRESSION=xz
+          TARGET_HOSTNAME=cardputerzero
+          FIRST_USER_NAME=pi
+          FIRST_USER_PASS=raspberry
+          ENABLE_SSH=1
+          LOCALE_DEFAULT=en_US.UTF-8
+          KEYBOARD_KEYMAP=us
+          KEYBOARD_LAYOUT="English (US)"
+          TIMEZONE_DEFAULT=Asia/Shanghai
+          CONFIG
+          sed -i 's/^          //' config
+
+          # Skip stage5 (full = desktop + recommended extras we don't need)
+          touch stage5/SKIP stage5/SKIP_IMAGES
+
+      - name: Build image
+        run: sudo ./build.sh
+
+      - name: Find output image
+        id: image
+        run: |
+          echo "Contents of deploy/:"
+          find deploy/ -type f | sort
+          FILE=$(find deploy/ -type f \( -name "*.img.xz" -o -name "*.zip" \) ! -name "*-lite*" | head -1)
+          if [[ -z "$FILE" ]]; then
+            echo "No desktop image found"
+            find deploy/ -type f
+            exit 1
+          fi
+          echo "Found: $FILE"
+          ls -lh "$FILE"
+          echo "path=$FILE" >> "$GITHUB_OUTPUT"
+          echo "name=$(basename $FILE)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cardputerzero-desktop
+          path: ${{ steps.image.outputs.path }}
+
+      - name: Create prerelease
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          generate_release_notes: true
+          files: ${{ steps.image.outputs.path }}
+
+  check-lite:
+    name: Verify lite build (no upload)
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y coreutils quilt parted debootstrap zerofree zip \
+            dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
+            gpg pigz xxd arch-test qemu-user-static kmod binfmt-support e2fsprogs
+
+      - name: Configure lite build
+        run: |
           cat > config <<'CONFIG'
           IMG_NAME=cardputerzero-trixie-arm64
           RELEASE=trixie
@@ -56,46 +118,15 @@ jobs:
           TIMEZONE_DEFAULT=Asia/Shanghai
           CONFIG
           sed -i 's/^          //' config
+          touch stage3/SKIP stage4/SKIP stage5/SKIP
+          touch stage3/SKIP_IMAGES stage4/SKIP_IMAGES stage5/SKIP_IMAGES
 
-          # Skip stages based on variant
-          for stage in ${{ matrix.skip_stages }}; do
-            touch "${stage}/SKIP" "${stage}/SKIP_IMAGES"
-          done
-
-      - name: Build image
+      - name: Build lite image
         run: sudo ./build.sh
 
-      - name: Find output image
-        id: image
+      - name: Verify output
         run: |
-          echo "Contents of deploy/:"
-          find deploy/ -type f | sort
-          # Find the image matching this variant's suffix
-          if [[ "${{ matrix.img_suffix }}" == "-lite" ]]; then
-            FILE=$(find deploy/ -type f -name "*-lite.img.xz" -o -name "*-lite.zip" | head -1)
-          else
-            FILE=$(find deploy/ -type f \( -name "*.img.xz" -o -name "*.zip" \) ! -name "*-lite*" | head -1)
-          fi
-          if [[ -z "$FILE" ]]; then
-            echo "No image file found for variant '${{ matrix.variant }}'"
-            find deploy/ -type f
-            exit 1
-          fi
-          echo "Found: $FILE"
+          FILE=$(find deploy/ -name "*-lite.img.xz" | head -1)
+          echo "Lite image: $FILE"
           ls -lh "$FILE"
-          echo "path=$FILE" >> "$GITHUB_OUTPUT"
-          echo "name=$(basename $FILE)" >> "$GITHUB_OUTPUT"
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: cardputerzero-${{ matrix.variant }}
-          path: ${{ steps.image.outputs.path }}
-
-      - name: Create prerelease
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          prerelease: true
-          generate_release_notes: true
-          files: ${{ steps.image.outputs.path }}
+          echo "✓ Lite build succeeded"
