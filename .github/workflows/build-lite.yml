@@ -45,6 +45,7 @@ jobs:
           cat > config <<'CONFIG'
           IMG_NAME=cardputerzero-trixie-arm64
           RELEASE=trixie
+          DEPLOY_COMPRESSION=xz
           TARGET_HOSTNAME=cardputerzero
           FIRST_USER_NAME=pi
           FIRST_USER_PASS=raspberry
