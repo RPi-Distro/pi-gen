@@ -1,7 +1,7 @@
 quilt
 parted
 realpath:coreutils
-qemu-arm:qemu-user-binfmt
+qemu-aarch64-static:qemu-user-static
 debootstrap
 zerofree
 zip
