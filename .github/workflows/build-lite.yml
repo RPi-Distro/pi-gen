@@ -69,8 +69,25 @@ jobs:
           fi
           echo "Found: $FILE"
           ls -lh "$FILE"
+          # Decompress for verification
+          IMG_RAW="${FILE%.xz}"
+          IMG_RAW="${IMG_RAW%.zip}"
+          if [[ "$FILE" == *.xz ]]; then
+            xz -dk "$FILE"
+            IMG_RAW="${FILE%.xz}"
+          elif [[ "$FILE" == *.zip ]]; then
+            IMG_RAW=$(unzip -Z1 "$FILE" | head -1)
+            unzip -o "$FILE" -d "$(dirname "$FILE")"
+            IMG_RAW="$(dirname "$FILE")/$IMG_RAW"
+          fi
           echo "path=$FILE" >> "$GITHUB_OUTPUT"
+          echo "raw=$IMG_RAW" >> "$GITHUB_OUTPUT"
           echo "name=$(basename $FILE)" >> "$GITHUB_OUTPUT"
+
+      - name: Verify image contents
+        run: |
+          sudo apt-get install -y e2fsprogs
+          sudo ./tools/verify-image.sh "${{ steps.image.outputs.raw }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -133,8 +150,16 @@ jobs:
           FILE=$(find deploy/ -name "*-lite.img.xz" | head -1)
           echo "Lite image: $FILE"
           ls -lh "$FILE"
+          xz -dk "$FILE"
+          IMG_RAW="${FILE%.xz}"
           echo "path=$FILE" >> "$GITHUB_OUTPUT"
+          echo "raw=$IMG_RAW" >> "$GITHUB_OUTPUT"
           echo "✓ Lite build succeeded"
+
+      - name: Verify lite image contents
+        run: |
+          sudo apt-get install -y e2fsprogs
+          sudo ./tools/verify-image.sh "${{ steps.lite.outputs.raw }}"
 
       - name: Upload artifact (90 days, no release)
         uses: actions/upload-artifact@v4
