@@ -158,7 +158,9 @@ fi
 echo ""
 echo "[6/6] Packages"
 
-debugfs -R "cat var/lib/dpkg/status" "$TMPDIR/root.ext4" 2>/dev/null > "$TMPDIR/dpkg_status" || true
+set +e
+debugfs -R "cat var/lib/dpkg/status" "$TMPDIR/root.ext4" > "$TMPDIR/dpkg_status" 2>/dev/null
+echo "  dpkg_status size: $(wc -c < "$TMPDIR/dpkg_status") bytes"
 
 if grep -q "^Package: applaunch$" "$TMPDIR/dpkg_status"; then
     VER=$(grep -A5 "^Package: applaunch$" "$TMPDIR/dpkg_status" | grep "^Version:" | awk '{print $2}')
@@ -178,6 +180,7 @@ if grep -q "^Package: cmatrix$" "$TMPDIR/dpkg_status"; then
 else
     fail "cmatrix NOT installed"
 fi
+set -e
 
 echo ""
 echo "=========================================="

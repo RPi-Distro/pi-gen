@@ -54,7 +54,7 @@ jobs:
           touch stage5/SKIP stage5/SKIP_IMAGES
 
       - name: Build image
-        run: sudo ./build.sh
+        run: sudo XZ_DEFAULTS="-T0" ./build.sh
 
       - name: Fix deploy permissions
         run: sudo chown -R $(id -u):$(id -g) deploy/
@@ -145,7 +145,7 @@ jobs:
           touch stage3/SKIP_IMAGES stage4/SKIP_IMAGES stage5/SKIP_IMAGES
 
       - name: Build lite image
-        run: sudo ./build.sh
+        run: sudo XZ_DEFAULTS="-T0" ./build.sh
 
       - name: Fix deploy permissions
         run: sudo chown -R $(id -u):$(id -g) deploy/
