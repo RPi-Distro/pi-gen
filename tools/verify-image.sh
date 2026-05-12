@@ -158,22 +158,22 @@ fi
 echo ""
 echo "[6/6] Packages"
 
-DPKG_STATUS=$(debugfs -R "cat var/lib/dpkg/status" "$TMPDIR/root.ext4" 2>/dev/null)
+debugfs -R "cat var/lib/dpkg/status" "$TMPDIR/root.ext4" 2>/dev/null > "$TMPDIR/dpkg_status"
 
-if echo "$DPKG_STATUS" | grep -q "Package: applaunch"; then
-    VER=$(echo "$DPKG_STATUS" | grep -A1 "Package: applaunch" | grep Version | awk '{print $2}')
+if grep -q "^Package: applaunch$" "$TMPDIR/dpkg_status"; then
+    VER=$(grep -A5 "^Package: applaunch$" "$TMPDIR/dpkg_status" | grep "^Version:" | awk '{print $2}')
     pass "applaunch package installed (v$VER)"
 else
     fail "applaunch package NOT installed"
 fi
 
-if echo "$DPKG_STATUS" | grep -q "Package: fastfetch"; then
+if grep -q "^Package: fastfetch$" "$TMPDIR/dpkg_status"; then
     pass "fastfetch installed"
 else
     fail "fastfetch NOT installed"
 fi
 
-if echo "$DPKG_STATUS" | grep -q "Package: cmatrix"; then
+if grep -q "^Package: cmatrix$" "$TMPDIR/dpkg_status"; then
     pass "cmatrix installed"
 else
     fail "cmatrix NOT installed"
