@@ -56,6 +56,9 @@ jobs:
       - name: Build image
         run: sudo ./build.sh
 
+      - name: Fix deploy permissions
+        run: sudo chown -R $(id -u):$(id -g) deploy/
+
       - name: Find output image
         id: image
         run: |
@@ -143,6 +146,9 @@ jobs:
 
       - name: Build lite image
         run: sudo ./build.sh
+
+      - name: Fix deploy permissions
+        run: sudo chown -R $(id -u):$(id -g) deploy/
 
       - name: Find lite image
         id: lite
