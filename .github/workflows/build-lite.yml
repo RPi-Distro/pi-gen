@@ -99,8 +99,10 @@ jobs:
           path: ${{ steps.image.outputs.path }}
 
       - name: Create prerelease
+        id: release
         run: |
           TAG="$(date -u +%Y%m%d-%H%M%S)-${GITHUB_SHA::7}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           gh release create "$TAG" \
             --prerelease \
             --title "$TAG" \
@@ -118,8 +120,20 @@ jobs:
 
       - name: Copy image to OSS
         run: |
+          OSS_URL="https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/images/${{ steps.image.outputs.name }}"
+          LATEST_URL="https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/cardputerzero-trixie-arm64-latest.img.xz"
           ossutil cp -f "${{ steps.image.outputs.path }}" \
-            oss://cardputer-zero-repo/images/${{ steps.image.outputs.name }}
+            "oss://cardputer-zero-repo/images/${{ steps.image.outputs.name }}"
+          ossutil cp -f "${{ steps.image.outputs.path }}" \
+            "oss://cardputer-zero-repo/cardputerzero-trixie-arm64-latest.img.xz"
+          NOTES="Built from commit ${GITHUB_SHA}
+
+          **OSS Download:**
+          - [${OSS_URL}](${OSS_URL})
+          - Latest (always points to newest): [${LATEST_URL}](${LATEST_URL})"
+          gh release edit "${{ steps.release.outputs.tag }}" --notes "$NOTES"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   check-lite:
     name: Verify lite build (no upload)
