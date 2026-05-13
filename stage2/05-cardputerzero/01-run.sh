@@ -51,9 +51,7 @@ cp *.dtbo /boot/firmware/overlays/
 # Update module dependencies
 depmod -a "${KVER}"
 
-# Remove build dependencies to save space
-apt-get purge -y build-essential linux-headers-rpi-v8 device-tree-compiler git
-apt-get autoremove -y --purge
-rm -rf /tmp/dtoverlays /usr/src/linux-headers-*
+# Clean up build artifacts only (keep all build tools for user driver builds)
+rm -rf /tmp/dtoverlays
 
 CHROOT
