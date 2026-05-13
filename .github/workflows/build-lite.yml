@@ -109,6 +109,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Upload to Aliyun OSS
+        uses: manyuanrong/setup-ossutil@v3.0
+        with:
+          endpoint: oss-cn-shenzhen.aliyuncs.com
+          access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+
+      - name: Copy image to OSS
+        run: |
+          ossutil cp -f "${{ steps.image.outputs.path }}" \
+            oss://cardputer-zero-repo/images/${{ steps.image.outputs.name }}
+
   check-lite:
     name: Verify lite build (no upload)
     runs-on: ubuntu-24.04-arm
