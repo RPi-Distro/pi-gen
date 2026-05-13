@@ -1,0 +1,68 @@
+name: Publish Latest Stable to OSS
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to publish (leave empty for latest non-prerelease)'
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish stable image to OSS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Determine release tag
+        id: release
+        run: |
+          if [[ -n "${{ inputs.tag }}" ]]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG=$(gh api repos/${{ github.repository }}/releases/latest --jq '.tag_name')
+            if [[ -z "$TAG" ]]; then
+              echo "ERROR: No non-prerelease release found"
+              exit 1
+            fi
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Publishing release: $TAG"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download image from release
+        run: |
+          TAG="${{ steps.release.outputs.tag }}"
+          ASSET_URL=$(gh api "repos/${{ github.repository }}/releases/tags/${TAG}" \
+            --jq '.assets[] | select(.name | endswith(".img.xz")) | .url')
+          ASSET_NAME=$(gh api "repos/${{ github.repository }}/releases/tags/${TAG}" \
+            --jq '.assets[] | select(.name | endswith(".img.xz")) | .name')
+          if [[ -z "$ASSET_URL" ]]; then
+            echo "ERROR: No .img.xz asset found in release $TAG"
+            exit 1
+          fi
+          echo "Downloading: $ASSET_NAME"
+          gh api "$ASSET_URL" -H "Accept: application/octet-stream" > "$ASSET_NAME"
+          ls -lh "$ASSET_NAME"
+          echo "name=$ASSET_NAME" >> "$GITHUB_OUTPUT"
+        id: download
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup ossutil
+        uses: manyuanrong/setup-ossutil@v3.0
+        with:
+          endpoint: oss-cn-shenzhen.aliyuncs.com
+          access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+
+      - name: Upload as latest stable
+        run: |
+          ASSET_NAME="${{ steps.download.outputs.name }}"
+          echo "Uploading $ASSET_NAME -> cardputerzero-trixie-arm64-latest.img.xz"
+          ossutil cp -f "$ASSET_NAME" \
+            "oss://cardputer-zero-repo/cardputerzero-trixie-arm64-latest.img.xz"
+          echo "✓ Published to: https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/cardputerzero-trixie-arm64-latest.img.xz"
