@@ -4,8 +4,8 @@
 on_chroot << 'CHROOT'
 set -e
 
-# Download latest APPLaunch deb from Launcher release
-DEB_URL=$(curl -s https://api.github.com/repos/CardputerZero/M5CardputerZero-Launcher/releases/latest \
+# Download latest APPLaunch deb from Launcher release (includes prereleases)
+DEB_URL=$(curl -s https://api.github.com/repos/CardputerZero/M5CardputerZero-Launcher/releases \
     | grep -o 'https://github.com/[^"]*applaunch[^"]*_arm64\.deb' | head -1)
 
 if [ -z "$DEB_URL" ]; then
