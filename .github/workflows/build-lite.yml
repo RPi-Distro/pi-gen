@@ -54,7 +54,9 @@ jobs:
           touch stage5/SKIP stage5/SKIP_IMAGES
 
       - name: Build image
-        run: sudo XZ_DEFAULTS="-T0" ./build.sh
+        run: sudo GITHUB_TOKEN="${GITHUB_TOKEN}" XZ_DEFAULTS="-T0" ./build.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fix deploy permissions
         run: sudo chown -R $(id -u):$(id -g) deploy/
@@ -166,7 +168,9 @@ jobs:
           touch stage3/SKIP_IMAGES stage4/SKIP_IMAGES stage5/SKIP_IMAGES
 
       - name: Build lite image
-        run: sudo XZ_DEFAULTS="-T0" ./build.sh
+        run: sudo GITHUB_TOKEN="${GITHUB_TOKEN}" XZ_DEFAULTS="-T0" ./build.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fix deploy permissions
         run: sudo chown -R $(id -u):$(id -g) deploy/

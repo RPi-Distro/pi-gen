@@ -1,11 +1,8 @@
 #!/bin/bash -e
 
-# Install APPLaunch + configure boot for CardputerZero
-on_chroot << 'CHROOT'
-set -e
-
-# Download latest APPLaunch deb from Launcher release (includes prereleases)
-DEB_URL=$(curl -s https://api.github.com/repos/CardputerZero/M5CardputerZero-Launcher/releases \
+# Download APPLaunch deb outside chroot (has GitHub token, avoids rate limit)
+DEB_URL=$(curl -sH "Authorization: token ${GITHUB_TOKEN}" \
+    https://api.github.com/repos/CardputerZero/M5CardputerZero-Launcher/releases \
     | grep -o 'https://github.com/[^"]*applaunch[^"]*_arm64\.deb' | head -1)
 
 if [ -z "$DEB_URL" ]; then
@@ -14,13 +11,14 @@ if [ -z "$DEB_URL" ]; then
 fi
 
 echo "Downloading APPLaunch from: $DEB_URL"
-curl -fsSL -o /tmp/applaunch.deb -L "$DEB_URL"
+curl -fsSL -o "${ROOTFS_DIR}/tmp/applaunch.deb" -L "$DEB_URL"
+
+# Install APPLaunch + configure boot for CardputerZero
+on_chroot << 'CHROOT'
+set -e
 dpkg -i /tmp/applaunch.deb
 rm -f /tmp/applaunch.deb
-
-# Enable APPLaunch service
 systemctl enable APPLaunch.service
-
 CHROOT
 
 # Append CardputerZero config to config.txt
