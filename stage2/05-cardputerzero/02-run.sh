@@ -57,16 +57,18 @@ EOF
 cat > "${ROOTFS_DIR}/etc/systemd/system/splash-restore.service" << 'EOF'
 [Unit]
 Description=Restore Circle splash kernel after boot
-After=local-fs.target
+DefaultDependencies=no
+After=boot-firmware.mount
+Before=sysinit.target
 ConditionPathExists=/boot/firmware/kernel8-splash.bak
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash -c "mv /boot/firmware/kernel8.img /boot/firmware/kernel8.img.linux && mv /boot/firmware/kernel8-splash.bak /boot/firmware/kernel8.img"
-RemainAfterExit=yes
+ExecStart=/bin/mv /boot/firmware/kernel8.img /boot/firmware/kernel8.img.linux
+ExecStart=/bin/mv /boot/firmware/kernel8-splash.bak /boot/firmware/kernel8.img
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=sysinit.target
 EOF
 
 on_chroot << 'CHROOT'
