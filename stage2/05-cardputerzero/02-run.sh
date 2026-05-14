@@ -51,3 +51,29 @@ EOF
 cat > "${ROOTFS_DIR}/etc/modprobe.d/rfkill_default.conf" << 'EOF'
 options rfkill default_state=0
 EOF
+
+# Splash restore service: after Linux boots, swap kernel files back
+# so next cold boot shows Circle splash again
+cat > "${ROOTFS_DIR}/etc/systemd/system/splash-restore.service" << 'EOF'
+[Unit]
+Description=Restore Circle splash kernel after boot
+After=local-fs.target
+ConditionPathExists=/boot/firmware/kernel8-splash.bak
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c "mv /boot/firmware/kernel8.img /boot/firmware/kernel8.img.linux && mv /boot/firmware/kernel8-splash.bak /boot/firmware/kernel8.img"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+on_chroot << 'CHROOT'
+systemctl enable splash-restore.service
+CHROOT
+
+# Install Circle splash binary and rename Linux kernel
+# Circle splash shows logo then renames files and reboots into Linux
+cp "${ROOTFS_DIR}/boot/firmware/kernel8.img" "${ROOTFS_DIR}/boot/firmware/kernel8.img.linux"
+install -m 755 files/kernel8-splash.img "${ROOTFS_DIR}/boot/firmware/kernel8.img"
