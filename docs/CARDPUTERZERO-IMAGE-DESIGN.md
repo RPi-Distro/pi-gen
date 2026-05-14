@@ -24,6 +24,22 @@ hdmi_cvt=320 170 60 1 0 0 0
 quiet splash plymouth.ignore-serial-consoles cfg80211.ieee80211_regdom=AE
 ```
 
+#### cmdline.txt 参数效果说明
+
+| 参数 | 效果 | 去掉后 |
+|------|------|--------|
+| `quiet` | 隐藏内核 dmesg 日志（仅显示 error 级别） | 显示完整内核启动日志（绿色刷屏） |
+| `splash` | 启用 plymouth 图形启动画面 | 直接显示文字模式启动日志 |
+| `plymouth.ignore-serial-consoles` | plymouth 不在串口输出 | 串口也能看到启动画面/日志 |
+| `cfg80211.ieee80211_regdom=AE` | WiFi 频段设为阿联酋规范（频段更宽） | 使用默认地区规范 |
+| `init=/path/to/script` | 内核用指定脚本替代 /sbin/init 作为 PID 1 | 正常由 systemd 作为 PID 1 |
+
+#### 调试建议
+
+- **需要看启动日志排查问题**：去掉 `quiet splash plymouth.ignore-serial-consoles`
+- **自定义 init 脚本调试**：`init=` 阶段根文件系统刚 mount，journald 尚未启动，建议在脚本开头加 `exec > /var/log/early-init.log 2>&1; set -x`，且脚本末尾必须 `exec /sbin/init` 交回控制权
+- **串口调试**：保留 `console=serial0,115200` 即可通过 UART 看所有日志
+
 ### modprobe 配置
 
 ```
@@ -138,9 +154,7 @@ cp *.dtbo /boot/firmware/overlays/
 # depmod
 depmod -a
 
-# 清理编译依赖（减小镜像体积）
-apt-get purge -y build-essential linux-headers-rpi-v8 device-tree-compiler git
-apt-get autoremove -y
+# 清理构建临时文件（保留 build tools 供用户编译驱动）
 rm -rf /tmp/dtoverlays
 
 CHROOT
@@ -225,7 +239,7 @@ APPLaunch 服务启动顺序：
 | DKMS 包 | 内核升级自动重编 | 需要在镜像里保留 headers（+150MB） |
 | 预编译 .ko 上传 | 构建快 | 内核升级后模块失效 |
 
-**推荐方式**：在 pi-gen chroot 里编译（01-run.sh），编译完删除 headers，不留垃圾。
+**推荐方式**：在 pi-gen chroot 里编译（01-run.sh），保留 build-essential + linux-headers 供用户后续编译自定义驱动。
 
 ---
 
