@@ -37,6 +37,7 @@ cat >> "${ROOTFS_DIR}/boot/firmware/config.txt" << 'EOF'
 # --- CardputerZero ---
 dtparam=i2c_arm=on
 dtparam=spi=on
+enable_uart=1
 dtoverlay=cardputerzero-overlay
 hdmi_force_hotplug=1
 hdmi_group=2
