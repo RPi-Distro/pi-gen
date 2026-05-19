@@ -5,6 +5,9 @@ DEB_URL=$(curl -sH "Authorization: token ${GITHUB_TOKEN}" \
     https://api.github.com/repos/CardputerZero/M5CardputerZero-Launcher/releases \
     | grep -o 'https://github.com/[^"]*applaunch[^"]*_arm64\.deb' | head -1)
 
+UBOOT_URL="${UBOOT_FIRMWARE_URL:-https://github.com/CardputerZero/u-boot/releases/latest/download/uboot-firmware-m5stack.tar.gz}"
+
+
 if [ -z "$DEB_URL" ]; then
     echo "ERROR: Could not find APPLaunch deb URL"
     exit 1
@@ -13,6 +16,10 @@ fi
 echo "Downloading APPLaunch from: $DEB_URL"
 curl -fsSL -o "${ROOTFS_DIR}/tmp/applaunch.deb" -L "$DEB_URL"
 
+echo "Downloading U-Boot firmware from: $UBOOT_URL"
+curl -fsSL -o "${ROOTFS_DIR}/tmp/uboot-firmware.tar.gz" -L "$UBOOT_URL"
+tar -xzf "${ROOTFS_DIR}/tmp/uboot-firmware.tar.gz" -C "${ROOTFS_DIR}/boot/firmware"
+
 # Install APPLaunch + configure boot for CardputerZero
 on_chroot << 'CHROOT'
 set -e
@@ -20,6 +27,9 @@ dpkg -i /tmp/applaunch.deb
 rm -f /tmp/applaunch.deb
 systemctl enable APPLaunch.service
 CHROOT
+
+# Install U-Boot firmware
+sed -i '1i kernel=u-boot.bin' ${ROOTFS_DIR}/boot/firmware/config.txt
 
 # Append CardputerZero config to config.txt
 cat >> "${ROOTFS_DIR}/boot/firmware/config.txt" << 'EOF'
@@ -52,30 +62,3 @@ cat > "${ROOTFS_DIR}/etc/modprobe.d/rfkill_default.conf" << 'EOF'
 options rfkill default_state=0
 EOF
 
-# Splash restore service: after Linux boots, swap kernel files back
-# so next cold boot shows Circle splash again
-cat > "${ROOTFS_DIR}/etc/systemd/system/splash-restore.service" << 'EOF'
-[Unit]
-Description=Restore Circle splash kernel after boot
-DefaultDependencies=no
-After=boot-firmware.mount
-Before=sysinit.target
-ConditionPathExists=/boot/firmware/kernel8-splash.bak
-
-[Service]
-Type=oneshot
-ExecStart=/bin/mv /boot/firmware/kernel8.img /boot/firmware/kernel8.img.linux
-ExecStart=/bin/mv /boot/firmware/kernel8-splash.bak /boot/firmware/kernel8.img
-
-[Install]
-WantedBy=sysinit.target
-EOF
-
-on_chroot << 'CHROOT'
-systemctl enable splash-restore.service
-CHROOT
-
-# Install Circle splash binary and rename Linux kernel
-# Circle splash shows logo then renames files and reboots into Linux
-cp "${ROOTFS_DIR}/boot/firmware/kernel8.img" "${ROOTFS_DIR}/boot/firmware/kernel8.img.linux"
-install -m 755 files/kernel8-splash.img "${ROOTFS_DIR}/boot/firmware/kernel8.img"
