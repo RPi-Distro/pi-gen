@@ -31,19 +31,7 @@ CHROOT
 # Install U-Boot firmware
 sed -i '1i kernel=u-boot.bin' ${ROOTFS_DIR}/boot/firmware/config.txt
 
-# Append CardputerZero config to config.txt
-cat >> "${ROOTFS_DIR}/boot/firmware/config.txt" << 'EOF'
 
-# --- CardputerZero ---
-dtparam=i2c_arm=on
-dtparam=spi=on
-enable_uart=1
-dtoverlay=cardputerzero-overlay
-hdmi_force_hotplug=1
-hdmi_group=2
-hdmi_mode=87
-hdmi_cvt=320 170 60 1 0 0 0
-EOF
 
 # Append cmdline.txt parameters
 sed -i 's/$/ quiet splash plymouth.ignore-serial-consoles cfg80211.ieee80211_regdom=AE/' \
