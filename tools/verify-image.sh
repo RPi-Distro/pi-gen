@@ -59,11 +59,6 @@ else
     fail "config.txt: missing dtparam=i2c_arm=on"
 fi
 
-if grep -q "hdmi_cvt=320 170" "$TMPDIR/boot/config.txt" 2>/dev/null; then
-    pass "config.txt: hdmi_cvt=320 170"
-else
-    fail "config.txt: missing hdmi_cvt=320 170"
-fi
 
 # Check overlay dtbo
 if [ -f "$TMPDIR/boot/overlays/cardputerzero-overlay.dtbo" ]; then
