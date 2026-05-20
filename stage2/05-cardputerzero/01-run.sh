@@ -16,6 +16,7 @@ git clone --depth=1 https://github.com/m5stack/m5stack-linux-dtoverlays.git /tmp
 
 KVER=$(ls /lib/modules/ | grep rpi-v8 | head -1)
 export KERNELDIR="/lib/modules/${KVER}/build"
+export EXTRADIR="/lib/modules/${KVER}/extra"
 
 # make and install st7789v overlay + module
 cd /tmp/dtoverlays/modules/CardputerZero
