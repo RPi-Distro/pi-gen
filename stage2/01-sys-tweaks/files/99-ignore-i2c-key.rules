@@ -1,0 +1,1 @@
+ACTION!="remove", SUBSYSTEM=="input", KERNEL=="event*", ENV{ID_PATH}=="platform-3f804000.i2c", ENV{ID_SEAT}="seat1", GROUP="input", MODE="0660"
