@@ -20,6 +20,8 @@ else
 fi
 EOF
 
+install -m 644 files/99-ignore-i2c-key.rules "${ROOTFS_DIR}/etc/udev/rules.d/"
+
 if [ "${USE_QEMU}" = "1" ]; then
 	echo "enter QEMU mode"
 	install -m 644 files/90-qemu.rules "${ROOTFS_DIR}/etc/udev/rules.d/"
