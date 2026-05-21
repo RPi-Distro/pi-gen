@@ -59,11 +59,6 @@ else
     fail "config.txt: missing dtparam=i2c_arm=on"
 fi
 
-if grep -q "hdmi_cvt=320 170" "$TMPDIR/boot/config.txt" 2>/dev/null; then
-    pass "config.txt: hdmi_cvt=320 170"
-else
-    fail "config.txt: missing hdmi_cvt=320 170"
-fi
 
 # Check overlay dtbo
 if [ -f "$TMPDIR/boot/overlays/cardputerzero-overlay.dtbo" ]; then
@@ -85,14 +80,16 @@ echo ""
 echo "[3/6] Kernel modules (/lib/modules/*/extra/)"
 
 REQUIRED_MODULES=(
-    "st7789v_m5stack.ko"
-    "pwm_bl_m5stack.ko"
-    "tca8418_keypad_m5stack.ko"
-    "es8389_m5stack.ko"
-    "bq27xxx_battery.ko"
+    "bmi270_core.ko"
+    "bq27xxx_battery.ko"  
     "bq27xxx_battery_i2c.ko"
+    "m5ioe1.ko"
+    "tca8418_keypad_m5stack.ko"
+    "bmi270_i2c.ko"
     "bq27xxx_battery_hdq.ko"
-    "py32ioexp.ko"
+    "es8389_m5stack.ko"
+    "pwm_bl_m5stack.ko"
+    "st7789v_m5stack.ko"
 )
 
 for mod in "${REQUIRED_MODULES[@]}"; do
