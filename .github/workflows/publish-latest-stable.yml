@@ -76,29 +76,20 @@ jobs:
 
           ossutil cp "oss://cardputer-zero-repo/os-list.json" os-list.json
 
-          export RELEASE_DATE DOWNLOAD_SIZE DOWNLOAD_SHA256
-          python3 <<'PY'
-import json, os
-
-release_date = os.environ["RELEASE_DATE"]
-download_size = int(os.environ["DOWNLOAD_SIZE"])
-download_sha256 = os.environ["DOWNLOAD_SHA256"]
-target_url = "https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/cardputerzero-trixie-arm64-latest.img.xz"
-
-with open("os-list.json", "r") as f:
-    data = json.load(f)
-
-for item in data.get("os_list", []):
-    if item.get("url") == target_url:
-        item["release_date"] = release_date
-        item["image_download_size"] = download_size
-        item["image_download_sha256"] = download_sha256
-        break
-
-with open("os-list.json", "w") as f:
-    json.dump(data, f, indent=2)
-    f.write("\n")
-PY
+          python3 -c "
+          import json, os
+          data = json.load(open('os-list.json'))
+          target = 'https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/cardputerzero-trixie-arm64-latest.img.xz'
+          for item in data.get('os_list', []):
+              if item.get('url') == target:
+                  item['release_date'] = '$RELEASE_DATE'
+                  item['image_download_size'] = $DOWNLOAD_SIZE
+                  item['image_download_sha256'] = '$DOWNLOAD_SHA256'
+                  break
+          with open('os-list.json', 'w') as f:
+              json.dump(data, f, indent=2)
+              f.write('\n')
+          "
 
           echo "Updated os-list.json: date=$RELEASE_DATE size=$DOWNLOAD_SIZE sha256=$DOWNLOAD_SHA256"
           ossutil cp -f os-list.json "oss://cardputer-zero-repo/os-list.json"
