@@ -67,30 +67,50 @@ jobs:
             "oss://cardputer-zero-repo/cardputerzero-trixie-arm64-latest.img.xz"
           echo "✓ Published to: https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/cardputerzero-trixie-arm64-latest.img.xz"
 
-      - name: Update os-list.json metadata
+      - name: Compute image metadata (compressed + extracted)
+        id: meta
         run: |
           ASSET_NAME="${{ steps.download.outputs.name }}"
           RELEASE_DATE=$(date -u +%Y-%m-%d)
           DOWNLOAD_SIZE=$(stat --format=%s "$ASSET_NAME")
           DOWNLOAD_SHA256=$(sha256sum "$ASSET_NAME" | awk '{print $1}')
 
+          echo "Decompressing $ASSET_NAME to compute extract_size and extract_sha256..."
+          IMG_NAME="${ASSET_NAME%.xz}"
+          xz -dk "$ASSET_NAME"
+          EXTRACT_SIZE=$(stat --format=%s "$IMG_NAME")
+          EXTRACT_SHA256=$(sha256sum "$IMG_NAME" | awk '{print $1}')
+          rm -f "$IMG_NAME"
+
+          echo "release_date=$RELEASE_DATE" >> "$GITHUB_OUTPUT"
+          echo "download_size=$DOWNLOAD_SIZE" >> "$GITHUB_OUTPUT"
+          echo "download_sha256=$DOWNLOAD_SHA256" >> "$GITHUB_OUTPUT"
+          echo "extract_size=$EXTRACT_SIZE" >> "$GITHUB_OUTPUT"
+          echo "extract_sha256=$EXTRACT_SHA256" >> "$GITHUB_OUTPUT"
+
+          echo "Metadata: date=$RELEASE_DATE dl_size=$DOWNLOAD_SIZE ext_size=$EXTRACT_SIZE"
+
+      - name: Update os-list.json metadata
+        run: |
           ossutil cp "oss://cardputer-zero-repo/os-list.json" os-list.json
 
           python3 -c "
-          import json, os
+          import json
           data = json.load(open('os-list.json'))
           target = 'https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/cardputerzero-trixie-arm64-latest.img.xz'
           for item in data.get('os_list', []):
               if item.get('url') == target:
-                  item['release_date'] = '$RELEASE_DATE'
-                  item['image_download_size'] = $DOWNLOAD_SIZE
-                  item['image_download_sha256'] = '$DOWNLOAD_SHA256'
+                  item['release_date'] = '${{ steps.meta.outputs.release_date }}'
+                  item['image_download_size'] = ${{ steps.meta.outputs.download_size }}
+                  item['image_download_sha256'] = '${{ steps.meta.outputs.download_sha256 }}'
+                  item['extract_size'] = ${{ steps.meta.outputs.extract_size }}
+                  item['extract_sha256'] = '${{ steps.meta.outputs.extract_sha256 }}'
                   break
           with open('os-list.json', 'w') as f:
               json.dump(data, f, indent=2)
               f.write('\n')
           "
 
-          echo "Updated os-list.json: date=$RELEASE_DATE size=$DOWNLOAD_SIZE sha256=$DOWNLOAD_SHA256"
+          cat os-list.json
           ossutil cp -f os-list.json "oss://cardputer-zero-repo/os-list.json"
-          echo "✓ os-list.json updated on OSS"
+          echo "✓ os-list.json updated on OSS (with extract_size + extract_sha256)"
