@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag to publish (leave empty for latest non-prerelease)'
+        description: 'Release tag to publish (leave empty for latest release/prerelease)'
         required: false
 
 permissions:
@@ -22,9 +22,10 @@ jobs:
           if [[ -n "${{ inputs.tag }}" ]]; then
             TAG="${{ inputs.tag }}"
           else
-            TAG=$(gh api repos/${{ github.repository }}/releases/latest --jq '.tag_name')
+            # Use the most recent release regardless of prerelease status
+            TAG=$(gh api repos/${{ github.repository }}/releases --jq '.[0].tag_name')
             if [[ -z "$TAG" ]]; then
-              echo "ERROR: No non-prerelease release found"
+              echo "ERROR: No release found"
               exit 1
             fi
           fi
