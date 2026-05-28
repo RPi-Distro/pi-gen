@@ -30,7 +30,9 @@ jobs:
             fi
           fi
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "Publishing release: $TAG"
+          RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${TAG}"
+          echo "release_url=$RELEASE_URL" >> "$GITHUB_OUTPUT"
+          echo "Publishing release: $TAG ($RELEASE_URL)"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -106,6 +108,7 @@ jobs:
                   item['image_download_sha256'] = '${{ steps.meta.outputs.download_sha256 }}'
                   item['extract_size'] = ${{ steps.meta.outputs.extract_size }}
                   item['extract_sha256'] = '${{ steps.meta.outputs.extract_sha256 }}'
+                  item['github_release'] = '${{ steps.release.outputs.release_url }}'
                   break
           with open('os-list.json', 'w') as f:
               json.dump(data, f, indent=2)
