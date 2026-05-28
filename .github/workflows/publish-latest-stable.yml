@@ -109,6 +109,7 @@ jobs:
                   item['extract_size'] = ${{ steps.meta.outputs.extract_size }}
                   item['extract_sha256'] = '${{ steps.meta.outputs.extract_sha256 }}'
                   item['github_release'] = '${{ steps.release.outputs.release_url }}'
+                  item['init_format'] = 'cloudinit-rpi'
                   break
           with open('os-list.json', 'w') as f:
               json.dump(data, f, indent=2)
