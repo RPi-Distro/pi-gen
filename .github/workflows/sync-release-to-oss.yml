@@ -1,10 +1,10 @@
-name: Publish Latest Stable to OSS
+name: Sync Release to OSS
 
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag to publish (leave empty for latest release/prerelease)'
+        description: 'Release tag to sync (leave empty for latest release/prerelease)'
         required: false
 
 permissions:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   publish:
-    name: Publish image to OSS (accumulative)
+    name: Sync release image to OSS
     runs-on: ubuntu-latest
 
     steps:
@@ -68,21 +68,24 @@ jobs:
           access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
           access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
 
-      - name: Upload image (tagged + latest alias)
+      - name: Upload image to OSS (tagged name only)
+        id: upload
         run: |
           TAG="${{ steps.release.outputs.tag }}"
           ASSET_NAME="${{ steps.download.outputs.name }}"
+          IS_PRERELEASE="${{ steps.release.outputs.is_prerelease }}"
           TAGGED_NAME="cardputerzero-trixie-arm64-${TAG}.img.xz"
 
           echo "Uploading $ASSET_NAME -> $TAGGED_NAME"
           ossutil cp -f "$ASSET_NAME" "oss://cardputer-zero-repo/${TAGGED_NAME}"
 
-          # Also update the "latest" alias so existing imager configs keep working
-          echo "Updating latest alias..."
-          ossutil cp -f "$ASSET_NAME" "oss://cardputer-zero-repo/cardputerzero-trixie-arm64-latest.img.xz"
+          # Only stable releases get a "stable" alias (not beta/prerelease)
+          if [[ "$IS_PRERELEASE" == "false" ]]; then
+            echo "Stable release — updating stable alias..."
+            ossutil cp -f "$ASSET_NAME" "oss://cardputer-zero-repo/cardputerzero-trixie-arm64-stable.img.xz"
+          fi
 
           echo "oss_filename=$TAGGED_NAME" >> "$GITHUB_OUTPUT"
-        id: upload
 
       - name: Compute image metadata
         id: meta
@@ -149,9 +152,6 @@ jobs:
 
           echo "=== Updated os-list.json ==="
           python3 -c "import json; d=json.load(open('os-list.json')); [print(f\"  {e['name']} | {e['release_date']} | {e.get('tag','')}\") for e in d['os_list'] if 'CardputerZero' in e.get('name','')]"
-
-          ossutil cp -f os-list.json "oss://cardputer-zero-repo/os-list.json"
-          echo "✓ os-list.json uploaded to OSS"
 
           ossutil cp -f os-list.json "oss://cardputer-zero-repo/os-list.json"
           echo "✓ os-list.json uploaded to OSS"

@@ -102,14 +102,16 @@ def main():
     # Remove any existing entry with the same tag (idempotent re-publish)
     os_list = [e for e in os_list if e.get("tag") != args.tag]
 
-    # If stable release: also update/replace the "latest" alias entry
+    # If stable release: also update/replace the "stable" alias entry
     if not is_prerelease:
-        # Remove old "latest" entry (url contains -latest.img.xz)
+        # Remove old "stable" alias entry
+        os_list = [e for e in os_list if "-stable.img.xz" not in e.get("url", "")]
+        # Also remove legacy "latest" alias if still present
         os_list = [e for e in os_list if "-latest.img.xz" not in e.get("url", "")]
-        # Insert latest as top entry
-        latest_entry = dict(new_entry)
-        latest_entry["url"] = f"{BASE_URL}/cardputerzero-trixie-arm64-latest.img.xz"
-        os_list.insert(0, latest_entry)
+        # Insert stable alias as top entry (recommended download)
+        stable_entry = dict(new_entry)
+        stable_entry["url"] = f"{BASE_URL}/cardputerzero-trixie-arm64-stable.img.xz"
+        os_list.insert(0, stable_entry)
 
     # Insert the tagged entry among CardputerZero entries
     # Find where non-CardputerZero entries start
