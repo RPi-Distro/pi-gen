@@ -40,6 +40,13 @@ def main():
     p.add_argument("--download-sha256", required=True)
     p.add_argument("--extract-size", required=True, type=int)
     p.add_argument("--extract-sha256", required=True)
+    # Component version metadata (populated by build CI)
+    p.add_argument("--launcher-version", default="")
+    p.add_argument("--launcher-release", default="")
+    p.add_argument("--kernel-version", default="")
+    p.add_argument("--driver-commit", default="")
+    p.add_argument("--uboot-release", default="")
+    p.add_argument("--pigen-commit", default="")
     args = p.parse_args()
 
     is_prerelease = args.is_prerelease == "true"
@@ -70,6 +77,21 @@ def main():
         "tag": args.tag,
         "is_prerelease": is_prerelease,
     }
+
+    # Add component version metadata (when available from CI)
+    components = {}
+    if args.launcher_version:
+        components["launcher"] = {"version": args.launcher_version, "release": args.launcher_release}
+    if args.kernel_version:
+        components["kernel"] = args.kernel_version
+    if args.driver_commit:
+        components["driver_overlay"] = {"repo": "m5stack/m5stack-linux-dtoverlays", "commit": args.driver_commit}
+    if args.uboot_release:
+        components["uboot"] = {"repo": "CardputerZero/u-boot", "release": args.uboot_release}
+    if args.pigen_commit:
+        components["pigen"] = {"repo": "CardputerZero/pi-gen", "commit": args.pigen_commit}
+    if components:
+        new_entry["components"] = components
 
     # Load existing JSON
     with open(args.json) as f:

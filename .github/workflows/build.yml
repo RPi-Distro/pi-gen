@@ -100,6 +100,39 @@ jobs:
           name: cardputerzero-desktop
           path: ${{ steps.image.outputs.path }}
 
+      - name: Collect component versions
+        id: components
+        run: |
+          set -euo pipefail
+          # Launcher: extract from the deb URL we downloaded (contains release tag/commit)
+          LAUNCHER_DEB_URL=$(grep -o 'https://github.com/[^"]*applaunch[^"]*_arm64\.deb' \
+            <(curl -sH "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              https://api.github.com/repos/CardputerZero/launcher/releases) | head -1)
+          LAUNCHER_TAG=$(echo "$LAUNCHER_DEB_URL" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo "unknown")
+          LAUNCHER_RELEASE=$(echo "$LAUNCHER_DEB_URL" | grep -oE 'download/[^/]+' | sed 's|download/||' || echo "unknown")
+
+          # Kernel: read from the built image's dpkg status
+          KERNEL_VER=$(sudo debugfs -R "cat etc/dpkg/info/linux-image-*.list" "${{ steps.image.outputs.raw }}" 2>/dev/null \
+            | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\+rpt' | head -1 || echo "unknown")
+          [ "$KERNEL_VER" = "" ] && KERNEL_VER="unknown"
+
+          # Driver overlay: m5stack/m5stack-linux-dtoverlays master (cloned at depth=1 during build)
+          DRIVER_REPO="m5stack/m5stack-linux-dtoverlays"
+          DRIVER_COMMIT=$(curl -sH "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${DRIVER_REPO}/commits/master" | jq -r '.sha[:7]' || echo "unknown")
+
+          # U-Boot
+          UBOOT_RELEASE=$(curl -sH "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/CardputerZero/u-boot/releases/latest" | jq -r '.tag_name' || echo "unknown")
+
+          echo "launcher_version=$LAUNCHER_TAG" >> "$GITHUB_OUTPUT"
+          echo "launcher_release=$LAUNCHER_RELEASE" >> "$GITHUB_OUTPUT"
+          echo "kernel_version=$KERNEL_VER" >> "$GITHUB_OUTPUT"
+          echo "driver_commit=$DRIVER_COMMIT" >> "$GITHUB_OUTPUT"
+          echo "uboot_release=$UBOOT_RELEASE" >> "$GITHUB_OUTPUT"
+
+          echo "Components: launcher=$LAUNCHER_TAG ($LAUNCHER_RELEASE) kernel=$KERNEL_VER driver=$DRIVER_COMMIT uboot=$UBOOT_RELEASE"
+
       - name: Create prerelease
         id: release
         run: |
@@ -108,8 +141,30 @@ jobs:
           gh release create "$TAG" \
             --prerelease \
             --title "$TAG" \
-            --notes "Built from commit ${GITHUB_SHA}" \
+            --notes "Built from pi-gen commit ${GITHUB_SHA}
+
+          **Components:**
+          - Launcher (APPLaunch): ${{ steps.components.outputs.launcher_version }} (release: ${{ steps.components.outputs.launcher_release }})
+          - Kernel: ${{ steps.components.outputs.kernel_version }}
+          - Driver overlay: m5stack/m5stack-linux-dtoverlays @ ${{ steps.components.outputs.driver_commit }}
+          - U-Boot: CardputerZero/u-boot @ ${{ steps.components.outputs.uboot_release }}" \
             "${{ steps.image.outputs.path }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload build-info.json to release
+        run: |
+          cat > /tmp/build-info.json <<EOF
+          {
+            "pigen_commit": "${GITHUB_SHA}",
+            "launcher_version": "${{ steps.components.outputs.launcher_version }}",
+            "launcher_release": "${{ steps.components.outputs.launcher_release }}",
+            "kernel_version": "${{ steps.components.outputs.kernel_version }}",
+            "driver_commit": "${{ steps.components.outputs.driver_commit }}",
+            "uboot_release": "${{ steps.components.outputs.uboot_release }}"
+          }
+          EOF
+          gh release upload "${{ steps.release.outputs.tag }}" /tmp/build-info.json --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -125,7 +180,13 @@ jobs:
           OSS_URL="https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/images/${{ steps.image.outputs.name }}"
           ossutil cp -f "${{ steps.image.outputs.path }}" \
             "oss://cardputer-zero-repo/images/${{ steps.image.outputs.name }}"
-          NOTES="Built from commit ${GITHUB_SHA}
+          NOTES="Built from pi-gen commit ${GITHUB_SHA}
+
+          **Components:**
+          - Launcher (APPLaunch): ${{ steps.components.outputs.launcher_version }} (release: ${{ steps.components.outputs.launcher_release }})
+          - Kernel: ${{ steps.components.outputs.kernel_version }}
+          - Driver overlay: m5stack/m5stack-linux-dtoverlays @ ${{ steps.components.outputs.driver_commit }}
+          - U-Boot: CardputerZero/u-boot @ ${{ steps.components.outputs.uboot_release }}
 
           **OSS Download:** [${OSS_URL}](${OSS_URL})"
           gh release edit "${{ steps.release.outputs.tag }}" --notes "$NOTES"

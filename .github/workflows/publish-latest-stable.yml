@@ -107,6 +107,24 @@ jobs:
         with:
           sparse-checkout: scripts
 
+      - name: Download build-info.json from release
+        id: buildinfo
+        run: |
+          TAG="${{ steps.release.outputs.tag }}"
+          gh api "repos/${{ github.repository }}/releases/tags/${TAG}" \
+            --jq '.assets[]|select(.name=="build-info.json")|.browser_download_url' \
+            | xargs -r curl -fsSL -o build-info.json || echo '{}' > build-info.json
+          cat build-info.json
+          # Export fields
+          echo "launcher_version=$(jq -r '.launcher_version // ""' build-info.json)" >> "$GITHUB_OUTPUT"
+          echo "launcher_release=$(jq -r '.launcher_release // ""' build-info.json)" >> "$GITHUB_OUTPUT"
+          echo "kernel_version=$(jq -r '.kernel_version // ""' build-info.json)" >> "$GITHUB_OUTPUT"
+          echo "driver_commit=$(jq -r '.driver_commit // ""' build-info.json)" >> "$GITHUB_OUTPUT"
+          echo "uboot_release=$(jq -r '.uboot_release // ""' build-info.json)" >> "$GITHUB_OUTPUT"
+          echo "pigen_commit=$(jq -r '.pigen_commit // ""' build-info.json)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Update os-list.json (accumulative — add version, keep history)
         run: |
           ossutil cp "oss://cardputer-zero-repo/os-list.json" os-list.json
@@ -121,7 +139,13 @@ jobs:
             --download-size "${{ steps.meta.outputs.download_size }}" \
             --download-sha256 "${{ steps.meta.outputs.download_sha256 }}" \
             --extract-size "${{ steps.meta.outputs.extract_size }}" \
-            --extract-sha256 "${{ steps.meta.outputs.extract_sha256 }}"
+            --extract-sha256 "${{ steps.meta.outputs.extract_sha256 }}" \
+            --launcher-version "${{ steps.buildinfo.outputs.launcher_version }}" \
+            --launcher-release "${{ steps.buildinfo.outputs.launcher_release }}" \
+            --kernel-version "${{ steps.buildinfo.outputs.kernel_version }}" \
+            --driver-commit "${{ steps.buildinfo.outputs.driver_commit }}" \
+            --uboot-release "${{ steps.buildinfo.outputs.uboot_release }}" \
+            --pigen-commit "${{ steps.buildinfo.outputs.pigen_commit }}"
 
           echo "=== Updated os-list.json ==="
           python3 -c "import json; d=json.load(open('os-list.json')); [print(f\"  {e['name']} | {e['release_date']} | {e.get('tag','')}\") for e in d['os_list'] if 'CardputerZero' in e.get('name','')]"
