@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+
+ROOT_DEV=$(findmnt -n -o SOURCE /)
+ROOT_PART_NAME=$(lsblk -no KNAME "$ROOT_DEV")
+ROOT_DISK_NAME=$(lsblk -no PKNAME "$ROOT_DEV")
+ROOT_DISK="/dev/$ROOT_DISK_NAME"
+ROOT_PART_NUM=$(cat "/sys/block/$ROOT_DISK_NAME/$ROOT_PART_NAME/partition")
+
+if [ "$ROOT_PART_NUM" -ne 2 ]; then
+    echo "cardputerzero-resize: unexpected partition layout (root is partition $ROOT_PART_NUM, expected 2), skipping"
+    exit 0
+fi
+
+DISK_SIZE=$(cat "/sys/block/$ROOT_DISK_NAME/size")
+TARGET_END=$((DISK_SIZE - 1))
+if [ "$TARGET_END" -gt 4294967295 ]; then
+    TARGET_END=4294967295
+fi
+
+echo "cardputerzero-resize: expanding partition $ROOT_PART_NUM on $ROOT_DISK to sector $TARGET_END"
+parted -m "$ROOT_DISK" u s resizepart "$ROOT_PART_NUM" "$TARGET_END"
+
+partprobe "$ROOT_DISK"
+
+echo "cardputerzero-resize: expanding filesystem on $ROOT_DEV"
+resize2fs "$ROOT_DEV"
+
+echo "cardputerzero-resize: done"

@@ -59,3 +59,13 @@ cat > "${ROOTFS_DIR}/etc/systemd/journald.conf.d/persist.conf" << 'EOF'
 Storage=persistent
 SystemMaxUse=50M
 EOF
+
+# Root partition resize on first boot (U-Boot skips initramfs so
+# raspberrypi-sys-mods' resize_early never runs)
+install -m 755 -d "${ROOTFS_DIR}/usr/lib/cardputerzero"
+install -m 755 files/resize-root "${ROOTFS_DIR}/usr/lib/cardputerzero/resize-root"
+install -m 644 files/cardputerzero-resize.service "${ROOTFS_DIR}/etc/systemd/system/cardputerzero-resize.service"
+
+on_chroot << 'CHROOT'
+systemctl enable cardputerzero-resize.service
+CHROOT

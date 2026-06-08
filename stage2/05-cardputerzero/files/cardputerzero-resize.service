@@ -1,0 +1,17 @@
+[Unit]
+Description=Expand root partition and filesystem on first boot
+Before=first-boot-complete.target
+After=systemd-remount-fs.service
+ConditionFirstBoot=yes
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/cardputerzero/resize-root
+ExecStartPost=/usr/bin/systemctl disable %n
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target
