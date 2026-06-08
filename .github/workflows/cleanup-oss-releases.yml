@@ -1,0 +1,46 @@
+name: Cleanup OSS Releases
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Tags to remove from os-list.json (comma-separated, e.g. "20260608-081346-963b259,20260608-091152-6a86c35")'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  cleanup:
+    name: Remove entries from os-list.json
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: scripts
+
+      - name: Setup ossutil
+        uses: manyuanrong/setup-ossutil@v3.0
+        with:
+          endpoint: oss-cn-shenzhen.aliyuncs.com
+          access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+
+      - name: Remove entries from os-list.json
+        run: |
+          set -euxo pipefail
+          ossutil cp "oss://cardputer-zero-repo/os-list.json" os-list.json
+
+          echo "=== Before cleanup ==="
+          python3 -c "import json; d=json.load(open('os-list.json')); [print(f\"  {e['name']} | {e.get('tag','')}\") for e in d['os_list'] if 'CardputerZero' in e.get('name','')]"
+
+          python3 scripts/cleanup_os_list.py \
+            --json os-list.json \
+            --remove-tags "${{ inputs.tags }}"
+
+          echo "=== After cleanup ==="
+          python3 -c "import json; d=json.load(open('os-list.json')); [print(f\"  {e['name']} | {e.get('tag','')}\") for e in d['os_list'] if 'CardputerZero' in e.get('name','')]"
+
+          ossutil cp -f os-list.json "oss://cardputer-zero-repo/os-list.json"
+          echo "✓ os-list.json cleaned up and uploaded to OSS"
