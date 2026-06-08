@@ -52,8 +52,10 @@ def main():
     is_prerelease = args.is_prerelease == "true"
 
     # Build the new entry
+    # Tag format: YYYYMMDD-HHMMSS-commit → strip commit hash for display
+    tag_short = "-".join(args.tag.split("-")[:2])  # "20260608-102710"
     if is_prerelease:
-        display_name = f"CardputerZero OS {args.tag} (beta)"
+        display_name = f"CardputerZero OS (Trixie arm64) {tag_short} (Beta)"
         description = "Debian Trixie arm64 desktop for CardputerZero. Pre-release build."
     else:
         display_name = "CardputerZero OS (Trixie arm64)"
@@ -126,18 +128,19 @@ def main():
     if not any(e.get("url", "").endswith(args.oss_filename) for e in os_list):
         os_list.insert(insert_idx, new_entry)
 
-    # Sort CardputerZero entries: stable first (newest to oldest), then beta (newest to oldest)
+    # Sort CardputerZero entries: Release first, then Beta — both newest first.
+    # Use tag (YYYYMMDD-HHMMSS-commit) for precise ordering within same day.
     cz_entries = [e for e in os_list if "cardputerzero" in e.get("url", "").lower()]
     other_entries = [e for e in os_list if "cardputerzero" not in e.get("url", "").lower()]
 
     stable = sorted(
         [e for e in cz_entries if not e.get("is_prerelease")],
-        key=lambda e: e.get("release_date", ""),
+        key=lambda e: e.get("tag", ""),
         reverse=True,
     )
     beta = sorted(
         [e for e in cz_entries if e.get("is_prerelease")],
-        key=lambda e: e.get("release_date", ""),
+        key=lambda e: e.get("tag", ""),
         reverse=True,
     )
 

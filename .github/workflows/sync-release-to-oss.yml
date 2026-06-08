@@ -1,4 +1,4 @@
-name: Sync Release to OSS
+name: Sync Latest Release to OSS
 
 on:
   workflow_dispatch:
