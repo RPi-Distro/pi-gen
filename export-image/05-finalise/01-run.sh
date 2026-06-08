@@ -54,11 +54,10 @@ rm -f "${ROOTFS_DIR}"/usr/share/icons/*/icon-theme.cache
 
 rm -f "${ROOTFS_DIR}/var/lib/dbus/machine-id"
 
-# Must be EMPTY (0 bytes), not "uninitialized". systemd's ConditionFirstBoot
-# checks if machine-id is empty/missing — a non-empty string (even
-# "uninitialized") makes systemd skip firstboot services including rpi-resize,
-# which means the root partition never expands to fill the SD card.
-true > "${ROOTFS_DIR}/etc/machine-id"
+# Match official RPi pi-gen: write "uninitialized" so systemd 257 detects first boot.
+# systemd treats both empty and "uninitialized" as first-boot trigger.
+# Official RPi OS uses this exact approach and firstboot works.
+echo "uninitialized" > "${ROOTFS_DIR}/etc/machine-id"
 
 ln -nsf /proc/mounts "${ROOTFS_DIR}/etc/mtab"
 
