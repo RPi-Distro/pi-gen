@@ -54,7 +54,11 @@ rm -f "${ROOTFS_DIR}"/usr/share/icons/*/icon-theme.cache
 
 rm -f "${ROOTFS_DIR}/var/lib/dbus/machine-id"
 
-echo "uninitialized" > "${ROOTFS_DIR}/etc/machine-id"
+# Must be EMPTY (0 bytes), not "uninitialized". systemd's ConditionFirstBoot
+# checks if machine-id is empty/missing — a non-empty string (even
+# "uninitialized") makes systemd skip firstboot services including rpi-resize,
+# which means the root partition never expands to fill the SD card.
+true > "${ROOTFS_DIR}/etc/machine-id"
 
 ln -nsf /proc/mounts "${ROOTFS_DIR}/etc/mtab"
 
