@@ -12,31 +12,38 @@ permissions:
 
 jobs:
   publish:
-    name: Publish stable image to OSS
+    name: Publish image to OSS (accumulative)
     runs-on: ubuntu-latest
 
     steps:
-      - name: Determine release tag
+      - name: Determine release tag + metadata
         id: release
         run: |
           if [[ -n "${{ inputs.tag }}" ]]; then
             TAG="${{ inputs.tag }}"
           else
-            # Use the most recent release regardless of prerelease status
             TAG=$(gh api repos/${{ github.repository }}/releases --jq '.[0].tag_name')
-            if [[ -z "$TAG" ]]; then
-              echo "ERROR: No release found"
-              exit 1
-            fi
+            if [[ -z "$TAG" ]]; then echo "ERROR: No release found"; exit 1; fi
           fi
+
+          # Fetch release metadata from GitHub API
+          RELEASE_JSON=$(gh api "repos/${{ github.repository }}/releases/tags/${TAG}")
+          IS_PRERELEASE=$(echo "$RELEASE_JSON" | jq -r '.prerelease')
+          PUBLISHED_AT=$(echo "$RELEASE_JSON" | jq -r '.published_at')
+          # Use the GitHub Release published date (not today's date)
+          RELEASE_DATE=$(echo "$PUBLISHED_AT" | cut -dT -f1)
+
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${TAG}"
-          echo "release_url=$RELEASE_URL" >> "$GITHUB_OUTPUT"
-          echo "Publishing release: $TAG ($RELEASE_URL)"
+          echo "is_prerelease=$IS_PRERELEASE" >> "$GITHUB_OUTPUT"
+          echo "release_date=$RELEASE_DATE" >> "$GITHUB_OUTPUT"
+          echo "release_url=https://github.com/${{ github.repository }}/releases/tag/${TAG}" >> "$GITHUB_OUTPUT"
+
+          echo "Publishing: tag=$TAG prerelease=$IS_PRERELEASE date=$RELEASE_DATE"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
 
       - name: Download image from release
+        id: download
         run: |
           TAG="${{ steps.release.outputs.tag }}"
           ASSET_URL=$(gh api "repos/${{ github.repository }}/releases/tags/${TAG}" \
@@ -51,9 +58,8 @@ jobs:
           gh api "$ASSET_URL" -H "Accept: application/octet-stream" > "$ASSET_NAME"
           ls -lh "$ASSET_NAME"
           echo "name=$ASSET_NAME" >> "$GITHUB_OUTPUT"
-        id: download
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
 
       - name: Setup ossutil
         uses: manyuanrong/setup-ossutil@v3.0
@@ -62,60 +68,66 @@ jobs:
           access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
           access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
 
-      - name: Upload as latest stable
+      - name: Upload image (tagged + latest alias)
         run: |
+          TAG="${{ steps.release.outputs.tag }}"
           ASSET_NAME="${{ steps.download.outputs.name }}"
-          echo "Uploading $ASSET_NAME -> cardputerzero-trixie-arm64-latest.img.xz"
-          ossutil cp -f "$ASSET_NAME" \
-            "oss://cardputer-zero-repo/cardputerzero-trixie-arm64-latest.img.xz"
-          echo "✓ Published to: https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/cardputerzero-trixie-arm64-latest.img.xz"
+          TAGGED_NAME="cardputerzero-trixie-arm64-${TAG}.img.xz"
 
-      - name: Compute image metadata (compressed + extracted)
+          echo "Uploading $ASSET_NAME -> $TAGGED_NAME"
+          ossutil cp -f "$ASSET_NAME" "oss://cardputer-zero-repo/${TAGGED_NAME}"
+
+          # Also update the "latest" alias so existing imager configs keep working
+          echo "Updating latest alias..."
+          ossutil cp -f "$ASSET_NAME" "oss://cardputer-zero-repo/cardputerzero-trixie-arm64-latest.img.xz"
+
+          echo "oss_filename=$TAGGED_NAME" >> "$GITHUB_OUTPUT"
+        id: upload
+
+      - name: Compute image metadata
         id: meta
         run: |
           ASSET_NAME="${{ steps.download.outputs.name }}"
-          RELEASE_DATE=$(date -u +%Y-%m-%d)
           DOWNLOAD_SIZE=$(stat --format=%s "$ASSET_NAME")
           DOWNLOAD_SHA256=$(sha256sum "$ASSET_NAME" | awk '{print $1}')
 
-          echo "Decompressing $ASSET_NAME to compute extract_size and extract_sha256..."
+          echo "Decompressing to compute extract_size and extract_sha256..."
           IMG_NAME="${ASSET_NAME%.xz}"
           xz -dk "$ASSET_NAME"
           EXTRACT_SIZE=$(stat --format=%s "$IMG_NAME")
           EXTRACT_SHA256=$(sha256sum "$IMG_NAME" | awk '{print $1}')
           rm -f "$IMG_NAME"
 
-          echo "release_date=$RELEASE_DATE" >> "$GITHUB_OUTPUT"
           echo "download_size=$DOWNLOAD_SIZE" >> "$GITHUB_OUTPUT"
           echo "download_sha256=$DOWNLOAD_SHA256" >> "$GITHUB_OUTPUT"
           echo "extract_size=$EXTRACT_SIZE" >> "$GITHUB_OUTPUT"
           echo "extract_sha256=$EXTRACT_SHA256" >> "$GITHUB_OUTPUT"
 
-          echo "Metadata: date=$RELEASE_DATE dl_size=$DOWNLOAD_SIZE ext_size=$EXTRACT_SIZE"
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: scripts
 
-      - name: Update os-list.json metadata
+      - name: Update os-list.json (accumulative — add version, keep history)
         run: |
           ossutil cp "oss://cardputer-zero-repo/os-list.json" os-list.json
 
-          python3 -c "
-          import json
-          data = json.load(open('os-list.json'))
-          target = 'https://cardputer-zero-repo.oss-cn-shenzhen.aliyuncs.com/cardputerzero-trixie-arm64-latest.img.xz'
-          for item in data.get('os_list', []):
-              if item.get('url') == target:
-                  item['release_date'] = '${{ steps.meta.outputs.release_date }}'
-                  item['image_download_size'] = ${{ steps.meta.outputs.download_size }}
-                  item['image_download_sha256'] = '${{ steps.meta.outputs.download_sha256 }}'
-                  item['extract_size'] = ${{ steps.meta.outputs.extract_size }}
-                  item['extract_sha256'] = '${{ steps.meta.outputs.extract_sha256 }}'
-                  item['github_release'] = '${{ steps.release.outputs.release_url }}'
-                  item['init_format'] = 'cloudinit-rpi'
-                  break
-          with open('os-list.json', 'w') as f:
-              json.dump(data, f, indent=2)
-              f.write('\n')
-          "
+          python3 scripts/update_os_list.py \
+            --json os-list.json \
+            --tag "${{ steps.release.outputs.tag }}" \
+            --release-date "${{ steps.release.outputs.release_date }}" \
+            --is-prerelease "${{ steps.release.outputs.is_prerelease }}" \
+            --release-url "${{ steps.release.outputs.release_url }}" \
+            --oss-filename "${{ steps.upload.outputs.oss_filename }}" \
+            --download-size "${{ steps.meta.outputs.download_size }}" \
+            --download-sha256 "${{ steps.meta.outputs.download_sha256 }}" \
+            --extract-size "${{ steps.meta.outputs.extract_size }}" \
+            --extract-sha256 "${{ steps.meta.outputs.extract_sha256 }}"
 
-          cat os-list.json
+          echo "=== Updated os-list.json ==="
+          python3 -c "import json; d=json.load(open('os-list.json')); [print(f\"  {e['name']} | {e['release_date']} | {e.get('tag','')}\") for e in d['os_list'] if 'CardputerZero' in e.get('name','')]"
+
           ossutil cp -f os-list.json "oss://cardputer-zero-repo/os-list.json"
-          echo "✓ os-list.json updated on OSS (with extract_size + extract_sha256)"
+          echo "✓ os-list.json uploaded to OSS"
+
+          ossutil cp -f os-list.json "oss://cardputer-zero-repo/os-list.json"
+          echo "✓ os-list.json uploaded to OSS"
