@@ -2,7 +2,7 @@
 
 # Download APPLaunch deb outside chroot (has GitHub token, avoids rate limit)
 DEB_URL=$(curl -sH "Authorization: token ${GITHUB_TOKEN}" \
-    https://api.github.com/repos/CardputerZero/M5CardputerZero-Launcher/releases \
+    https://api.github.com/repos/CardputerZero/launcher/releases \
     | grep -o 'https://github.com/[^"]*applaunch[^"]*_arm64\.deb' | head -1)
 
 UBOOT_URL="${UBOOT_FIRMWARE_URL:-https://github.com/CardputerZero/u-boot/releases/latest/download/uboot-firmware-m5stack.tar.gz}"
