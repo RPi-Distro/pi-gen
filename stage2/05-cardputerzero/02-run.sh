@@ -51,3 +51,11 @@ cat > "${ROOTFS_DIR}/etc/modprobe.d/rfkill_default.conf" << 'EOF'
 options rfkill default_state=0
 EOF
 
+# Persistent journal — retain logs across reboots for debugging
+mkdir -p "${ROOTFS_DIR}/var/log/journal"
+mkdir -p "${ROOTFS_DIR}/etc/systemd/journald.conf.d"
+cat > "${ROOTFS_DIR}/etc/systemd/journald.conf.d/persist.conf" << 'EOF'
+[Journal]
+Storage=persistent
+SystemMaxUse=50M
+EOF
