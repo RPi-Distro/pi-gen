@@ -1,4 +1,14 @@
 UNRELEASED:
+  * Raspberry Pi firmware 09267f5354d40519d82fbd2193b9e211ec304055
+  * Linux kernel 6.12.93 - d8ab4e908235da7727f22dd36ad5af224671677d
+2026-04-13:
+  * Raspberry Pi firmware 676efed1194de38975889a34276091da1f5aadd3
+  * Linux kernel 6.12.47 - 359f37f0faefb712add32a39f98751aea67d5c1f
+2025-11-24:
+  * Switched to firefox-esr
+  * Raspberry Pi firmware 676efed1194de38975889a34276091da1f5aadd3
+  * Linux kernel 6.12.47 - 359f37f0faefb712add32a39f98751aea67d5c1f
+2025-10-01:
   * Added rpi-keyboard-config and rpi-keyboard-fw-update
   * Raspberry Pi firmware 676efed1194de38975889a34276091da1f5aadd3
   * Linux kernel 6.12.47 - 359f37f0faefb712add32a39f98751aea67d5c1f
