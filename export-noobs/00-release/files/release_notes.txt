@@ -1,5 +1,18 @@
 UNRELEASED:
-  *
+  * New icons for toolbars in various applications - LibreOffice, geany, xarchiver, eom
+  * New icon for Recommended Software
+  * Use DBus to prevent multiple instances of various applications - pishutdown, rpcc, agnostics, bookshelf, gui-runcmd, rp-prefapps, piclone
+  * Allow larger icon sizes in lxpanel
+  * Tidying and bug fixing of of libxml code in Control Centre plugins
+  * Added new default touchscreen associations
+  * Removed python3-flask
+  * Bug fix - lockup in Printers plugin when closing
+  * Bug fix - incorrect selection of input audio device in volume plugin
+  * Bug fix - keyboard activation of top-level items in Main Menu
+  * Bug fix - missing application close handler when closing window in piclone
+  * Polish translations included
+  * Raspberry Pi firmware 09267f5354d40519d82fbd2193b9e211ec304055
+  * Linux kernel 6.18.34 - c8c7494100e99ee05b11aaa4f0588a223a63d1af
 2026-04-13:
   * Passwordless sudo now disabled by default
   * Switch to enable passwordless sudo added to Control Centre System tab and to raspi-config
