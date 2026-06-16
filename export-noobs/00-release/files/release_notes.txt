@@ -5,6 +5,7 @@ UNRELEASED:
   * Allow larger icon sizes in lxpanel
   * Tidying and bug fixing of of libxml code in Control Centre plugins
   * Added new default touchscreen associations
+  * labwc upgraded to version 0.9.7
   * Removed python3-flask
   * Bug fix - lockup in Printers plugin when closing
   * Bug fix - incorrect selection of input audio device in volume plugin
