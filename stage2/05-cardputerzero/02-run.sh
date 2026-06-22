@@ -93,21 +93,12 @@ Exec=piwiz
 StartupNotify=true
 EOF
 
-install -d "${ROOTFS_DIR}/etc/lightdm"
-touch "${ROOTFS_DIR}/etc/lightdm/lightdm.conf"
-if grep -q '^[#[:space:]]*autologin-user=' "${ROOTFS_DIR}/etc/lightdm/lightdm.conf"; then
-    sed -i 's/^[#[:space:]]*autologin-user=.*/autologin-user=rpi-first-boot-wizard/' \
-        "${ROOTFS_DIR}/etc/lightdm/lightdm.conf"
-else
-    printf '\nautologin-user=rpi-first-boot-wizard\n' >> "${ROOTFS_DIR}/etc/lightdm/lightdm.conf"
-fi
-
-if grep -q '^[#[:space:]]*autologin-session=' "${ROOTFS_DIR}/etc/lightdm/lightdm.conf"; then
-    sed -i 's/^[#[:space:]]*autologin-session=.*/autologin-session=rpd-labwc/' \
-        "${ROOTFS_DIR}/etc/lightdm/lightdm.conf"
-else
-    printf 'autologin-session=rpd-labwc\n' >> "${ROOTFS_DIR}/etc/lightdm/lightdm.conf"
-fi
+install -d "${ROOTFS_DIR}/etc/lightdm/lightdm.conf.d"
+cat > "${ROOTFS_DIR}/etc/lightdm/lightdm.conf.d/99-cardputerzero-firstboot.conf" << 'EOF'
+[Seat:*]
+autologin-user=rpi-first-boot-wizard
+autologin-session=rpd-labwc
+EOF
 
 # Install U-Boot firmware
 sed -i '1i kernel=u-boot.bin' ${ROOTFS_DIR}/boot/firmware/config.txt
