@@ -113,22 +113,28 @@ else
     fail "APPLaunch binary MISSING"
 fi
 
-if debugfs -R "cat usr/lib/systemd/system/APPLaunch.service" "$TMPDIR/root.ext4" 2>/dev/null | grep -q "ExecStart"; then
-    pass "APPLaunch.service exists"
+if debugfs -R "cat usr/lib/systemd/user/APPLaunch.service" "$TMPDIR/root.ext4" 2>/dev/null | grep -q "ExecStart"; then
+    pass "APPLaunch user service exists"
 else
     # Try alternative path
-    if debugfs -R "cat lib/systemd/system/APPLaunch.service" "$TMPDIR/root.ext4" 2>/dev/null | grep -q "ExecStart"; then
-        pass "APPLaunch.service exists"
+    if debugfs -R "cat lib/systemd/user/APPLaunch.service" "$TMPDIR/root.ext4" 2>/dev/null | grep -q "ExecStart"; then
+        pass "APPLaunch user service exists"
     else
-        fail "APPLaunch.service MISSING"
+        fail "APPLaunch user service MISSING"
     fi
 fi
 
-# Check if service is enabled (symlink in multi-user.target.wants)
-if debugfs -R "ls etc/systemd/system/multi-user.target.wants" "$TMPDIR/root.ext4" 2>/dev/null | grep -q "APPLaunch"; then
-    pass "APPLaunch.service enabled"
+# APPLaunch is installed but intentionally not enabled by default.
+if debugfs -R "ls etc/systemd/user/default.target.wants" "$TMPDIR/root.ext4" 2>/dev/null | grep -q "APPLaunch"; then
+    fail "APPLaunch user service enabled by default"
 else
-    fail "APPLaunch.service NOT enabled"
+    pass "APPLaunch user service not enabled by default"
+fi
+
+if debugfs -R "ls etc/systemd/system/multi-user.target.wants" "$TMPDIR/root.ext4" 2>/dev/null | grep -q "APPLaunch"; then
+    fail "APPLaunch system service enabled by default"
+else
+    pass "APPLaunch system service not enabled by default"
 fi
 
 echo ""
