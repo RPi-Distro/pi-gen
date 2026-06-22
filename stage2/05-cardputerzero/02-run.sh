@@ -25,6 +25,10 @@ on_chroot << 'CHROOT'
 set -e
 dpkg -i /tmp/applaunch.deb
 rm -f /tmp/applaunch.deb
+# The deb postinst enables APPLaunch as a global user service; the image keeps
+# APPLaunch installed but leaves startup opt-in.
+systemctl --global disable APPLaunch.service || true
+rm -f /etc/systemd/user/default.target.wants/APPLaunch.service
 CHROOT
 
 # Install U-Boot firmware
