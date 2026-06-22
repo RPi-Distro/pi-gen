@@ -1,7 +1,12 @@
 #!/bin/bash -e
 
-# Download APPLaunch deb outside chroot (has GitHub token, avoids rate limit)
-DEB_URL=$(curl -sH "Authorization: token ${GITHUB_TOKEN}" \
+# Download APPLaunch deb outside chroot (can use GitHub token to avoid rate limits)
+AUTH_ARGS=()
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+    AUTH_ARGS=(-H "Authorization: token ${GITHUB_TOKEN}")
+fi
+
+DEB_URL=$(curl -fsSL "${AUTH_ARGS[@]}" \
     https://api.github.com/repos/CardputerZero/launcher/releases \
     | grep -o 'https://github.com/[^"]*applaunch[^"]*_arm64\.deb' | head -1)
 
@@ -20,16 +25,80 @@ echo "Downloading U-Boot firmware from: $UBOOT_URL"
 curl -fsSL -o "${ROOTFS_DIR}/tmp/uboot-firmware.tar.gz" -L "$UBOOT_URL"
 tar -xzf "${ROOTFS_DIR}/tmp/uboot-firmware.tar.gz" -C "${ROOTFS_DIR}/boot/firmware"
 
-# Install APPLaunch + configure boot for CardputerZero
+# Install APPLaunch normally so dpkg registers the package. Then adjust startup
+# state directly in the rootfs; LaunchWizard controls first-boot APPLaunch start.
 on_chroot << 'CHROOT'
 set -e
 dpkg -i /tmp/applaunch.deb
 rm -f /tmp/applaunch.deb
-# The deb postinst enables APPLaunch as a global user service; the image keeps
-# APPLaunch installed but leaves startup opt-in.
-systemctl --global disable APPLaunch.service || true
-rm -f /etc/systemd/user/default.target.wants/APPLaunch.service
 CHROOT
+
+if [ ! -x "${ROOTFS_DIR}/usr/share/APPLaunch/bin/LaunchWizard" ]; then
+    echo "ERROR: LaunchWizard missing from installed APPLaunch package"
+    exit 1
+fi
+
+install -d "${ROOTFS_DIR}/usr/lib/systemd/system"
+cat > "${ROOTFS_DIR}/usr/lib/systemd/system/LaunchWizard.service" << 'EOF'
+[Unit]
+Description=LaunchWizard First Boot Setup
+After=systemd-user-sessions.service
+Before=display-manager.service
+Wants=graphical.target
+
+[Service]
+Type=simple
+ExecStart=/usr/share/APPLaunch/bin/LaunchWizard
+WorkingDirectory=/usr/share/APPLaunch
+Restart=on-failure
+RestartSec=1
+StartLimitInterval=0
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+install -d "${ROOTFS_DIR}/etc/systemd/system/multi-user.target.wants"
+ln -sf /usr/lib/systemd/system/LaunchWizard.service \
+    "${ROOTFS_DIR}/etc/systemd/system/multi-user.target.wants/LaunchWizard.service"
+
+install -d "${ROOTFS_DIR}/usr/lib/systemd/user"
+cat > "${ROOTFS_DIR}/usr/lib/systemd/user/APPLaunch.service" << 'EOF'
+[Unit]
+Description=APPLaunch Service
+After=pipewire-pulse.service
+Wants=pipewire-pulse.service
+
+[Service]
+ExecStart=/usr/share/APPLaunch/bin/M5CardputerZero-APPLaunch
+WorkingDirectory=/usr/share/APPLaunch
+Restart=always
+RestartSec=1
+StartLimitInterval=0
+
+[Install]
+WantedBy=default.target
+EOF
+
+rm -f "${ROOTFS_DIR}/etc/systemd/user/default.target.wants/APPLaunch.service"
+rm -f "${ROOTFS_DIR}/home/pi/.config/systemd/user/default.target.wants/APPLaunch.service"
+rm -f "${ROOTFS_DIR}/var/lib/systemd/linger/pi"
+
+install -d "${ROOTFS_DIR}/etc/xdg/autostart"
+cat > "${ROOTFS_DIR}/etc/xdg/autostart/piwiz.desktop" << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=Raspberry Pi First-Run Wizard
+Exec=piwiz
+StartupNotify=true
+EOF
+
+install -d "${ROOTFS_DIR}/etc/lightdm/lightdm.conf.d"
+cat > "${ROOTFS_DIR}/etc/lightdm/lightdm.conf.d/99-cardputerzero-firstboot.conf" << 'EOF'
+[Seat:*]
+autologin-user=rpi-first-boot-wizard
+autologin-session=rpd-labwc
+EOF
 
 # Install U-Boot firmware
 sed -i '1i kernel=u-boot.bin' ${ROOTFS_DIR}/boot/firmware/config.txt
