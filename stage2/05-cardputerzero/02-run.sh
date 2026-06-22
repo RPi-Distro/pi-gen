@@ -25,7 +25,6 @@ on_chroot << 'CHROOT'
 set -e
 dpkg -i /tmp/applaunch.deb
 rm -f /tmp/applaunch.deb
-systemctl enable APPLaunch.service
 CHROOT
 
 # Install U-Boot firmware
