@@ -42,12 +42,14 @@ install -d "${ROOTFS_DIR}/usr/lib/systemd/system"
 cat > "${ROOTFS_DIR}/usr/lib/systemd/system/LaunchWizard.service" << 'EOF'
 [Unit]
 Description=LaunchWizard First Boot Setup
-After=systemd-user-sessions.service
+After=systemd-user-sessions.service plymouth-quit.service
 Before=display-manager.service
-Wants=graphical.target
+Wants=graphical.target plymouth-quit.service
 
 [Service]
 Type=simple
+ExecStartPre=-/usr/bin/plymouth quit
+ExecStartPre=-/usr/bin/timeout 3 /usr/bin/plymouth --wait
 ExecStart=/usr/share/APPLaunch/bin/LaunchWizard
 WorkingDirectory=/usr/share/APPLaunch
 Restart=on-failure
@@ -106,7 +108,7 @@ sed -i '1i kernel=u-boot.bin' ${ROOTFS_DIR}/boot/firmware/config.txt
 
 
 # Append cmdline.txt parameters
-sed -i 's/$/ quiet splash plymouth.ignore-serial-consoles cfg80211.ieee80211_regdom=AE/' \
+sed -i 's/$/ quiet splash plymouth.ignore-serial-consoles fbcon=map:off cfg80211.ieee80211_regdom=AE/' \
     "${ROOTFS_DIR}/boot/firmware/cmdline.txt"
 
 # Module load config
