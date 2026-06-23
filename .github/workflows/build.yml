@@ -56,7 +56,7 @@ jobs:
       - name: Build image
         run: sudo GITHUB_TOKEN="${GITHUB_TOKEN}" XZ_DEFAULTS="-T0" ./build.sh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.APP_RELEASES_TOKEN || github.token }}
 
       - name: Fix deploy permissions
         run: sudo chown -R $(id -u):$(id -g) deploy/
@@ -231,7 +231,7 @@ jobs:
       - name: Build lite image
         run: sudo GITHUB_TOKEN="${GITHUB_TOKEN}" XZ_DEFAULTS="-T0" ./build.sh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.APP_RELEASES_TOKEN || github.token }}
 
       - name: Fix deploy permissions
         run: sudo chown -R $(id -u):$(id -g) deploy/
