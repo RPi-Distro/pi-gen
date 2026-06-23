@@ -16,13 +16,40 @@ download_and_install_deb() {
 
     local deb_url="${!deb_url_var:-}"
     if [ -z "$deb_url" ]; then
-        deb_url=$({ curl -fsSL "${AUTH_ARGS[@]}" "$api_url" || true; } \
-            | grep -Eo "https://github.com/[^\"]*/${filename_pattern}" \
+        local response_file
+        local http_status
+        local curl_exit
+
+        response_file=$(mktemp)
+        echo "Querying ${app_name} releases API: ${api_url}"
+        set +e
+        http_status=$(curl -sSL "${AUTH_ARGS[@]}" \
+            -o "$response_file" \
+            -w '%{http_code}' \
+            "$api_url")
+        curl_exit=$?
+        set -e
+        echo "${app_name}: GitHub API HTTP status ${http_status} (curl exit ${curl_exit})"
+
+        if [ "$curl_exit" -ne 0 ]; then
+            rm -f "$response_file"
+            echo "ERROR: Failed to query ${app_name} releases API"
+            exit 1
+        fi
+
+        if ! [[ "$http_status" =~ ^2 ]]; then
+            rm -f "$response_file"
+            echo "ERROR: ${app_name} releases API returned HTTP ${http_status}"
+            exit 1
+        fi
+
+        deb_url=$(grep -Eo "https://github.com/[^\"]*/${filename_pattern}" "$response_file" \
             | head -1)
+        rm -f "$response_file"
     fi
 
     if [ -z "$deb_url" ]; then
-        echo "ERROR: Could not find ${app_name} m5stack1 arm64 deb URL"
+        echo "ERROR: Could not find ${app_name} m5stack1 arm64 deb URL matching ${filename_pattern}"
         exit 1
     fi
 
