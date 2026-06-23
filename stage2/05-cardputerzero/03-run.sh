@@ -13,6 +13,7 @@ download_and_install_deb() {
     local api_url="$2"
     local deb_url_var="$3"
     local filename_pattern="$4"
+    local apt_options="${5:-}"
 
     local deb_url="${!deb_url_var:-}"
     local deb_file
@@ -86,9 +87,9 @@ PY
         -o "${ROOTFS_DIR}/tmp/${deb_file}" \
         -L "$deb_url"
 
-    on_chroot << CHROOT
+on_chroot << CHROOT
 set -e
-apt-get install -y --no-install-recommends "/tmp/${deb_file}"
+apt-get install -y --no-install-recommends ${apt_options} "/tmp/${deb_file}"
 rm -f "/tmp/${deb_file}"
 CHROOT
 }
@@ -114,7 +115,8 @@ download_and_install_deb \
     "CameraApp" \
     "$CAMERA_APP_RELEASES_URL" \
     "CAMERA_APP_DEB_URL" \
-    'CameraApp_[^"/]*_m5stack1_arm64\.deb'
+    'CameraApp_[^"/]*_m5stack1_arm64\.deb' \
+    '-o Dpkg::Options::=--force-overwrite'
 
 download_and_install_deb \
     "FactoryTest" \
