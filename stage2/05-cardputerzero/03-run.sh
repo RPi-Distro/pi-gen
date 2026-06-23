@@ -3,8 +3,9 @@
 # Install CardputerZero app debs from GitHub releases. Asset names include the
 # app version, so match package prefix/suffix instead of hard-coding versions.
 AUTH_ARGS=()
-if [ -n "${GITHUB_TOKEN:-}" ]; then
-    AUTH_ARGS=(-H "Authorization: token ${GITHUB_TOKEN}")
+GITHUB_AUTH_TOKEN="${GITHUB_TOKEN:-${GH_TOKEN:-}}"
+if [ -n "$GITHUB_AUTH_TOKEN" ]; then
+    AUTH_ARGS=(-H "Authorization: Bearer ${GITHUB_AUTH_TOKEN}")
 fi
 
 download_and_install_deb() {
@@ -15,7 +16,7 @@ download_and_install_deb() {
 
     local deb_url="${!deb_url_var:-}"
     if [ -z "$deb_url" ]; then
-        deb_url=$(curl -fsSL "${AUTH_ARGS[@]}" "$api_url" \
+        deb_url=$({ curl -fsSL "${AUTH_ARGS[@]}" "$api_url" || true; } \
             | grep -Eo "https://github.com/[^\"]*/${filename_pattern}" \
             | head -1)
     fi
@@ -36,14 +37,14 @@ rm -f "/tmp/${deb_file}"
 CHROOT
 }
 
-RECORDER_RELEASE_TAG="${RECORDER_RELEASE_TAG:-v0.1.0}"
+RECORDER_RELEASES_URL="${RECORDER_RELEASES_URL:-https://api.github.com/repos/CardputerZero/Recorder/releases}"
 COMPASS_RELEASE_TAG="${COMPASS_RELEASE_TAG:-v0.1.0}"
 CAMERA_APP_RELEASES_URL="${CAMERA_APP_RELEASES_URL:-https://api.github.com/repos/CardputerZero/CameraApp/releases}"
 FACTORY_TEST_RELEASES_URL="${FACTORY_TEST_RELEASES_URL:-https://api.github.com/repos/CardputerZero/FactoryTest/releases}"
 
 download_and_install_deb \
     "Recorder" \
-    "https://api.github.com/repos/CardputerZero/Recorder/releases/tags/${RECORDER_RELEASE_TAG}" \
+    "$RECORDER_RELEASES_URL" \
     "RECORDER_DEB_URL" \
     'm5cardputerzero-recorder_[^"/]*_m5stack1_arm64\.deb'
 
