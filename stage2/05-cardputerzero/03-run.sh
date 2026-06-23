@@ -55,7 +55,7 @@ download_and_install_deb() {
 
     local deb_file="${deb_url##*/}"
     echo "Downloading ${app_name} from: $deb_url"
-    curl -fsSL -o "${ROOTFS_DIR}/tmp/${deb_file}" -L "$deb_url"
+    curl -fsSL "${AUTH_ARGS[@]}" -o "${ROOTFS_DIR}/tmp/${deb_file}" -L "$deb_url"
 
     on_chroot << CHROOT
 set -e
