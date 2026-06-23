@@ -15,10 +15,12 @@ download_and_install_deb() {
     local filename_pattern="$4"
 
     local deb_url="${!deb_url_var:-}"
+    local deb_file
     if [ -z "$deb_url" ]; then
         local response_file
         local http_status
         local curl_exit
+        local asset_info
 
         response_file=$(mktemp)
         echo "Querying ${app_name} releases API: ${api_url}"
@@ -43,9 +45,33 @@ download_and_install_deb() {
             exit 1
         fi
 
-        deb_url=$(grep -Eo "https://github.com/[^\"]*/${filename_pattern}" "$response_file" \
-            | head -1)
+        asset_info=$(python3 - "$response_file" "$filename_pattern" <<'PY'
+import json
+import re
+import sys
+
+response_path, filename_pattern = sys.argv[1], sys.argv[2]
+with open(response_path, "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+releases = data if isinstance(data, list) else [data]
+pattern = re.compile(filename_pattern)
+for release in releases:
+    for asset in release.get("assets", []):
+        name = asset.get("name", "")
+        browser_url = asset.get("browser_download_url", "")
+        api_url = asset.get("url", "")
+        if pattern.search(name) or pattern.search(browser_url):
+            print(f"{name}\t{api_url}")
+            raise SystemExit(0)
+PY
+)
         rm -f "$response_file"
+
+        if [ -n "$asset_info" ]; then
+            deb_file="${asset_info%%$'\t'*}"
+            deb_url="${asset_info#*$'\t'}"
+        fi
     fi
 
     if [ -z "$deb_url" ]; then
@@ -53,9 +79,12 @@ download_and_install_deb() {
         exit 1
     fi
 
-    local deb_file="${deb_url##*/}"
+    deb_file="${deb_file:-${deb_url##*/}}"
     echo "Downloading ${app_name} from: $deb_url"
-    curl -fsSL "${AUTH_ARGS[@]}" -o "${ROOTFS_DIR}/tmp/${deb_file}" -L "$deb_url"
+    curl -fsSL "${AUTH_ARGS[@]}" \
+        -H "Accept: application/octet-stream" \
+        -o "${ROOTFS_DIR}/tmp/${deb_file}" \
+        -L "$deb_url"
 
     on_chroot << CHROOT
 set -e
