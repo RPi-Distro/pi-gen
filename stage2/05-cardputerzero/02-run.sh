@@ -116,6 +116,13 @@ cat > "${ROOTFS_DIR}/etc/modules-load.d/cardputerzero.conf" << 'EOF'
 i2c-dev
 EOF
 
+# Disable systemd-backlight auto-start for backlight devices.
+install -d "${ROOTFS_DIR}/etc/udev/rules.d"
+cat > "${ROOTFS_DIR}/etc/udev/rules.d/99-systemd-no-backlight.rules" << 'EOF'
+# Disable systemd-backlight auto-start for display backlights
+SUBSYSTEM=="backlight", ENV{SYSTEMD_WANTS}=""
+EOF
+
 # Modprobe configs
 cat > "${ROOTFS_DIR}/etc/modprobe.d/blacklist-8192cu.conf" << 'EOF'
 blacklist 8192cu
