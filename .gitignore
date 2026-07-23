@@ -6,3 +6,4 @@ SKIP
 SKIP_IMAGES
 .pc
 *-pc
+stage2/04-firstboot/files/*.deb

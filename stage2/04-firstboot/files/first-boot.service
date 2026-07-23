@@ -1,0 +1,12 @@
+[Unit]
+Description=Run first-boot script
+After=multi-user.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/etc/first-boot.sh
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
