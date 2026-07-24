@@ -63,11 +63,21 @@ else
 fi
 
 mkdosfs -n bootfs -F "$FAT_SIZE" -s 1 -v "$BOOT_DEV" > /dev/null
-mkfs.ext4 -L rootfs -O "$ROOT_FEATURES" "$ROOT_DEV" > /dev/null
+
+STAGING="${STAGE_WORK_DIR}/export-root-staging"
+rm -rf "${STAGING}"
+cp -alx "${EXPORT_ROOTFS_DIR}" "${STAGING}"
+if [ -d "${STAGING}/boot/firmware" ]; then
+	find "${STAGING}/boot/firmware" -mindepth 1 -delete
+fi
+if [ -d "${STAGING}/var/cache/apt/archives" ]; then
+	find "${STAGING}/var/cache/apt/archives" -mindepth 1 -delete
+fi
+mke2fs -q -t ext4 -L rootfs -O "$ROOT_FEATURES" -d "${STAGING}" "$ROOT_DEV" > /dev/null
+rm -rf "${STAGING}"
 
 mount -v "$ROOT_DEV" "${ROOTFS_DIR}" -t ext4
 mkdir -p "${ROOTFS_DIR}/boot/firmware"
 mount -v "$BOOT_DEV" "${ROOTFS_DIR}/boot/firmware" -t vfat
 
-rsync -aHAXx --exclude /var/cache/apt/archives --exclude /boot/firmware "${EXPORT_ROOTFS_DIR}/" "${ROOTFS_DIR}/"
 rsync -rtx "${EXPORT_ROOTFS_DIR}/boot/firmware/" "${ROOTFS_DIR}/boot/firmware/"
