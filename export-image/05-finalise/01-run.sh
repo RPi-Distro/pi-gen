@@ -97,10 +97,14 @@ if hash syft 2>/dev/null; then
 		-o spdx-json="${SBOM_FILE}"
 fi
 
-ROOT_DEV="$(awk "\$2 == \"${ROOTFS_DIR}\" {print \$1}" /etc/mtab)"
-
-unmount "${ROOTFS_DIR}"
-zerofree "${ROOT_DEV}"
+# Prefer fstrim (holes -> sparse bmap); fall back to zerofree if discard is unsupported.
+if fstrim -v "${ROOTFS_DIR}"; then
+	unmount "${ROOTFS_DIR}"
+else
+	ROOT_DEV="$(awk "\$2 == \"${ROOTFS_DIR}\" {print \$1}" /etc/mtab)"
+	unmount "${ROOTFS_DIR}"
+	zerofree "${ROOT_DEV}"
+fi
 
 unmount_image "${IMG_FILE}"
 
