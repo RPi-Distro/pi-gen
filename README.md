@@ -28,6 +28,11 @@ gpg pigz xxd arch-test bmap-tools kmod
 The file `depends` contains a list of tools needed.  The format of this
 package is `<tool>[:<debian-package>]`.
 
+qemu is only used outside a native build environment, which is not supported. If
+you do build that way on a distribution whose `qemu-user` binaries are still
+dynamically linked, install `qemu-user-static` instead of `qemu-user-binfmt`, or
+the chroot will fail.
+
 ## Getting started with building your images
 
 Getting started is as simple as cloning this repository on your build machine. You
