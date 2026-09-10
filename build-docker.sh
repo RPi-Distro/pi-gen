@@ -38,6 +38,8 @@ do
 	esac
 done
 
+PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
+
 # Ensure that the configuration file is an absolute path
 if test -x /usr/bin/realpath; then
 	CONFIG_FILE=$(realpath -s "$CONFIG_FILE" || realpath "$CONFIG_FILE")
@@ -64,7 +66,11 @@ exit 1
 fi
 
 # Ensure the Git Hash is recorded before entering the docker container
-GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
+if [ -d "${DIR}"/.git ]; then
+    GIT_HASH=${GIT_HASH:-$(git rev-parse HEAD)}
+else
+    GIT_HASH=$(git ls-remote --tags "${PI_GEN_REPO}" | grep $(basename "${DIR}" | cut -d'-' -f3-) | awk '{print $1}')
+fi
 
 CONTAINER_EXISTS=$(${DOCKER} ps -a --filter name="${CONTAINER_NAME}" -q)
 CONTAINER_RUNNING=$(${DOCKER} ps --filter name="${CONTAINER_NAME}" -q)
