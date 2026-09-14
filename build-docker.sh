@@ -85,13 +85,13 @@ BUILD_OPTS="$(echo "${BUILD_OPTS:-}" | sed -E 's@\-c\s?([^ ]+)@-c /config@')"
 # Check the arch of the machine we're running on. If it's 64-bit, use a 32-bit base image instead
 case "$(uname -m)" in
   x86_64|aarch64)
-    BASE_IMAGE=i386/debian:trixie
+    BASE_IMAGE=docker.io/i386/debian:trixie
     # Without an explicit platform, Docker 20.10 (Debian 12's docker.io) refuses
     # the foreign-platform base image: "no matching manifest for linux/amd64"
     PLATFORM=linux/386
     ;;
   *)
-    BASE_IMAGE=debian:trixie
+    BASE_IMAGE=docker.io/debian:trixie
     PLATFORM=""
     ;;
 esac
