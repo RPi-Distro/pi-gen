@@ -131,14 +131,24 @@ if [[ "${binfmt_misc_required}" == "1" ]]; then
     fi
     echo "binfmt_misc mounted"
   fi
-  if ! grep -q "^interpreter ${qemu_arm}" /proc/sys/fs/binfmt_misc/qemu-arm* ; then
+  # An entry left by an earlier run is matched before the distro's; drop it
+  if [ -f /proc/sys/fs/binfmt_misc/qemu-arm-rpi ]; then
+    ${SUDO} bash -c 'echo -1 > /proc/sys/fs/binfmt_misc/qemu-arm-rpi'
+  fi
+  # Test what matters: whether armhf binaries run inside the container
+  probe="${DOCKER} run --rm pi-gen arch-test armhf"
+  if ! ${probe} >/dev/null ; then
     # Register qemu-arm for binfmt_misc
     reg=':qemu-arm-rpi:M:'
     reg+=':\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x28\x00'
     reg+=':\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
     reg+=":${qemu_arm}:F"
     echo "Registering qemu-arm for binfmt_misc..."
-    ${SUDO} bash -c "echo '${reg}' > /proc/sys/fs/binfmt_misc/register" 2>/dev/null || true
+    ${SUDO} bash -c "echo '${reg}' > /proc/sys/fs/binfmt_misc/register"
+    if ! ${probe} >/dev/null ; then
+      echo "${qemu_arm} cannot run inside the container (dynamically linked?); install qemu-user-static"
+      exit 1
+    fi
   fi
 fi
 
