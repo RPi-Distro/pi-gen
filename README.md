@@ -333,12 +333,9 @@ After successful build, the build container is by default removed. This may be u
 PRESERVE_CONTAINER=1 ./build-docker.sh
 ```
 
-There is a possibility that even when running from a docker container, the
-installation of `qemu-user-static` will silently fail when building the image
-because `binfmt-support` _must be enabled on the underlying kernel_. An easy
-fix is to ensure `binfmt-support` is installed on the host machine before
-starting the `./build-docker.sh` script (or using your own docker build
-solution).
+No qemu is needed on the host. If the host's own `binfmt_misc` registration for
+armhf does not work inside the container, the container registers the image's
+`qemu-arm` for the duration of the build.
 
 ### Passing arguments to Docker
 
@@ -457,7 +454,7 @@ kernel module.
 You may see one of the following errors:
 
 ```
-update-binfmts: warning: Couldn't load the binfmt_misc module.
+armhf: not supported on this machine/kernel
 ```
 ```
 W: Failure trying to run: chroot "/pi-gen/work/test/stage0/rootfs" /bin/true
@@ -465,13 +462,8 @@ and/or
 chroot: failed to run command '/bin/true': Exec format error
 ```
 
-To resolve this, ensure that the following files are available (install them if necessary):
-
-```
-/lib/modules/$(uname -r)/kernel/fs/binfmt_misc.ko
-/usr/bin/qemu-arm-static
-```
-
-You may also need to load the module by hand - run `modprobe binfmt_misc`.
-
-If you are using WSL to build you may have to enable the service `sudo update-binfmts --enable`
+To resolve this, ensure that the module is available and loaded (`modprobe binfmt_misc`).
+For builds outside Docker, `qemu-user-binfmt` must also be installed and its interpreters
+registered (`ls /proc/sys/fs/binfmt_misc` should list `qemu-arm`); on distributions whose
+`qemu-user` binaries are still dynamically linked, install `qemu-user-static` instead.
+Docker builds need nothing else on the host.
