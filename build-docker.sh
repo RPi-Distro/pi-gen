@@ -120,6 +120,7 @@ if [[ "${binfmt_misc_required}" == "1" ]]; then
     echo "qemu-arm not found (please install qemu-user-binfmt)"
     exit 1
   fi
+  SUDO=sudo; [ "$(id -u)" = 0 ] && SUDO=
   if [ ! -f /proc/sys/fs/binfmt_misc/register ]; then
     echo "binfmt_misc required but not mounted, trying to mount it..."
     if ! mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc ; then
@@ -135,7 +136,7 @@ if [[ "${binfmt_misc_required}" == "1" ]]; then
     reg+=':\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
     reg+=":${qemu_arm}:F"
     echo "Registering qemu-arm for binfmt_misc..."
-    sudo bash -c "echo '${reg}' > /proc/sys/fs/binfmt_misc/register" 2>/dev/null || true
+    ${SUDO} bash -c "echo '${reg}' > /proc/sys/fs/binfmt_misc/register" 2>/dev/null || true
   fi
 fi
 
