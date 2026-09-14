@@ -116,7 +116,9 @@ esac
 
 # Check if qemu-arm and /proc/sys/fs/binfmt_misc are present
 if [[ "${binfmt_misc_required}" == "1" ]]; then
-  if ! qemu_arm=$(command -v qemu-arm) ; then
+  # Prefer the static build: the F flag pins the interpreter file, but its
+  # shared libraries aren't visible inside the container.
+  if ! qemu_arm=$(command -v qemu-arm-static || command -v qemu-arm) ; then
     echo "qemu-arm not found (please install qemu-user-binfmt)"
     exit 1
   fi
