@@ -1,0 +1,68 @@
+name: Build Image
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Maximize Build Space
+      uses: easimon/maximize-build-space@master
+      with:
+        root-reserve-mb: 10000 
+        swap-size-mb: 1024
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
+
+    - name: List Available Space
+      run: |
+        echo "Free space:"
+        df -h
+
+    - name: Checkout PiGen
+      uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y qemu-user-static
+        sudo apt install -y < depends
+
+    - name: Create Config File
+      id: config
+      run: |
+        NOW=$(date +"%Y-%m-%d-%H%M")
+        IMAGE=Raspbian-${GITHUB_REF##*/}-$NOW
+        touch config
+        echo IMG_NAME=$IMAGE >> config
+        echo "image=$IMAGE"  >> $GITHUB_OUTPUT
+
+    # At this time the GitHub runners don't have enough
+    # space to support building non-Lite builds.
+    # Remove this to build them in a future where they do!
+    - name: Disable Non-Lite Builds
+      run: |
+        touch ./stage5/SKIP ./stage4/SKIP ./stage3/SKIP
+        touch ./stage5/SKIP_IMAGES ./stage4/SKIP_IMAGES ./stage3/SKIP_IMAGES
+
+    - name: Build Image
+      run: |
+        ./build-docker.sh
+
+    - name: Get Image Name
+      id: imagefile
+      run: |
+        cd deploy
+        ls
+        IMAGE_FILE=$(ls *.zip)
+        echo "imagefile=$IMAGE_FILE" >> $GITHUB_OUTPUT
+
+    # The image now exists in deploy/. 
+    # Make the artifact available from the action.
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{ steps.config.outputs.image }}
+        path: deploy/${{ steps.imagefile.outputs.imagefile }}
