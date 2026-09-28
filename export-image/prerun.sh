@@ -50,10 +50,13 @@ BOOT_DEV="${LOOP_DEV}p1"
 ROOT_DEV="${LOOP_DEV}p2"
 
 ROOT_FEATURES="^huge_file"
-for FEATURE in 64bit; do
-if grep -q "$FEATURE" /etc/mke2fs.conf; then
-	ROOT_FEATURES="^$FEATURE,$ROOT_FEATURES"
-fi
+# 64bit is disabled for compatibility with SD card copiers and other tools
+# that may use an older e2fsprogs. Only disable features this mke2fs knows.
+DISABLE_FEATURES=(64bit)
+for FEATURE in "${DISABLE_FEATURES[@]}"; do
+	if grep -q "$FEATURE" /etc/mke2fs.conf; then
+		ROOT_FEATURES="^$FEATURE,$ROOT_FEATURES"
+	fi
 done
 
 if [ "$BOOT_PART_SIZE" -lt 134742016 ]; then
