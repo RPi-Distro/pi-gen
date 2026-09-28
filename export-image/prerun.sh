@@ -56,13 +56,21 @@ if grep -q "$FEATURE" /etc/mke2fs.conf; then
 fi
 done
 
-if [ "$BOOT_SIZE" -lt 134742016 ]; then
+if [ "$BOOT_PART_SIZE" -lt 134742016 ]; then
 	FAT_SIZE=16
 else
 	FAT_SIZE=32
 fi
 
-mkdosfs -n bootfs -F "$FAT_SIZE" -s 1 -v "$BOOT_DEV" > /dev/null
+# FAT16 is limited to 65524 clusters, so 512 byte clusters only fit up to
+# ~32MB. Let mkdosfs pick the cluster size for anything larger.
+if [ "$FAT_SIZE" = 32 ] || [ "$BOOT_PART_SIZE" -lt $((65524 * 512)) ]; then
+	CLUSTER_OPTS=(-s 1)
+else
+	CLUSTER_OPTS=()
+fi
+
+mkdosfs -n bootfs -F "$FAT_SIZE" "${CLUSTER_OPTS[@]}" -v "$BOOT_DEV" > /dev/null
 
 STAGING="${STAGE_WORK_DIR}/export-root-staging"
 rm -rf "${STAGING}"
