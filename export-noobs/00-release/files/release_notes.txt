@@ -1,4 +1,42 @@
 UNRELEASED:
+  * Added tooltips to indicate function of widgets in Widget panel in Control Centre
+  * In menu plugin, only reloaded menu on cache update, rather than before opening
+  * Old source for standalone control panel applications removed
+  * Raspberry Pi menu icons replaced with better quality versions
+  * Inactive window titlebar colour changed to match window backgrounds
+  * Control Centre debug code added to show plugin loading at command line
+  * Shutdown options no longer offers a screen lock button, but instead shows reminder of keyboard shortcut
+  * Added battery and squeekboard widgets to default dock configuration
+  * Switching between taskbar and dock no longer resets all system appearance defaults
+  * Some Japanese translations updated
+  * Added support for automounting encrypted drives in ejecter plugin
+  * Added hook to update list of shortcuts in Shortcuts panel of Control Centre when defaults reloaded
+  * Screens panel now applies system file changes immediately on confirmation, not when closed
+  * Setting taskbar and dock size and location in Control Centre now sets desktop top and bottom margins appropriately
+  * Bug fix - local pcmanfm automount config setting was overriding global setting and allowing pcmanfm to automount at the same time as ejecter plugin
+  * Bug fix - crash in icon menu when text search used
+  * Bug fix - right-click to open terminal in pcmanfm was failing, again caused by local vs. global config conflict
+  * Bug fix - swaybg desktop wallpaper files not loading if space in filename
+  * Bug fix - keyboard activation of top-level menu item did not close menu
+  * Bug fix - LibreOffice icons in launchbar sticking after close, caused by on-the-fly application ID change
+  * Bug fix - possible segfaults on various Control Centre panel initialisation functions
+  * Bug fix - in Japanese locale, window count digits not shown correctly on new task list
+  * Bug fix - panel menus displaying off-screen due to squeekboard hiding
+  * Bug fix - application pop-up menu text in new window list could contain literal markup
+  * Bug fix - dropping files onto list views in file manager failed
+  * Bug fix - icon menu category view crash when non-predefined categories or Other were used
+  * Bug fix - system tray icons all being hidden when one was closed
+  * Bug fix - some system tray icons not displaying correctly on scaled screens
+  * Bug fix - hotplug crash in panel when no monitors were detected and pointer was hidden
+  * Bug fix - crash when updating notification before it is displayed
+  * Bug fix - some panel popup windows drawing partially off-screen
+  * Bug fix - rename window opening when mouse forward and back buttons clicked in file manager list view
+  * Bug fix - GTK4 colour representation manager reporting error
+  * Bug fix - child menus pushed to right of parents were incorrectly spaced
+  * Bug fix - menu shortcut keys could open incorrect menu when mouse pointer not inside application window
+  * Raspberry Pi firmware 6f0881cba8bea8ec24956a5718714730e9936ec5
+  * Linux kernel 6.18.50 - cff533aec2fa601846766b32ff57204e0a61bed7
+2026-09-15:
   * Support for dock added to wf-panel-pi
   * New icon menu and icon tasklist plugins for wf-panel-pi added
   * Analogue display option added to clock plugin
