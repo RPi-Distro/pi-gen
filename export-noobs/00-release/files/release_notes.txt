@@ -1,4 +1,7 @@
 UNRELEASED:
+  * Raspberry Pi firmware 6f0881cba8bea8ec24956a5718714730e9936ec5
+  * Linux kernel 6.12.109 - 7d1826930811232688a50c99c540fbb137aed081
+2026-09-15:
   * Raspberry Pi firmware b76effded7afe5ed92070ff169e0109a8487fb82
   * Linux kernel 6.12.109 - 7d1826930811232688a50c99c540fbb137aed081
 2026-06-18:
