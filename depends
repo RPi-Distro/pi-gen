@@ -8,7 +8,6 @@ zip
 mkdosfs:dosfstools
 mke2fs:e2fsprogs
 capsh:libcap2-bin
-bsdtar:libarchive-tools
 grep
 rsync
 xz:xz-utils

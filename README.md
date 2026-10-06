@@ -21,7 +21,7 @@ To install the required dependencies for `pi-gen` you should run:
 
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
-dosfstools e2fsprogs libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
+dosfstools e2fsprogs libcap2-bin grep rsync xz-utils file git curl bc \
 gpg pigz xxd arch-test bmap-tools
 ```
 
@@ -106,7 +106,7 @@ The following environment variables are supported:
 
  * `DEPLOY_DIR`  (Default: `$BASE_DIR/deploy`)
 
-   Output directory for target system images and NOOBS bundles.
+   Output directory for target system images.
 
  * `DEPLOY_COMPRESSION` (Default: `zip`)
 
@@ -270,7 +270,7 @@ The following process is followed to build images:
        be interrupted with a bash session, allowing an opportunity to create/revise
        the patches.
 
-  * If the stage directory contains files called "EXPORT_NOOBS" or "EXPORT_IMAGE" then
+  * If the stage directory contains a file called "EXPORT_IMAGE" then
     add this stage to a list of images to generate
 
   * Generate the images for any stages that have specified them
