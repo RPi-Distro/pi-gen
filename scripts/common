@@ -115,6 +115,7 @@ export -f update_issue
 ensure_next_loopdev() {
 	local loopdev
 	loopdev="$(losetup -f)"
+	loopdev="${loopdev%% *}"
 	loopmaj="$(echo "$loopdev" | sed -E 's/.*[^0-9]*?([0-9]+)$/\1/')"
 	[[ -b "$loopdev" ]] || mknod "$loopdev" b 7 "$loopmaj"
 }
