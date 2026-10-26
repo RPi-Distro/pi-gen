@@ -31,6 +31,11 @@ truncate -s "${IMG_SIZE}" "${IMG_FILE}"
 parted --script "${IMG_FILE}" mklabel msdos
 parted --script "${IMG_FILE}" unit B mkpart primary fat32 "${BOOT_PART_START}" "$((BOOT_PART_START + BOOT_PART_SIZE - 1))"
 parted --script "${IMG_FILE}" unit B mkpart primary ext4 "${ROOT_PART_START}" "$((ROOT_PART_START + ROOT_PART_SIZE - 1))"
+# parted >= 3.7 leaves the MBR boot code zeroed, and parted <= 3.6 (as used by
+# the first-boot resize) then rewrites the MBR with a new disk ID, breaking
+# PARTUUID. Any non-zero first byte avoids that, so write a minimal x86 stub
+# that halts if BIOS-booted: cli; hlt; jmp $-1 (fa f4 eb fd)
+printf '\xfa\xf4\xeb\xfd' | dd of="${IMG_FILE}" conv=notrunc status=none
 
 echo "Creating loop device..."
 cnt=0
