@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-if [ "${ENABLE_CLOUD_INIT}" != "1" ]; then
+if [[ "${ENABLE_CLOUD_INIT}" != "1" ]]; then
 	log "Skipping cloud-init stage"
 	exit 0
 fi
