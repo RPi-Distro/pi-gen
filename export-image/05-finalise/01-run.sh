@@ -4,6 +4,7 @@ IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.info"
 SBOM_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.sbom"
 BMAP_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.bmap"
+OS_JSON_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.os.json"
 RELEASE_NOTES_FILE="${STAGE_WORK_DIR}/release_notes.txt"
 
 on_chroot << EOF
@@ -110,6 +111,27 @@ if hash bmaptool 2>/dev/null; then
 		"${IMG_FILE}"
 fi
 
+RAW_SHA256="${STAGE_WORK_DIR}/raw.sha256"
+DOWNLOAD_SHA256="${STAGE_WORK_DIR}/download.sha256"
+SHA256_FIFO="${STAGE_WORK_DIR}/sha256.fifo"
+
+# Write the download with the given command (stdin to stdout), hashing the
+# raw image and the download from the same single pass over each
+compress_and_hash() {
+	local out="$1"
+	shift
+	rm -f "${SHA256_FIFO}"
+	mkfifo "${SHA256_FIFO}"
+	sha256sum < "${SHA256_FIFO}" > "${RAW_SHA256}" &
+	local pid=$!
+	(
+		set -o pipefail
+		tee "${SHA256_FIFO}" < "${IMG_FILE}" | "$@" | tee "${out}" | sha256sum > "${DOWNLOAD_SHA256}"
+	)
+	wait "${pid}"
+	rm -f "${SHA256_FIFO}"
+}
+
 mkdir -p "${DEPLOY_DIR}"
 
 rm -f "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.*"
@@ -117,23 +139,43 @@ rm -f "${DEPLOY_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 
 case "${DEPLOY_COMPRESSION}" in
 zip)
+	DOWNLOAD_FILE="${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.zip"
 	pushd "${STAGE_WORK_DIR}" > /dev/null
 	zip -"${COMPRESSION_LEVEL}" \
-	"${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.zip" "$(basename "${IMG_FILE}")"
+	"${DOWNLOAD_FILE}" "$(basename "${IMG_FILE}")"
 	popd > /dev/null
+	# zip stores the file name, so it cannot read the image from a pipe
+	sha256sum "${IMG_FILE}" > "${RAW_SHA256}"
+	sha256sum "${DOWNLOAD_FILE}" > "${DOWNLOAD_SHA256}"
 	;;
 gz)
-	pigz --force -"${COMPRESSION_LEVEL}" "$IMG_FILE" --stdout > \
-	"${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img.gz"
+	DOWNLOAD_FILE="${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img.gz"
+	compress_and_hash "${DOWNLOAD_FILE}" \
+	pigz -"${COMPRESSION_LEVEL}" --stdout
 	;;
 xz)
-	xz --compress --force --threads 0 --memlimit-compress=50% -"${COMPRESSION_LEVEL}" \
-	--stdout "$IMG_FILE" > "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img.xz"
+	DOWNLOAD_FILE="${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.img.xz"
+	compress_and_hash "${DOWNLOAD_FILE}" \
+	xz --compress --threads 0 --memlimit-compress=50% -"${COMPRESSION_LEVEL}" --stdout
 	;;
 none | *)
-	cp "$IMG_FILE" "$DEPLOY_DIR/"
+	DOWNLOAD_FILE="${DEPLOY_DIR}/$(basename "${IMG_FILE}")"
+	compress_and_hash "${DOWNLOAD_FILE}" cat
 ;;
 esac
+
+# Imager os_list fields for this image; the URL is added at deploy time
+cat > "${OS_JSON_FILE}" <<- EOF
+	{
+	  "image_filename": "$(basename "${DOWNLOAD_FILE}")",
+	  "release_date": "${IMG_DATE}",
+	  "extract_size": $(stat -c %s "${IMG_FILE}"),
+	  "extract_sha256": "$(cut -d' ' -f1 "${RAW_SHA256}")",
+	  "image_download_size": $(stat -c %s "${DOWNLOAD_FILE}"),
+	  "image_download_sha256": "$(cut -d' ' -f1 "${DOWNLOAD_SHA256}")"
+	}
+EOF
+rm -f "${RAW_SHA256}" "${DOWNLOAD_SHA256}"
 
 if [ -f "${SBOM_FILE}" ]; then
 	xz -c "${SBOM_FILE}" > "$DEPLOY_DIR/$(basename "${SBOM_FILE}").xz"
@@ -142,4 +184,5 @@ if [ -f "${BMAP_FILE}" ]; then
 	cp "$BMAP_FILE" "$DEPLOY_DIR/"
 fi
 cp "$INFO_FILE" "$DEPLOY_DIR/"
+cp "$OS_JSON_FILE" "$DEPLOY_DIR/"
 cp "$RELEASE_NOTES_FILE" "$DEPLOY_DIR/"
