@@ -98,6 +98,11 @@ if hash syft 2>/dev/null; then
 		-o spdx-json="${SBOM_FILE}"
 fi
 
+# Newest installed kernel (e.g. 6.18.60) and Debian version (e.g. "13 (trixie)")
+KERNEL_VERSION="$(find "${ROOTFS_DIR}/lib/modules" -mindepth 1 -maxdepth 1 -printf '%f\n' | \
+	sed -n 's/^\([0-9]\+\.[0-9][0-9.]*\).*/\1/p' | sort -V | tail -n 1)"
+DEBIAN_VERSION="$(sed -n 's/^VERSION="\(.*\)"$/\1/p' "${ROOTFS_DIR}/usr/lib/os-release")"
+
 ROOT_DEV="$(awk "\$2 == \"${ROOTFS_DIR}\" {print \$1}" /etc/mtab)"
 
 unmount "${ROOTFS_DIR}"
@@ -172,7 +177,9 @@ cat > "${OS_JSON_FILE}" <<- EOF
 	  "extract_size": $(stat -c %s "${IMG_FILE}"),
 	  "extract_sha256": "$(cut -d' ' -f1 "${RAW_SHA256}")",
 	  "image_download_size": $(stat -c %s "${DOWNLOAD_FILE}"),
-	  "image_download_sha256": "$(cut -d' ' -f1 "${DOWNLOAD_SHA256}")"
+	  "image_download_sha256": "$(cut -d' ' -f1 "${DOWNLOAD_SHA256}")",
+	  "kernel_version": "${KERNEL_VERSION}",
+	  "debian_version": "${DEBIAN_VERSION}"
 	}
 EOF
 rm -f "${RAW_SHA256}" "${DOWNLOAD_SHA256}"
